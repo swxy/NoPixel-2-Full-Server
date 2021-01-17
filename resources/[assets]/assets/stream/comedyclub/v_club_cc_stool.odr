@@ -1,0 +1,50 @@
+Version 165 32
+{
+	Shaders
+	{
+		normal_spec.sps
+		{
+			BumpSampler v_club_cc_stool\tl_v_comedy_stool_n.otx
+			DiffuseSampler v_club_cc_stool\tl_v_comedy_stool.otx
+			SpecSampler v_club_cc_stool\tl_v_comedy_stool.otx
+			Bumpiness 1.0000000
+			HardAlphaBlend 1.0000000
+			SpecMapIntMask 0.0000000 1.0000000 0.0000000
+			SpecularFalloffMult 30.0000000
+			SpecularFresnel 0.9500000
+			SpecularIntensityMult 0.3000000
+			UseTessellation 0.0000000
+		}
+		normal_spec.sps
+		{
+			BumpSampler v_club_cc_stool\tl_v_comedy_stool_n.otx
+			DiffuseSampler v_club_cc_stool\tl_v_comedy_stool.otx
+			SpecSampler v_club_cc_stool\tl_v_comedy_stool.otx
+			Bumpiness 0.5000000
+			HardAlphaBlend 1.0000000
+			SpecMapIntMask 0.0000000 1.0000000 0.0000000
+			SpecularFalloffMult 400.0000000
+			SpecularFresnel 0.8000000
+			SpecularIntensityMult 0.7000000
+			UseTessellation 0.0000000
+		}
+	}
+	Skeleton null
+	LodGroup
+	{
+		High 9998.0
+		{
+			v_club_cc_stool\v_club_cc_stool_high.mesh 0
+		}
+		Med 9998.0
+		Low 9998.0
+		Vlow 9998.0
+		AABBMin -0.2402344 -0.2402344 -0.0097656
+		AABBMax 0.2402344 0.2402344 0.4599609
+		Radius 0.41302
+		Center 0.0000000 0.0000000 0.2250976
+	}
+	Light null
+	Bound v_club_cc_stool\v_club_cc_stool.bound
+	Joints null
+}

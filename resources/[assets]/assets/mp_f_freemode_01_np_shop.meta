@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ShopPedApparel>
+    <pedName>mp_f_freemode_01</pedName>
+    <dlcName>np</dlcName>
+    <fullDlcName>mp_f_freemode_01_np</fullDlcName>
+    <eCharacter>SCR_CHAR_MULTIPLAYER</eCharacter>
+    <creatureMetaData></creatureMetaData>
+    
+    <pedOutfits/>
+    <pedComponents/>
+    <pedProps/>
+    
+</ShopPedApparel>

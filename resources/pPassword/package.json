@@ -1,0 +1,22 @@
+{
+  "name": "ppassword",
+  "version": "1.0.0",
+  "description": "simple password system for fivem",
+  "main": "index.js",
+  "repository": "https://github.com/PichotM/pPassword",
+  "author": "PichotM",
+  "scripts": {
+    "build": "webpack --mode production --config server.config.js",
+    "watch": "webpack --mode development --watch true --config server.config.js"
+  },
+  "license": "MIT",
+  "private": false,
+  "dependencies": {
+    "@citizenfx/server": "^1.0.1623-1",
+    "webpack": "^4.41.0",
+    "@types/node": "^12.7.7",
+    "ts-loader": "^6.0.2",
+    "typescript": "^3.3.1",
+    "webpack-cli": "^3.3.2"
+  }
+}

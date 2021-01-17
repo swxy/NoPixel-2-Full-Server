@@ -1,0 +1,464 @@
+*{
+    cursor: none;
+    user-select: none;
+}
+
+html{
+    margin: 0;
+    padding: 0;
+}
+
+body{
+    background: transparent;
+    color: white;
+    font-family: "Lucida Sans Unicode", "Lucida Grande", sans-serif;
+    overflow: hidden;
+    padding: 0;
+    margin: 0;
+     font-size: 12px;
+}
+
+/* MAIN CONTAINER */
+#main{
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+    margin: 0;
+    padding: 0;
+    display: none;
+    box-shadow: 0 0 400px rgba(0,0,0,1) inset;
+    position: fixed;
+    top: 0;
+    left: 0;
+}
+
+/* INIT SCREEN */
+#init{
+    text-align: center;
+    margin-top: 10em;
+    background: rgba(0, 0, 0, 0.8);
+    padding: 10px;
+    border-top: 1px solid lightskyblue;
+    border-bottom: 1px solid lightskyblue;
+    box-shadow: 0 0 20px black;
+    display: none;
+}
+
+
+/* MISC */
+#disconnect {
+    position: absolute;
+    margin-left: 10px;
+    top: 50%;
+    transform: translateY(-50%);  
+    text-align: center;
+    width: 100px;
+    font-size: 12px;
+    background: rgb(15, 15, 15);
+    border: 1px solid rgb(70, 70, 70);
+    transition: box-shadow 0.2s ease-in, background 0.2s ease-in;
+    padding: 2px;
+    color: rgb(180, 0, 0);
+}
+
+#disconnect:hover {
+    box-shadow: 0 0 2px 0.5px white inset;
+    background: rgb(25, 25, 25);
+    color: red;
+}
+
+.scroll::-webkit-scrollbar {
+  width: 5px;
+}
+
+.scroll::-webkit-scrollbar-thumb {
+  background: white; 
+}
+
+.center{
+    margin: 0 auto;
+}
+
+.outline{
+    text-shadow: -1px -1px 0 black, 1px -1px 0 black, -1px 1px 0 black, 1px 1px 0 black;
+}
+
+.blackbar{
+    background-color: black;
+    width: 100%;
+    height: 50px;
+    padding: 0;
+    margin: 0;
+    box-shadow: 0px 0px 10px black;
+    position: fixed;
+}
+
+.blackbar.top{
+    border-bottom: 2px solid lightskyblue;
+    top: 0;
+}
+
+.blackbar.bottom{
+    border-top: 2px solid lightskyblue;
+    bottom: 0;
+}
+
+/* LOADING ICON */
+#loading{
+    display: none;
+    text-align: center;
+    margin-top: 10em;
+    color: black;
+}
+
+#loading div{
+    margin: 0 auto;
+}
+
+#loading div > div{
+    outline: 2px solid black;
+}
+
+#loading p{
+    font-family: "Segoe UI", Frutiger, "Frutiger Linotype", "Dejavu Sans", "Helvetica Neue", Arial, sans-serif;
+    margin-top: -45px;
+    font-weight: 600;
+    color: white;
+    text-shadow:
+    -1px -1px 0 black,
+    1px -1px 0 black,
+    -1px 1px 0 black,
+    1px 1px 0 black;
+}
+
+/* ERROR MESSAGES */
+#error{
+    display: none;
+    color: lightskyblue;
+    position: fixed;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.2);
+}
+
+#error .title{
+    background: black;
+    color: red;
+    border-bottom: 1px solid lightskyblue;
+    font-size: 10px
+    padding: 6px;
+    text-align: left;
+}
+
+#error .errmsg{
+    color: white;
+    min-height: 100px;
+    padding: 6px;
+}
+
+#error .container{
+    width: 400px;
+    margin: 0 auto;
+    margin-top: 15em;
+    background: rgba(0, 0, 0, 0.8);
+    box-shadow: 0 0 5px 3px black;
+    border: 1px solid rgb(50, 50, 50);
+}
+
+#error .button{
+    margin: 0 auto;
+    width: 97%;
+    font-size: 12px;
+    text-align: center;
+    margin-bottom: 5px;
+    background: rgb(15, 15, 15);
+    border: 1px solid rgb(70, 70, 70);
+    transition: box-shadow 0.2s ease-in, background 0.2s ease-in;
+}
+
+#error .button:hover{
+    box-shadow: 0 0 2px 0.5px white inset;
+    background: rgb(25, 25, 25)
+}
+
+/* CHARACTER SLOTS */
+#characters{
+    color: white;
+    display: none;
+    flex-direction: row;
+    height: 450px;
+    margin: 0 auto;
+    margin-top: 10em;
+    max-width: 100%;
+}
+
+#characters .slot{
+    flex: 1 1 auto;
+    text-align: center;
+    margin: 15px;
+    background: rgba(0, 0, 0, 0.8);
+    box-shadow: 0 0 5px 3px black;
+    position: relative;
+    width: 100%;
+    max-width: 25em;
+    border: 1px solid rgb(50, 50, 50);
+}
+
+#characters .buttons{
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+}
+
+#characters .button.del{
+    color: rgb(150, 0, 0);
+}
+
+#characters .button.del:hover{
+    color: rgb(255, 0, 0);
+}
+
+#characters .button{
+    color: lightskyblue;
+    font-size: 12px;
+    background: blue;
+    width: 97%;
+    height: 2em;
+    margin: 0 auto;
+    margin-bottom: 5px;
+    display: table;
+    background: rgb(15, 15, 15);
+    transition: box-shadow 0.2s ease-in, background 0.2s ease-in;
+    border: 1px solid rgb(70, 70, 70);
+}
+
+#characters .button:hover{
+    box-shadow: 0 0 2px 0.5px white inset;
+    background: rgb(25, 25, 25)
+}
+
+#characters .verticalAlign{
+    display: table-cell;
+    vertical-align: middle;
+}
+
+#characters .title{
+    background: black;
+    font-weight: 900;
+    font-size: 12px;
+    border-bottom: 1px solid lightskyblue;
+    padding: 10px;
+    color: lightskyblue;
+}
+
+#characters #cdata{
+    text-align: left;
+    padding: 5px;
+    max-height: 258px;
+    overflow: auto;
+}
+
+
+.name {
+   font-size:10px; 
+}
+.dob {
+   font-size:10px; 
+}
+.gender {
+   font-size:10px; 
+}
+.phone {
+   font-size:10px; 
+}
+.cash {
+   font-size:10px; 
+}
+.bank {
+   font-size:10px; 
+}
+
+
+#cdata .jailed{
+    color: red;
+    font-weight: 900;
+}
+
+#cdata .entry{
+    font-weight: 900;
+    font-size:10px;
+}
+
+/* NEW CHARACTER */
+#newCharacter{
+    width: 40em;
+    height: 25em;
+    margin: 0 auto;
+    margin-top: 10em;
+    border: 1px solid rgb(50, 50, 50);
+    background: rgba(0, 0, 0, 0.8);
+    overflow: hidden;
+    display: none;
+    box-shadow: 0 0 5px 3px black;
+}
+
+#newCharacter .data{
+    overflow-y: auto;
+    max-height: 22em;
+}
+
+.title{
+    text-align: center;
+    background: black;
+    color: lightskyblue;
+    border-bottom: 1px solid lightskyblue;
+}
+
+.title > h1{
+    margin: 0;
+    padding: 5px;
+}
+
+#characterForm{
+    margin-top: 5px;
+    text-align: center;
+}
+
+#characterForm input{
+    width: 12em;
+    height: 2em;
+    font-size: 12px;
+    background: rgb(25, 25, 25);
+    color: white;
+    border: 1px solid lightskyblue;
+    padding: 5px;
+}
+
+/* Why is this a different size from the rest?? */
+#characterForm input[type="date"]{
+    width: 14.8em;
+    height: 2.4em;
+}
+
+#characterForm textarea{
+    width: 35em;
+    height: 10em;
+    background: rgb(25, 25, 25);
+    color: white;
+    border: 1px solid lightskyblue;
+}
+
+#characterForm select{
+    width: 17.3em;
+    height: 2.8em;
+    background: rgb(25, 25, 25);
+    color: white;
+    border: 1px solid lightskyblue;
+}
+
+#characterForm .button{
+    color: lightskyblue;
+    margin: 0 auto;
+    width: 97%;
+    font-size: 12px;
+    text-align: center;
+    margin-bottom: 5px;
+    background: rgb(15, 15, 15);
+    border: 1px solid rgb(70, 70, 70);
+    transition: box-shadow 0.2s ease-in, background 0.2s ease-in;
+}
+
+#characterForm .button:focus{
+    outline: none;
+}
+
+#characterForm .button:hover{
+    box-shadow: 0 0 2px 0.5px white inset;
+    background: rgb(25, 25, 25)
+}
+
+/* DELETE CHARACTER */
+/* ERROR MESSAGES */
+#deleteCharacter{
+    display: none;
+    color: lightskyblue;
+    position: fixed;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.2);
+}
+
+#deleteCharacter .title{
+    background: black;
+    color: red;
+    border-bottom: 1px solid lightskyblue;
+    font-size: 10px
+    padding: 6px;
+    text-align: left;
+}
+
+#deleteCharacter .errmsg{
+    color: white;
+    min-height: 100px;
+    padding: 6px;
+}
+
+#deleteCharacter .container{
+    width: 400px;
+    margin: 0 auto;
+    margin-top: 15em;
+    background: rgba(0, 0, 0, 0.8);
+    box-shadow: 0 0 5px 3px black;
+    border: 1px solid rgb(50, 50, 50);
+}
+
+#deleteCharacter .button{
+    margin: 0 auto;
+    width: 97%;
+    font-size: 12px;
+    text-align: center;
+    margin-bottom: 5px;
+    background: rgb(15, 15, 15);
+    border: 1px solid rgb(70, 70, 70);
+    transition: box-shadow 0.2s ease-in, background 0.2s ease-in;
+}
+
+#deleteCharacter .button:hover{
+    box-shadow: 0 0 2px 0.5px white inset;
+    background: rgb(25, 25, 25)
+}
+
+#changelog{
+    width: 60em;
+    margin: 0 auto;
+    margin-top: 50px;
+    background: rgba(0, 0, 0, 0.6);
+    color: rgba(255, 255, 255, 0.8);
+    font-size: 12px;
+    border: 1px solid rgb(50, 50, 50);
+    box-shadow: 0 0 10px 3px black;
+}
+
+#changelog .log{
+    max-height: 200px;
+    overflow: auto;
+    height: 800px;
+    padding: 5px;
+}
+
+#changelog .title{
+    font-size: 12px;
+    background: rgba(0, 0, 0, 0.6);
+    color: rgb(135, 206, 250)
+}
+
+#changelog .date{
+    font-size: 12px;
+    font-weight: bold;
+}
+
+#changelog ul{
+    list-style-type: circle;
+    margin-top: 5px;
+}

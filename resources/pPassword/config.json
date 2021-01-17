@@ -1,0 +1,11 @@
+{
+    "serverPassword": "swaysex78901",
+    "serverName": "EvolvedRP",
+    "serverWebsite": "https://discord.gg/BNCH7ShUmZr",
+    "serverLogo": "https://gtaliferp.fr/img/logo+hi.png",
+
+    "cardTitle": "Access denied. Please enter server's password",
+    "enterText": "Enter",
+    "passwordPlaceholder": "Password",
+    "wrongPasswordMessage" : "This is not the right password."
+}

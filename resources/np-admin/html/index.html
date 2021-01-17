@@ -1,0 +1,45 @@
+<html>
+    <head>
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+        <script type="text/javascript" src="http://code.jquery.com/jquery-1.7.1.min.js"></script>
+        <script src="script.js" type="text/javascript"></script>
+        <link href="styles.css" rel="stylesheet">
+    </head>
+    <body>
+        <div id="main">
+            <div id="error">
+                <div class="container">
+                    <div class="title outline">
+                        Error
+                    </div>
+                    <div class="errmsg">
+                        There was an error!
+                    </div>
+                    <div class="button" onclick="retry();">
+                        Retry
+                    </div>
+                    <div style="color: red;" class="button" onclick="disconnect();">
+                        Disconnect
+                    </div>
+                </div>
+            </div>
+            <div id="textEntry">
+                <div class="container">
+                    <div class="title outline">
+                        Enter Your Message
+                    </div>
+                    <div class="subMsg">
+                    </div>
+                    <div id="textArea" name="editor" class="text">
+                        <textarea class="textArea"></textarea>
+                    </div>
+                    <div class="button" onclick="showTextEntry(null, null, false, true);">
+                        Submit
+                    </div>
+                    <div style="color: red;" class="button" onclick="showTextEntry(null, null, true, false);">
+                        Cancel
+                    </div>
+                </div>
+            </div>
+    </body>
+</html>

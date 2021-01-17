@@ -1,0 +1,206 @@
+@import url('https://fonts.googleapis.com/css?family=Work+Sans:400,700,900');
+* {
+   box-sizing: border-box;
+}
+ body {
+   
+   font-family: "Lucida Grande", "Lucida Sans Unicode", "Lucida Sans", "DejaVu Sans", Verdana, sans-serif;
+}
+
+.backFor {
+  opacity: 0.8;
+  width: 1130px;
+  height: 560px;
+  margin-left:6.4%;
+  margin-top:-3%;
+ background: #ecf0f1;
+}
+
+ .page-wrap {
+
+   max-width: 75rem;
+   margin: 0 auto;
+}
+ h1 {
+   color: #8e44ad;
+   font-size: 1.5rem;
+   letter-spacing: -1px;
+   margin: 1.25rem 0;
+   text-align: center;
+}
+ input:focus ~ label, textarea:focus ~ label, input:valid ~ label 
+/*, &.not-empty ~ label*/
+, textarea:valid ~ label 
+/*, &.not-empty ~ label*/
+ {
+   font-size: 0.75em;
+   color: #8e44ad;
+   top: -2.25rem;
+   transition: all 0.125s cubic-bezier(0.2, 0, 0.03, 1);
+}
+ .styled-input {
+   float: left;
+   width: 33.3333%;
+   margin: 2rem 0 1rem;
+   position: relative;
+}
+ .styled-input label {
+   color: #999;
+   padding: 1rem;
+   position: absolute;
+   top: 0;
+   left: 0;
+   transition: all 0.25s cubic-bezier(0.2, 0, 0.03, 1);
+   pointer-events: none;
+}
+ .styled-input.wide {
+   width: 100%;
+}
+ input, textarea {
+   padding: 1rem 1rem;
+   border: 0;
+   width: 100%;
+   font-size: 1rem;
+}
+ input ~ span, textarea ~ span {
+   display: block;
+   width: 0;
+   height: 3px;
+   background: #8e44ad;
+   position: absolute;
+   bottom: 0;
+   left: 0;
+   transition: all 0.125s cubic-bezier(0.2, 0, 0.03, 1);
+}
+ input:focus, textarea:focus {
+   outline: 0;
+}
+ input:focus ~ span, textarea:focus ~ span {
+   width: 100%;
+   transition: all 0.125s cubic-bezier(0.2, 0, 0.03, 1);
+}
+ textarea {
+   width: 100%;
+   min-height: 15em;
+}
+ 
+
+
+.button {
+   margin-left:-62%;
+   margin-top:36%;
+   touch-callout: none;
+   user-select: none;
+   display: inline-block;
+   border: 0.2em solid;
+   position: relative;
+   cursor: pointer;
+   overflow: hidden;
+   opacity: 0.6;
+   color: #8e44ad;
+}
+ .button__text {
+   display: block;
+   padding: 1em 2em;
+   text-transform: uppercase;
+   font-weight: bold;
+}
+ .button__text:before {
+   content: attr(title);
+}
+ .button__text--bis {
+   display: block;
+   position: absolute;
+   top: 0;
+   left: 0;
+   right: 0;
+   bottom: 0;
+   transform: translateX(-1em);
+   opacity: 0;
+}
+ .button__mask {
+   display: block;
+   position: absolute;
+   top: 0;
+   left: 0;
+   right: 0;
+   bottom: 0;
+   background: white;
+   transform: translateX(-100%) rotate(45deg);
+   transition: all 0.3s;
+}
+ .button:hover {
+   opacity: 1;
+}
+ .button:hover .button__text {
+   animation: fx-text 0.3s ease-out;
+}
+ .button:hover .button__text--bis {
+   animation: fx-text-bis 0.3s ease-out;
+}
+ .button:hover .button__mask {
+   animation: fx-mask 0.3s ease-out;
+}
+ .button:active {
+   opacity: 1;
+   background: white;
+   color: inherit;
+}
+ @keyframes fx-mask {
+   0% {
+     transform: translateX(-100%) rotate(45deg);
+  }
+   100% {
+     transform: translateX(100%) rotate(45deg);
+  }
+}
+ @keyframes fx-text {
+   0% {
+     transform: translateX(0);
+     opacity: 1;
+  }
+   100% {
+     transform: translateX(1em);
+     opacity: 0;
+  }
+}
+ @keyframes fx-text-bis {
+   0% {
+     transform: translateX(-1em);
+     opacity: 0;
+  }
+   100% {
+     transform: translateX(0);
+     opacity: 1;
+  }
+}
+
+
+.phone-container {
+  background-image: url("nui://np-cid/html/background2.png");
+  background-repeat:no-repeat;
+  background-size:100% 100%;
+  width: 1300px;
+  height: 710px;
+  border-radius: 10px;
+  margin-left:15%;
+  margin-top:9%;
+  opacity: 1;
+  overflow: hidden;
+  display: none;
+  z-index: 9999999;
+  padding-top:4%;
+  padding-left:5px;
+}
+
+@-webkit-keyframes twist {
+    from { -webkit-transform: scaleX(0.98); }
+    to { -webkit-transform: scaleX(1.0); }
+    from { -webkit-transform: scaleY(0.99); }
+    to { -webkit-transform: scaleY(1.0); }
+}
+
+.twist {
+  -webkit-animation: twist 3s ease-in-out infinite;
+  -webkit-animation-direction: alternate;
+}

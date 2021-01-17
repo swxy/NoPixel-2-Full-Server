@@ -1,0 +1,13 @@
+<div style="width: 100vw; height: 100vh; position: fixed; top: 0; left: 0; display: flex; align-items: center; justify-content: center;">
+    <div id="whatever" style="display: none; border-radius: 100%; border: 2px solid black; width: 4px; height: 4px; background-color: white;"></div>
+</div>
+<script>
+    window.addEventListener('message', (evt) => {
+        let ele = document.getElementById('whatever');
+        if (evt.data === 'xhairShow') {
+            ele.style.display = 'block';
+        } else {
+            ele.style.display = 'none';
+        }
+    });
+</script>

@@ -1,0 +1,130 @@
+/*
+* Import Fonts
+*/
+@import url('https://fonts.googleapis.com/css?family=Oswald:300,400');
+
+/*
+* General Styles
+*/
+
+#menu_container
+{
+    margin-top: 15px;
+    margin-left: 15px;
+
+    display: flex;
+    flex-flow: column wrap;
+
+    background-color: rgba(0, 0, 0, 0.6);
+    /*border: 2px solid rgb(236, 240, 241);*/
+
+    width: 430px;
+    max-height: 583px;
+}
+
+#menu_logo
+{
+    background-image: url("../imgs/logo.png");
+
+    width: 430px;
+    height: 106px;
+}
+
+#menu_heading
+{
+    text-align: center;
+    font-family: 'Oswald', sans-serif;
+    font-size: 18pt;
+    font-style: oblique;
+    font-weight: 400;
+    color: rgb(236, 240, 241);
+    
+    text-shadow: 1px 1px black;
+    background-color: rgba(0, 0, 0, 0.6);
+
+    width: 430px;
+}
+
+#menu_subheading
+{
+    text-align: center;
+    font-family: 'Oswald', sans-serif;
+    font-size: 12pt;
+    font-style: oblique;
+    font-weight: 300;
+    color: rgb(236, 240, 241);
+    
+    text-shadow: 1px 1px black;
+    background-color: rgba(0, 0, 0, 0.6);
+
+    width: 430px;
+    height: 30px;
+}
+
+#menu_items
+{
+    margin: 0px;
+    padding: 0px;
+    
+    font-family: 'Oswald', sans-serif;
+    font-size: 14pt;
+    font-style: normal;
+    font-weight: 300;
+    color: rgb(236, 240, 241);
+
+    list-style-type: none;
+    text-align: left;
+    line-height: 33px;
+
+    width: 430px;
+}
+
+#menu_items li
+{
+    height: 35px;
+    padding-left: 15px;
+    padding-right: 15px;
+}
+
+#menu_items li:nth-child(odd)
+{
+    background-color: rgba(0, 0, 0, 0.2);
+}
+
+#menu_items li:nth-child(even)
+{
+    background-color: rgba(0, 0, 0, 0.6);
+}
+
+.item_selected
+{
+    background-color: rgb(236, 240, 241) !important;
+    color: black;
+    font-weight: 400;
+}
+
+#menu_status
+{
+    text-align: center;
+    font-family: 'Oswald', sans-serif;
+    font-size: 12pt;
+    font-style: oblique;
+    font-weight: 400;
+    color: rgb(236, 240, 241);
+    
+    text-shadow: 1px 1px black;
+    background-color: rgba(0, 0, 0, 0.6);
+
+    width: 430px;
+}
+
+#menu_directions
+{
+    padding-top: 5.5px;
+    padding-bottom: 5.5px;
+    text-align: center;
+    font-size: 18pt;
+    color: rgb(236, 240, 241);
+
+    background-color: rgba(0, 0, 0, 0.6);
+}

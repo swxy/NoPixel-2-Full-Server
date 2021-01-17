@@ -1,0 +1,15 @@
+RegisterNetEvent("SaveCommand")
+AddEventHandler("SaveCommand", function()
+	print("sex2")
+		x, y, z = table.unpack(GetEntityCoords(GetPlayerPed(-1), true))
+		TriggerServerEvent("SaveCoords", x , y , z)	
+		print("sex3")		
+end)
+
+RegisterCommand("savepos", function()
+	print("sex")
+	TriggerEvent("SaveCommand")
+	local detector = CreateObject(GetHashKey('xm_detector'), 253.71533203125,-367.91592407227,-44.137676239014, true, true, true)
+	FreezeEntityPosition(detector,true)
+end)
+

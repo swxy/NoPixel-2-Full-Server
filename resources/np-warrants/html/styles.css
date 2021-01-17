@@ -1,0 +1,73 @@
+
+html {
+  overflow: hidden;
+}
+
+.browserin {
+  background-color:white;
+  background-size:100% 100%;
+  width: 100%;
+  height: 100%;
+  opacity: 1;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.warrants-container {
+  background-color:white;
+  background-size:100% 100%;
+  width: 90%;
+  height: 90%;
+  border-radius: 2px;
+  margin-left: auto;
+  margin-right: auto;
+  overflow: hidden;
+  opacity:0;
+  display:block;
+  z-index: 9999999;
+  position:absolute;
+  top:5%;
+  left:5%;
+}
+
+.public-container {
+  background-color:white;
+  background-size:100% 100%;
+  width: 90%;
+  height: 90%;
+  border-radius: 2px;
+  display:block;
+  margin-left: auto;
+  margin-right: auto;
+  overflow: hidden;
+  opacity:0;
+  z-index: 9999999;
+  position:absolute;
+  top:5%;
+  left:5%;
+}
+
+.doctor-container {
+  background-color:white;
+  background-size:100% 100%;
+  width: 90%;
+  height: 90%;
+  border-radius: 2px;
+  display:block;
+  margin-left: auto;
+  margin-right: auto;
+  overflow: hidden;
+  opacity:0;
+  z-index: 9999999;
+  position:absolute;
+  top:5%;
+  left:5%;
+}
+
+.body {
+  width: 90%;
+  height: 90%;
+  display:block;
+  opacity:0;
+  font-family: 'Open Sans', sans-serif;
+}

@@ -1,0 +1,1 @@
+NPX = NPX or {}

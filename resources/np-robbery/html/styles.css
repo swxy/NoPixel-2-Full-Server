@@ -1,0 +1,53 @@
+* {
+    box-sizing: border-box;
+      text-decoration: none;
+  text-transform:uppercase;
+  list-style-type: none;
+}
+
+
+/*::-webkit-scrollbar {
+    width: 0px;
+    background: transparent; /* make scrollbar transparent 
+}*/
+
+body{
+stroke-dashoffset:0
+  overflow: hidden;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+}
+
+@font-face {
+  font-family: 'pricedown';
+  src: url(pricedown.ttf);
+}
+@-webkit-keyframes 
+load { 0% {
+}
+}
+@-moz-keyframes 
+load { 0% {
+stroke-dashoffset:0
+}
+}
+@keyframes 
+load { 0% {
+stroke-dashoffset:0
+}
+}
+
+.signup-b {
+  left: 33%;
+  top: 83%;
+  display: none;
+  position: fixed;
+  overflow-y:none;
+  overflow-x:none;
+}
+
+::-webkit-scrollbar {
+    width: 0;
+}

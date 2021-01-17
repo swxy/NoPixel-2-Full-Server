@@ -1,0 +1,347 @@
+.console {
+  background-color: rgba(255,86,60,0.45);
+  width: 500px;
+  min-height: 30px;
+  color: white;
+  position: absolute;
+  top: 5px;
+  left: 200px;
+}
+html {
+  overflow: hidden;
+}
+@font-face {
+  font-family: 'pricedown';
+  src: url(pricedown.ttf);
+}
+#cursor {
+    position: absolute;
+    z-index: 99999999;
+    display: none;
+}
+
+
+
+.sans {
+  font-family: 'Open Sans', sans-serif;
+}
+h1,h2,h3,h4 {
+  margin: 0;
+  padding: 0;
+}
+.green {
+  color: rgb(0, 125, 0);
+  font-weight: 100;
+  margin-right: 6px;
+}
+.red {
+  color: rgb(255, 0, 0);
+}
+#pre {
+  font-size: 0.8rem;
+  margin-right: 5px;
+}
+.full-screen {
+  width: 100%;
+  height:100%;
+  display: flex;
+  align-items: center;
+}
+.news-container {
+  background-image: url("nui://trp-news/html/background.png");
+  background-repeat:no-repeat;
+  background-size:100% 100%;
+  width: 95%;
+  height: 80%;
+  border-radius: 10px;
+  opacity: 1;
+  margin-left: auto;
+  margin-right: auto;
+  overflow: hidden;
+  display: none;
+  z-index: 9999999;
+  padding-top:5%;
+}
+.body {
+  width: 100%;
+  height: 60%;
+  padding-top: 8%;
+  display: none;
+  font-family: 'Open Sans', sans-serif;
+}
+.history-container {
+  padding-top: 2%;  
+  height:95%;
+}
+.mdt-container {
+  padding-top: 2%;
+  height:95%;
+}
+.cpic-container {
+  padding-top: 2%;
+  height:95%;
+}
+
+.newWarrant-container {
+  padding-top: 2%;
+  height:95%;
+}
+.centered {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  margin-bottom:3%;
+  width: 50%;
+  height: auto;
+  margin-left:auto;
+  margin-right: auto;
+}
+
+.buttonwrap {
+  color:white;
+  margin-left:auto;
+  margin-right: auto;
+}
+
+.button {
+  text-align: left;
+
+  opacity: 1;
+  height:4%;
+  width:7%;
+  padding:10px;
+  font-size: 14px;
+
+  text-decoration: none;
+  border: none;
+  color:grey;
+  background-color:white;
+  text-transform:uppercase;
+
+}
+
+.button:focus, .submit {outline:0;}
+
+.number-display {
+
+  align-items: center;
+  text-align: center;
+  margin-left: 40px;
+  margin-right: 40px;
+  padding: 10px;
+
+  height: 6%;
+  width:90%;
+  color: white;
+
+  border-bottom-style: solid;
+  border-bottom-width:1px;
+  border-bottom-color:white;
+  border-radius: 4px;
+  font-size: 16px;
+  padding-bottom:5%;
+
+}
+.text-display {
+
+  align-items: center;
+  text-align: center;
+  margin-left: 40px;
+  margin-right: 40px;
+
+  height: 10%;
+  width:90%;
+  color: white;
+
+  font-size: 14px;
+
+}
+.btnGreen {
+  
+}
+.btnRed {
+  
+}
+.number-display p {
+  margin: 0;
+  padding: 0;
+}
+
+textarea {
+  width: 90%;
+  padding: 1% 1% 1% 1%;
+  font-size: 12px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  box-sizing: border-box;
+  margin-left:5%;
+  opacity: 1;
+  margin-top:1%;
+}
+
+input[type=text], input[type=number], select {
+  width: 90%;
+  padding: 1% 1% 1% 1%;
+  font-size: 12px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  box-sizing: border-box;
+  margin-left:5%;
+  opacity: 1;
+  margin-top:1%;
+}
+input[type=submit], .submit {
+
+  text-align: left;
+
+  margin-left:5%;
+  margin-top:2%;
+  opacity: 1;
+  border-radius: 1px;
+  font-size: 14px;
+  padding:1%;
+  text-decoration: none;
+  border: none;
+  color:grey;
+  background-color:white;
+  text-transform:uppercase;
+  padding-left:3%;
+  padding-right:3%;
+
+}
+.form {
+  max-width: 74%;
+  margin-left: auto;
+  margin-right: auto;
+  margin-top: 50px;
+}
+
+
+
+#liwrap {
+  display:block;
+  width:96%;
+
+  margin-left:2%;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+.lstNews {
+  display:block;
+  flex-grow: 0.4;
+  align-items: center;
+  text-align: left;
+  width: 21%;
+  height: 70%;
+  color: #515151;
+  opacity: 0.95;
+  font-size: 12px;
+  padding: 1% 1% 1% 1%;
+  margin-left:39%;
+  margin-top:10%;
+  text-decoration: none;
+  float:left;
+  overflow-y: auto;  
+  overflow-x: hidden; 
+  list-style-type: none;
+} 
+
+
+.lstNews2 {
+  display:block;
+  flex-grow: 0.4;
+  align-items: center;
+  text-align: left;
+  width: 22%;
+  height: 70%;
+  color: #515151;
+  opacity: 0.95;
+  font-size: 12px;
+  padding: 1% 1% 1% 1%;
+  margin-left:4%;
+  margin-top:10%;
+  text-decoration: none;
+  float:left;
+  overflow-y: auto;  
+  overflow-x: hidden; 
+  list-style-type: none;
+} 
+
+
+.lstWarrants li { 
+  padding-top: 0.5em; 
+  overflow: hidden;  
+  border-top-style: solid;
+  border-top-width:1px;
+  border-top-color:white;
+  text-overflow: ellipsis;
+  color: white;
+  
+}  
+.lstWarrants li .name {
+  text-transform: uppercase;
+  font-size: 14px; 
+  font-weight: 100;
+  display:block;
+  float:left;
+  width:22%;
+  padding:1%;
+
+
+}  
+.lstWarrants li .notes {
+  display:block;  
+  font-size: 12px; 
+  float:left;
+padding:1%;
+}
+
+
+
+.table-wrap {
+  width: 100%;
+  height: 100%;
+  overflow-y: auto;  
+  overflow-x: hidden;
+}
+
+.tblBtn {
+  padding: 1em;
+}
+
+.location {
+  text-transform: uppercase;
+}
+#warrant-id {
+
+}
+#warrant-name {
+
+  width:100%;
+  text-transform: uppercase;
+
+
+}
+
+#warrant-notes {
+
+  width:100%;
+  color:white;
+  font-size:14px;
+
+}

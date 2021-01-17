@@ -1,0 +1,84 @@
+<head>
+	<script src="nui://game/ui/jquery.js" type="text/javascript"></script>
+	<script src="scripts.js" type="text/javascript"></script>
+	<script src="debounce.min.js" type="text/javascript"></script>
+	<link href="https://fonts.googleapis.com/css?family=Open+Sans" rel="stylesheet">
+	<link rel="stylesheet" href="styles.css" type="text/css">
+</head>
+
+<body>
+	<div class="container">
+		<div class="cashtransaction"></div>
+		<div class="cash"></div>
+		<div class="balance"></div>
+		<div class="transaction"></div>
+	</div>
+	<div class="full-screen">
+		<div class="bank-container">
+			<div class="header">
+				<img src="logo.png" class="logo">
+				<div class="header-right">
+					<h3 class="sans">Welcome Back, <span class="username">Unknown</span></h3>
+					<h4 class="sans">Current Balance: <span class="currentBalance"></span></h4>
+				</div>
+			</div>
+			<div class="body home">
+				<div class="centered">
+					<a href="#" class="button sans btnWithdraw">Withdraw</a>
+					<a href="#" class="button sans btnDeposit">Deposit</a>
+					<a href="#" class="button sans btnTransfer">Transfer</a>
+					<a href="#" class="button sans btnBalance">Balance</a>
+					<a href="#" class="button sans btnQuick">Quick $100</a>
+					<a href="#" class="button sans btnClose">Close Menu</a>
+				</div>
+			</div>
+			<div class="body balance-container">
+				<div class="centered">
+					<div class="number-display"><p class="sans">Current Balance: <span class="currentBalance"></span></p></div>
+					<a href="#" class="button sans btnWithdraw">Withdraw</a>
+					<a href="#" class="button sans btnDeposit">Deposit</a>
+					<a href="#" class="button sans btnHome">Home</a>
+					<a href="#" class="button sans btnClose">Close Menu</a>
+				</div>
+			</div>
+			<div class="body withdraw-container">
+				<div class="form">
+					<div class="notification"></div>
+					<form id="withdraw-form">
+              <input id="amount" type="text" placeholder="Amount" class="sans" required/><br>
+              <button type="submit" id="submit" class="submit sans">Withdraw</button>
+          </form>
+				</div>
+				<div class="centered">
+						<a href="#" class="button sans btnHome">Home</a>
+						<a href="#" class="button sans btnClose">Close Menu</a>
+				</div>
+			</div>
+			<div class="body deposit-container">
+				<div class="form">
+					<form id="deposit-form">
+              <input id="amount" type="text" placeholder="Amount" class="sans" required/><br>
+              <button type="submit" id="submit" class="submit sans">Deposit</button>
+          </form>
+				</div>
+				<div class="centered">
+						<a href="#" class="button sans btnHome">Home</a>
+						<a href="#" class="button sans btnClose">Close Menu</a>
+				</div>
+			</div>
+			<div class="body transfer-container">
+				<div class="form">
+					<form id="transfer-form">
+              <input id="amount" type="text" placeholder="Amount" class="sans" required/><br>
+              <input id="toPlayer" type="text" placeholder="To" class="sans" required/><br>
+              <button type="submit" id="submit" class="submit sans">Transfer</button>
+          </form>
+				</div>
+				<div class="centered">
+						<a href="#" class="button sans btnHome">Home</a>
+						<a href="#" class="button sans btnClose">Close Menu</a>
+				</div>
+			</div>
+		</div>
+	</div>
+</body>

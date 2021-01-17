@@ -1,0 +1,81 @@
+﻿html {
+	height: 100%;
+	width:100%;
+}
+
+body {
+	overflow: hidden;
+	min-height: 100%;
+    width: 100%;
+    visibility: hidden;
+}
+
+.range-shout {
+    background-color: rgba(255, 140, 0, 0.7);
+}
+
+.range-whisper {
+    background-color: rgba(120, 81, 169, 0.7)
+}
+
+.range-normal {
+    background-color: rgba(91, 169, 81, 0.7)
+}
+
+.radio-transmitting {
+    background-color: rgba(184, 41, 41, 0.7)
+}
+
+.radio-idle {
+    background-color: rgba(200, 200, 200, 0.7);
+}
+
+/*    animation: pulse 1s infinite; */
+
+#voice i {
+    position: absolute;
+    left: 12px;
+    top: 12px;
+    color: white;
+    z-index: 1;
+}
+
+#radio {
+    position: absolute;
+    float: center;
+    overflow: hidden;
+    right: 80px;
+    bottom: 13px;
+    width: 6em;
+    height: 2.5em;
+    border-radius: 20px;
+    visibility: hidden;
+}
+
+#radio i {
+    width: 100%;
+    line-height: 2.5em;
+    font-weight: 500;
+    color: white;
+    position: absolute;
+    text-align:center;
+    z-index: 1;  
+}
+
+@keyframes pulse {
+  from { box-shadow: 0 0 0 0px rgba(255, 255, 255, 0.70); }
+  to { box-shadow: 0 0 0 15px rgba(255, 255, 255, 0); }
+}
+
+/* .info-container {
+    position: absolute;
+    bottom: 0%;
+    right: 0%;
+    text-align: right;
+    padding: 5px;
+    font-family: sans-serif;
+    font-weight: bold;
+    color: rgb(1, 176, 240);
+    font-size: 0.5vw;
+    text-shadow: -1px 0 black, 0 1px black, 1px 0 black, 0 -1px black;
+} */

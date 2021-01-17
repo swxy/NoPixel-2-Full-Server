@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+	<!--Import Google Icon Font-->
+	<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+	<link href="https://fonts.googleapis.com/css?family=Roboto:300,400,400i,500,500i,700,700i" rel="stylesheet">
+	<!--Import materialize.css-->
+	<link type="text/css" rel="stylesheet" href="css/site.css">
+	<link type="text/css" rel="stylesheet" href="css/materialize.min.css">
+	<title>NoPixel - Evidence</title>
+</head>
+
+<body>
+	<img id="cursor" src="images/cursor.png">
+
+	<!-- Main Container-->
+	<div class="container" style="height:100%">
+		<div class="row " style="height:100%">
+			<div class="col s12 valign-wrapper" style="height:100%">
+				<div class="evidence-bag-container">
+					<div class="evidence-bag">
+						<div class="evidence-bag-seal pos-abs-center">
+							<svg xmlns="http://www.w3.org/2000/svg" width="100%" height="100%">
+								<defs>
+									<pattern id="repeated-text" patternunits="userSpaceOnUse"
+										patternTransform="rotate(-2)" width="128" height="16">
+										<text y="10" font-size="8" font-family="Arial, Helvetica, sans-serif"
+											fill="red">REMOVE TO EXPOSE ADHESIVE</text>
+									</pattern>
+								</defs>
+								<rect width="100%" height="100%" fill="url(#repeated-text)" />
+							</svg>
+							<div class="evidence-bag-seal-top text-center text-bold pos-abs-center">
+								DO NOT TAMPER
+							</div>
+							<div class="evidence-bag-seal-bottom text-center text-bold pos-abs-center">
+								FOLD LIP OVER OPENING TO SEAL
+							</div>
+						</div>
+						<div class="evidence-bag-body pos-abs-center">
+							<div class="evidence-bag-body-title text-center text-bold">EVIDENCE</div>
+							<div class="evidence-bag-body-content">
+								<div class="my-row row-align">
+									<span class="text-bold evidence-label my-col-2">Bag #</span>
+									<input type="text" disabled="" class="browser-default my-col evidence-bag-id" />
+								</div>
+								<div class="my-row row-align">
+									<span class="text-bold evidence-label my-col-2">Time</span>
+									<input type="text" class="timepicker my-col browser-default no-wide">
+								</div>
+								<div class="my-row row-align">
+									<span class="text-bold evidence-label my-col-2">Location</span>
+									<input type="text" class="browser-default my-col" />
+								</div>
+								<div class="my-row row-align">
+									<span class="text-bold evidence-label my-col-2">Sealed by</span>
+									<input type="text" class="browser-default my-col" />
+								</div>
+								<div class="my-row">
+									<span class="text-bold evidence-label my-col-2">Description</span>
+									<div class="my-col">
+										<textarea class="lined"></textarea>
+									</div>
+								</div>
+								<div class="my-row">
+									<div class="my-col center-align">
+										<h6 class="text-bold">Evidence Contents</h6>
+									</div>
+									<table class="evidence-contents">
+										<thead>
+											<tr>
+												<th>ID</th>
+												<th>Amount</th>
+												<th>Item</th>
+											</tr>
+										</thead>
+										<tbody>
+										</tbody>
+									</table>
+								</div>
+							</div>
+						</div>
+						<div class="evidence-bag-footer pos-abs-center">
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<!--JavaScript at end of body for optimized loading-->
+	<script type="text/javascript" src="nui://game/ui/jquery.js"></script>
+	<script type="text/javascript" src="js/materialize.min.js"></script>
+	<script type="text/javascript" src="js/moment.min.js"></script>
+	<script type="text/javascript" src="js/site.js"></script>
+</body>
+
+</html>
+
+<!--<head>
+	<script src="nui://game/ui/jquery.js" type="text/javascript"></script>
+	<script src="scripts.js" type="text/javascript"></script>
+	<script src="debounce.min.js" type="text/javascript"></script>
+	<link href="https://fonts.googleapis.com/css?family=Open+Sans" rel="stylesheet">
+	<link rel="stylesheet" href="styles.css" type="text/css">
+</head>
+
+	<img id="cursor" src="cursor.png">
+	<div class="full-screen">
+		<div class="evidence-container" id="remove">
+			<div class="caseId" id="caseId">
+				<div id="somthing" class="something">
+					<div class="evidenceType">evidenceType</div>
+					<div class="evidenceAmount">evidenceAmount</div>
+					<div class="evidenceDetails">evidenceDetails</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</body>
+-->

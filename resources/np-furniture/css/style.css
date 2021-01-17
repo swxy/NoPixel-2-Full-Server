@@ -1,0 +1,221 @@
+@import "compass/css3";
+body {
+  font-family: sans-serif;
+  font-weight:0;
+  font-size:18px;
+  letter-spacing:0.1em;
+  text-align:center;
+  -webkit-touch-callout: none; /* iOS Safari */
+    -webkit-user-select: none; /* Safari */
+     -khtml-user-select: none; /* Konqueror HTML */
+       -moz-user-select: none; /* Firefox */
+        -ms-user-select: none; /* Internet Explorer/Edge */
+            user-select: none; /* Non-prefixed version, currently */
+}
+
+
+
+.select {
+  display: inline-block;
+  position: relative;
+  font-size: 12px;
+  color: #fff;
+  width: 220px;
+  height: 20px;
+  margin:1px;
+}
+
+.select-styled {
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  background-color: #c0392b;
+  padding: 3px 5px;
+  -moz-transition: all 0.2s ease-in;
+  -o-transition: all 0.2s ease-in;
+  -webkit-transition: all 0.2s ease-in;
+  transition: all 0.2s ease-in;
+}
+
+.select-styled:after {
+  content: "";
+  width: 0;
+  height: 0;
+  border: 7px solid transparent;
+  border-color: #fff transparent transparent transparent;
+  position: absolute;
+  top: 6px;
+  right: 10px;
+}
+
+.select-styled:hover {
+  background-color: #b83729;
+}
+.select-styled:active, .select-styled.active {
+  background-color: #ab3326;
+}
+.select-styled:active:after, .select-styled.active:after {
+  top: 2px;
+  border-color: transparent transparent #fff transparent;
+}
+
+.select-options {
+  display: none;
+  position: absolute;
+  top: 100%;
+  right: 0;
+  left: 0;
+  z-index: 999;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  background-color: #ab3326;
+}
+
+.select-options li {
+  margin: 0;
+  padding: 5px 0;
+  text-indent: 15px;
+  border-top: 1px solid #962d22;
+  -moz-transition: all 0.15s ease-in;
+  -o-transition: all 0.15s ease-in;
+  -webkit-transition: all 0.15s ease-in;
+  transition: all 0.15s ease-in;
+}
+
+.select-options li:hover {
+  color: #c0392b;
+  background: #fff;
+}
+
+.furnitureMenu {
+	display:none;
+  margin-left:auto;
+  margin-right:auto;
+  margin-top:1%;
+  color:white;
+  padding:1%;
+  font-size:16px;
+  background:rgba(22,22,22,0.35);
+  min-height:14%;
+}
+
+.informationSection {
+  display:block;
+  align-content:center;
+  margin-left:auto;
+  margin-right:auto;
+  margin-top:35%;
+  color:white;
+  padding:1%;
+  background:rgba(22,22,22,0.35);
+}
+.wraphead {
+  padding:1%;
+}
+.wrapSelectObjects {
+  display:none;
+  margin-left:auto;
+  margin-right:auto;
+  align-content:center;
+  text-align:center;
+  width:50%;
+ 
+}
+ul {
+ list-style-type: square;
+ list-style-position: outside;
+ list-style-image: none;
+}
+li {
+  padding:7px;
+
+}
+html {
+    overflow: scroll;
+    overflow-x: hidden;
+}
+::-webkit-scrollbar {
+    width: 0px;  /* remove scrollbar space */
+    background: transparent;  /* optional: just make scrollbar invisible */
+}
+/* optional: show position indicator in red */
+::-webkit-scrollbar-thumb {
+    background: #FF0000;
+}
+.NextPrev {
+  display:none;
+}
+
+.SelectObject {
+  display:none;
+  margin-left:1%;
+  align-content:center;
+  text-align:center;
+  height:65%;
+  overflow-y:scroll;
+  font-size:16px;
+  width:25%;
+  margin-top:5%;
+  float:left;
+
+}
+.Building {
+  display:none;
+}
+
+.Help {
+  border-radius: 10px;
+  margin-top:5%;
+  font-size:12px;
+  padding:1%;
+  background:rgba(22,22,22,0.55);
+  color:white;
+  display:none;
+  width:25%;
+  float:right;
+  text-align:left;
+}
+
+.status {
+
+
+}
+.wrapbuttons {
+  padding:1%;
+}
+
+.furnitureButton {
+  flex-grow: 1;
+  align-items: center;
+  text-align: center;
+  margin-left: 5px;
+  margin-top:5px;
+  font-weight: 0;
+  min-width: 70px;
+  min-height: 17px;
+  max-width: 70px;
+  max-height: 17px;
+  background: rgba(21,21,50,0.9);
+  opacity: 1;
+  border-radius:4px;
+  color: rgba(224,220,225,0.9);
+  font-size: 11px;
+  line-height:17px;
+  text-decoration: none;
+  font-family:verdana;
+  box-shadow: 0 0 3px rgba(0, 0, 0, 0.3);
+  padding:15px;
+}
+.red {
+  background: rgba(124,19,19,0.9);
+  color: rgba(221,221,250,0.9);
+  opacity:1.0;
+}
+.furnitureButton:hover {
+  background: rgba(224,220,225,0.9);
+  color: rgba(21,21,50,0.9);
+  opacity:0.8;
+}

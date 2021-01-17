@@ -1,0 +1,105 @@
+<head>
+  <script src="nui://game/ui/jquery.js" type="text/javascript"></script>
+  <script src="scripts.js" type="text/javascript"></script>
+  <script src="debounce.min.js" type="text/javascript"></script>
+  <link rel="stylesheet" href="styles.css" type="text/css">
+</head>
+
+<body>
+
+  <div class="container">
+    <div class="clipboard">
+      <div class="clipboard__clip"></div>
+      <div class="clipboard__paper">
+        <div class="clipboard__header">
+          <h2>DRIVING EVALUATION</h2>
+        </div>
+
+        <div class="clipboard__section">
+          <h3>INFORMATION</h3>
+
+          <label class="input__text">
+            Instructor: <span id="instructor-name"></span>
+          </label>
+
+          <label class="input__text">
+            Driver's CID: <input type="number" pattern="[0-9]" onkeypress="return !(event.charCode == 46)" step="1" min="0" value="0" name="cid" />
+          </label>
+        </div>
+
+        <div class="clipboard__section">
+          <h3>-2 POINTS (EACH OFFENSE)</h3>
+
+          <label class="input__group">
+            <input class="amount" type="number" pattern="[0-9]" onkeypress="return !(event.charCode == 46)" step="1" min="0" value="0" data-points="2" name="failure-to-obey" />
+            Failure to obey traffic control device
+          </label>
+          <label class="input__group">
+            <input class="amount" type="number" pattern="[0-9]" onkeypress="return !(event.charCode == 46)" step="1" min="0" value="0" data-points="2" name="unauthorized-parking" />
+            Unauthorized parking
+          </label>
+          <label class="input__group">
+            <input class="amount" type="number" pattern="[0-9]" onkeypress="return !(event.charCode == 46)" step="1" min="0" value="0" data-points="2" name="illegal-turn" />
+            Illegal turn
+          </label>
+          <label class="input__group">
+            <input class="amount" type="number" pattern="[0-9]" onkeypress="return !(event.charCode == 46)" step="1" min="0" value="0" data-points="2" name="road-rage" />
+            Road rage, escalation, misue of horn
+          </label>
+          <label class="input__group">
+            <input class="amount" type="number" pattern="[0-9]" onkeypress="return !(event.charCode == 46)" step="1" min="0" value="0" data-points="2" name="three-degree-speeding" value="0" />
+            3rd Degree Speeding (10-35 over)
+          </label>
+        </div>
+
+        <div class="clipboard__section">
+          <h3>-5 POINTS</h3>
+
+          <label class="input__group">
+            <input class="amount" type="number" pattern="[0-9]" onkeypress="return !(event.charCode == 46)" step="1" min="0" value="0" data-points="5" name="illegal-passing" />
+            Illegal passing
+          </label>
+          <label class="input__group">
+            <input class="amount" type="number" pattern="[0-9]" onkeypress="return !(event.charCode == 46)" step="1" min="0" value="0" data-points="5" name="ridding-on-sidewalk" />
+            Ridding on a sidewalk
+          </label>
+          <label class="input__group">
+            <input class="amount" type="number" pattern="[0-9]" onkeypress="return !(event.charCode == 46)" step="1" min="0" value="0" data-points="5" name="failure-to-yield" />
+            Failure to yeild to emergency vehicle
+          </label>
+          <label class="input__group">
+            <input class="amount" type="number" pattern="[0-9]" onkeypress="return !(event.charCode == 46)" step="1" min="0" value="0" data-points="5" name="second-degree-speeding" />
+            2nd Degree Speeding (36-55 over)
+          </label>
+        </div>
+
+        <div class="clipboard__section">
+          <h3>IMMEDIATE DISMISSAL</h3>
+          <label class="input__group">
+            <input class="amount" type="number" pattern="[0-9]" onkeypress="return !(event.charCode == 46)" step="1" min="0" value="0" data-points="10" name="hit-and-run" />
+            Hit and run, running from police
+          </label>
+          <label class="input__group">
+            <input class="amount" type="number" pattern="[0-9]" onkeypress="return !(event.charCode == 46)" step="1" min="0" value="0" data-points="10" name="wrong-side" />
+            Driving on wrong side of road
+          </label>
+          <label class="input__group">
+            <input class="amount" type="number" pattern="[0-9]" onkeypress="return !(event.charCode == 46)" step="1" min="0" value="0" data-points="10" name="dui-dwi" />
+            DUI/DWI
+          </label>
+          <label class="input__group">
+            <input class="amount" type="number" pattern="[0-9]" onkeypress="return !(event.charCode == 46)" step="1" min="0" value="0" data-points="10" name="first-degree-speeding" />
+            1st Degree Speeding (56+ over)
+          </label>
+        </div>
+
+        <div class="clipboard__footer">
+          <span id="points-remaining" class="pass">10</span> Points Remaining<br />
+          0 Points = <span class="fail">FAIL</span>
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+</body>

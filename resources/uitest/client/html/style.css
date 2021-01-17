@@ -1,0 +1,69 @@
+body {
+    font-family: sans-serif;
+    overflow: hidden;
+    display: none;
+    color : white;
+}
+
+#cursor {
+    position: absolute;
+    z-index: 999999;
+    display: none;
+}
+
+.dialog {
+ width:100%;
+ position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%);
+  /*  background-color: rgba(0, 0, 0, 0); */
+}
+
+form {
+    margin: 0 auto;
+    vertical-align:center;
+    height:100%;
+}
+
+#login-form{
+    background-color: transparent;
+    padding: 10px;
+}
+
+.button {
+    position: absolute;
+    text-transform: uppercase;
+    border: 0;
+    width: 250px;
+    margin-top: 4px;
+    margin-left: 42.5%;
+    font-weight: lighter;
+    font-size: 10px;
+    height: 45px;
+    display:block;
+    vertical-align: middle;
+    text-decoration: none;
+    letter-spacing: 1px;      
+    
+    opacity: 1.0;
+    color: #ffffff;
+    font-size: 0.8em;
+    text-decoration: none;
+    text-transform:uppercase;
+    background-color: transparent;
+    background-image:url("nui://uitest/client/html/menuButton.png");
+    background-repeat:no-repeat;
+    background-size:100% 100%;
+}
+
+.button2{
+    float:left;
+    width:28.5%;
+    margin-left: .5%;
+    background-color: rgba(80, 19, 19, 0.95);
+}
+
+.button:hover, .selected { 
+    
+}
+.button1:hover{
+    
+}

@@ -1,0 +1,57 @@
+<html>
+    <head>
+        <!-- Need to include jQuery! -->
+        <script src="nui://game/ui/jquery.js" type="text/javascript"></script>
+        <script>
+            var audioPlayer = null;
+            // Listen for NUI Messages.
+            window.addEventListener('message', function(event) {
+                // Check for playSound transaction
+                if (event.data.transactionType == "playSound") {
+				
+                  if (audioPlayer != null) {
+                    audioPlayer.pause();
+                  }
+
+                  audioPlayer = new Audio("./sounds/" + event.data.transactionFile + ".ogg");
+                  audioPlayer.volume = event.data.transactionVolume;
+                  audioPlayer.play();
+
+                }
+
+                if (event.data.transactionType == "playSoundFlash") {
+        
+                  if (audioPlayer != null) {
+                    audioPlayer.pause();
+                  }
+
+                  audioPlayer = new Audio("./sounds/" + event.data.transactionFile + ".ogg");
+                  audioPlayer.play();
+                  audioPlayer.volume = event.data.transactionVolume;
+
+                  var start = (event.data.transactionVolume*100)
+                  setTimeout(() => {
+                    var vol = event.data.transactionVolume
+                    var i = start;
+                    var interval = setInterval(function() { 
+                       if (i > 0) { 
+                          if(vol <= 0.1){
+                            vol = 0.1
+                          }
+                          else
+                          {
+                            vol -=0.01
+                          }
+                          audioPlayer.volume = vol
+                          i--;
+                       }
+                       else { 
+                          clearInterval(interval);
+                       }
+                    }, event.data.transactionTime);
+                  }, event.data.transactionHold)
+                }
+            });
+        </script>
+    </head>
+</html>

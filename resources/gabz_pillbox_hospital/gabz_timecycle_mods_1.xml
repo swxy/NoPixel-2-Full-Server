@@ -1,0 +1,28 @@
+<timecycle_modifier_data version="1.000000">
+  <modifier name="GabzPillbox" numMods="24" userFlags="0">
+    <light_directional_amb_col_r>0.000 1.000</light_directional_amb_col_r>
+    <light_directional_amb_col_g>0.000 1.000</light_directional_amb_col_g>
+    <light_directional_amb_col_b>0.000 1.000</light_directional_amb_col_b>
+    <light_amb_down_wrap>0.800 0.000</light_amb_down_wrap>
+    <light_natural_push>0.000 0.000</light_natural_push>
+    <light_artificial_int_down_col_r>1.000 1.000</light_artificial_int_down_col_r>
+    <light_artificial_int_down_col_g>1.000 1.000</light_artificial_int_down_col_g>
+    <light_artificial_int_down_col_b>1.000 1.000</light_artificial_int_down_col_b>
+    <light_artificial_int_down_intensity>0.400 0.000</light_artificial_int_down_intensity>
+    <light_artificial_int_up_col_r>1.000 1.000</light_artificial_int_up_col_r>
+    <light_artificial_int_up_col_g>1.000 1.000</light_artificial_int_up_col_g>
+    <light_artificial_int_up_col_b>1.000 1.000</light_artificial_int_up_col_b>
+    <light_artificial_int_up_intensity>0.200 0.000</light_artificial_int_up_intensity>
+    <postfx_bright_pass_thresh_width>0.600 0.000</postfx_bright_pass_thresh_width>
+    <postfx_bright_pass_thresh>0.600 0.000</postfx_bright_pass_thresh>
+    <postfx_intensity_bloom>0.250 0.000</postfx_intensity_bloom>
+    <reflection_lod_range_start>0.000 0.000</reflection_lod_range_start>
+    <reflection_lod_range_end>5.000 0.000</reflection_lod_range_end>
+    <reflection_slod_range_start>5.000 0.000</reflection_slod_range_start>
+    <reflection_slod_range_end>50.000 0.000</reflection_slod_range_end>
+    <far_clip>1000.000 1000.000</far_clip>
+    <temperature>20.000 0.000</temperature>
+    <natural_ambient_multiplier>0.000 0.000</natural_ambient_multiplier>
+    <artificial_int_ambient_multiplier>0.700 0.000</artificial_int_ambient_multiplier>
+  </modifier>
+</timecycle_modifier_data>

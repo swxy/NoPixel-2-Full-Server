@@ -1,0 +1,51 @@
+@import url(https://fonts.googleapis.com/css?family=EB+Garamond|Cardo:400italic);
+
+html {
+  overflow: hidden;
+}
+@font-face {
+  font-family: 'pricedown';
+  src: url(pricedown.ttf);
+}
+#cursor {
+  position: absolute;
+  z-index: 99999999;
+  display: none;
+}
+
+body {
+  font-family:arial,sans-serif;
+  font-size:36px;
+  color:white;
+}
+
+.meter-container {
+  margin-top:27%;
+  margin-left:-5%;
+  display:none;
+  background-image: url("nui://np-taximeter/html/background.png");
+  background-repeat:no-repeat;
+  background-size:100% 100%;
+  width:677px;
+  height:334px;
+}
+
+.total {
+  text-align:right;
+  width:470px;
+  padding-top:88px;
+  color:rgb(50,200,50,1.0);
+}
+.perminute {
+  padding-top:35px;
+  width:305px;
+  text-align:right;
+  float:left;
+  color:rgb(200,50,50,1.0);
+}
+.basefare {
+  width:165px;
+  padding-top:35px;
+  text-align:right;
+  float:left;
+}

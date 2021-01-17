@@ -1,0 +1,480 @@
+.color-0{color: #ffffff;}
+.color-1{color: #ff4444;}
+.color-2{color: #99cc00;}
+.color-3{color: #ffbb33;}
+.color-4{color: #0099cc;}
+.color-5{color: #33b5e5;}
+.color-6{color: #aa66cc;}
+.color-8{color: #cc0000;}
+.color-9{color: #cc0068;}
+
+* {
+  font-family: 'Lato', sans-serif;
+  margin: 0;
+  padding: 0;
+  text-shadow: 0px 0px 0px black;
+}
+
+.no-grow {
+  flex-grow: 0;
+}
+
+em {
+  font-style: normal;
+}
+
+#app {
+  color: white;
+}
+
+.chat-window {
+  position: absolute;
+  top: 5px;
+  left: 15px;
+  width: 35%;
+  height: 0px;
+  -webkit-animation-duration: 2s;
+}
+
+.chat-messages {
+  position: relative;
+  height: 340px;
+  font-size: 16px;
+  margin: 5px;
+  left:15px;
+  width:480px;
+  overflow-x: hidden;
+  overflow-y: hidden;
+}
+
+.chat-input {
+  font-size: 1.2rem;
+  position: absolute;
+  top: 360px;
+  left: 15px;
+  width: 20%;
+  margin-left:2%;
+  box-sizing: border-box;
+}
+
+.prefix {
+  position: absolute;
+  margin-top: -1px;
+  left: 4px;
+}
+
+textarea {
+  font-size: 1.1rem;
+  display: block;
+  box-sizing: border-box;
+  padding: 2px;
+  padding-left: 27px;
+  color: white;
+  background-color: rgba(44, 62, 80, 0.5);
+  width: 100%;
+  border-width: 0;
+  height: 28px;
+  overflow: hidden;
+}
+
+.msg {
+
+}
+
+.action {
+    border-radius: 10px 10px 10px 10px;
+    background-color: rgba(158, 71, 158, 0.85);
+    color: #fff;
+    margin-top: 10px;
+    padding: 8px;
+    padding-left:37px;
+    display: inline-block;
+    line-height: 26px;
+    width:auto;
+    float:left;
+    margin-left:10px;
+}
+
+.stategained {
+    border-radius: 10px 10px 10px 10px;
+    background-color: rgba(147, 62, 47, 0.85);
+    color: #fff;
+    margin-top: 10px;
+    padding: 8px;
+    padding-left:37px;
+    display: inline-block;
+    line-height: 26px;
+    width:auto;
+    float:left;
+    margin-left:10px;
+}
+
+.pager {
+    border-radius: 10px 10px 10px 10px;
+    background-color: rgba(88, 139, 90, 0.85);
+    color: #fff;
+    margin-top: 10px;
+    padding: 8px;
+    padding-left:37px;
+    display: inline-block;
+    line-height: 26px;
+    width:auto;
+    float:left;
+    margin-left:10px;
+}
+
+.emergency {
+    border-radius: 10px 10px 10px 10px;
+    background-color: rgba(163, 62, 48, 0.85);
+    color: #fff;
+    margin-top: 10px;
+    padding: 8px;
+    padding-left:37px;
+    display: inline-block;
+    line-height: 26px;
+    width:auto;
+    float:left;
+    margin-left:10px;    
+}
+
+.system {
+    border-radius: 10px 10px 10px 10px;
+    background-color: rgba(190, 97, 18, 0.85);
+    color: #fff;
+    margin-top: 10px;
+    padding: 8px;
+    padding-left:37px;
+    display: inline-block;
+    line-height: 26px;
+    width:auto;
+    float:left;
+    margin-left:10px;    
+}
+
+/* default tweet background-color: rgba(55, 112, 165, 0.85); */
+
+.tweet {
+    border-radius: 10px 10px 10px 10px;
+    background-color: rgba(51, 112, 165, 0.85);
+    color: #fff;
+    margin-top: 10px;
+    padding: 8px;
+    padding-left:37px;
+    display: inline-block;
+    line-height: 26px;
+    width:auto;
+    float:left;
+    margin-left:10px;
+}
+
+.smsfrom {
+    border-radius: 10px 10px 10px 10px;
+    background-color: rgba(135, 103, 150, 0.85);
+    color: #fff;
+    margin-top: 10px;
+    padding: 8px;
+    padding-left:37px;
+    display: inline-block;
+    line-height: 26px;
+    width:auto;
+    float:left;
+    margin-left:10px;
+}
+
+.smsto {
+    border-radius: 10px 10px 10px 10px;
+    background-color: rgba(77, 36, 92, 0.85);
+    color: #fff;
+    margin-top: 10px;
+    padding: 8px;
+    padding-left:37px;
+    display: inline-block;
+    line-height: 26px;
+    width:auto;
+    float:left;
+    margin-left:10px;
+}
+
+.multiline {
+  margin-left: 1.5rem;
+  text-indent: -1.5rem;
+  white-space: pre-line;
+}
+
+.suggestions {
+  list-style-type: none;
+  padding: 2px;
+  padding-left: 27px;
+  font-size: 1.1rem;
+  box-sizing: border-box;
+  color: white;
+  background-color: rgba(44, 62, 80, 0.5);
+  width: 100%;
+}
+
+.help {
+  color: #b0bbbd;
+}
+
+.disabled {
+  color: #b0bbbd;
+}
+
+.suggestion {
+  margin-bottom: 5px;
+}
+
+.license {
+  font-family: Verdana, Geneva, sans-serif;
+  font-size: 14px;
+  background-image: url("nui://chat/html/image/CID.png");
+  background-size: 100% auto;
+  background-repeat: no-repeat;
+  background-position: top-left;
+  width: 756px;
+  height: 475px;
+  border-radius: 32px;
+  overflow: hidden;
+  position: relative;
+  float: left;
+  transform: scale(0.625);
+  transform-origin: top left;
+  margin-bottom: -37.5%;
+  margin-top: 3%;
+}
+
+.license__photo {
+  width: 222px;
+  height: 296px;
+  background-size: 100% 100%;
+  background-repeat: no-repeat;
+  position: absolute;
+  top: 83px;
+  left: 43px;
+}
+
+.license__photo--M {
+  background-image: url("nui://chat/html/image/M.png");
+}
+
+.license__photo--F {
+  background-image: url("nui://chat/html/image/F.png");
+}
+
+.license__state {
+  font-family: 'Times New Roman', Times, serif;
+  font-weight: bold;
+  text-transform: uppercase;
+  font-size: 50px;
+  position: absolute;
+  color: #0c3b6f;
+  top: 15px;
+  left: 95px;
+}
+
+.license__signature {
+  font-family: 'Homemade Apple', cursive;
+  font-size: 26px;
+  font-weight: 400;
+  position: absolute;
+  color: #000000;
+  top: 385px;
+  left: 154px;
+  transform: translateX(-50%) rotateZ(-2deg);
+}
+
+.license__row {
+  position: absolute;
+  text-transform: uppercase;
+  color: #000000;
+  font-weight: bold;
+  font-size: 22px;
+  line-height: 20px;
+  text-shadow: -1px -1px 2px #fff, 0   -1px 2px #fff, 1px -1px 2px #fff, 1px  0   2px #fff, 1px  1px 2px #fff, 0    1px 2px #fff, -1px  1px 2px #fff, -1px  0   2px #fff;
+  opacity: 0.9;
+  filter: blur(0.25px);
+}
+
+.license__row:before {
+  content: '';
+  display: inline-block;
+  color: #116a9d;
+  margin-right: 12px;
+  font-size: 16px;
+  line-height: 20px;
+}
+
+.license__row--red {
+  color: #9d1124;
+}
+
+.license__row--small {
+  font-size: 20px;
+  line-height: 18px;
+}
+
+.license__row--small:before {
+  font-size: 20px;
+  line-height: 18px;
+}
+
+.license__row--tiny {
+  font-size: 18px;
+  line-height: 16px;
+}
+
+.license__row--tiny:before {
+  font-size: 18px;
+  line-height: 16px;
+}
+
+.license__row--pref {
+  top: 140px;
+  left: 295px;
+}
+
+.license__row--pref:before {
+  content: 'PREF';
+}
+
+.license__row--exp {
+  top: 182px;
+  left: 295px;
+}
+
+.license__row--exp:before {
+  content: 'EXP';
+}
+
+.license__row--last {
+  top: 214px;
+  left: 295px;
+}
+
+.license__row--last:before {
+  content: 'LN';
+}
+
+.license__row--first {
+  top: 236px;
+  left: 295px;
+}
+
+.license__row--first:before {
+  content: 'FN';
+}
+
+.license__row--address {
+  top: 263px;
+  left: 295px;
+  filter: blur(4px);
+}
+
+.license__row--address:before {
+  display: none;
+}
+
+.license__row--dob {
+  top: 305px;
+  left: 295px;
+}
+
+.license__row--dob:before {
+  content: 'DOB';
+}
+
+.license__row--rstr {
+  top: 327px;
+  left: 295px;
+}
+
+.license__row--rstr:before {
+  content: 'RSTR';
+}
+
+.license__row--class {
+  top: 135px;
+  left: 555px;
+}
+
+.license__row--class:before {
+  content: 'CLASS';
+}
+
+.license__row--end {
+  top: 155px;
+  left: 555px;
+}
+
+.license__row--end:before {
+  content: 'END';
+}
+
+.license__row--sex {
+  top: 395px;
+  left: 325px;
+}
+
+.license__row--sex:before {
+  content: 'SEX';
+}
+
+.license__row--hgt {
+  top: 415px;
+  left: 325px;
+  filter: blur(4px);
+}
+
+.license__row--hgt:before {
+  content: 'HGT';
+}
+
+.license__row--cref {
+  top: 440px;
+  left: 325px;
+}
+
+.license__row--cref:before {
+  content: 'CREF';
+}
+
+.license__row--hair {
+  top: 395px;
+  left: 450px;
+  filter: blur(4px);
+}
+
+.license__row--hair:before {
+  content: 'HAIR';
+}
+
+.license__row--wgt {
+  top: 415px;
+  left: 450px;
+  filter: blur(4px);
+}
+
+.license__row--wgt:before {
+  content: 'WGT';
+}
+
+.license__row--eyes {
+  top: 395px;
+  left: 575px;
+  filter: blur(4px);
+}
+
+.license__row--eyes:before {
+  content: 'WGT';
+}
+
+.license__row--iss {
+  top: 425px;
+  left: 600px;
+  filter: blur(4px);
+}
+
+.license__row--iss:before {
+  content: 'ISS';
+  display: block;
+}

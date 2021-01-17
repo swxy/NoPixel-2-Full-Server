@@ -1,0 +1,17 @@
+body {
+  
+  height:98%;
+}
+
+.calculator {
+  opacity:0;
+  height:96%;
+  width:96%;
+}
+
+iframe {
+  padding:2%;
+  width:96%;
+  height:96%;
+  margin-left:2%;
+}

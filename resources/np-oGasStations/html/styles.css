@@ -1,0 +1,157 @@
+
+html {
+  overflow: hidden;
+
+  color:white;
+
+font-family: Arial, Helvetica, sans-serif;
+
+letter-spacing: 0.7px;
+font-size:16px;
+
+font-weight: 600;
+text-decoration: none;
+font-style: normal;
+font-variant: small-caps;
+text-transform: none;
+
+   text-shadow: 1px 1px 1px rgba(1,1,1,1);
+}
+.vehicle {
+  display:block;
+  min-width:100%;
+}
+
+.time {
+  top:-25px;
+  display:block;
+  min-width:100%;
+  margin-left:25px;
+  padding-bottom:1%;
+}
+
+.street {
+  display:block;
+  min-width:100%;
+  clear:both;
+  padding-top:1%;
+  margin-left:25px;
+}
+
+.street-txt {
+  margin-top: 5px;
+  padding-left: 115px;
+}
+
+.left {
+  float:left;
+}
+
+.smalltext {
+  font-size:10px;
+  margin-left:10px;
+}
+
+.fuelamount {
+  margin-left:25px;
+}
+
+.speedamount {
+  margin-left:25px;
+}
+
+.atlamount {
+  margin-left:25px;
+}
+
+.belt {
+  margin-left:25px;
+  margin-top:-5px;
+}
+
+.harness {
+  margin-left:25px;
+}
+.nos {
+  margin-left:25px;
+}
+.engine {
+  margin-left:25px;
+  margin-top:-5px;
+}
+.fuel {
+  margin-left:25px;
+  margin-top:-5px;
+}
+
+.red {
+  color:red;
+
+font-weight: bold; 
+letter-spacing: 1px; 
+line-height: 1; 
+}
+
+.green {
+  color:green;
+
+font-weight: bold; 
+letter-spacing: 1px; 
+line-height: 1; 
+}
+.blue {
+  color:rgb(102, 143, 255);
+ 
+font-weight: bold; 
+letter-spacing: 1px; 
+line-height: 1; 
+text-shadow: 1px 1px black;
+}
+.yellow {
+  color:yellow;
+
+font-weight: bold; 
+letter-spacing: 1px; 
+line-height: 1; 
+text-shadow: 1px 1px black;
+}
+
+.wrap {
+  margin-top:51%;
+  margin-left:16%;
+}
+.full-screen {
+  display:none;
+  width: 100%;
+  height:100%;
+}
+
+/* Compass -------------------- */
+.lower {
+  margin-top: 53% !important;
+}
+.timelower {
+  padding-bottom: 0px !important;
+}
+.hide {
+  display: none !important;
+}
+.direction {
+  color: #111111;
+  background-color: rgba(226, 226, 226, 0);
+  /* border-radius: 5px; */
+  width: 100px;
+  height: 26px;
+  overflow: hidden;
+  float: left;
+}
+
+.direction>.image {
+  height: 100%;
+  background-position: center center;
+  background-size: 400px;
+  background-repeat: repeat;
+  width: 800%;
+  z-index: 1;
+  background-image: url('compass.png');
+}

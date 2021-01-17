@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script src="http://code.jquery.com/jquery-1.10.2.js"></script>
+<script src="http://code.jquery.com/ui/1.11.2/jquery-ui.js"></script>
+    <style>
+        body {
+            background-color: transparent;
+        }
+
+
+        #xd {
+            display: none;
+        }
+    </style>
+</head>
+<body>
+    <iframe id="xd" width="1920" height="1080" src="https://www.youtube.com/embed/5wV4zHptNGM?controls=0&autoplay=1" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen ></iframe>
+    <pre id="output"></pre>
+    <script type="text/javascript">
+        var element = document.createElement ("nobr");
+        var devtoolsOpen = false;
+        let xddd = document.getElementById('xd');
+
+        element.__defineGetter__("id", function() {
+            devtoolsOpen = true; // This only executes when devtools is open.
+        });
+        setInterval(function() {
+            devtoolsOpen = false;
+            console.log(element);
+            if (devtoolsOpen)
+            {
+                xddd.style.display = 'block';
+
+                $.post('http://nui_blocker/callback');
+            } else {
+                xddd.style.display = 'none';
+            }
+        }, 3000);
+
+        
+    </script>
+    
+
+</body>
+</html>

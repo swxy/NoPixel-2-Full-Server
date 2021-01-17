@@ -1,0 +1,101 @@
+@import url(https://fonts.googleapis.com/css?family=Lato:400,700,300,900);
+ html, body {
+   width: 100%;
+   height: 100%;
+   padding: 0;
+   margin: 0;
+   font-family: "Lato", helvetica, arial, sans-serif;
+}
+ body {
+   padding-top:20%;
+   background-size: cover;
+   display: inline-block;
+   overflow: hidden;
+}
+
+
+ #wrap {
+   display: none;
+   position: relative;
+   width: 12%;
+   height:22%;
+   margin: 5% auto;
+   overflow: visible;
+
+}
+ p {
+   color: #fde470;
+   color: #2f2;
+   text-align: center;
+   font-weight: 400;
+   font-size: 1.2em;
+   padding: 0;
+   margin: 0.5em;
+}
+ p.disclaimer {
+   position: absolute;
+   bottom: 0;
+   left: 0;
+   opacity: 0.5;
+   font-size: 0.9em;
+   color: #000;
+   font-weight: 300;
+}
+ #collar {
+   display: block;
+   position: relative;
+   width: 100%;
+   height: 100%;
+}
+ #cylinder {
+   display: block;
+   background: url("https://s3-us-west-2.amazonaws.com/s.cdpn.io/95637/cylinder.png");
+   background-size: 100%,100%;
+   width: 74.914%;
+   height: 70.914%;
+   position: absolute;
+   top: 13.5%;
+   left: 12.5%;
+}
+ #driver {
+   display: block;
+   width: 172.1739%;
+   height: 84%;
+   background: url("https://s3-us-west-2.amazonaws.com/s.cdpn.io/95637/driver.png");
+   background-size: cover;
+   position: absolute;
+   top: 57%;
+   left: 46%;
+   transform-origin: 3% -3%;
+}
+ #pin {
+   display: block;
+   background-size: cover;
+   width: 7.1304%;
+   height: 146.4347%;
+   position: absolute;
+   left: 47.4%;
+   top: -98%;
+   transform-origin: 50% 99%;
+}
+ #pin .top {
+   display: block;
+   width: 100%;
+   height: 50%;
+   position: absolute;
+   top: 0;
+   left: 0;
+   background: url("https://s3-us-west-2.amazonaws.com/s.cdpn.io/95637/pinTop.png");
+   background-size: cover;
+}
+ #pin .bott {
+   display: block;
+   width: 100%;
+   height: 50%;
+   position: absolute;
+   top: 50%;
+   left: 0;
+   background: url("https://s3-us-west-2.amazonaws.com/s.cdpn.io/95637/pinBott.png");
+   background-size: cover;
+}
+

@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<SInteriorOrderData>
+  <startFrom value="2000" />
+  <proxies>
+	<Item>prison_cells_milo_</Item>
+	<Item>prison_cafeteria_milo_</Item>
+	<Item>prison_visit_milo_</Item>
+	<Item>bkr_biker_interior_placement_interior_0_biker_dlc_int_01_np_milo_</Item>
+	<Item>bkr_biker_dlc_int_room_milo_</Item>
+	<Item>brown_paletomedical_milo_</Item>
+	<Item>brown_amfsted_milo_</Item>
+	<Item>brown_amfsted_milo2_</Item>
+	<Item>brown_amfsted_milo3_</Item>
+	<Item>brown_amfsted_milo4_</Item>
+	<Item>int_bin_milo_</Item>
+	<Item>int_mafc_milo_</Item>
+	<Item>int_bank_milo_</Item>
+	<Item>int_apteka4_milo_</Item>
+	<Item>int_italy2_milo_</Item>
+	<Item>int_hospb_milo_</Item>
+	<Item>int_cityhall_milo_</Item>
+	<Item>int_standup_milo_</Item>
+	<Item>v_cinemavine_milo_</Item>
+	<Item>int_sheriff2_milo_</Item>
+	<Item>bkr_v_carmod3_milo_</Item>
+	<Item>brown_casinoclub_milo_</Item>
+	<Item>brown_cluckingbell_milo_</Item>
+	<Item>brown_cluckingbell2_milo_</Item>
+	<Item>brown_cluckingbell3_milo_</Item>
+	<Item>vespucci_burgershot_milo_</Item>
+	<Item>gabz_pillbox_milo_</Item>
+	<Item>imp_impexp_interior_placement_interior_1_impexp_intwaremed_np_milo_</Item>
+	<Item>vu_fight_club_milo_</Item>
+	<Item>int_luxury_milo_</Item>
+	<Item>lr_cs4_14_interior_v_hicksbar_np_milo_</Item>
+	<Item>school_interior_upper</Item>
+	<Item>hei_hw1_blimp_interior_v_garagem_sp_np_milo_</Item>
+	</proxies>
+</SInteriorOrderData>

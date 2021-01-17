@@ -1,0 +1,1371 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <!--Import Google Icon Font-->
+  <meta name="viewport" content="width=device-width,initial-scale=1.0">
+  <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css?family=Roboto:300,400,400i,500,500i,700,700i" rel="stylesheet">
+  <!--Import materialize.css-->
+  <link type="text/css" rel="stylesheet" href="css/materialize.min.css" media="screen,projection" />
+  <link type="text/css" rel="stylesheet" href="css/style.css">
+  <link type="text/css" rel="stylesheet" href="css/all.min.css"> <!-- FontAwesome -->
+  <link type="text/css" rel="stylesheet" href="css/balloon.min.css"> <!-- Tooltips -->
+  <title>NoPixel</title>
+</head>
+
+<body>
+  <!-- Main Container-->
+  <div class="container">
+    <!-- Browser -->
+    <div class="row no-padding">
+      <div id="browser" class="col s12">
+        <object type="text/html" class="browser-window scrollbar--dark">
+        </object>
+      </div>
+    </div>
+
+    <div class="row no-padding">
+      <div id="browser-radio" class="col s12" data-loaded="false">
+      </div>
+    </div>
+
+    <div id="racing-hud" class="row no-padding">
+      <div id="Lap">Lap: 0/0</div>
+      <div id="Checkpoints">Checkpoint: 0/0</div>
+      <div id="Laptime">Lap: 0:00</div>
+      <div id="FastestLaptime">Fastest: 0:00</div>
+      <div id="OverallTime">Overall: 0:00</div>
+    </div>
+
+    <div id="twatter-notification" class="row no-padding">
+      <div class="col s12">
+        <div class="card blue darken-3 twat-card">
+          <div class="card-content white-text twatter-content">
+            <span class="card-title twatter-notification-title"></span>
+            <p class="twatter-notitication-body truncate"></p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div id="hoa-notification" class="row no-padding">
+      <div class="col s12">
+        <div class="card amber darken-1 hoa-card">
+          <div class="card-content hoa-content">
+            <span class="card-title hoa-notification-title"></span>
+            <p class="hoa-notitication-body"></p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div id="pager-notification" class="row no-padding">
+      <div class="col s12">
+        <img src="images/pager.png"/>
+      </div>
+    </div>
+
+    <div id="phone-notifications" class="row no-padding">
+      <div class="col s6 offset-s4">
+        <div class="green lighten-2 left notification-button notification-sms"><i class="fas fa-comment icon"></i></div>
+        <div class="blue lighten-1 left notification-button notification-twatter"><i class="fab fa-twitter"></i></div>
+        <div class="light-green lighten-2 left notification-button notification-email"><i class="fas fa-envelope"></i>
+        </div>
+      </div>
+    </div>
+
+    <!-- Contains the actual phone shell image -->
+    <div class="phone-shell">
+      <div class="inner"></div>
+      <div class="speaker"></div>
+      <div class="sleep"></div>
+      <div class="volume"></div>
+      <div class="camera"></div>
+      <div class="phone-screen">
+        <div class="status-bar white-text">
+          <div class="row no-padding">
+            <div class="col s12" style="padding-top:2px">
+              <div class="row no-padding">
+                <div class="col s5 left-align">
+                    <i id="status-bar-time" class="fas fa-battery-full"></i>
+                    <span class="status-bar-time"></span> <span class="status-bar-weather"></span>
+                </div>
+                <div class="col s3 left-align">
+                    <i class="fas fa-user green-text"></i>
+                    <span class="status-bar-player-id"></span>
+                </div>
+                <div class="col s4 right-align">
+                    <i class="fas fa-signal"></i> NoPixel
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div id="phone-applications">
+          <div class="home-container phone-app">
+            <div class="row app-row">
+              <div class="col s3">
+                <div class="rounded-square green phone-button" data-action="getCallHistory" aria-label="Calls"
+                  data-balloon-pos="right"><i class="fas fa-phone-alt"></i></div>
+              </div>
+              <div class="col s3">
+                <div class="rounded-square green lighten-2 phone-button" data-action="messages" aria-label="Messages"
+                  data-balloon-pos="right"><i class="fas fa-comment icon"></i></div>
+              </div>
+              <div class="col s3">
+                <div class="rounded-square amber lighten-2 phone-button" data-action="contacts" aria-label="Contacts"
+                  data-balloon-pos="left"><i class="fas fa-address-book"></i></div>
+              </div>
+              <div class="col s3">
+                <div class="rounded-square blue lighten-1 phone-button" data-action="accountInformation"
+                  aria-label="Account Information" data-balloon-pos="left"><i class="fas fa-info-circle"></i></div>
+              </div>
+
+              <div class="col s3">
+                <div class="rounded-square red accent-3 phone-button" data-action="btnGarage" aria-label="Your vehicles"
+                  data-balloon-pos="right"><i class="fas fa-car"></i></div>
+              </div>
+              <div class="col s3">
+                <div class="rounded-square red lighten-2 phone-button" data-action="btnProperty2" aria-label="Your keys"
+                  data-balloon-pos="right">
+                  <i class="fas fa-key"></i></div>
+              </div>
+              <div class="col s3">
+                <div class="rounded-square yellow phone-button" data-action="notificationsYP" aria-label="Yellow Pages"
+                  data-balloon-pos="left"><i class="fas fa-id-card icon"></i></div>
+              </div>
+              <div class="col s3">
+                <div class="rounded-square brown lighten-1 phone-button" data-action="loadGPS" aria-label="GPS"
+                  data-balloon-pos="left"><i class="fas fa-map-marked-alt"></i></div>
+              </div>
+
+              <div class="col s3">
+                <div class="rounded-square blue darken-4 phone-button" data-action-button="browser"
+                  data-site="http://www.nopixel.online/browser/index.html" aria-label="Los Santos Web"
+                  data-balloon-pos="right"><i class="fas fa-globe"></i></div>
+              </div>
+              <div class="col s3">
+                <div class="rounded-square blue lighten-1 phone-button" data-action="btnTwatter" aria-label="Twatter"
+                  data-balloon-pos="right"><i class="fab fa-twitter"></i></div>
+              </div>
+              <div class="col s3">
+                <div class="rounded-square blue darken-4 phone-button" data-action="google" aria-label="Gurgle"
+                  data-balloon-pos="left"><i class="fab fa-searchengin "></i></div>
+              </div>
+              <div class="col s3">
+                <div class="rounded-square cyan lighten-2 phone-button" data-action="btnMute" aria-label="Toggle Calls"
+                  data-balloon-pos="left">
+                  <i class="fas fa-phone-slash"></i></div>
+              </div>
+
+              <div class="col s3">
+                <div class="rounded-square green darken-4 phone-button" data-action="btnStocks" aria-label="Stocks"
+                  data-balloon-pos="right"><i class="fas fa-chart-line"></i></div>
+              </div>
+              <div class="col s3">
+                <div class="rounded-square light-green lighten-2 phone-button" data-action="notifications"
+                  aria-label="Recent Email" data-balloon-pos="right"><i class="fas fa-envelope"></i></div>
+              </div>
+              <div class="col s3">
+                <div class="rounded-square amber darken-2 phone-button" data-action="btnTaskGroups"
+                  aria-label="Manage Group" data-balloon-pos="left">
+                  <i class="fas fa-briefcase"></i></div>
+              </div>
+              <div class="col s3">
+                <div class="rounded-square blue phone-button btn-nopixel-radio"
+                  data-action="nopixel-radio" aria-label="Radio" data-balloon-pos="left"><i
+                    class="fas fa-broadcast-tower"></i>
+                </div>
+              </div>
+
+              <div class="col s3">
+                <div class="rounded-square red darken-4 phone-button"
+                  data-action="dabcoin" aria-label="DabCoin" data-balloon-pos="up-left">
+                  <i class="fab fa-dyalog"></i></div>
+              </div>
+              
+              <div class="col s3">
+                <div class="rounded-square teal phone-button"
+                  data-action="phone:selfie" aria-label="Selfie Camera" data-balloon-pos="up-left">
+                  <i class="fa fa-camera"></i></div>
+              </div>
+
+              <div class="col s3">
+                <div class="rounded-square green darken-4 phone-button" data-action="settings" aria-label="Settings"
+                  data-balloon-pos="up-left"><i class="fas fa-sliders-h"></i>
+                </div>
+              </div>
+
+              <div class="col s3 hidden-buttons btn-real-estate">
+                <div class="rounded-square indigo lighten-2 phone-button "
+                  data-action="btnProperty" aria-label="Real Estate" data-balloon-pos="up-left"><i class="fas fa-home"></i>
+                </div>
+              </div>
+              <div class="col s3 hidden-buttons btn-delivery-job">
+                <div class="rounded-square brown darken-1 phone-button"
+                  data-action="btnTrucker" aria-label="Delivery Job" data-balloon-pos="up-left">
+                <i class="fas fa-truck-loading"></i></div>
+              </div>
+              
+              <div class="col s3 hidden-buttons btn-decrypt">
+                <div class="rounded-square blue darken-4 phone-button"
+                  data-action="btnDecrypt" aria-label="Decryption" data-balloon-pos="up-left">
+                  <i class="fas fa-unlock-alt"></i></div>
+              </div>
+               <div class="col s3 hidden-buttons btn-vpn">
+                <div class="rounded-square teal darken-2 phone-button" aria-label="Unknown App"
+                  data-action-button="browser" data-site="http://www.nopixel.online/slothroad" data-balloon-pos="up-left">
+                  <i class="fas fa-shield-alt"></i></div>
+              </div>
+
+              <div class="col s3">
+                <div class="rounded-square green darken-4 phone-button" data-action="racing:events:list" aria-label="Racing"
+                  data-balloon-pos="up-left"><i class="fas fa-flag-checkered"></i>
+                </div>
+              </div>
+            </div>
+            <div class="row app-row">
+
+            </div>
+            <div class="row app-row">
+
+            </div>
+            <div class="row app-row">
+
+            </div>
+            <div class="row app-row">
+
+            </div>
+            <div class="row app-row">
+ 
+            </div>
+
+          </div>
+          <div class="incoming-call-container phone-app" >
+            <div class="row incoming-call-header center-align no-padding white-text">
+              <h5 style="margin:0px;padding-top:15px" class="incoming-call-header-caller">Incoming call</h5>
+              <h2 class="caller"></h2>
+            </div>
+            <div class="row incoming-call-entries-wrapper">
+              <div class="col s6 center-align">
+                <a class="btn-floating btn-large green pulse phone-button btnAnswer" data-action="btnAnswer"><i
+                    class="fas fa-phone"></i></a>
+              </div>
+              <div class="col s6 center-align">
+                <a class="btn-floating btn-large red pulse phone-button btnHangup" data-action="btnHangup"><i
+                    class="fas fa-phone-slash"></i></a>
+              </div>
+            </div>
+          </div>
+          <div class="call-history-container phone-app" data-container-icon="fa-phone-alt">
+            <div class="row call-history-entries-wrapper scrollbar--dark no-padding">
+              <ul class="row collapsible call-history-entries">
+              </ul>
+            </div>
+            <div class="call-history-footer center-align">
+              <button data-target="call-modal" class="btn modal-trigger waves-effect waves-light">Dial
+                Number</button>
+            </div>
+          </div>
+
+          <div class="yellow-pages-container phone-app" data-container-icon="fa-id-card">
+            <div class="row yellow-pages-entries-wrapper scrollbar--dark no-padding">
+              <div class="row yellow-pages-entries smaller-row-padding">
+              </div>
+            </div>
+            <div class="yellow-pages-footer center-align">
+              <div class="col s12">
+                <button class="btn modal-trigger waves-effect waves-light yellow darken-1 black-text"
+                  data-target="yellow-pages-modal">
+                  <i class="fas fa-sticky-note white-text icon" style="text-shadow: 1px 1px 2px #000;"></i> New Post
+                </button>
+                <button class="btn red phone-button waves-effect waves-light" data-action="yellow-pages-delete">
+                  <i class="fas fa-trash-alt icon" style="text-shadow: 1px 1px 2px #000;"></i> Delete
+                </button>
+              </div>
+            </div>
+          </div>
+
+          <div class="racing-container phone-app">
+            <div class="row racing-entries-wrapper scrollbar--dark no-padding">
+              <ul class="collapsible racing-entries smaller-row-padding">
+              </ul>
+            </div>
+            <div class="racing-footer center-align">
+              <div class="col s12">
+                <button class="btn waves-effect waves-light green phone-button" data-action="racing:event:setup" aria-label="Setup a new race" data-balloon-pos="up"><i class="fas fa-flag-checkered icon"></i> Setup</button> 
+                <button class="btn waves-effect waves-light yellow darken-3 phone-button" data-action="racing:events:highscore" aria-label="Leaderboard" data-balloon-pos="up"><i style="text-shadow: 1px 1px 2px #000;" class="fas fa-trophy icon"></i></button> 
+                <button class="btn waves-effect waves-light blue racing-create" aria-label="Create a new track" data-balloon-pos="up"><i class="fas fa-plus icon"></i> Create</button>
+              </div>
+            </div>
+          </div>
+          <div class="racing-create-container phone-app">
+            <form id="racing-create-form" style="height:100%">
+              <div class="row racing-entries-wrapper scrollbar--dark no-padding">
+                <div class="row no-padding">
+                  <div class="input-field col s12">
+                    <i class="fas fa-route prefix white-text"></i>
+                    <input id="racing-create-name" type="text" class="validate white-text" maxlength="20" minlength="5"
+                      required />
+                    <label for="racing-create-name">Track name</label>
+                  </div>
+                </div>
+                <div class="row no-padding">
+                  <div class="input-field col s12" style="max-width:95%">
+                    <textarea id="racing-create-description" class="materialize-textarea validate white-text" minlength="5"
+                      maxlength="200"></textarea>
+                    <label for="racing-create-description">Description</label>
+                  </div>
+                </div>
+              </div>
+              <div class="racing-create-footer center-align">
+                <div class="col s12">
+                  <button type="button" class="btn waves-effect waves-light grey darken-3 phone-button" data-action="racing:map:create" aria-label="Set checkpoints" data-balloon-pos="up-left"><i
+                      class="far fa-dot-circle red-text icon"></i> REC</button>
+                  <button type="submit" class="btn waves-effect waves-light grey darken-3 racing-create-save" aria-label="Save track" data-balloon-pos="up"><i
+                      class="far fa-save icon green-text"></i> Save</button>
+                  <button type="reset" class="btn waves-effect waves-light red racing-create-cancel" aria-label="Stop setting checkpoints" data-balloon-pos="up-right"><i
+                      class="far fa-times-circle icon"></i> Cancel</button>
+                </div>
+              </div>
+            </form>
+          </div>
+          <div class="racing-start-container phone-app">
+            <form id="racing-start" style="height:100%">
+              <div class="row racing-start-entries-wrapper scrollbar--dark no-padding">
+                <div class="row no-padding white-text">
+                  <div class="input-field col s12">
+                    <select id="racing-start-tracks" class="validate" required>
+                    </select>
+                    <label>Track name</label>
+                  </div>
+                </div>
+                <div class="row no-padding">
+                  <div class="col s12">
+                    <div class="chip" >
+                        Creator: <span id="racing-start-map-creator">N/A</span>
+                    </div>
+                    <div class="chip">
+                        Distance: <span id="racing-start-map-distance">N/A</span>m
+                    </div>
+                  </div>
+                </div>
+                <div class="row no-padding">
+                  <div class="input-field col s12">
+                    <i class="fas fa-traffic-light prefix white-text"></i>
+                    <input id="racing-start-name" type="text" class="validate white-text" maxlength="20" minlength="5"
+                      required />
+                    <label for="racing-start-name">Event Name</label>
+                  </div>                   
+                </div>
+                <div class="row no-padding">
+                  <div class="input-field col s12">
+                    <i class="fas fa-sync-alt prefix white-text"></i>
+                    <input id="racing-start-laps" type="number" class="validate white-text no-spinner" 
+                      required min="0" max="10" />
+                    <label for="racing-start-laps">Lap count (0 for Sprint)</label>
+                  </div>  
+                </div>                
+                <div class="row no-padding">
+                  <div class="input-field col s12">
+                    <i class="fas fa-stopwatch prefix white-text"></i>
+                    <input id="racing-start-time" type="number" class="validate white-text no-spinner"
+                      required min="5" max="600" step="5"/>
+                    <label for="racing-start-time">Seconds Til Start</label>
+                  </div>  
+                </div>
+                <div class="row no-padding">
+                  <div class="input-field col s12" style="height: 25px;">
+                    <i class="fas fa-backward prefix white-text"></i>
+                    <label for="racing-reverse-track">
+                      <input id="racing-reverse-track" type="checkbox" class="filled-in" />
+                      <span>Reverse Track</span>
+                    </label>
+                  </div>  
+                </div>
+                <div class="row no-padding">
+                  <div class="col s12">
+                    <label for="racing-start-description">Track Description</label>
+                    <p id="racing-start-description" class="white-text">
+                    </p>
+                  </div>
+                </div>
+              </div>
+              <div class="racing-start-footer center-align">
+                <div class="col s12">
+                  <button type="submit" class="btn waves-effect waves-light green btn-racing-start">
+                      <i class="fas fa-flag-checkered icon"></i> Start Event</button>
+                  <button type="reset" class="btn waves-effect waves-light red btn-racing-clear">
+                      <i class="fas fa-minus-circle icon"></i> Clear</button>
+                </div>
+              </div>
+            </form>
+          </div>
+          <div class="racing-highscore-container phone-app">
+            <div class="row racing-highscore-entries-wrapper">
+              <ul class="collapsible racing-highscore-entries scrollbar--dark no-padding">
+              </ul>
+            </div>
+          </div>
+          <div class="messages-container phone-app">
+            <div class="row messages-entries-wrapper scrollbar--dark no-padding">
+              <div class="row messages-entries">
+              </div>
+            </div>
+            <div class="row messages-footer center-align">
+              <button data-target="messages-send-modal" class="btn modal-trigger">New Message</button>
+            </div>
+          </div>
+          <div class="message-container phone-app">
+            <div class="row message-header grey darken-2">
+              <div class="col s9 message-recipient white-text"></div>
+              <div class="col s3 message-add">
+                <i class="fas fa-phone-alt white-text messages-call-contact"></i> &nbsp;
+                <i class="fas fa-user-plus white-text messages-add-new-contact"></i>
+              </div>
+            </div>
+            <div class="row message-entries-wrapper scrollbar--dark no-padding">
+              <div class="row message-entries">
+              </div>
+            </div>
+            <div class="row messages-footer center-align">
+              <button data-target="messages-send-modal" class="btn modal-trigger message-send-new">Reply</button>
+            </div>
+          </div>
+          <div class="contacts-container phone-app">
+            <div class="row contacts-entries-header no-padding">
+              <div class="input-field col s12">
+                <i class="fas fa-address-book prefix white-text"></i>
+                <input id="new-contact-search" type="text" class="validate white-text" />
+                <label for="new-contact-search">Search</label>
+              </div>
+            </div>
+            <div class="row contacts-entries-wrapper scrollbar--dark no-padding ">
+              <ul class="row collapsible contacts-entries">
+              </ul>
+            </div>
+            <div class="row contacts-footer center-align">
+              <button data-target="contacts-add-new" class="btn modal-trigger">Add Contact</button>
+            </div>
+          </div>
+          <div class="twatter-container phone-app">
+            <div class="row twatter-header blue lighten-1">
+              <div class="col s10 twatter-handle white-text"></div>
+              <div class="col s2 twatter-add">
+                <a class="phone-button white-text twatter-toggle-notification"><i id="twatter-toogle-notification-icon"
+                    class="fas fa-bell"></i>
+                </a>
+              </div>
+            </div>
+            <div class="row twatter-entries-wrapper scrollbar--dark no-padding ">
+              <div class="row twatter-entries">
+              </div>
+            </div>
+            <div class="row twatter-footer center-align">
+              <button data-target="twat-modal" class="btn modal-trigger">Twat</button>
+            </div>
+          </div>
+          <div class="account-information-container phone-app white-text">
+            <div class="row account-information-wrapper">
+              <div class="col s12">
+                <div class="row">
+                  <div class="col s12 green-text"><span aria-label="Cash on you" data-balloon-pos="right"><i
+                        class="fas fa-wallet fa-2x"></i> <span class="account-information-cash"></span></span></div>
+                </div>
+                <div class="row">
+                  <div class="col s12 blue-text"><span aria-label="Money in the bank" data-balloon-pos="right"><i
+                        class="fas fa-university fa-2x"></i> <span class="account-information-bank "></span></span>
+                  </div>
+                </div>
+                <div class="row">
+                  <div class="col s12"><span class="account-information-licenses"></span></div>
+                </div>
+                <div class="row">
+                  <div class="col s12"><span aria-label="Your primary job" data-balloon-pos="right"><i
+                        class="fas fa-briefcase fa-2x brown-text"></i></span> <span
+                      class="account-information-primary-job"></span></div>
+                </div>
+                <div class="row">
+                  <div class="col s12"><span aria-label="Your secondary job" data-balloon-pos="right"><i
+                        class="fas fa-hard-hat fa-2x yellow-text"></i></span> <span
+                      class="account-information-secondary-job"></span></div>
+                </div>
+                <div class="row">
+                  <div class="col s12">
+                    <span aria-label="Toggle pager" data-balloon-pos="right">
+                      <i class="account-information-toggle-pager fas fa-pager fa-2x green-text"></i>
+                    </span>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- settings menu-->
+          <div class="settings-container phone-app">
+            <div class="row s12 settings-wrapper">
+              <div class="col s12 tabDiv">
+                <ul class="tabs tabs-transparent">
+                  <li class="tab col s3"><a class="active" href="#tokovoipPage" id="tokovoip" onClick="reply_click(this.id)" ><i class=" blue-text fas fa-volume-up fa-lg"></i></a></li>
+                  <li class="tab col s3"><a  href="#controlPage" id="control" onClick="reply_click(this.id)" ><i class="fas fa-keyboard red-text fa-lg"></i></a></li>
+                  <li class="tab col s3 disabled"><a  href="#test3"><i class="fas fa-times-circle fa-lg"></i></a></li>
+                  <li class="tab col s3 disabled"><a  href="#test3"><i class="fas fa-times-circle fa-lg"></i></a></li>
+
+
+                </ul>
+              </div>
+
+              <div id="tokovoipPage" class="col s12 toggleSwitch">
+                <!-- Toko voip settings  -->
+                <div class="col s12 settings-switchBorder">
+                  <!-- Toko voip settings : stereoAudio : toggle button -->
+                  <div class="switch toggleSwitch">
+                    <label>
+                      <input type="checkbox" class="upsellActiveToggle" id = "stereoAudio"><span class="lever">
+                        <span class="off">On</span>
+                        <span class="on">Off</span>
+                      </span>
+                    </label>
+                  </div>
+
+                  <label class = "toggleText" >VoIP: Stereo Audio</label>
+                </div> 
+
+                <div class="col s12 settings-switchBorder">
+                   <!-- Toko voip settings : local_click_on : toggle button-->
+                  <div class="switch toggleSwitch">
+                    <label>
+                      <input type="checkbox" class="upsellActiveToggle" id = "localClickOn"><span class="lever">
+                        <span class="off">On</span>
+                        <span class="on">Off</span>
+                      </span>
+                    </label>
+                  </div>
+
+                  <label class = "toggleText" >VoIP: Local Click On</label>
+                </div>
+
+                <div class="col s12 settings-switchBorder">
+                   <!-- Toko voip settings : local_click_off : toggle button-->
+                  <div class="switch toggleSwitch"> 
+                    <label>
+                      <input type="checkbox" class="upsellActiveToggle" id = "localClickOff"><span class="lever">
+                        <span class="off">On</span>
+                        <span class="on">Off</span>
+                      </span>
+                    </label>
+                  </div>
+
+                  <label class = "toggleText" >VoIP: Local Click Off</label>
+                </div>
+
+                 <div class="col s12 settings-switchBorder">
+                   <!-- Toko voip settings : remote_click_on : toggle button-->
+                <div class="switch toggleSwitch">
+                    <label>
+                      <input type="checkbox" class="upsellActiveToggle" id = "remoteClickOn"><span class="lever">
+                        <span class="off">On</span>
+                        <span class="on">Off</span>
+                      </span>
+                    </label>
+                  </div>
+
+                  <label class = "toggleText" >VoIP: Remote Click On</label>
+                </div>
+
+                <div class="col s12 settings-switchBorder">
+                   <!-- Toko voip settings : remote_click_off : toggle button-->
+                  <div class="switch toggleSwitch">
+                    <label>
+                      <input type="checkbox" class="upsellActiveToggle" id = "remoteClickOff"><span class="lever">
+                        <span class="off">On</span>
+                        <span class="on">Off</span>
+                      </span>
+                    </label>
+                  </div>
+
+                  <label class = "toggleText" >VoIP: Remote Click Off</label>
+                </div>
+
+                <div class="col s12 settings-switchBorder">
+                  <label class="rangeHeading">VoIP: Radio Volume</label>
+                  <p class = "range-field rangeSlide">
+                    <input type = "range" id = "radioVolume" min = "0" max = "10" /> 
+                  </p>
+                </div>
+
+                <div class="col s12 settings-switchBorder">
+                  <label class="rangeHeading">VoIP: Click Volume</label>
+                  <p class = "range-field rangeSlide">
+                    <input type = "range" id = "clickVolume" min = "0" max = "10" />
+                  </p>
+                </div>
+
+                <div class="col s12 settings-switchBorder">
+                  <label class="rangeHeading">VoIP: Phone Volume</label>
+                  <p class = "range-field rangeSlide">
+                    <input type = "range" id = "phoneVolume" min = "0" max = "10" />
+                  </p>
+                </div>
+
+              </div>
+
+              <div id="controlPage" class="shitbra col s12" >
+                <form id="controlSettings" novalidate>
+                  <!-- Key binds , loaded via JS  -->
+                </form>     
+              </div>
+
+              <!-- Toko voip settings  Submit all settings-->
+              <div class="col s12 settings-footer">
+                <button class="col s9 btn waves-effect waves-purple settings-submit">Submit Settings</button>
+
+
+                <button class="col s2  btn waves-effect waves-light red darken-3 phone-button settings-reset"><i style="text-shadow: 3px 3px 2px #000;" class="far fa-trash-alt icon"></i></button> 
+
+              </div>
+            </div>
+          </div>
+
+
+          <div class="gps-container phone-app">
+            <div class="row gps-entries-header no-padding">
+              <div class="col s12">
+                <div class="row">
+                  <div class="input-field col s12">
+                    <i class="fas fa-address-book prefix white-text"></i>
+                    <input id="gps-search" type="text" class="validate white-text" />
+                    <label for="gps-search">Search</label>
+                  </div>
+                </div>
+                <div class="row center-align">
+                  <div class="col s3">
+                    <span aria-label="Toggle Houses" data-balloon-pos="right">
+                      <i data-filter="House" class="gps-toggle-filter fas fa-home fa-2x grey-text"></i>
+                    </span>
+                  </div>
+                  <div class="col s3">
+                    <span aria-label="Toggle Mansions" data-balloon-pos="down">
+                      <i data-filter="Mansion" class="gps-toggle-filter fas fa-hotel fa-2x grey-text"></i>
+                    </span>
+                  </div>
+                  <div class="col s3">
+                    <span aria-label="Toggle Rented" data-balloon-pos="down">
+                      <i data-filter="Rented" class="gps-toggle-filter fas fa-key fa-2x grey-text"></i>
+                    </span>
+                  </div>
+                  <div class="col s3">
+                    <span aria-label="Toggle Misc" data-balloon-pos="left">
+                      <i data-filter="Misc" class="gps-toggle-filter fas fa-info fa-2x grey-text"></i>
+                    </span>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="row gps-entries-wrapper no-padding scrollbar--dark">
+              <ul class="row collection gps-entries">
+              </ul>
+            </div>
+          </div>
+          <div class="garage-container phone-app">
+            <div class="row garage-entries-wrapper no-padding scrollbar--dark">
+              <ul class="row collapsible garage-entries">
+              </ul>
+            </div>
+            <div class="garage-footer center-align">
+              <div class="col s12">
+                <button class="btn waves-effect waves-light phone-button hidden-buttons btn-car-payments" data-action="carpaymentsowed"
+                  aria-label="City Loans" data-balloon-pos="up">
+                  <i class="fas fa-hand-holding-usd"></i> City Loans
+                </button>
+              </div>
+            </div>
+          </div>
+          <div class="stocks-container phone-app">
+            <div class="row stocks-entries-wrapper no-padding scrollbar--dark">
+              <ul class="row collapsible stocks-entries">
+              </ul>
+            </div>
+          </div>
+          <div class="gurgle-container phone-app white">
+            <div class="row gurgle-entries-header no-padding">
+            </div>
+            <div class="row gurgle-entries-wrapper no-padding">
+              <div class="row no-padding gurgle-search-box">
+                <div class="input-field col s12">
+                  <i class="fab fa-searchengin prefix"></i>
+                  <input id="gurgle-search" type="text" class="validate">
+                  <label for="gurgle-search">Search</label>
+                </div>
+              </div>
+              <div class="row no-padding gurgle-entries scrollbar--dark">
+              </div>
+            </div>
+          </div>
+          <div class="keys-container phone-app">
+            <div class="row keys-entries-header no-padding">
+              <div class="col s12">
+                <div class="row no-padding ">
+                  <div class="input-field col s12">
+                    <i class="fas fa-home prefix white-text"></i>
+                    <input id="keys-search" type="text" class="validate white-text" />
+                    <label for="keys-search">Search</label>
+                  </div>
+                </div>
+                <div class="row no-padding center-align">
+                  <div class="col s2 offset-s2">
+                    <span aria-label="Toggle Owned" data-balloon-pos="right">
+                      <i data-filter="ownedKeys" class="keys-toggle-filter fas fa-key fa-2x grey-text"></i>
+                    </span>
+                  </div>
+                  <div class="col s3"></div>
+                  <div class="col s2">
+                    <span aria-label="Toggle Shared" data-balloon-pos="down">
+                      <i data-filter="sharedKeys" class="keys-toggle-filter fas fa-handshake fa-2x grey-text"></i>
+                    </span>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="row keys-entries-wrapper no-padding scrollbar--dark">
+              <ul class="row collapsible keys-entries">
+
+              </ul>
+            </div>
+          </div>
+          <div class="delivery-job-container phone-app">
+            <div class="row delivery-job-wrapper">
+              <ul class="row collection delivery-job-entries">
+              </ul>
+            </div>
+          </div>
+          <div class="emails-container phone-app">
+            <div class="row emails-wrapper scrollbar--dark">
+              <div class="col s12 emails-entries">
+              </div>
+            </div>
+          </div>
+          <div class="groups-container phone-app">
+            <div class="row groups-entries-wrapper no-padding scrollbar--dark">
+              <ul class="groups-entries collection">
+              </ul>
+            </div>
+          </div>
+          <div class="group-manage-container phone-app">
+            <div class="row group-manage-header no-padding white-text">
+              <div class="col s12">
+                <div class="row no-padding">
+                  <div class="col s12">
+                    <span class="group-manage-company-name"></span>
+                    <span class="green-text group-manage-company-bank right"></span>
+                  </div>
+                </div>
+                <div class="row no-padding">
+                  <div class="input-field col s12">
+                    <i class="fas fa-search prefix white-text"></i>
+                    <input id="group-manage-search" type="text" class="validate white-text" />
+                    <label for="group-manage-search">Search</label>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="row group-manage-wrapper no-padding scrollbar--dark">
+              <ul class="row group-manage-entries">
+              </ul>
+            </div>
+            <div class="group-manage-footer center-align">
+              <div class="col s12">
+                <button class="btn waves-effect waves-light grey phone-button" data-action="group-manage-hire-external"
+                  aria-label="Hire" data-balloon-pos="up">
+                  <i class="fas fa-handshake"></i>
+                </button>
+                <button class="btn waves-effect waves-light green phone-button" data-action="group-manage-pay-external"
+                  aria-label="Pay External Party" data-balloon-pos="up">
+                  <i class="fas fa-money-check-alt"></i>
+                </button>
+                <button class="btn waves-effect waves-light blue modal-trigger" data-target="group-manage-bank-modal"
+                  aria-label="Add money to company" data-balloon-pos="up">
+                  <i class="fas fa-university"></i>
+                </button>
+              </div>
+            </div>
+          </div>
+          <div class="group-tasks-container phone-app">
+            <div class="row group-tasks-entries-wrapper no-padding scrollbar--dark">
+              <ul class="row group-tasks-entries collection">
+              </ul>
+            </div>
+          </div>
+          <div class="real-estate-container phone-app">
+            <div class="row real-estate-entries-wrapper no-padding scrollbar--dark">
+              <div class="row no-padding">
+                <div class="col s12">
+                  <h6 class="white-text real-estate-header">Modify</h6>
+                  <a class="waves-effect waves-light btn-small phone-button green" data-action="btnPropertyModify"><i
+                      class="fas fa-home"></i> House</a>
+                  <a class="waves-effect waves-light btn-small phone-button red" data-action="btnPropertyReset"><i
+                      class="fas fa-undo-alt"></i> Reset</a>
+                </div>
+              </div>
+              <div class="row no-padding">
+                <div class="col s12">
+                  <h6 class="white-text real-estate-header">Garage</h6>
+                  <a class="waves-effect waves-light btn-small phone-button green" data-action="btnPropertySetGarage"><i
+                      class="fas fa-car-alt"></i> Set</a>
+                  <a class="waves-effect waves-light btn-small phone-button red" data-action="btnPropertyWipeGarages"><i
+                      class="fas fa-undo-alt"></i> Reset</a>
+                </div>
+              </div>
+              <div class="row no-padding">
+                <div class="col s12">
+                  <h6 class="white-text real-estate-header">Areas</h6>
+                  <a class="waves-effect waves-light btn-small phone-button" data-action="btnPropertyClothing"><i
+                      class="fas fa-tshirt"></i> Clothing</a>
+                  <a class="waves-effect waves-light btn-small phone-button" data-action="btnPropertyStorage"><i
+                      class="fas fa-box"></i> Storage</a>
+                </div>
+              </div>
+              <div class="row no-padding">
+                <div class="col s12">
+                  <h6 class="white-text real-estate-header">Backdoors</h6>
+                  <a class="waves-effect waves-light btn-small phone-button"
+                    data-action="btnPropertySetBackdoorInside"><i class="fas fa-door-open"></i> Inside</a>
+                  <a class="waves-effect waves-light btn-small phone-button"
+                    data-action="btnPropertySetBackdoorOutside"><i class="fas fa-door-closed"></i> Outside</a>
+                </div>
+              </div>
+              <div class="row no-padding">
+                <div class="col s12">
+                  <h6 class="white-text real-estate-header">Creation Point</h6>
+                  <a class="waves-effect waves-light btn-small phone-button blue"
+                    data-action="btnPropertyHouseCreationPoint"><i class="fas fa-bed"></i> Set</a>
+                </div>
+              </div>
+              <div class="row no-padding">
+                <div class="col s12">
+                  <h6 class="white-text real-estate-header">Modification</h6>
+                  <a class="waves-effect waves-light btn-small phone-button green"
+                    data-action="btnPropertyUpdateHouse"><i class="fas fa-save"></i> Save</a>
+                  <a class="waves-effect waves-light btn-small phone-button red" data-action="btnPropertyStopHouse"><i
+                      class="fas fa-ban"></i> Stop</a>
+                </div>
+              </div>
+              <div class="row no-padding">
+                <div class="col s12">
+                  <h6 class="white-text real-estate-header">Unlock</h6>
+                  <a class="waves-effect waves-light btn-small phone-button" data-action="btnPropertyUnlock"><i
+                      class="fas fa-lock-open"></i> Toggle</a>
+                </div>
+              </div>
+              <div class="row no-padding">
+                <div class="col s12">
+                  <h6 class="white-text real-estate-header">Outstanding Payments</h6>
+                  <a class="waves-effect waves-light btn-small phone-button" data-action="btnPropertyOutstanding"><i
+                      class="fas fa-coins"></i> Check</a>
+                </div>
+              </div>
+            </div>
+            <div class="real-estate-footer real-estate-header">
+              <div class="row no-padding">
+                <div class="col s12">
+                    <button data-target="real-estate-transfer-modal" aria-label="Transfer House" data-balloon-pos="up-left" class="btn-small modal-trigger blue btn-transfer-house"><i
+                      class="fas fa-exchange-alt icon"></i></button> 
+                    <button data-target="real-estate-sell-modal" aria-label="Sell House" data-balloon-pos="up" class="btn-small modal-trigger green"><i
+                      class="fas fa-dollar-sign icon"></i>Sell</button> 
+                    <button data-target="real-estate-evict-modal" aria-label="Evict" data-balloon-pos="up-right" class="btn-small modal-trigger red btn-evict-house"><i
+                      class="fas fa-trash-alt icon"></i></button> 
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="outstanding-payments-container phone-app">
+            <div class="row no-padding outstanding-payments-header">
+              <div class="col s12">
+                <div class="row no-padding">
+                  <div class="input-field col s12">
+                    <i class="fas fa-search prefix white-text"></i>
+                    <input id="outstanding-search" type="text" class="validate white-text" />
+                    <label for="outstanding-search">Search</label>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="row outstanding-payments-entries scrollbar--dark white-text">
+
+            </div>
+          </div>
+          <div class="manage-keys-container phone-app">
+            <div class="row manage-keys-entries-header no-padding">
+              <div class="input-field col s12">
+                <i class="fas fa-home prefix white-text"></i>
+                <input id="manage-keys-search" type="text" class="validate white-text" />
+                <label for="manage-keys-search">Search</label>
+              </div>
+            </div>
+            <div class="row manage-keys-entries-wrapper no-padding scrollbar--dark">
+              <div class="col s12">
+                <h6 class="white-text manage-keys-house"></h6>
+              </div>
+              <ul class="row collection manage-keys-entries">
+
+              </ul>
+            </div>
+          </div>
+        </div>
+        <div class="navigation-menu">
+          <div class="row">
+            <div class="col s4 right-align">
+              <a class="phone-button white-text navigation-button" data-action-button="back"><i
+                  class="fas fa-chevron-left fa-2x" style="font-size:14px"></i></a>
+            </div>
+            <div class="col s4 center-align">
+              <a class="phone-button white-text navigation-button" data-action-button="home"
+                data-action="resetPackages"><i class="far fa-circle fa-2x" style="font-size:14px"></i>
+              </a>
+            </div>
+            <div class="col s4 left-align">
+              <a class="white-text navigation-button" ><i class="far fa-square fa-2x" style="font-size:14px"></i></a>
+            </div>
+          </div>
+        </div>
+        <div class="row racing-entrants-modal no-padding">
+          <div class="col s12">
+            <div id="racing-entrants-modal" class="modal phone-modal modal-fixed-footer">
+              <div class="modal-content">
+                <label for="racing-info-description">Track Description</label>
+                <p id="racing-info-description">
+                </p>
+                <ul class="racing-entrants collapsible scrollbar--dark">
+                </ul>
+              </div>
+              <div class="modal-footer">
+                <button class="modal-close waves-effect waves-green btn-flat">Close</button>
+              </div>
+            </div>
+          </div>
+        </div>        
+        <div class="row messages-send-modal no-padding">
+          <div class="col s12">
+            <form id="new-message-form" class="col s12">
+              <div id="messages-send-modal" class="modal phone-modal modal-fixed-footer">
+                <div class="modal-content scrollbar--dark">
+                  <div class="row no-padding ">
+                    <div class="input-field col s12 input-field-small">
+                      <i class="fas fa-address-book prefix"></i>
+                      <input id="new-message-number" type="tel" class="validate" pattern="[64][0-9]{9}" required=""
+                        maxlength="10" aria-required="true">
+                      <label for="new-message-number">Number</label>
+                    </div>
+                  </div>
+                  <div class="row no-padding ">
+                    <div class="input-field col s12 input-field-small">
+                      <i class="fas fa-comment prefix"></i>
+                      <textarea id="new-message-body" class="materialize-textarea scrollbar--dark" maxlength="200"
+                        required="" aria-required="true"></textarea>
+                      <label for="new-message-body">Message</label>
+                    </div>
+                  </div>
+                </div>
+                <div class="modal-footer">
+                  <button id="message-submit" type="submit" class="waves-effect waves-green btn-flat">
+                    <i class="fas fa-paper-plane icon"></i> Send
+                  </button>
+                </div>
+              </div>
+            </form>
+          </div>
+        </div>
+        <div class="row contacts-add-new-modal no-padding">
+          <form id="contacts-form" class="col s12">
+            <div id="contacts-add-new" class="modal phone-modal modal-fixed-footer">
+              <div class="modal-content">
+                <div class="row no-padding">
+                  <div class="input-field col s12 input-field-small">
+                    <i class="material-icons prefix">account_circle</i>
+                    <input id="contacts-new-name" type="text" class="validate" aria-required="true" required="">
+                    <label for="contacts-new-name">Name</label>
+                  </div>
+                </div>
+                <div class="row no-padding">
+                  <div class="input-field col s12 input-field-small">
+                    <i class="material-icons prefix">phone</i>
+                    <input id="contacts-new-number" type="tel" placeholder="Number" class="validate"
+                      pattern="[64][0-9]{9}" required="" aria-required="true" maxlength="10">
+                    <label for="contacts-new-number">Number</label>
+                  </div>
+                </div>
+              </div>
+              <div class="modal-footer">
+                <button id="contacts-submit" type="submit" class="waves-effect waves-green btn-flat">
+                  <i class="fas fa-user-plus"></i> Add
+                </button>
+              </div>
+            </div>
+          </form>
+        </div>
+        <div class="row yellow-pages-modal no-padding">
+          <div class="col s12">
+            <form id="yellow-pages-form" class="col s12">
+              <div id="yellow-pages-modal" class="modal phone-modal modal-fixed-footer">
+                <div class="modal-content scrollbar--dark">
+                  <h6>Post your advert here!</h6>
+                  <div class="row">
+                    <div class="input-field col s12 input-field-small">
+                      <i class="fas fa-comment prefix"></i>
+                      <textarea id="yellow-pages-body" class="materialize-textarea scrollbar--dark" maxlength="200"
+                        required="" aria-required="true"></textarea>
+                      <label for="yellow-pages-body">Advert</label>
+                    </div>
+                  </div>
+                </div>
+                <div class="modal-footer">
+                  <button id="yellow-page-submit" type="submit" class="waves-effect waves-green btn-flat">
+                    <i class="fas fa-paper-plane icon"></i> Add
+                  </button>
+                </div>
+              </div>
+            </form>
+          </div>
+        </div>
+        <div class="row call-modal no-padding">
+          <form id="call-form" class="col s12">
+            <div id="call-modal" class="modal phone-modal modal-fixed-footer">
+              <div class="modal-content scrollbar--dark">
+                <div class="row no-padding">
+                  <div class="input-field col s12 input-field-small">
+                    <i class="fas fa-phone-alt prefix"></i>
+                    <input id="call-number" type="tel" placeholder="Number" class="validate" pattern="[64][0-9]{9}"
+                      required="" aria-required="true" maxlength="10">
+                  </div>
+                </div>
+                <div class="row no-padding">
+                  <div class="col-s12">
+                    <div class="row" style="margin-bottom:10px">
+                      <div class="col s4 center-align">
+                        <a class="btn-floating btn-large waves-effect waves-light teal dial-button">1</a>
+                      </div>
+                      <div class="col s4 center-align">
+                        <a class="btn-floating btn-large waves-effect waves-light teal dial-button">2</a>
+                      </div>
+                      <div class="col s4 center-align">
+                        <a class="btn-floating btn-large waves-effect waves-light teal dial-button">3</a>
+                      </div>
+                    </div>
+                    <div class="row" style="margin-bottom:10px">
+                      <div class="col s4 center-align">
+                        <a class="btn-floating btn-large waves-effect waves-light teal dial-button">4</a>
+                      </div>
+                      <div class="col s4 center-align">
+                        <a class="btn-floating btn-large waves-effect waves-light teal dial-button">5</a>
+                      </div>
+                      <div class="col s4 center-align">
+                        <a class="btn-floating btn-large waves-effect waves-light teal dial-button">6</a>
+                      </div>
+                    </div>
+                    <div class="row" style="margin-bottom:10px">
+                      <div class="col s4 center-align">
+                        <a class="btn-floating btn-large waves-effect waves-light teal dial-button">7</a>
+                      </div>
+                      <div class="col s4 center-align">
+                        <a class="btn-floating btn-large waves-effect waves-light teal dial-button">8</a>
+                      </div>
+                      <div class="col s4 center-align">
+                        <a class="btn-floating btn-large waves-effect waves-light teal dial-button">9</a>
+                      </div>
+                    </div>
+                    <div class="row" style="margin-bottom:10px">
+                      <div class="col s4 center-align">
+                      </div>
+                      <div class="col s4 center-align">
+                        <a class="btn-floating btn-large waves-effect waves-light teal dial-button">0</a>
+                      </div>
+                      <div class="col s4 center-align">
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="modal-footer">
+                <button id="call-reset" type="reset" class="waves-effect waves-red btn-flat"><i
+                    class="fas fa-eraser"></i> Clear
+                </button>
+                <button id="call-submit" type="submit" class="waves-effect waves-green btn-flat">
+                  <i class="fas fa-paper-plane icon"></i> Call
+                </button>
+              </div>
+            </div>
+          </form>
+        </div>
+        <div class="row twat-modal no-padding">
+          <div class="col s12">
+            <form id="twat-form" class="col s12">
+              <div id="twat-modal" class="modal phone-modal modal-fixed-footer">
+                <div class="modal-content scrollbar--dark">
+                  <div class="row">
+                    <div class="input-field col s12 input-field-small">
+                      <i class="fas fa-comment prefix"></i>
+                      <textarea id="twat-body" class="materialize-textarea scrollbar--dark" maxlength="150" required=""
+                        aria-required="true"></textarea>
+                      <label for="twat-body">Twat</label>
+                    </div>
+                  </div>
+                </div>
+                <div class="modal-footer">
+                  <button id="twat-submit" type="submit" class="waves-effect waves-green btn-flat">
+                    <i class="fas fa-paper-plane icon"></i> Twat
+                  </button>
+                </div>
+              </div>
+            </form>
+          </div>
+        </div>
+        <div class="row stock-modal no-padding">
+          <div class="col s12">
+            <form id="stock-form" class="col s12">
+              <div id="stock-modal" class="modal phone-modal modal-fixed-footer">
+                <div class="modal-content scrollbar--dark">
+                  <div class="row no-padding ">
+                    <div class="input-field col s12 input-field-small">
+                      <i class="fas fa-fingerprint prefix"></i>
+                      <input id="stock-id" type="text" class="validate" required="" aria-required="true">
+                      <label for="stock-id">Stock ID</label>
+                    </div>
+                  </div>
+                  <div class="row no-padding ">
+                    <div class="input-field col s12 input-field-small">
+                      <i class="fas fa-address-book prefix"></i>
+                      <input id="stock-target-id" type="number" class="validate" required="" aria-required="true">
+                      <label for="stock-target-id">Target ID</label>
+                    </div>
+                  </div>
+                  <div class="row no-padding ">
+                    <div class="input-field col s12 input-field-small">
+                      <i class="fas fa-hand-holding-usd prefix"></i>
+                      <input id="stock-amount" type="number" class="validate" required="" step="0.01" min="0.01"
+                        max="999" aria-required="true">
+                      <label for="stock-amount">Amount</label>
+                    </div>
+                  </div>
+                </div>
+                <div class="modal-footer">
+                  <button id="stock-submit" type="submit" class="waves-effect waves-green btn-flat">
+                    <i class="fas fa-exchange-alt icon"></i> Transfer
+                  </button>
+                </div>
+              </div>
+            </form>
+          </div>
+        </div>
+        <div class="row group-tasks-assign-modal no-padding">
+          <div class="col s12">
+            <form id="group-tasks-assign-modal-form" class="col s12">
+              <div id="group-tasks-assign-modal" class="modal phone-modal modal-fixed-footer">
+                <div class="modal-content scrollbar--dark">
+                  <div class="row no-padding ">
+                    <div class="input-field col s12 input-field-small">
+                      <i class="fas fa-fingerprint prefix"></i>
+                      <input id="group-task-id" type="text" class="validate" required="" aria-required="true">
+                      <label for="group-task-id">Task ID</label>
+                    </div>
+                  </div>
+                  <div class="row">
+                    <div class="input-field col s12 ">
+                      <i class="fas fa-id-card prefix"></i>
+                      <input id="group-task-target" type="number" min="0" class="validate" required=""
+                        aria-required="true" />
+                      <label for="group-task-target">Assign to</label>
+                    </div>
+                  </div>
+                </div>
+                <div class="modal-footer">
+                  <button id="group-task-assign-submit" type="submit" class="waves-effect waves-green btn-flat">
+                    <i class="fas fa-hands-helping fa-2x icon"></i> Assign
+                  </button>
+                </div>
+              </div>
+            </form>
+          </div>
+        </div>
+        <div class="row group-manage-pay-modal no-padding">
+          <div class="col s12">
+            <form id="group-manage-pay-form" class="col s12">
+              <div id="group-manage-pay-modal" class="modal phone-modal modal-fixed-footer">
+                <div class="modal-content scrollbar--dark">
+                  <div class="row">
+                    <div class="input-field col s12 ">
+                      <i class="fas fa-dollar-sign prefix"></i>
+                      <input id="group-manage-amount" type="number" min="0" class="validate" required=""
+                        aria-required="true" />
+                      <label for="group-manage-amount">Amount</label>
+                    </div>
+                  </div>
+                  <div class="row no-padding">
+                    <div class="input-field col s12 input-field-small">
+                      <i class="fas fa-id-card prefix"></i>
+                      <input id="group-manage-id" type="number" min="0" class="validate" required=""
+                        aria-required="true">
+                      <label for="group-manage-id">Emp. ID</label>
+                    </div>
+                  </div>
+                </div>
+                <div class="modal-footer">
+                  <button id="group-manage-pay-submit" type="submit" class="waves-effect waves-green btn-flat">
+                    <i class="fas fa-hand-holding-usd fa-2x icon"></i> Pay
+                  </button>
+                </div>
+              </div>
+            </form>
+          </div>
+        </div>
+        <div class="row group-manage-rank-modal no-padding">
+          <div class="col s12">
+            <form id="group-manage-rank-form" class="col s12">
+              <div id="group-manage-rank-modal" class="modal phone-modal modal-fixed-footer">
+                <div class="modal-content scrollbar--dark">
+                  <div class="row">
+                    <div class="input-field col s12 ">
+                      <i class="fas fa-handshake prefix"></i>
+                      <input id="group-manage-rank" type="number" min="0" max="5" class="validate" required=""
+                        aria-required="true" />
+                      <label for="group-manage-rank">Rank</label>
+                    </div>
+                  </div>
+                  <div class="row no-padding ">
+                    <div class="input-field col s12 input-field-small">
+                      <i class="fas fa-id-card prefix"></i>
+                      <input disabled id="group-manage-rank-id" type="number" min="0" class="validate" required=""
+                        aria-required="true">
+                      <label for="group-manage-rank-id">Emp. ID</label>
+                    </div>
+                  </div>
+                </div>
+                <div class="modal-footer">
+                  <input type="hidden" id="group-manage-group-id" />
+                  <button id="group-manage-rank-submit" type="submit" class="waves-effect waves-green btn-flat">
+                    <i class="fas fa-handshake fa-2x icon"></i> Set Rank
+                  </button>
+                </div>
+              </div>
+            </form>
+          </div>
+        </div>
+        <div class="row group-manage-bank-modal no-padding">
+          <div class="col s12">
+            <form id="group-manage-bank-form" class="col s12">
+              <div id="group-manage-bank-modal" class="modal phone-modal modal-fixed-footer">
+                <div class="modal-content scrollbar--dark">
+                  <div class="row no-padding ">
+                    <div class="input-field col s12 input-field-small">
+                      <i class="fas fa-dollar-sign prefix"></i>
+                      <input id="group-manage-bank-amount" type="number" min="0" class="validate" required=""
+                        aria-required="true">
+                      <label for="group-manage-bank-amount">Amount</label>
+                    </div>
+                  </div>
+                </div>
+                <div class="modal-footer">
+                  <button id="group-manage-bank-submit" type="submit" class="waves-effect waves-green btn-flat">
+                    <i class="fas fa-university fa-2x icon"></i> Pay company
+                  </button>
+                </div>
+              </div>
+            </form>
+          </div>
+        </div>
+        <div class="row real-estate-sell-modal no-padding">
+          <div class="col s12">
+            <form id="real-estate-sell-form" class="col s12">
+              <div id="real-estate-sell-modal" class="modal phone-modal modal-fixed-footer">
+                <div class="modal-content scrollbar--dark">
+                  <div class="row no-padding ">
+                    <div class="input-field col s12 input-field-small">
+                      <i class="fas fa-id-card prefix"></i>
+                      <input id="real-estate-sell-id" type="number" min="0" class="validate" required=""
+                        aria-required="true">
+                      <label for="real-estate-sell-id">Buyer ID</label>
+                    </div>
+                  </div>
+                  <div class="row no-padding ">
+                    <div class="input-field col s12 input-field-small">
+                      <i class="fas fa-dollar-sign prefix"></i>
+                      <input id="real-estate-sell-amount" type="number" min="0" class="validate" required=""
+                        aria-required="true">
+                      <label for="real-estate-sell-amount">Amount</label>
+                    </div>
+                  </div>
+                </div>
+                <div class="modal-footer">
+                  <button id="real-estate-sell-submit" type="submit" class="waves-effect waves-green btn-flat">
+                    <i class="fas fa-dollar-sign fa-2x icon"></i> Sell house
+                  </button>
+                  <button class="modal-close waves-effect waves-green btn-flat">Nope</button>
+                </div>
+              </div>
+            </form>
+          </div>
+        </div>
+        <div class="row real-estate-transfer-modal no-padding">
+          <div class="col s12">
+            <form id="real-estate-transfer-form" class="col s12">
+              <div id="real-estate-transfer-modal" class="modal phone-modal modal-fixed-footer">
+                <div class="modal-content scrollbar--dark">
+                  <div class="row no-padding ">
+                    <div class="input-field col s12 input-field-small">
+                      <i class="fas fa-id-card prefix"></i>
+                      <input id="real-estate-transfer-id" type="number" min="0" class="validate" required=""
+                        aria-required="true">
+                      <label for="real-estate-transfer-id">Transfer to (CID)</label>
+                    </div>
+                  </div>
+                </div>
+                <div class="modal-footer">
+                  <button id="real-estate-transfer-submit" type="submit" class="waves-effect waves-green btn-flat">
+                    <i class="fas fa-exchange-alt fa-2x icon"></i> Transfer 
+                  </button>
+                  <button class="modal-close waves-effect waves-green btn-flat">Nope</button>
+                </div>
+              </div>
+            </form>
+          </div>
+        </div>
+        <div class="row real-estate-evict-modal no-padding">
+          <div class="col s12">
+            <div id="real-estate-evict-modal" class="modal phone-modal modal-fixed-footer">
+              <div class="modal-content">
+                <h4>Alert</h4>
+                <p> Are you sure you want to evict the residents?</p>
+              </div>
+              <div class="modal-footer">
+                <button id="real-estate-evict-modal-accept" class="waves-effect waves-green btn-flat">Yes</button>
+                <button class="modal-close waves-effect waves-green btn-flat">Nope</button>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="row confirm-modal no-padding">
+          <div class="col s12">
+            <div id="confirm-modal" class="modal phone-modal modal-fixed-footer">
+              <div class="modal-content">
+                <h4>Alert</h4>
+                <p id="confirm-modal-question"></p>
+              </div>
+              <div class="modal-footer">
+                <button id="confirm-modal-accept" class="waves-effect waves-green btn-flat">Yes</button>
+                <button class="modal-close waves-effect waves-green btn-flat">Nope</button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!--JavaScript at end of body for optimized loading-->
+  <script type="text/javascript" src="nui://game/ui/jquery.js"></script>
+  <script type="text/javascript" src="js/materialize.min.js"></script>
+  <script type="text/javascript" src="js/debounce.min.js"></script>
+  <script type="text/javascript" src="js/moment.min.js"></script>
+  <script type="text/javascript" src="js/script.js"></script>
+</body>
+
+</html>

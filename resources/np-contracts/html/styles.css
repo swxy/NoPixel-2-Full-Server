@@ -1,0 +1,663 @@
+@import url(https://fonts.googleapis.com/css?family=EB+Garamond|Cardo:400italic);
+.console {
+  background-color: rgba(255,86,60,0.45);
+  width: 500px;
+  min-height: 30px;
+  color: white;
+  position: absolute;
+  top: 5px;
+  left: 200px;
+}
+html {
+  overflow: hidden;
+}
+@font-face {
+  font-family: 'pricedown';
+  src: url(pricedown.ttf);
+}
+#cursor {
+    position: absolute;
+    z-index: 99999999;
+    display: none;
+}
+.header-container{
+
+  background-color:rgba(0,0,0,.07);
+
+  color:white;
+}
+
+.head {
+  padding-top:3%;
+    font-family: 'Raleway', sans-serif;
+    color: rgba(22,22,22,.5);
+    text-align: center;
+    text-transform: uppercase;
+    font-size:25px;
+    letter-spacing: .4em;
+    margin-top:-8%;
+}
+.head2 {
+  padding-bottom:3%;
+    font-family: 'Raleway', sans-serif;
+    color: rgba(22,22,22,.9);
+    text-align: center;
+    text-transform: uppercase;
+    letter-spacing: .2em;
+    font-size:12px;
+     margin-top:2%;
+}
+.sans {
+  font-family: 'Open Sans', sans-serif;
+}
+h1,h2,h3,h4 {
+  margin: 0;
+  padding: 0;
+}
+.green {
+  color: rgb(0, 125, 0);
+  font-weight: 100;
+  margin-right: 6px;
+}
+.red {
+  color: rgb(255, 0, 0);
+}
+#pre {
+  font-size: 0.8rem;
+  margin-right: 5px;
+}
+.full-screen {
+  width: 100%;
+  height:100%;
+  display: flex;
+  align-items: center;
+}
+.contract-container3 {
+    margin-top:0%;
+  background-color:white;
+  width: 42%;
+  height: 90%;
+  border-radius: 10px;
+  opacity: 1;
+  margin-left: 50%;
+  overflow: hidden;
+  display: none;
+  z-index: 9999999;
+  padding-top:5%;
+}
+.contract-container {
+    margin-top:0%;
+  background-color:white;
+  width: 42%;
+  height: 90%;
+  border-radius: 10px;
+  opacity: 1;
+  margin-left: 50%;
+  overflow: hidden;
+  display: none;
+  z-index: 9999999;
+  padding-top:5%;
+}
+
+.contract-container2 {
+    margin-top:0%;
+  background-color:white;
+  width: 42%;
+  height: 90%;
+  border-radius: 10px;
+  opacity: 1;
+  margin-left: 50%;
+  overflow: hidden;
+  display: none;
+  z-index: 9999999;
+  padding-top:5%;
+}
+
+.body {
+  width: 100%;
+  height: 60%;
+  padding-top: 1%;
+  display: none;
+  font-family: 'Open Sans', sans-serif;
+}
+.history-container {
+  padding-top: 2%;  
+  height:95%;
+}
+.mdt-container {
+  padding-top: 2%;
+  height:95%;
+}
+.cpic-container {
+  padding-top: 2%;
+  height:95%;
+}
+
+
+
+.newWarrant-container {
+  padding-top: 2%;
+  height:95%;
+}
+
+.buttonwrap {
+  color:white;
+  margin-left:auto;
+  margin-right: auto;
+}
+
+.button {
+  text-align: left;
+
+  opacity: 1;
+  height:4%;
+  width:10%;
+  padding:10px;
+  font-size: 14px;
+  text-decoration: none;
+  border: none;
+  color:grey;
+  background-color:white;
+  text-transform:uppercase;
+}
+
+
+.button:focus, .submit {outline:0;}
+
+.number-display {
+
+  align-items: center;
+  text-align: center;
+  margin-left: 40px;
+  margin-right: 40px;
+  padding: 10px;
+
+  height: 6%;
+  width:90%;
+  color: white;
+
+  border-bottom-style: solid;
+  border-bottom-width:1px;
+  border-bottom-color:white;
+  border-radius: 4px;
+  font-size: 16px;
+  padding-bottom:5%;
+
+}
+.text-display {
+
+  align-items: center;
+  text-align: center;
+  margin-left: 40px;
+  margin-right: 40px;
+
+  height: 10%;
+  width:90%;
+  color: white;
+
+  font-size: 14px;
+
+}
+.btnGreen {
+  
+}
+.btnRed {
+  
+}
+.number-display p {
+  margin: 0;
+  padding: 0;
+}
+
+textarea {
+  width: 90%;
+  padding: 1% 1% 1% 1%;
+  font-size: 12px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  box-sizing: border-box;
+  margin-left:5%;
+  opacity: 1;
+  margin-top:1%;
+}
+
+input[type=text], input[type=number], select {
+  width: 90%;
+  padding: 1% 1% 1% 1%;
+  font-size: 12px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  box-sizing: border-box;
+  margin-left:5%;
+  opacity: 1;
+  margin-top:1%;
+}
+input[type=submit], .submit {
+
+  text-align: left;
+
+  margin-left:5%;
+  margin-top:2%;
+  opacity: 1;
+  border-radius: 1px;
+  font-size: 14px;
+  padding:1%;
+  text-decoration: none;
+  border: none;
+  color:grey;
+  background-color:white;
+  text-transform:uppercase;
+  padding-left:3%;
+  padding-right:3%;
+
+}
+.form {
+  max-width: 74%;
+  margin-left: auto;
+  margin-right: auto;
+  margin-top: 50px;
+}
+
+
+
+#liwrap {
+  display:block;
+  width:96%;
+
+  margin-left:2%;
+}
+
+
+
+.contractID {
+  display:block;
+  flex-grow: 0.4;
+  align-items: center;
+  text-align: left;
+  width: 35%;
+  height: 25%;
+  color: #515151;
+  opacity: 0.95;
+  font-size: 10px;
+  padding: 1% 1% 1% 1%;
+  margin-left:11%;
+  margin-top:5%;
+  text-decoration: none;
+  float:left;
+  overflow-y: auto;  
+  overflow-x: hidden; 
+  list-style-type: none;
+  border:1px dotted rgba(0, 0, 0, .1);
+} 
+
+
+.contractAmount {
+  border:1px dotted rgba(0, 0, 0, .1);
+  display:block;
+  flex-grow: 0.4;
+  align-items: center;
+  text-align: left;
+  width: 35%;
+  height: 25%;
+  color: #515151;
+  opacity: 0.95;
+  font-size: 10px;
+  padding: 1% 1% 1% 1%;
+  margin-left:4%;
+  margin-top:5%;
+  text-decoration: none;
+  float:left;
+  overflow-y: auto;  
+  overflow-x: hidden; 
+  list-style-type: none;
+} 
+
+.contractInfo {
+
+  flex-grow: 0.4;
+  align-items: center;
+  text-align: left;
+  width: 76.5%;
+  height: 80%;
+  color: #515151;
+  opacity: 0.95;
+  font-size: 12px;
+  padding: 1% 1% 1% 1%;
+  margin-left:11%;
+  margin-top:38%;
+  text-decoration: none;
+  overflow-y: auto;  
+  overflow-x: hidden; 
+  list-style-type: none;
+  border:1px dotted rgba(0, 0, 0, .2);
+} 
+
+
+
+
+
+
+
+.contractID3 {
+  display:block;
+  flex-grow: 0.4;
+  align-items: center;
+  text-align: left;
+  width: 35%;
+  height: 25%;
+  color: #515151;
+  opacity: 0.95;
+  font-size: 10px;
+  padding: 1% 1% 1% 1%;
+  margin-left:11%;
+  margin-top:5%;
+  text-decoration: none;
+  float:left;
+  overflow-y: auto;  
+  overflow-x: hidden; 
+  list-style-type: none;
+  border:1px dotted rgba(0, 0, 0, .1);
+} 
+
+
+.contractAmount3 {
+  border:1px dotted rgba(0, 0, 0, .1);
+  display:block;
+  flex-grow: 0.4;
+  align-items: center;
+  text-align: left;
+  width: 35%;
+  height: 25%;
+  color: #515151;
+  opacity: 0.95;
+  font-size: 10px;
+  padding: 1% 1% 1% 1%;
+  margin-left:4%;
+  margin-top:5%;
+  text-decoration: none;
+  float:left;
+  overflow-y: auto;  
+  overflow-x: hidden; 
+  list-style-type: none;
+} 
+
+.contractInfo3 {
+
+  flex-grow: 0.4;
+  align-items: center;
+  text-align: left;
+  width: 76.5%;
+  height: 80%;
+  color: #515151;
+  opacity: 0.95;
+  font-size: 12px;
+  padding: 1% 1% 1% 1%;
+  margin-left:11%;
+  margin-top:38%;
+  text-decoration: none;
+  overflow-y: auto;  
+  overflow-x: hidden; 
+  list-style-type: none;
+  border:1px dotted rgba(0, 0, 0, .2);
+} 
+
+
+
+
+
+
+
+
+
+#contractID2 {
+  display:block;
+  flex-grow: 0.4;
+  align-items: center;
+  text-align: left;
+  width: 35%;
+  height: 25%;
+  color: #515151;
+  opacity: 0.95;
+  font-size: 10px;
+  padding: 1% 1% 1% 1%;
+  margin-left:11%;
+  margin-top:5%;
+  text-decoration: none;
+  float:left;
+  overflow-y: auto;  
+  overflow-x: hidden; 
+  list-style-type: none;
+  border:1px dotted rgba(0, 0, 0, .1);
+} 
+
+
+#contractAmount2 {
+  border:1px dotted rgba(0, 0, 0, .1);
+  display:block;
+  flex-grow: 0.4;
+  align-items: center;
+  text-align: left;
+  width: 35%;
+  height: 25%;
+  color: #515151;
+  opacity: 0.95;
+  font-size: 10px;
+  padding: 1% 1% 1% 1%;
+  margin-left:4%;
+  margin-top:5%;
+  text-decoration: none;
+  float:left;
+  overflow-y: auto;  
+  overflow-x: hidden; 
+  list-style-type: none;
+} 
+
+#contractInfo2 {
+
+  flex-grow: 0.4;
+  align-items: center;
+  text-align: left;
+  width: 76.5%;
+  height: 80%;
+  color: #515151;
+  opacity: 0.95;
+  font-size: 12px;
+  padding: 1% 1% 1% 1%;
+  margin-left:11%;
+  margin-top:18%;
+  text-decoration: none;
+  overflow-y: auto;  
+  overflow-x: hidden; 
+  list-style-type: none;
+  border:1px dotted rgba(0, 0, 0, .2);
+} 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+.table-wrap {
+  width: 100%;
+  height: 100%;
+  overflow-y: auto;  
+  overflow-x: hidden;
+}
+
+.tblBtn {
+  padding: 1em;
+}
+
+.location {
+  text-transform: uppercase;
+}
+
+
+
+
+.centered {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  width: 78%;
+  height: auto;
+  margin-left:auto;
+  margin-right: auto;
+  margin-top:3%;
+}
+
+
+
+
+
+
+
+.btn-1 {
+  background-color: #F27935;
+}
+.btn-1 .round {
+  background-color: #f59965;
+}
+
+.btn-2 {
+  background-color: #00AFD1;
+}
+.btn-2 .round {
+  background-color: #00c4eb;
+}
+
+.btn-3 {
+  background-color: #5A5B5E;
+}
+.btn-3 .round {
+  background-color: #737478;
+}
+
+a {
+  text-decoration: none;
+  -moz-border-radius: 30px;
+  -webkit-border-radius: 30px;
+  border-radius: 30px;
+  padding: 12px 53px 12px 23px;
+  color: #fff;
+  text-transform: uppercase;
+  font-family: sans-serif;
+  font-weight: bold;
+  position: relative;
+  -moz-transition: all 0.3s;
+  -o-transition: all 0.3s;
+  -webkit-transition: all 0.3s;
+  transition: all 0.3s;
+  display: inline-block;
+}
+a span {
+  position: relative;
+  z-index: 3;
+}
+a .round {
+  -moz-border-radius: 50%;
+  -webkit-border-radius: 50%;
+  border-radius: 50%;
+  width: 38px;
+  height: 38px;
+  position: absolute;
+  right: 3px;
+  top: 3px;
+  -moz-transition: all 0.3s ease-out;
+  -o-transition: all 0.3s ease-out;
+  -webkit-transition: all 0.3s ease-out;
+  transition: all 0.3s ease-out;
+  z-index: 2;
+}
+a .round i {
+  position: absolute;
+  top: 50%;
+  margin-top: -6px;
+  left: 50%;
+  margin-left: -4px;
+  -moz-transition: all 0.3s;
+  -o-transition: all 0.3s;
+  -webkit-transition: all 0.3s;
+  transition: all 0.3s;
+}
+
+.txt {
+  font-size: 14px;
+  line-height: 1.45;
+}
+
+.type-1 a:hover {
+  padding-left: 48px;
+  padding-right: 28px;
+}
+.type-1 a:hover .round {
+  width: calc(100% - 6px);
+  -moz-border-radius: 30px;
+  -webkit-border-radius: 30px;
+  border-radius: 30px;
+}
+.type-1 a:hover .round i {
+  left: 12%;
+}
+
+.type-2 a:hover .round {
+  background: none;
+}
+.type-2 a:hover .round i {
+  left: 70%;
+}
+
+.type-3 .round {
+  background: transparent;
+}
+.type-3 a {
+  position: relative;
+  overflow: hidden;
+}
+.type-3 a.btn-1:after {
+  background-color: #f59965;
+}
+.type-3 a.btn-2:after {
+  background-color: #00c4eb;
+}
+.type-3 a.btn-3:after {
+  background-color: #737478;
+}
+.type-3 a:after {
+  content: "";
+  -moz-border-radius: 50%;
+  -webkit-border-radius: 50%;
+  border-radius: 50%;
+  width: 37px;
+  height: 38px;
+  position: absolute;
+  right: 3px;
+  top: 3px;
+  -moz-transition: all 0.3s ease-out;
+  -o-transition: all 0.3s ease-out;
+  -webkit-transition: all 0.3s ease-out;
+  transition: all 0.3s ease-out;
+}
+.type-3 a:hover:after {
+  right: 100%;
+  width: 50%;
+}
+.type-3 a:hover i {
+  margin-left: 4px;
+}

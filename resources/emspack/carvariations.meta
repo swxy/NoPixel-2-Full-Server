@@ -1,0 +1,230 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<CVehicleModelInfoVariation>
+  <variationData>
+	<Item> <!--EMSA--> <!--ABULANCE-->
+	 <modelName>EMSA</modelName>
+	 <colors>
+		<Item>
+		   <indices content="char_array">
+			  134
+			  134
+			  134
+			  134
+		   </indices>
+		   <liveries />
+		</Item>
+	 </colors>
+	 <kits>
+		<Item>0_default_modkit</Item>
+	 </kits>
+	 <windowsWithExposedEdges />
+	 <plateProbabilities>
+		<Probabilities>
+		   <Item>
+			  <Name>Police guv plate</Name>
+			  <Value value="100" />
+		   </Item>
+		</Probabilities>
+	 </plateProbabilities>
+	 <lightSettings value="0" />
+	 <sirenSettings value="4" />
+	</Item>
+    <Item> <!--EMSC--> <!--14 Charger-->
+	 <modelName>EMSC</modelName>
+	 <colors>
+		<Item>
+		   <indices content="char_array">
+			  134
+			  134
+			  134
+			  134
+		   </indices>
+		   <liveries />
+		</Item>
+	 </colors>
+	 <kits>
+		<Item>0_default_modkit</Item>
+	 </kits>
+	 <windowsWithExposedEdges />
+	 <plateProbabilities>
+		<Probabilities>
+		   <Item>
+			  <Name>Police guv plate</Name>
+			  <Value value="100" />
+		   </Item>
+		</Probabilities>
+	 </plateProbabilities>
+	 <lightSettings value="75" />
+	 <sirenSettings value="75" />
+	</Item>	
+	<Item> <!--EMSI--> <!--12 FPI-->
+	 <modelName>EMSI</modelName>
+	 <colors>
+		<Item>
+		   <indices content="char_array">
+			  134
+			  134
+			  134
+			  134
+		   </indices>
+		   <liveries />
+		</Item>
+	 </colors>
+	 <kits>
+		<Item>0_default_modkit</Item>
+	 </kits>
+	 <windowsWithExposedEdges />
+	 <plateProbabilities>
+		<Probabilities>
+		   <Item>
+			  <Name>Police guv plate</Name>
+			  <Value value="100" />
+		   </Item>
+		</Probabilities>
+	 </plateProbabilities>
+	 <lightSettings value="0" />
+	 <sirenSettings value="76" />
+	</Item>	
+	<Item> <!--EMSU--> <!--16 FPIU-->
+	 <modelName>EMSU</modelName>
+	 <colors>
+		<Item>
+		   <indices content="char_array">
+			  134
+			  134
+			  134
+			  134
+		   </indices>
+		   <liveries />
+		</Item>
+	 </colors>
+	 <kits>
+		<Item>0_default_modkit</Item>
+	 </kits>
+	 <windowsWithExposedEdges />
+	 <plateProbabilities>
+		<Probabilities>
+		   <Item>
+			  <Name>Police guv plate</Name>
+			  <Value value="100" />
+		   </Item>
+		</Probabilities>
+	 </plateProbabilities>
+	 <lightSettings value="0" />
+	 <sirenSettings value="76" />
+	</Item>	
+	<Item> <!--EMST--> <!--15 Tahoe-->
+	 <modelName>EMST</modelName>
+	 <colors>
+		<Item>
+		   <indices content="char_array">
+			  134
+			  134
+			  134
+			  134
+		   </indices>
+		   <liveries />
+		</Item>
+	 </colors>
+	 <kits>
+		<Item>0_default_modkit</Item>
+	 </kits>
+	 <windowsWithExposedEdges />
+	 <plateProbabilities>
+		<Probabilities>
+		   <Item>
+			  <Name>Police guv plate</Name>
+			  <Value value="100" />
+		   </Item>
+		</Probabilities>
+	 </plateProbabilities>
+	 <lightSettings value="0" />
+	 <sirenSettings value="76" />
+	</Item>	
+	<Item> <!--EMSE--> <!--13 Experditon-->
+	 <modelName>EMSE</modelName>
+	 <colors>
+		<Item>
+		   <indices content="char_array">
+			  134
+			  134
+			  134
+			  134
+		   </indices>
+		   <liveries />
+		</Item>
+	 </colors>
+	 <kits>
+		<Item>0_default_modkit</Item>
+	 </kits>
+	 <windowsWithExposedEdges />
+	 <plateProbabilities>
+		<Probabilities>
+		   <Item>
+			  <Name>Police guv plate</Name>
+			  <Value value="100" />
+		   </Item>
+		</Probabilities>
+	 </plateProbabilities>
+	 <lightSettings value="0" />
+	 <sirenSettings value="76" />
+	</Item>	
+	<Item> <!--EMSF--> <!--13 F350-->
+	 <modelName>EMSF</modelName>
+	 <colors>
+		<Item>
+		   <indices content="char_array">
+			  134
+			  134
+			  134
+			  134
+		   </indices>
+		   <liveries />
+		</Item>
+	 </colors>
+	 <kits>
+		<Item>0_default_modkit</Item>
+	 </kits>
+	 <windowsWithExposedEdges />
+	 <plateProbabilities>
+		<Probabilities>
+		   <Item>
+			  <Name>Police guv plate</Name>
+			  <Value value="100" />
+		   </Item>
+		</Probabilities>
+	 </plateProbabilities>
+	 <lightSettings value="0" />
+	 <sirenSettings value="76" />
+	</Item>
+	<Item> <!--EMSV--> <!--COR-->
+	 <modelName>EMSV</modelName>
+	 <colors>
+		<Item>
+		   <indices content="char_array">
+			  134
+			  134
+			  134
+			  134
+		   </indices>
+		   <liveries />
+		</Item>
+	 </colors>
+	 <kits>
+		<Item>0_default_modkit</Item>
+	 </kits>
+	 <windowsWithExposedEdges />
+	 <plateProbabilities>
+		<Probabilities>
+		   <Item>
+			  <Name>Police guv plate</Name>
+			  <Value value="100" />
+		   </Item>
+		</Probabilities>
+	 </plateProbabilities>
+	 <lightSettings value="0" />
+	 <sirenSettings value="78" />
+	</Item>
+  </variationData>
+</CVehicleModelInfoVariation>

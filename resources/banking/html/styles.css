@@ -1,0 +1,228 @@
+.console {
+  background-color: rgba(255,86,60,0.3);
+  width: 500px;
+  min-height: 30px;
+  color: white;
+  position: absolute;
+  top: 5px;
+  left: 200px;
+}
+html {
+  overflow: hidden;
+}
+@font-face {
+  font-family: 'pricedown';
+  src: url(pricedown.ttf);
+}
+#cursor {
+    position: absolute;
+    z-index: 99999999;
+    display: none;
+}
+.sans {
+  font-family: 'Open Sans', sans-serif;
+}
+h1,h2,h3,h4 {
+  margin: 0;
+  padding: 0;
+}
+.container {
+  margin: 0;
+  padding: 0;
+  position: absolute;
+  top: 120;
+  right: 40;
+  width: 300px;
+  height: 200px;
+}
+#balance {
+  float:right;
+  font-family: pricedown;
+  font-weight: 400;
+  font-size: 2rem;
+  color: white;
+  padding: 4px;
+  text-shadow: -1px -1px 0 #000, 1px -1px 0 #000, -1px 1px 0 #000, 1px 1px 0 #000;
+  margin: 0;
+  margin-right: 6px;
+  padding: 0;
+}
+#cash {
+  float:right;
+  font-family: pricedown;
+  font-weight: 400;
+  font-size: 2rem;
+  color: white;
+  padding: 4px;
+  text-shadow: -1px -1px 0 #000, 1px -1px 0 #000, -1px 1px 0 #000, 1px 1px 0 #000;
+  margin: 0;
+  margin-right: 6px;
+  padding: 0;
+}
+#add-balance {
+  float:right;
+  font-family: pricedown;
+  font-weight: 400;
+  font-size: 29px;
+  color: white;
+  padding: 4px;
+  text-shadow: -1px -1px 0 #000, 1px -1px 0 #000, -1px 1px 0 #000, 1px 1px 0 #000;
+  margin: 0;
+  margin-right: 6px;
+  margin-top: 6px;
+  padding: 0;
+}
+#icon {
+  height: 21px;
+  width: auto;
+  margin-right: 10px;
+}
+.green {
+  color: rgb(0, 125, 0);
+  font-weight: 700;
+  margin-right: 6px;
+}
+.red {
+  color: rgb(255, 0, 0);
+}
+#pre {
+  font-size: 0.8rem;
+  margin-right: 5px;
+}
+.balance {
+  display: inline-block;
+  height: 30px;
+  width: 100%;
+}
+.cashtransaction {
+  display: inline-block;
+  height: 30px;
+  width: 100%;
+}
+.transaction {
+  display: inline-block;
+  height: 30px;
+  width: 100%;
+}
+.full-screen {
+  width: 100%;
+  height:100%;
+  display: flex;
+  align-items: center;
+}
+.bank-container {
+  width: 70%;
+  height: 700px;
+  background-color: #ddd;
+  border: 3px solid #222;
+  border-radius: 10px;
+  margin-left: auto;
+  margin-right: auto;
+  overflow: hidden;
+  display: none;
+  z-index: 9999999;
+}
+.header {
+  width:100%;
+  height: 100px;
+  background-color: white;
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  justify-content: space-between;
+}
+.header .logo {
+  max-height: 80%;
+  margin-top: 10px;
+  margin-left: 10px;
+}
+.header .header-right {
+  color: #777;
+  margin-right: 25px;
+}
+.header-right h3 {
+  float: right;
+  margin-top: 30px;
+}
+.body {
+  width: 100%;
+  height: 600px;
+  display: none;
+}
+.centered {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  margin-top: 50px;
+  width: 80%;
+  height: 500px;
+  margin-left:auto;
+  margin-right: auto;
+}
+.button {
+  flex-grow: 1;
+  align-items: center;
+  height: 40px;
+  text-align: center;
+  margin-left: 40px;
+  margin-right: 40px;
+  width: 300px;
+  background: #017ebc;
+  background-image: linear-gradient(to bottom, #017ebc, #005285);
+  border-radius: 4px;
+  color: #ffffff;
+  font-size: 1.5em;
+  padding: 20px 20px 10px 20px;
+  text-decoration: none;
+}
+.button:focus, .submit {outline:0;}
+.number-display {
+  flex-grow: 1;
+  align-items: center;
+  height: 70px;
+  text-align: center;
+  margin-left: 40px;
+  margin-right: 40px;
+  width: 100%;
+  background: #017ebc;
+  background-image: linear-gradient(to bottom, #f4f5f5, #dfdddd);
+  border-radius: 4px;
+  color: #777;
+  font-size: 2em;
+  padding: 10px 20px;
+}
+.number-display p {
+  margin: 0;
+  padding: 0;
+  padding-top: 10px;
+}
+input[type=text], select, textarea {
+    width: 100%;
+    padding: 25px 20px;
+    font-size: 1.5rem;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    box-sizing: border-box;
+    margin-top: 6px;
+    margin-bottom: 40px;
+    resize: vertical;
+}
+input[type=submit], .submit {
+  height: 70px;
+  text-align: center;
+  width: 100%;
+  background: #017ebc;
+  background-image: linear-gradient(to bottom, #017ebc, #005285);
+  border-radius: 4px;
+  color: #ffffff;
+  font-size: 1.5em;
+  padding: 20px 20px 20px 20px;
+  text-decoration: none;
+  border: none;
+}
+.form {
+  max-width: 74%;
+  margin-left: auto;
+  margin-right: auto;
+  margin-top: 50px;
+}

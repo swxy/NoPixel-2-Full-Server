@@ -1,0 +1,109 @@
+@import "compass/css3";
+
+body {
+  font-family: sans-serif;
+  font-weight:0;
+  font-size:18px;
+  letter-spacing:0.1em;
+}
+
+.divwrap {
+	display:none;
+  margin-left:auto;
+  margin-right:auto;
+  width:15%;
+  height:85%;
+  margin-top:1%;
+  margin-left:1%;
+  color:white;
+  padding:1px;
+}
+
+.button2 {
+   background: transparent;
+  border: 0;
+  padding: 0;
+  cursor: pointer;
+  outline: 0;
+  -webkit-appearance: none;
+  margin-left:auto;
+  display: inline-block;
+  position: relative;
+  padding: 15px;
+  top: 3px;
+
+  font-size: 14px;
+  border-radius: 4px;
+  background: rgba( 1, 55, 1, 0.8 );
+  color: #fff;
+  box-shadow: 0px 0px 0px rgba( 15, 165, 60, 0.1 );
+  text-decoration: none;
+
+  margin:1%;
+
+  -webkit-transition: all 0.2s ease;
+  -moz-transition: all 0.2s ease;
+  -ms-transition: all 0.2s ease;
+  transition: all 0.2s ease;
+  text-align:center;
+  width:98%;
+}
+
+.button2:hover {
+  left: 2px;
+  box-shadow: 0px 10px 10px rgba( 15, 75, 50, 0.2 );
+  -webkit-transform: rotateX(20deg);
+  -moz-transform: rotateX(20deg);
+  -ms-transform: rotateX(20deg);
+  transform: rotateX(20deg);
+}
+
+.button2:active {
+  top: 0px;
+  box-shadow: 0px 0px 0px rgba( 15, 65, 50, 0.0 );
+  background: rgba( 20, 88, 33, 1 );
+}
+.button {
+   background: transparent;
+  border: 0;
+  padding: 0;
+  cursor: pointer;
+  outline: 0;
+  -webkit-appearance: none;
+  margin-left:auto;
+  display: inline-block;
+  position: relative;
+  padding: 15px;
+  top: 3px;
+
+  font-size: 14px;
+  border-radius: 4px;
+  background: rgba( 1, 1, 1, 0.8 );
+  color: #fff;
+  box-shadow: 0px 0px 0px rgba( 15, 165, 60, 0.1 );
+  text-decoration: none;
+
+  margin:1%;
+
+  -webkit-transition: all 0.2s ease;
+  -moz-transition: all 0.2s ease;
+  -ms-transition: all 0.2s ease;
+  transition: all 0.2s ease;
+  text-align:center;
+  width:98%;
+}
+
+.button:hover {
+  left: 2px;
+  box-shadow: 0px 10px 10px rgba( 15, 75, 50, 0.2 );
+  -webkit-transform: rotateX(20deg);
+  -moz-transform: rotateX(20deg);
+  -ms-transform: rotateX(20deg);
+  transform: rotateX(20deg);
+}
+
+.button:active {
+  top: 0px;
+  box-shadow: 0px 0px 0px rgba( 15, 65, 50, 0.0 );
+  background: rgba( 20, 88, 33, 1 );
+}

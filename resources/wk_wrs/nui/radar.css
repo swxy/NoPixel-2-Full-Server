@@ -1,0 +1,298 @@
+/*-------------------------------------------------------------------------
+
+    Wraith Radar System - v1.02
+    Created by WolfKnight
+
+    Just a word of warning, I'm not the best at CSS structure, so this 
+    could probably be 10x better, but fuck it. 
+    
+-------------------------------------------------------------------------*/
+
+@font-face {
+    font-family: "Digital-7";
+    src: url( "digital-7.regular.ttf" );
+}
+
+/* Police Radar */
+#policeradar {
+    width: 495px;
+    height: 202px;
+
+    position: absolute;
+    margin: auto;
+    bottom: 10px;
+
+    right: 10px;
+    
+    /* Uncomment the below statement and comment the above 'right' statement
+       to position the radar in the bottom centre of the screen */
+    /*right: 0;
+    left: 0;*/
+ 
+    color: white;
+    background: rgba( 20, 20, 20, 0.97 );
+    background: linear-gradient( to bottom, rgb( 50, 50, 50 ), rgb( 25, 25, 25 ) );
+    border-radius: 10px;
+ 
+    display: flex;
+    flex-direction: column; 
+    justify-content: space-around;
+    align-items: center;
+}
+
+#policeradar .antennalabel {
+    font-family: Verdana; 
+    font-size: 14px;
+    font-weight: bold; 
+    text-align: center; 
+    width: 100%; 
+    position: absolute;
+}
+
+#policeradar .antennalabeltop {
+    top: 0;
+    left: 0;
+    padding-top: 5px;
+}
+
+#policeradar .antennalabelbottom {
+    bottom: 0;
+    left: 0;
+    padding-bottom: 5px;
+}
+
+#policeradar .logo {
+    font-family: Verdana; 
+    font-size: 17px;
+    font-weight: bold; 
+    bottom: 15px;
+    right: 20px;
+    position: absolute;
+}
+
+#policeradar .main {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-around;
+    width: 100%;
+    height: 100%; 
+}
+
+#policeradar .patrolcontainer {
+    background-color: black;
+    display: flex;
+    flex-direction: column; 
+    align-items: center; 
+    justify-content: flex-start; 
+}
+
+#policeradar .typecontainer {
+    background-color: black;
+    display: flex;
+    flex-direction: column; 
+    align-items: center; 
+    justify-content: flex-start; 
+    width: 0;
+}
+
+#policeradar .typecontainer .text {
+    font-family: Verdana;
+    font-size: 10px;
+    line-height: 27px;
+    margin-left: 13px;
+    color: black; 
+}
+
+#policeradar .typecontainer .active {
+    color: white; 
+}
+
+#policeradar .container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    height: 100%; 
+    justify-content: space-around; 
+}
+
+#policeradar .arrowbox {
+    justify-content: center; 
+    align-items: center;
+}
+
+#policeradar .arrowbox i {
+    font-size: 20px; 
+    padding-top: 5px;
+    padding-bottom: 5px;
+    color: black;
+}
+
+#policeradar .arrowbox .active {
+    color: white; 
+}
+
+#policeradar .arrowbox .inactive {
+    color: black;
+}
+
+#policeradar .container .label {
+    font-family: Verdana;
+    font-weight: bold; 
+    font-size: 10px;
+    text-align: center;
+}
+
+#policeradar .container .speedsourcecontainer {
+    width: 135px;
+    height: 58px;
+    display: flex;
+    justify-content: space-around;
+}
+
+#policeradar .container .speedsourcecontainer .speednumber {
+    width: 100%;
+}
+
+#policeradar .container .speedsourcecontainer .text {
+    font-family: "Digital-7";
+    font-size: 58px;
+    line-height: 58px;
+    width: 100%;
+    text-align: center;
+}
+
+#policeradar .container .target {
+    background: rgb( 200, 0, 0 );
+    background: linear-gradient( to bottom, rgb( 220, 0, 40 ), rgb( 90, 0, 0 ) );
+}
+
+#policeradar .container .patrol {
+    background: rgb( 0, 125, 0 );
+    background: linear-gradient( to bottom, rgb( 0, 150, 0 ), rgb( 0, 75, 0 ) );
+}
+
+#policeradar .container .locked {
+    color: rgb( 50, 0, 0 );
+}
+
+#policeradar .container .speedfastcontainer {
+    width: 99px;
+    height: 50px;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+}
+
+#policeradar .container .speedfastcontainer .speednumber {
+    width: 100%;
+}
+
+#policeradar .container .speedfastcontainer .text {
+    font-family: "Digital-7";
+    font-size: 50px;
+    line-height: 50px;
+    width: 100%;
+    text-align: center;
+}
+
+
+/* Police Radar - Remote Control */
+#policeradarrc {
+    width: 290px;
+    height: 380px;
+   
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    margin: auto;
+    padding: 10px 5px;
+
+    color: white;
+    background-color: rgba( 20, 20, 20, 0.95 );
+    border-radius: 5px;
+ 
+    display: flex;
+    flex-direction: column; 
+    justify-content: space-around;
+    align-items: center;
+}
+
+#policeradarrc .breakline {
+    width: 230px;
+    height: 10px;
+    background-color: white; 
+}
+
+#policeradarrc .label {
+    font-family: Verdana; 
+}
+
+#policeradarrc .container {
+    font-family: Verdana; 
+    align-items: center;
+}
+
+#policeradarrc .container button {
+    display: inline-block;
+    cursor: pointer;
+    text-decoration: none;
+    outline: none;
+    border: none;
+}
+
+#policeradarrc .container button:hover {
+    background-color: #6cd3f9;
+}
+
+#policeradarrc .container button:active {
+    background-color: #56a8c7;
+}
+
+#policeradarrc .container .toggle {
+    padding: 5px 15px;
+    font-size: 16px;
+    text-align: center;
+    color: black;
+    background-color: white;
+    border-radius: 15px;
+    margin-bottom: 15px;
+}
+
+#policeradarrc .container .limit {
+    padding: 5px 15px;
+    font-size: 16px;
+    text-align: center;
+    color: black;
+    background-color: white;
+    border-radius: 15px;
+    margin-top: 15px;
+}
+
+#policeradarrc .container .close {
+    padding: 3px 7px;
+    font-size: 12px;
+}
+
+#policeradarrc .container .rowbutton {
+    width: 60px;
+    height: 60px; 
+}
+
+#policeradarrc .container .frontopp {
+    border-top-left-radius: 50%;
+}
+
+#policeradarrc .container .frontsame {
+    border-top-right-radius: 50%;
+}
+
+#policeradarrc .container .rearopp {
+    border-bottom-left-radius: 50%;
+}
+
+#policeradarrc .container .rearsame {
+    border-bottom-right-radius: 50%;
+}

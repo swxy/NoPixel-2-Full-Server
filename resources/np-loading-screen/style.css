@@ -1,0 +1,202 @@
+body
+{
+    margin: 0px;
+    padding: 0px;
+    
+	background-size: 20%;
+	background-position: center;
+	background-repeat: no-repeat;
+	background-attachment: fixed;
+
+	font-family: "Segoe UI", sans-serif;
+
+}
+
+/*@font-face {
+    font-family: 'CustomFont';
+    src: url('customfont.ttf') format('truetype');
+    font-weight: normal;
+    font-style: normal;
+}*/
+
+
+#background
+{
+    width: 100%;
+    height: 100%;
+	background-color: #2b1d2c;
+	background-image: url(background.jpg);
+    background-size: cover;
+    filter: blur(5px);
+    position: fixed;
+    left: 0;
+    right: 0;
+    z-index: 1;
+    transform: scale(1.03);
+    transition: all 20s linear;
+    background-position: 0px 0px;
+
+    display: block;
+}
+
+#logo
+{
+    width: 100%;
+    height: 100%;
+    background-image: url(logo.png);
+    background-size: 15%;
+    background-position: center;
+    background-repeat: no-repeat;
+    position: fixed;
+    left: 0;
+    right: 0;
+    z-index: 9999;
+}
+
+.log
+{
+    color: rgba(255, 255, 255, 0.46);
+    position: absolute;
+    left: 20px;
+    top: 20px;
+}
+
+.log-top-right
+{
+    top: 20px;
+    right: 20px;
+    text-align: right;
+    display: none;
+}
+
+.loading-container
+{
+    position: absolute;
+    left: 5%;
+    right: 5%;
+    bottom: 10%;
+
+    z-index: 5;
+
+    color: #fff;
+
+    font-family: Arial;
+}
+
+.loading-labels
+{
+    width: 100%;
+    height: 20px;
+
+    margin-left: 2px;
+    margin-right: 3px;
+
+    margin-top: 5px;
+    margin-bottom: 12px;
+
+    padding: 5px;
+    text-align: center;
+    position: relative;
+    display: inline;
+    white-space: nowrap;
+}
+
+.loading-labels div
+{
+    display: none;
+    text-align: left;
+    font-size: 20px;
+    position: relative;
+    
+    /*text-shadow:
+    -1px -1px 1px #000,
+    1px -1px 1px #000,
+    -1px 1px 1px #000,
+    1px 1px 1px #000;  */
+}
+
+.loading-bar-container
+{
+    width: 100%;
+    background-color: rgba(190, 140, 110, .9);
+    height: 20px;
+
+    margin-left: 2px;
+    margin-right: 3px;
+
+    margin-top: 5px;
+    margin-bottom: 5px;
+
+    box-shadow: 0 1px 5px #000 inset, 0 1px 0 #444;
+    background-color: #1a1a1a;
+
+    border-radius: 6px;
+    padding: 5px;
+    text-align: left;
+    overflow: hidden;
+    position: relative;
+    display: block;
+    white-space: nowrap;
+}
+
+.loading-bar
+{
+    width: 0%;
+    height: 20px;
+    border-radius: 3px;
+
+    background-size: 30px 30px;      
+    background-image: linear-gradient(135deg, rgba(255, 255, 255, .15) 25%, transparent 25%, transparent 50%, rgba(255, 255, 255, .15) 50%, rgba(255, 255, 255, .15) 75%, transparent 75%, transparent);
+    -webkit-animation: animate-stripes 3s linear infinite;
+
+    display: none;
+
+    transition: width 0.3s;
+    transition-timing-function: ease-out;
+}
+
+.bgcolor-first 
+{
+    background-color: #fb6530;
+}
+
+.bgcolor-second 
+{
+    background-color: #db592b;
+}
+
+.bgcolor-third 
+{
+    background-color: #b8431b;
+}
+
+.bgcolor-fourth 
+{
+    background-color: #892a09;
+}
+
+
+.color-first 
+{
+    color: #fb6530;
+}
+
+.color-second 
+{
+    color: #db592b;
+}
+
+.color-third 
+{
+    color: #b8431b;
+}
+
+.color-fourth 
+{
+    color: #892a09;
+}
+
+
+@keyframes animate-stripes {
+    0% {background-position: 0 0;} 100% {background-position: 60px 0;}
+}

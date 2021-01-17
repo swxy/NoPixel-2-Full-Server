@@ -1,0 +1,259 @@
+.console {
+  background-color: rgba(255,86,60,0.45);
+  width: 500px;
+  min-height: 30px;
+  color: white;
+  position: absolute;
+  top: 5px;
+  left: 200px;
+}
+html {
+  overflow: hidden;
+}
+@font-face {
+  font-family: 'pricedown';
+  src: url(pricedown.ttf);
+}
+#cursor {
+    position: absolute;
+    z-index: 99999999;
+    display: none;
+}
+
+
+
+.sans {
+  font-family: 'Open Sans', sans-serif;
+}
+h1,h2,h3,h4 {
+  margin: 0;
+  padding: 0;
+}
+.green {
+  color: rgb(0, 125, 0);
+  font-weight: 100;
+  margin-right: 6px;
+}
+.red {
+  color: rgb(255, 0, 0);
+}
+#pre {
+  font-size: 0.8rem;
+  margin-right: 5px;
+}
+.full-screen {
+  width: 100%;
+  height:100%;
+  display: block;
+  align-items: center;
+}
+.bubble-container2 {
+
+  display: block;
+
+  line-height: 1.0em;
+  padding: 8px;
+
+  -webkit-border-radius: 8px;
+  -moz-border-radius: 8px;
+  -ms-border-radius: 8px;
+  -o-border-radius: 8px;
+  border-radius: 8px;
+  text-align: left;
+  font-size:12px;
+  font-weight:900;
+}
+
+.bubble-container3 {
+
+  margin-left:2%;
+  display: block;
+
+  line-height: 1.0em;
+  padding: 4px;
+
+  -webkit-border-radius: 8px;
+  -moz-border-radius: 8px;
+  -ms-border-radius: 8px;
+  -o-border-radius: 8px;
+  border-radius: 8px;
+  text-align: left;
+
+  margin-top:1%;
+}
+hr {
+  opacity:0.2;
+  margin:5%;
+}
+::-webkit-scrollbar {
+    width: 0px;  /* remove scrollbar space */
+    background: transparent;  /* optional: just make scrollbar invisible */
+}
+/* optional: show position indicator in red */
+::-webkit-scrollbar-thumb {
+    background: #FF0000;
+}
+
+
+.evidence-container-header {
+  font-family: 'Open Sans', Abel;
+  background-color:rgba(50,50,150,1.0);
+  width: 15%;
+  height: 3%;
+  margin-top:30%;
+  letter-spacing:0.25em;
+  opacity: 1;
+  padding-top:0.3%;
+  font-weight:0;
+  color:white;
+  margin-left: 70%;
+  margin-right: auto;
+  text-align:center;
+  display: none;
+  z-index: 9999999;
+  overflow-y: hidden; 
+  font-family:verdana;
+  font-size: 16px;
+  border-radius:5px 5px 0px 0px;
+  border:rgba(2, 2,2, 0.1) solid 1px;  
+}
+.evidence-container {
+  border-radius:0px 0px 5px 5px;
+  border:rgba(2, 2,2, 0.1) solid 1px;
+  background-color:white;
+  width: 15%;
+  height: 40%;
+   font-family:verdana;
+  font-size: 12px; 
+  opacity: 1;
+  margin-left: 70%;
+
+  display: none;
+  z-index: 9999999;
+  overflow-y: scroll; 
+}
+
+.container2 {
+
+  width: 100%;
+  height: 100%;
+  overflow-y: scroll; 
+}
+.something {
+  overflow:hidden;
+  display:block;
+  width: 100%;
+  height: 8%;
+} 
+
+
+.evidenceType {
+  position: relative;
+  display:block;
+  float:left;
+  align-items: center;
+  text-align: left;
+
+  color: #515151;
+  opacity: 0.95;
+  font-size: 12px;
+  text-decoration: none;
+  overflow-y: hidden;  
+  overflow-x: hidden; 
+  margin-left:10%;
+  width:12%;
+} 
+
+
+.evidenceAmount {
+  position: relative;
+  display:block;
+  float:left;
+  text-align: left;
+  margin-left:8%;
+  width:12%;
+  color: #515151;
+  opacity: 0.95;
+  font-size: 12px;
+  text-decoration: none;
+  overflow-y: hidden;  
+  overflow-x: hidden; 
+  list-style-type: none;
+} 
+
+.evidenceDetails {
+  position: relative;
+  display:block;
+  float:left;
+  text-align: left;
+  margin-left:5%;
+  width:12.5%;
+  color: #515151;
+  opacity: 0.95;
+  font-size: 12px;
+  text-decoration: none;
+  overflow-y: hidden;  
+  overflow-x: hidden; 
+  list-style-type: none;
+} 
+
+.evidenceWeight {
+  position: relative;
+  display:block;
+
+  text-align: left;
+  margin-left:5%;
+  width:5%;
+  color: #515151;
+  opacity: 0.95;
+  font-size: 12px;
+  float:left;
+  text-decoration: none;
+  overflow-y: hidden;  
+  overflow-x: hidden; 
+  list-style-type: none;
+  outline:0;
+} 
+
+.evidenceButton {
+  flex-grow: 1;
+  align-items: center;
+  text-align: center;
+  margin-left: 0%;
+  font-weight: 0;
+  width: 10%;
+
+  margin-left:5%;
+  background: brown;
+  opacity: 1;
+  border:none;
+  color: #ffffff;
+  font-size: 12px;
+  border-radius: 2px 2px 2px 2px;
+
+  text-decoration: none;
+  text-transform:uppercase;
+  font-family: 'Open Sans', sans-serif;
+
+}
+.evidenceButton:hover {
+  opacity: 0.9;
+  border-radius: 3px 2px 2px 3px;
+
+}
+.evidenceButton:focus, .submit {outline:0;}
+.evidenceFill {
+  position: relative;
+  display:block;
+  text-align: left;
+  margin-top:5%;
+  color: #515151;
+  opacity: 0.95;
+  font-size: 12px;
+  width:20%;
+  height:10%;
+  text-decoration: none;
+  overflow-y: hidden;  
+  overflow-x: hidden; 
+  list-style-type: none;
+} 

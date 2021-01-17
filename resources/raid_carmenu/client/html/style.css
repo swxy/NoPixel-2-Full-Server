@@ -1,0 +1,132 @@
+body {
+    font-family: sans-serif;
+    overflow: hidden;
+    display: none;
+    height: 100%;
+}
+
+div {
+    display: block;
+}
+
+#carmenu {
+    width: 715px;
+    margin: auto;
+    position: relative;
+    top: calc(100% - 380px);
+    background-color: rgba(0, 0, 0, 0.5);
+    border-radius: 20px;
+    transform: scale(0.75);
+}
+
+#menucontainer {
+    width: 700px;
+    height: 310px;
+    padding: 20px;
+}
+
+#colL, #colM, #colR, #colL1, #colR1 {
+    margin-top: 105px;
+    width: 105px;
+    float: left;
+    padding: 0px 5px;
+    background-color: transparent;
+}
+#colL1 {
+    margin-top: 0px;
+}
+#colM {
+    margin-top: 0px;
+    padding: 0px;
+    width: 220px;
+}
+#colML, #colMR {
+    width: 105px;
+    float: left;
+    background-color: transparent;
+}
+
+#colML {
+    padding-left: 5px;
+}
+#colMR {
+    padding-right: 5px;
+}
+
+.button {
+    border-radius: 22px;
+    border: 2px rgba(0, 0, 0, 0.5) solid;
+    box-shadow: 0 0 8px rgba(0, 0, 0, 0.8);
+    width: 100px;
+    height: 100px;
+    float: left;
+    background-position: center center;
+    background-size: auto;
+}
+
+.bg {
+    width: 104px;
+    height: 104px;
+    background-repeat: no-repeat;
+    background-position: center center;
+    background-image: url('buttonOff.png');
+    transition: background-image ease 1s;
+    transition: transform ease 0.1s;
+}
+.bg.disabled {
+    opacity: 0.5 !important;
+    background-image: url('buttonOff.png') !important;
+}
+.bg.active.disabled {
+    background-image: url('buttonOn.png') !important;
+}
+.bg:hover, .bg.active:hover {
+    background-image: url('buttonHover.png');
+}
+.bg:active {
+    transform: translateX(2px);
+    transform: translateY(2px);
+}
+.bg.active {
+    background-image: url('buttonOn.png');
+}
+
+#doorL1 {
+    background-image: url('doorL1.png');
+}
+#doorL2 {
+    background-image: url('doorL2.png');
+}
+#doorR1 {
+    background-image: url('doorR1.png');
+}
+#doorR2 {
+    background-image: url('doorR2.png');
+}
+#hood {
+    background-image: url('hood.png');
+}
+#boot {
+    background-image: url('trunk.png');
+}
+
+#seatL1, #seatL2, #seatR1, #seatR2 {
+    background-image: url('seat.png');
+}
+
+#windowL1 {
+    background-image: url('windowL1.png');
+}
+#windowL2 {
+    background-image: url('windowL2.png');
+}
+#windowR1 {
+    background-image: url('windowR1.png');
+}
+#windowR2 {
+    background-image: url('windowR2.png');
+}
+
+#engine {
+    background-image: url('engine.png');
+}

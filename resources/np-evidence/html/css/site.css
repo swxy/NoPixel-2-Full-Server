@@ -1,0 +1,232 @@
+#cursor {
+    position: absolute;
+    z-index: 99999999;
+    display: none;
+}
+
+body {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    overflow-x: hidden;
+    overflow-y: hidden;
+    font-family: "Roboto";
+}
+
+.evidence-bag-container {
+    width: 70%;
+    height: 95%;
+    display: none;
+    margin-left:auto;
+    margin-right:auto;
+}
+
+/* Credits: TyrantKingBen */
+
+.evidence-bag {
+    width:100%;
+    height:100%;
+    margin-left: 1rem;
+}
+
+* {
+    box-sizing: border-box;
+}
+
+.text-center {
+    text-align: center;
+}
+
+.text-bold {
+    font-weight: bold;
+}
+
+.pos-abs-center {
+    position: absolute;
+    left: 0;
+    right: 0;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.evidence-bag-seal {
+    top: 5%;
+    height: 7.5%;
+    border-top: 1px solid rgba(255, 0, 0, 0.3);
+    border-bottom: 1px solid rgba(255, 0, 0, 0.3);
+}
+
+.evidence-bag-body {
+    top: 20%;
+    height: 72.5%;
+}
+
+.evidence-bag-footer {
+    top: 92.5%;
+    height: 5%;
+}
+
+.evidence-bag {
+    position: relative;
+}
+
+.evidence-bag::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    z-index: -1;
+    background-image: url("nui://np-evidence/html/images/bag_texture.png");
+    background-repeat: no-repeat;
+    background-size: cover;
+    border-radius: 0.25em;
+}
+
+.evidence-bag {
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: 1rem;
+    background: rgba(240, 240, 240, 0.25);
+    border-radius: 0.25rem;
+}
+
+.evidence-bag::after {
+    content: "";
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    z-index: -2;
+    background-color: rgba(250, 250, 250, 0.75);
+    border-radius: 0.25rem;
+}
+
+.evidence-bag-seal-top {
+    transform: scaleY(-1);
+    top: 0.1em;
+}
+
+.evidence-bag-seal-bottom {
+    bottom: 0.1em;
+}
+
+.evidence-bag-body::before {
+    content: "WARNING: TAMPER EVIDENT SECURITY PACKAGE ONCE SEALED.";
+    position: absolute;
+    top: -1.5em;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    font-weight: bold;
+    font-size: 0.75em;
+    text-align: center;
+}
+
+.evidence-bag-body {
+    width: 70%;
+    padding: 0.5em;
+    border-radius: 0.25em;
+    background: rgba(250, 250, 250, 0.75);
+}
+
+.evidence-bag-body-title {
+    font-size: 2em;
+}
+
+.evidence-bag-body-content {
+    position: relative;
+}
+
+.evidence-bag-footer::after {
+    content: "69-NOPIXEL-EVIDENCE";
+    position: absolute;
+    bottom: 0;
+    right: 15%;
+    font-size: 0.65em;
+    font-weight: bold;
+    text-align: right;
+}
+
+.evidence-bag-seal-top, .evidence-bag-seal-bottom, .evidence-bag-body-title {
+    user-select: none;
+}
+
+input.browser-default {
+    color: black;
+    outline: none;
+    padding: 0.5em !important;
+    width: 100%;
+    border: none;
+    border-bottom: 1px solid black;
+    background: none;
+}
+
+.input-field.inline {
+    margin-top: 5px !important;
+    margin-bottom: 0px;
+    width: 100%;
+}
+
+input.browser-default::placeholder {
+    color: rgba(0, 0, 0, 0.5);
+    opacity: 1;
+}
+
+/* TSK TSK TSK NOT IN VERSION 1.0 OMEGALUL NO FLEXBOX LMAO N00B */
+
+.my-row {
+    display: flex;
+    flex-wrap: wrap;
+    margin-bottom:10px;
+}
+
+.row-align {
+    align-items: baseline;
+}
+
+.my-col {
+    flex-basis: 0;
+    flex-grow: 1;
+    max-width: 100%;
+    position: relative;
+    width: 100%;
+}
+
+.my-col-2 {
+    flex-basis: 0;
+    flex-grow: 1;
+    max-width: 17.5%;
+    position: relative;
+    width: 17.5%;
+}
+
+.my-offset-1 {
+    margin-left: 8.333333%;
+}
+
+.datepicker-modal, .timepicker-modal {
+    top: 50% !important;
+    transform: translateY(-50%) !important;
+}
+
+textarea.lined {
+    resize: none;
+    background-image: linear-gradient(transparent 1.3em, #000 1.32em, #000 1.4em, transparent 1.4em);
+    background-size: 100% 1.4em;
+    line-height: 1.4em;
+    height: calc(1.4em * 4 + 0.2em); /* line-height * n results in n rows */
+    max-height: calc(1.4em * 4 + 0.2em); /* line-height * n results in n rows */
+    overflow: hidden;
+    color: black;
+    border: none;
+    outline: none;
+    font-size: initial;
+}
+
+.evidence-label {
+    margin-right:20px;
+}

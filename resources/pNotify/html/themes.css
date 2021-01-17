@@ -1,0 +1,136 @@
+.noty_theme__gta.noty_bar {
+    margin: 4px 0;
+    overflow: hidden;
+    border-radius: 1px;
+    font-family: sans-serif;
+    position: relative;
+    height: auto;
+    word-wrap: break-word;
+}
+
+.noty_theme__gta.noty_bar .noty_body {
+    padding: 8px;
+    font-size: 16px;
+}
+
+.noty_theme__gta.noty_bar .noty_buttons {
+    padding: 0px; 
+}
+
+.noty_theme__gta.noty_bar .noty_progressbar {
+    position: absolute;
+    left: 0;
+    bottom: 0;
+    height: 1px;
+    width: 100%;
+    background-color: white;
+    opacity: 0.8;
+    filter: alpha(opacity=80);
+}
+
+.noty_theme__gta.noty_type__alert,
+.noty_theme__gta.noty_type__notification {
+    background-color: rgb(40, 40, 40);
+    border-top: 2px solid #D1D1D1;
+    background: rgba(0, 0, 0, 0.8);
+    color: white;
+}
+
+.noty_theme__gta.noty_type__warning {
+    background-color: rgb(40, 40, 40);
+    border-top: 2px solid #E89F3C;
+    background: rgba(0, 0, 0, 0.8);
+    color: white;
+}
+
+.noty_theme__gta.noty_type__error {
+    background-color: rgb(40, 40, 40);
+    border-top: 2px solid #CA5A65;
+    background: rgba(0, 0, 0, 0.8);
+    color: #fff;
+}
+
+.noty_theme__gta.noty_type__info,
+.noty_theme__gta.noty_type__information {
+    background-color: rgb(40, 40, 40);
+    border-top: 2px solid #7473E8;
+    background: rgba(0, 0, 0, 0.8);
+    color: #fff;
+}
+
+.noty_theme__gta.noty_type__success {
+    background-color: rgb(40, 40, 40);
+    border-top: 2px solid #A0B55C;
+    background: rgba(0, 0, 0, 0.8);
+    color: #fff;
+}
+
+.gta_effects_open {
+    opacity: 0;
+    -webkit-transform: translate(50%);
+    -ms-transform: translate(50%);
+    transform: translate(50%);
+    -webkit-animation: noty_anim_in 0.5s cubic-bezier(0.215, 0.61, 0.355, 1);
+    animation: noty_anim_in 0.5s cubic-bezier(0.215, 0.61, 0.355, 1);
+    -webkit-animation-fill-mode: forwards;
+    animation-fill-mode: forwards;
+}
+
+.gta_effects_close {
+    -webkit-animation: noty_anim_out 0.5s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+    animation: noty_anim_out 0.5s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+    -webkit-animation-fill-mode: forwards;
+    animation-fill-mode: forwards; 
+}
+
+@-webkit-keyframes noty_anim_out_left {
+  100% {
+    -webkit-transform: translate(-50%);
+            transform: translate(-50%);
+    opacity: 0; } }
+
+@keyframes noty_anim_out_left {
+  100% {
+    -webkit-transform: translate(-50%);
+            transform: translate(-50%);
+    opacity: 0; } }
+
+.gta_effects_open_left {
+    opacity: 0;
+    -webkit-transform: translate(-50%);
+    -ms-transform: translate(-50%);
+    transform: translate(-50%);
+    -webkit-animation: noty_anim_in 0.5s cubic-bezier(0.215, 0.61, 0.355, 1);
+    animation: noty_anim_in 0.5s cubic-bezier(0.215, 0.61, 0.355, 1);
+    -webkit-animation-fill-mode: forwards;
+    animation-fill-mode: forwards;
+}
+
+.gta_effects_close_left {
+    -webkit-animation: noty_anim_out_left 0.5s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+    animation: noty_anim_out_left 0.5s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+    -webkit-animation-fill-mode: backwards;
+    animation-fill-mode: backwards; 
+}
+
+@-webkit-keyframes noty_anim_fade_in {
+  100% { opacity: 1; } }
+
+@keyframes noty_anim_fade_in {
+  100% { opacity: 1; } }
+
+@-webkit-keyframes noty_anim_fade_out {
+  100% { opacity: 0; } }
+
+@keyframes noty_anim_fade_out {
+  100% { opacity: 0; } }
+
+.gta_effects_fade_in {
+    opacity: 0;
+    animation: noty_anim_fade_in 0.5s;
+}
+
+.gta_effects_fade_out {
+    opacity: 1;
+    animation: noty_anim_fade_out 0.5s;
+}

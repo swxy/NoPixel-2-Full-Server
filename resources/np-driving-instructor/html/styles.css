@@ -1,0 +1,149 @@
+html {
+  overflow: hidden;
+  padding: 5em;
+}
+
+h1,h2,h3,h4,h5 {
+  margin: 0 0 0.5em 0;
+}
+
+h3 {
+  padding: 0.2em 0;
+  border-top: 1px solid black;
+  border-bottom: 1px solid black;
+  text-align: center;
+}
+
+#cursor {
+  display: none;
+}
+
+.container {
+  position: absolute;
+  left: 1%;
+  width: 22%;
+  font-size: 0.7rem;
+  top: 50%;
+  transform: translateY(-50%);
+  display: none;
+}
+
+.clipboard {
+  position: relative;
+  border-radius: 10px;
+  background: rgb(139, 119, 89);
+  padding: 2em 1em 1em 1em;
+}
+
+.clipboard__clip {
+  position: absolute;
+  background-image: url("nui://np-driving-instructor/html/clip.png");
+  background-size: contain;
+  background-repeat: no-repeat;
+  background-position: center top;
+  height: 15%;
+  width: 15vh;
+  bottom: 100%;
+  overflow: visible;
+  left: 50%;
+  transform: translate(-50%,40%);
+}
+
+input:disabled {
+  background: white;
+}
+
+.clipboard__paper {
+  background: white;
+  padding: 0.75em;
+  border-radius: 3px;
+  box-shadow: 1px 1px 3px 1px rgba(0, 0, 0, 0.4);
+}
+
+.clipboard__header {
+  /* margin-top: 0.5em; */
+  color: red;
+  font-weight: bold;
+  text-align: center;
+  font-size: 1.25em;
+}
+
+.clipboard__section {
+  margin-bottom: .5em;
+}
+
+.input__group {
+  display: block;
+  padding: 0.2em 1em;
+  cursor: pointer;
+}
+
+.input__group:hover {
+  background: rgba(0, 0, 0, 0.1);
+}
+
+.input__group input {
+  cursor: pointer;
+  border: 0.2em solid red;
+  width: 1.75em;
+  z-index: 10;
+  text-align: center;
+  font-size: 1em;
+  margin-right: .5em;
+}
+
+input[type=number]::-webkit-inner-spin-button, 
+input[type=number]::-webkit-outer-spin-button { 
+  -webkit-appearance: none; 
+  margin: 0; 
+}
+
+.input__text {
+  display: block;
+  padding: 0.2em 1em;
+  cursor: pointer;
+  font-weight: bold;
+}
+
+.input__text input {
+  font-weight: normal;
+  font-size: 1em;
+  cursor: pointer;
+  border-width: 0 0 1.5px 0;
+  border-style: solid;
+  border-color: black;
+}
+
+#instructor-name {
+  font-weight: normal;
+}
+
+
+.input__text input::-webkit-outer-spin-button,
+.input__text input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+.input__group input[type=number], .input__text input[type=number], .input__text input[type=text] {
+  -moz-appearance: textfield;
+  border-radius: 1px;
+}
+
+.input__group input[type=number], .input__text input[type=number] {
+  cursor: text;
+}
+
+.clipboard__footer {
+  text-align: center;
+  font-weight: bold;
+  font-size: 1.2em;
+}
+
+.pass {
+  color: green;
+}
+
+.fail {
+  color: red;
+}

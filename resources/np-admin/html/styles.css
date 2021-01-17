@@ -1,0 +1,154 @@
+*{
+    cursor: none;
+    user-select: none;
+}
+
+html{
+    margin: 0;
+    padding: 0;
+}
+
+body{
+    background: transparent;
+    color: white;
+    font-family: "Lucida Sans Unicode", "Lucida Grande", sans-serif;
+    overflow: hidden;
+    padding: 0;
+    margin: 0;
+}
+
+#main{
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+    margin: 0;
+    padding: 0;
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+}
+
+.scroll::-webkit-scrollbar {
+  width: 5px;
+}
+
+.scroll::-webkit-scrollbar-thumb {
+  background: white; 
+}
+
+.center{
+    margin: 0 auto;
+}
+
+.outline{
+    text-shadow: -1px -1px 0 black, 1px -1px 0 black, -1px 1px 0 black, 1px 1px 0 black;
+}
+
+#error{
+    display: none;
+    color: lightskyblue;
+    position: fixed;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.2);
+}
+
+#error .title{
+    background: black;
+    color: red;
+    border-bottom: 1px solid lightskyblue;
+    font-size: 2em;
+    padding: 6px;
+    text-align: left;
+}
+
+#error .errmsg{
+    color: white;
+    min-height: 100px;
+    padding: 6px;
+}
+
+#error .container{
+    width: 400px;
+    margin: 0 auto;
+    margin-top: 15em;
+    background: rgba(0, 0, 0, 0.8);
+    box-shadow: 0 0 5px 3px black;
+    border: 1px solid rgb(50, 50, 50);
+}
+
+#error .button{
+    margin: 0 auto;
+    width: 97%;
+    font-size: 1.2em;
+    text-align: center;
+    margin-bottom: 5px;
+    background: rgb(15, 15, 15);
+    border: 1px solid rgb(70, 70, 70);
+    transition: box-shadow 0.2s ease-in, background 0.2s ease-in;
+}
+
+#error .button:hover{
+    box-shadow: 0 0 2px 0.5px white inset;
+    background: rgb(25, 25, 25)
+}
+
+#textEntry{
+    display: none;
+    color: lightskyblue;
+    position: fixed;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.2);
+}
+
+#textEntry .title{
+    background: black;
+    color: lightskyblue;
+    border-bottom: 1px solid lightskyblue;
+    font-size: 2em;
+    padding: 6px;
+    text-align: left;
+}
+
+#textEntry .textArea{
+    max-width: calc(100% - 10px);
+    width: 100%;
+    margin-left: 5px;
+    margin-right: 5px;
+    margin-bottom: 10px;
+    font-size: 20px;
+    background-color: rgba(10, 10, 10, 0.8);
+    color: white;
+}
+
+#textEntry .subMsg{
+    color: white;
+    padding: 6px;
+}
+
+#textEntry .container{
+    width: 500px;
+    margin: 0 auto;
+    margin-top: 15em;
+    background: rgba(0, 0, 0, 0.8);
+    box-shadow: 0 0 5px 3px black;
+    border: 1px solid rgb(50, 50, 50);
+}
+
+#textEntry .button{
+    margin: 0 auto;
+    width: 97%;
+    font-size: 1.2em;
+    text-align: center;
+    margin-bottom: 5px;
+    background: rgb(15, 15, 15);
+    border: 1px solid rgb(70, 70, 70);
+    transition: box-shadow 0.2s ease-in, background 0.2s ease-in;
+}
+
+#textEntry .button:hover{
+    box-shadow: 0 0 2px 0.5px white inset;
+    background: rgb(25, 25, 25)
+}

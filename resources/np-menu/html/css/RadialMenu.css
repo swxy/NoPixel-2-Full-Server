@@ -1,0 +1,66 @@
+div.menuHolder {
+    user-select: none;
+    -moz-user-select: none;
+    position: relative;
+    margin: 10px;
+}
+
+svg.icons {
+    display: none;
+}
+
+svg.menu {
+    position: absolute;
+    overflow: visible;
+    transition: 0.1s;
+    transition-timing-function: ease-out;
+}
+
+svg.menu.inner {
+    transform: scale(0.66) rotate(-10deg);
+    opacity: 0;
+    visibility: hidden;
+}
+
+svg.menu.outer {
+    opacity: 0;
+    visibility: hidden;
+}
+
+svg.menu > g > path {
+    fill-opacity: 0.4;
+    fill: #00000080;
+}
+
+svg.menu > g.sector > path {
+    cursor: pointer;
+    /*transition: 0.1s;*/
+}
+
+svg.menu > g.sector > text,
+svg.menu > g.sector > use {
+    cursor: pointer;
+    fill: white;
+}
+
+svg.menu > g.sector.selected > path {
+    fill: #2D98DA;
+    fill-opacity: 0.6;
+}
+
+svg.menu > g.center:hover > circle {
+    fill:#2D98DA;
+    fill-opacity: 0.6;
+}
+
+svg.menu > g.center > circle {
+    cursor: pointer;
+    fill: #00000080;
+    fill-opacity: 0.4;
+}
+
+svg.menu > g.center > text,
+svg.menu > g.center > use {
+    cursor: pointer;
+    fill: white;
+}

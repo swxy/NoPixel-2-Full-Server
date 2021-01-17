@@ -1,0 +1,309 @@
+{{@include("header", it)/}}
+
+
+<div class="text-center mb-4">
+    <h2>{{it.serverName}} Dashboard</h2>
+    {{@if(it.txAdminOutdated)}}
+        <h2 class="text-danger">This version of txAdmin is outdated. Please update now.</h2>
+        <h5 class="text-muted">
+            For more information, join our Discord:
+            <a href="https://discord.gg/uAmsGa2" target="_blank" style="vertical-align: text-bottom;">
+                <img src="https://discordapp.com/api/guilds/577993482761928734/widget.png?style=shield"></img>
+            </a>
+        </h5>
+    {{/if}}
+</div>
+
+<div class="row justify-content-md-center">
+    <div class="col-lg-8 col-xl-6 dashboard-card mw-col6">
+
+        <!-- FXServer Control Card -->
+        <div class="card card-accent-danger" style="min-height: 160px;">
+            <div class="card-header font-weight-bold">FXServer Control:</div>
+            <div class="card-body text-center align-middle">
+                <button onclick="controlAction('start')" class="btn btn-outline-{{it.perms.controlsClass}} btn-lg mx-auto m-2"
+                    type="button" id="ctrl-start" {{it.perms.controls}}>START</button> &nbsp;
+                <button onclick="controlAction('restart')" class="btn btn-outline-{{it.perms.controlsClass}} btn-lg mx-auto m-2"
+                    type="button" id="ctrl-restart" {{it.perms.controls}}>RESTART</button> &nbsp;
+                <button onclick="controlAction('stop')" class="btn btn-outline-{{it.perms.controlsClass}} btn-lg mx-auto m-2"
+                    type="button" id="ctrl-stop" {{it.perms.controls}}>STOP</button>
+            </div>
+        </div>
+
+        <!-- Commands Card -->
+        <div class="card card-accent-danger">
+            <div class="card-header font-weight-bold">Commands:</div>
+            <div class="card-body">
+                <div class="form-group row">
+                    <label for="action" class="col-sm-4 col-form-label">Command</label>
+                    <div class="col-sm-8">
+                        <select name="action" id="frm_action" class="form-control" required>
+                            <option value="" disabled selected>&gt; SELECT</option>
+                            <option value="admin_broadcast" {{it.perms.commandMessage}}>Broadcast Admin Message</option>
+                            <option value="ensure_res" {{it.perms.commandResources}}>Start/Restart resource</option>
+                            <option value="stop_res" {{it.perms.commandResources}}>Stop resource</option>
+                            <option value="refresh_res" {{it.perms.commandResources}}>Refresh resources</option>
+                            <option value="check_txaclient" {{it.perms.commandResources}}>Check txAdminClient</option>
+                            <option value="kick_all" class="text-danger" {{it.perms.commandKick}}>Kick all players</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <label for="action" class="col-sm-4 col-form-label">Parameter</label>
+                    <div class="col-sm-8">
+                        <input type="text" name="parameter" id="frm_parameter" class="form-control" placeholder=""
+                            readonly required>
+                    </div>
+                </div>
+            </div>
+            <div class="card-footer text-center">
+                <button type="button" id="frm_button" class="btn btn-outline-dark mx-auto">EXECUTE</button>
+            </div>
+        </div>
+
+    </div>
+    <!-- /.col-->
+
+
+    <div class="col-lg-8 col-xl-6 dashboard-card mw-col6">
+
+        <!-- Card Chart-->
+        <div class="card text-white bg-info" style="min-height: 160px;">
+            <div class="card-body pt-2 pb-0" style="background-color:transparent">
+                <div class="text-value">Players</div>
+                <div>last 24h</div>
+            </div>
+            {{@if(it.chartData === false)}}
+            <div class="text-center mb-4">
+                <h3 class="text-light">Not enough data, yet...</h3>
+            </div>
+            {{#else}}
+            <div class="c-chart-wrapper mx-3" style="height:120px; margin-top: -50px;">
+                <div class="chartjs-size-monitor">
+                    <div class="chartjs-size-monitor-expand">
+                        <div class=""></div>
+                    </div>
+                    <div class="chartjs-size-monitor-shrink">
+                        <div class=""></div>
+                    </div>
+                </div>
+                <canvas class="c-chart chartjs-render-monitor" id="card-chart1" height="120"
+                    style="display: block; width: 355px; height: 120px;" width="355"></canvas>
+            </div>
+            {{/if}}
+        </div>
+
+        <!-- Card Info -->
+        <div class="card card-accent-info" style="height:251px;">
+            <div class="card-header font-weight-bold">Status Info:</div>
+            <div class="card-body" id="status-card">
+                Loading...
+            </div>
+        </div>
+        <!-- / Card Info -->
+
+    </div>
+</div>
+
+
+<div class="row justify-content-md-center">
+    <div class="col-md-6 text-center">
+        {{@if(it.versionData.message)}}
+            <div class="alert alert-{{it.versionData.color}} border-{{it.versionData.color}}" role="alert">
+                <a href="{{it.versionData.artifactsLink}}" target="_blank" class="alert-link">{{it.versionData.message}}</a> <br>
+                {{it.versionData.subtext}}
+            </div>
+        {{/if}}
+        {{@if(it.txAdminVersion.includes('-'))}}
+            <span class="text-danger font-weight-bold">
+                You are using a pre-release version of txAdmin destined for developers and beta testers only! <br>
+                Your server stability might be impacted by this.
+            </span>
+        {{/if}}
+    </div>
+</div>
+
+
+{{@include("footer", it)/}}
+
+
+<script>
+    //============================================== Controls (start/restart/stop)
+    function controlAction(action) {
+        if (action !== 'start' && !window.confirm('Are you sure you want to ' + action + ' the server?')) {
+            return;
+        }
+        var notify = $.notify({ message: '<p class="text-center">Executing Command...</p>' }, {});
+        $.ajax({
+            url: actionURL = '/fxserver/controls/' + action,
+            type: "GET",
+            dataType: "json",
+            timeout: timeoutLong,
+            success: function (data) {
+                if (data.logout) {
+                    window.location = '/auth?logout';
+                    return;
+                }
+                notify.update('progress', 0);
+                notify.update('type', data.type);
+                notify.update('message', data.message);
+            },
+            error: function (xmlhttprequest, textstatus, message) {
+                notify.update('progress', 0);
+                notify.update('type', 'danger');
+                notify.update('message', message);
+            }
+        });
+    }
+
+
+    //============================================== Commands
+    //Commands with parameter required
+    let paramRequiredCommands = [
+        'admin_broadcast',
+        'ensure_res',
+        'restart_res',
+        'start_res',
+        'stop_res',
+        'kick_all'
+    ];
+
+    //EXECUTE button handler
+    $('#frm_button').click(function () {
+        let data = {
+            action: $("#frm_action").val(),
+            parameter: $("#frm_parameter").val()
+        }
+        if (data.action === null) {
+            var notify = $.notify({ message: '<p class="text-center font-weight-bold">Please select an action first.</p>' }, { delay: 3000, type: 'danger' });
+            return;
+        }
+        if (paramRequiredCommands.indexOf(data.action) != -1 && !data.parameter.length) {
+            var notify = $.notify({ message: '<p class="text-center font-weight-bold">This action require a parameter.</p>' }, { delay: 3000, type: 'danger' });
+            $("#frm_parameter").addClass('is-invalid');
+            $("#frm_parameter").focus();
+            return;
+        }else{
+            $("#frm_parameter").removeClass('is-invalid');
+        }
+
+        var notify = $.notify({ message: '<p class="text-center">Executing Command...</p>' }, {});
+        $.ajax({
+            type: "POST",
+            url: '/fxserver/commands',
+            timeout: timeoutMedium,
+            data: data,
+            success: function (data) {
+                notify.update('progress', 0);
+                notify.update('type', data.type);
+                notify.update('message', data.message);
+            },
+            error: function (xmlhttprequest, textstatus, message) {
+                notify.update('progress', 0);
+                notify.update('type', 'danger');
+                notify.update('message', message);
+            }
+        });
+    });
+
+    //Ensure the parameter input is only enabled when neccessary.
+    $('#frm_action').change(function () {
+        $("#frm_parameter").removeClass('is-invalid');
+        $("#frm_parameter").val('');
+        var action = $("#frm_action").val();
+        if (paramRequiredCommands.indexOf(action) != -1) {
+            $("#frm_parameter").prop('readonly', false);
+        } else {
+            $("#frm_parameter").prop('readonly', true);
+        }
+    });
+
+    $("#frm_parameter").on('keyup', function (e) {
+        if (e.keyCode == 13) {
+            $('#frm_button').click();
+        }
+    });
+</script>
+
+
+
+{{@if(it.chartData)}}
+<script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.18.1/moment.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.8.0/Chart.min.js"></script>
+<script>
+    // Configure tooltip
+    Chart.defaults.global.pointHitDetectionRadius = 1;
+    Chart.defaults.global.tooltips.mode = 'index';
+    Chart.defaults.global.tooltips.position = 'nearest';
+    Chart.defaults.global.tooltips.intersect = false;
+
+    var cardChart1 = new Chart($('#card-chart1'), {
+        type: 'line',
+        data: {
+            datasets: [{
+                label: 'players',
+                backgroundColor: getComputedStyle(document.documentElement).getPropertyValue('--info'),
+                borderColor: 'rgba(255,255,255,0.55)',
+                fill: false,
+                //NOTE: this is hacky af, but whatever
+                data: JSON.parse(atob(`{{it.chartData|base64}}`))
+            }]
+        },
+        options: {
+            maintainAspectRatio: false,
+            legend: {
+                display: false
+            },
+            scales: {
+                xAxes: [{
+                    type: 'time',
+                    distribution: 'series',
+                    ticks: {
+                        source: 'data',
+                        autoSkip: true
+                    }
+                }]
+            },
+            scales: {
+                xAxes: [{
+                    type: 'time',
+                    distribution: 'series',
+                    display: true,
+                    gridLines: {
+                        color: 'transparent',
+                        zeroLineColor: 'transparent'
+                    },
+                    ticks: {
+                        fontSize: 2,
+                        fontColor: 'transparent'
+                    }
+                }],
+                yAxes: [{
+                    // display: false,
+                    ticks: {
+                        display: false,
+                        // suggestedMin: 0,
+                        // suggestedMax: 32
+                    },
+                    gridLines: {
+                        // color: '#83d0ec',
+                        // zeroLineColor: '#83d0ec',
+                        color: 'transparent',
+                        zeroLineColor: 'transparent'
+                    },
+                }]
+            },
+            elements: {
+                line: {
+                    borderWidth: 2
+                },
+                point: {
+                    radius: 0,
+                    hitRadius: 4,
+                    hoverRadius: 4
+                }
+            }
+        }
+    });
+</script>
+{{/if}}

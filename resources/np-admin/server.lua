@@ -4,6 +4,8 @@ NPX._Admin = NPX._Admin or {}
 NPX._Admin.Players = {}
 NPX._Admin.DiscPlayers = {}
 
+local Players = {}
+
 RegisterServerEvent('np-admin:Disconnect')
 AddEventHandler('np-admin:Disconnect', function(reason)
     DropPlayer(source, reason)
@@ -61,15 +63,15 @@ AddEventHandler("np-admin:AddPlayer", function()
     local licenseid = licenses:gsub("license:", "")
     local ping = GetPlayerPing(source)
     local data = { source = source, steamid = stid, comid = scomid, name = ply, hexid = user:getVar("hexid"), ip = ip, rank = NPX.Admin:GetPlayerRank(user), license = licenseid, ping = ping}
-
+    table.insert(Players, source)
     TriggerClientEvent("np-admin:AddPlayer", -1, data )
     NPX.Admin.AddAllPlayers()
 end)
 
 function NPX.Admin.AddAllPlayers(self)
-    local Players = GetNumPlayerIndices()
+    --local Players = GetPlayers()
 
-    for i=1, #Players, 1 do
+    for i=1, Players, 1 do
         
         local licenses
         local identifiers, steamIdentifier = GetPlayerIdentifiers(Players[i])
@@ -125,7 +127,7 @@ AddEventHandler("playerDropped", function()
     local licenseid = licenses:gsub("license:", "")
     local ping = GetPlayerPing(source)
     local data = { src = source, steamid = stid, comid = scomid, name = ply, ip = ip, license = licenseid, ping = ping}
-
+    table.remove(Players, players[source])
     TriggerClientEvent("np-admin:RemovePlayer", -1, data )
     Wait(600000)
     TriggerClientEvent("np-admin:RemoveRecent", -1, data)

@@ -1,6 +1,6 @@
 DecorRegister('ScriptedPed', 2)
 
-local density = 0.8
+local density = 0.5
 CreateThread(function()
   while true do
     SetParkedVehicleDensityMultiplierThisFrame(density)

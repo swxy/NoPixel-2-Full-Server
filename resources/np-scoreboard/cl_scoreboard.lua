@@ -43,8 +43,8 @@ function NPX.Scoreboard.RemoveRecent(self, src)
 end
 
 function NPX.Scoreboard.AddAllPlayers(self, data, recentData)
-    NPX._Scoreboard.Players[data.src] = data
-    NPX._Scoreboard.Recent[recentData.src] = recentData
+    NPX._Scoreboard.Players = data
+    NPX._Scoreboard.Recent = recentData
 end
 
 function NPX.Scoreboard.GetPlayerCount(self)
@@ -108,7 +108,7 @@ Citizen.CreateThread(function()
         WarMenu.SetMenuBackgroundColor("scoreboard", 0, 0, 0, 100)
         WarMenu.SetMenuSubTextColor("scoreboard", 255, 255, 255, 255)
 
-        -- WarMenu.CreateSubMenu("recent", "scoreboard", "Recent D/C's")
+        WarMenu.CreateSubMenu("recent", "scoreboard", "Recent D/C's")
         WarMenu.SetMenuWidth("recent", 0.5)
         WarMenu.SetTitleColor("recent", 135, 206, 250, 255)
         WarMenu.SetTitleBackgroundColor("recent", 0 , 0, 0, 150)
@@ -140,6 +140,7 @@ Citizen.CreateThread(function()
         Citizen.Wait(1)
     end
 
+    
 
 end)
 
@@ -150,7 +151,8 @@ end
 
 function NPX.Scoreboard.Menu.Close(self)
     for k,v in pairs(NPX._Scoreboard.Menus) do
-        WarMenu.CloseMenu(K)        shouldDraw =false    end
+        WarMenu.CloseMenu(K)
+    end
 end
 
 Controlkey = {["generalScoreboard"] = {303,"U"}} 
@@ -159,6 +161,7 @@ AddEventHandler('event:control:update', function(table)
     Controlkey["generalScoreboard"] = table["generalScoreboard"]
 end)
 
+-- this one needs to stay in a loop due to how this one operates #Sin #controlChange #9/23/2019
 Citizen.CreateThread(function()
     local function IsAnyMenuOpen()
         for k,v in pairs(NPX._Scoreboard.Menus) do
@@ -176,7 +179,6 @@ Citizen.CreateThread(function()
             end
         else
             if IsAnyMenuOpen() then NPX.Scoreboard.Menu:Close() end
-            Citizen.Wait(100)
         end
     end
 end)

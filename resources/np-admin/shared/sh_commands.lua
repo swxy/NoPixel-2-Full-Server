@@ -363,8 +363,7 @@ cmd = {
 
 function cmd.RunCommand(caller, args)
     if not args.target then return end
-    local log = string.format("%s [%s] teleported : %s : to them self", caller:getVar("name"), caller:getVar("steamid"), args.target:getVar("name"), args.target:getVar("steamid"))
-    NPX.Admin:Log(log, caller)
+ 
     NPX.Admin:Bring(caller,args.target.source)
 end
 

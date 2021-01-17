@@ -25,7 +25,7 @@ AddEventHandler("NPX-scoreboard:AddPlayer", function()
 end)
 
 function NPX.Scoreboard.AddAllPlayers(self)
-    local players = GetActivePlayers()
+    local players = GetNumPlayerIndices()
 
     for i=1, #players, 1 do
         

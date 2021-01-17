@@ -8,7 +8,7 @@ AddEventHandler('chatMessage', function(source, name, msg)
     elseif sm[1] == "/menu" then
         TriggerClientEvent("np-admin:openMenu", source)
     elseif sm[1] == "/me" then
-        for i = 1,#sm do
+        for i = 2,#sm do
             sex = sex .. ' ' .. sm[i]
         end
         TriggerClientEvent("np-commands:meCommand", -1, tonumber(source), sex)

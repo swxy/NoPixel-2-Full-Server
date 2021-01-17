@@ -67,7 +67,7 @@ AddEventHandler("np-admin:AddPlayer", function()
 end)
 
 function NPX.Admin.AddAllPlayers(self)
-    local Players = GetActivePlayers()
+    local Players = GetNumPlayerIndices()
 
     for i=1, #Players, 1 do
         

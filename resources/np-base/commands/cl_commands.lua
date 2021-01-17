@@ -13,3 +13,11 @@ AddEventHandler("np-commands:meCommand",
         end
     end)
 
+
+
+ AddEventHandler('onResourceStart', function(resourceName)
+    if (GetCurrentResourceName() ~= resourceName) then
+      return
+    end
+    TriggerServerEvent("np-commands:buildCommands","")
+  end)

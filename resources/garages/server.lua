@@ -186,26 +186,23 @@ end)
 AddEventHandler("garages:CheckGarageForVeh", function()
     local src = source
     local user = exports["np-base"]:getModule("Player"):GetUser(src)
-	local char = user:getCurrentCharacter()
-	local owner = char.id
+    local char = user:getCurrentCharacter()
+    local owner = char.id
 
-	exports.ghmattimysql:execute('SELECT * FROM characters_cars WHERE cid = @cid', { ['@cid'] = owner }, function(vehicles)
+    exports.ghmattimysql:execute('SELECT * FROM characters_cars WHERE cid = @cid', { ['@cid'] = owner }, function(vehicles)
 		local v = vehicles[1]
-		TriggerClientEvent('phone:Garage', src, vehicles)
-		TriggerClientEvent('garages:getVehicles', src, vehicles)
+        TriggerClientEvent('phone:Garage', src, vehicles)
+        TriggerClientEvent('garages:getVehicles', src, vehicles)
     end)
 end)
 
-AddEventHandler("garages:SetVehIn",function(plate, garage, vehicleProps, livery, realFuel, coords)
+AddEventHandler("garages:SetVehIn",function(plate, garage)
     local src = source
     local user = exports["np-base"]:getModule("Player"):GetUser(src)
 	local char = user:getCurrentCharacter()
 	local owner = char.id
 	local state = "In"
-	local modLivery = livery
-	local vehProp = json.encode(vehicleProps)
-	exports.ghmattimysql:execute("UPDATE characters_cars SET data = @vehicle, vehicle_state = @state, current_garage = @garage, fuel = @fuel, coords = @coords, engine_damage = @engine_damage, body_damage = @body_damage WHERE license_plate = @plate", {['vehicle'] = vehProp, ['garage'] = garage, ['fuel'] = realFuel, ['state'] = "In", ['engine_damage'] = vehicleProps.engineHealth, ['body_damage'] = vehicleProps.bodyHealth, ['plate'] = plate})
-
+	exports.ghmattimysql:execute("UPDATE characters_cars SET vehicle_state = @state, current_garage = @garage, coords = @coords WHERE license_plate = @plate", {['garage'] = garage, ['state'] = state, ['plate'] = plate, ['coords'] = nil})
 end)
 
 AddEventHandler('garages:SetVehOut', function(vehicle, plate)

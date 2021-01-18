@@ -389,6 +389,7 @@ function electronics(currentVehicle)
 end
 
 function trackVehicleHealth()
+	print('trackvehicles')
 	local tempReturn = {}
 	for k, v in pairs(trackedVehicles) do
 		if not IsEntityDead(k) then

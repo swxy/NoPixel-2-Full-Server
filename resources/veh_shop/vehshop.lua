@@ -540,8 +540,7 @@ AddEventHandler("car:testdrive", function()
 		local vehplate = "CAR"..math.random(10000,99999) 
 		SetVehicleNumberPlateText(veh, vehplate)
 		Citizen.Wait(100)
-		local plate = GetVehicleNumberPlateText(veh)
-		TriggerEvent("keys:addNew", veh, plate)
+		TriggerEvent("keys:addNew", veh, vehplate)
 		SetModelAsNoLongerNeeded(model)
 		SetVehicleOnGroundProperly(veh)
 
@@ -555,8 +554,13 @@ AddEventHandler("car:testdrive", function()
 
 end)
 
-RegisterNetEvent("finance1")
-AddEventHandler("finance1", function()
+RegisterCommand('enableFinance', function()
+TriggerEvent('finance')
+end)
+	
+
+RegisterNetEvent("finance")
+AddEventHandler("finance", function()
 	if rank == 0 or #(vector3(-51.51, -1077.96, 26.92) - GetEntityCoords(PlayerPedId())) > 50.0 then
 		return
 	end	
@@ -575,8 +579,6 @@ AddEventHandler("finance:enableOnClient", function(addplate)
 	Citizen.Wait(60000)
 	financedPlates[addplate] = nil
 end)	
-
-
 
 RegisterNetEvent("commission")
 AddEventHandler("commission", function(newAmount)
@@ -981,8 +983,7 @@ function CloseCreator(name, veh, price, financed)
 				local secondarycolor = colors[2]	
 				local pearlescentcolor = extra_colors[1]
 				local wheelcolor = extra_colors[2]
-				local vehprops = getVehicleProperties(vehicle)
-				TriggerServerEvent('BuyForVeh', vehprops, plate, name, vehicle, price, financed)
+				TriggerServerEvent('BuyForVeh', plate, name, vehicle, price, financed)
 				DespawnSaleVehicles()
 				SpawnSaleVehicles()
 
@@ -1440,6 +1441,7 @@ AddEventHandler('FinishMoneyCheckForVeh', function(name, vehicle, price,financed
 	local price = price
 	boughtcar = true
 	CloseCreator(name, vehicle, price, financed)
+	TriggerEvent("fistpump")
 	TriggerServerEvent("server:GroupPayment","car_shop",commissionbuy)
 end)
 
@@ -1465,7 +1467,6 @@ AddEventHandler('vehshop:spawnVehicle', function(v)
 		SetModelAsNoLongerNeeded(car)
 		TaskWarpPedIntoVehicle(playerPed, veh, -1)
 		SetEntityInvincible(veh, true)
-		TriggerEvent("keys:received",veh)
 	end
 end)
 
@@ -1522,7 +1523,6 @@ Citizen.CreateThread(function()
         Citizen.Wait(500)
         if insideVehShop and isExportReady then
             rank = exports["isPed"]:GroupRank("car_shop")
-            print('running and getting rank ', rank)
             Citizen.Wait(10000)
         end
     end
@@ -1532,72 +1532,3 @@ AddEventHandler("np-base:exportsReady", function()
 	Wait(1)
 	isExportReady = true
 end)
-
-
-RegisterCommand('lol', function()
-         rank = exports["isPed"]:GroupRank("car_shop")
-end)
-
-function GetCurrentXenonColour()
-    local plyPed = PlayerPedId()
-    local plyVeh = GetVehiclePedIsIn(plyPed, false)
-
-    return GetVehicleHeadlightsColour(plyVeh)
-end
-
-function getVehicleProperties(veh)
-    local vehicleMods = {
-        neon = {},
-        colors = {},
-        extracolors = {},
-        dashColour = -1,
-        interColour = -1,
-        lights = {},
-        tint = GetVehicleWindowTint(veh),
-        wheeltype = GetVehicleWheelType(veh),
-        platestyle = GetVehicleNumberPlateTextIndex(veh),
-        mods = {},
-        smokecolor = {},
-        xenonColor = -1,
-        oldLiveries = 24,
-        extras = {},
-        plateIndex = 0,
-    }
-
-    vehicleMods.xenonColor = GetCurrentXenonColour(veh)
-    vehicleMods.lights[1], vehicleMods.lights[2], vehicleMods.lights[3] = GetVehicleNeonLightsColour(veh)
-    vehicleMods.colors[1], vehicleMods.colors[2] = GetVehicleColours(veh)
-    vehicleMods.extracolors[1], vehicleMods.extracolors[2] = GetVehicleExtraColours(veh)
-    vehicleMods.smokecolor[1], vehicleMods.smokecolor[2], vehicleMods.smokecolor[3] = GetVehicleTyreSmokeColor(veh)
-    vehicleMods.dashColour = GetVehicleInteriorColour(veh)
-    vehicleMods.interColour = GetVehicleDashboardColour(veh)
-    vehicleMods.oldLiveries = GetVehicleLivery(veh)
-    vehicleMods.plateIndex = GetVehicleNumberPlateTextIndex(veh)
-
-    for i = 0, 3 do
-        vehicleMods.neon[i] = IsVehicleNeonLightEnabled(veh, i)
-    end
-
-    for i = 0,16 do
-        vehicleMods.mods[i] = GetVehicleMod(veh,i)
-    end
-
-    for i = 17, 22 do
-        vehicleMods.mods[i] = IsToggleModOn(veh, i)
-    end
-
-    for i = 23, 48 do
-        vehicleMods.mods[i] = GetVehicleMod(veh,i)
-    end
-
-    for i = 1, 12 do
-        local ison = IsVehicleExtraTurnedOn(veh, i)
-        if 1 == tonumber(ison) then
-            vehicleMods.extras[i] = 1
-        else
-            vehicleMods.extras[i] = 0
-        end
-	end
-	
-	return table.unpack(vehicleMods)
-end

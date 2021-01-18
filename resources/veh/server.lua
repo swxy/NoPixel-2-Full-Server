@@ -14,7 +14,7 @@ RegisterNetEvent('veh.examine')
 AddEventHandler('veh.examine', function(plate)
     local _src = source
 
-    exports.ghmattimysql:execute('SELECT * FROM owned_vehicles WHERE plate = @plate', {
+    exports.ghmattimysql:execute('SELECT * FROM characters_cars WHERE license_plate = @plate', {
         ['@plate'] = plate
       }, function (result) 
        -- print(result[1].engine_damage, result[1].body_damage)
@@ -32,7 +32,7 @@ RegisterNetEvent('veh.callDegredation')
 AddEventHandler('veh.callDegredation', function(plate,status)
 
     local _src = source
-    exports.ghmattimysql:execute('SELECT * FROM owned_vehicles WHERE plate = @plate', {
+    exports.ghmattimysql:execute('SELECT * FROM characters_cars WHERE license_plate = @plate', {
         ['@plate'] = plate
       }, function (result) 
 
@@ -67,24 +67,24 @@ AddEventHandler('veh.updateVehicleHealth', function(tempReturn)
                 fuel = v
             end
     end
-    exports.ghmattimysql:execute("UPDATE owned_vehicles SET engine_damage = @engine_damage, body_damage = @body_damage, fuel = @fuel WHERE plate = @plate", {
+    exports.ghmattimysql:execute("UPDATE characters_cars SET engine_damage = @engine_damage, body_damage = @body_damage, fuel = @fuel WHERE license_plate = @plate", {
         ['@engine_damage'] = engine_damage,
         ['@body_damage'] = body_damage,
         ['@fuel'] = fuel,
-         ['plate'] = plate
+        ['plate'] = plate
     })
 
 end)
 
 RegisterNetEvent('veh.updateVehicleDegredationServer')
 AddEventHandler('veh.updateVehicleDegredationServer', function(plate,br,ax,rad,cl,tra,elec,fi,ft)
-    exports.ghmattimysql:execute('SELECT plate FROM owned_vehicles WHERE plate = @plate', {
+    exports.ghmattimysql:execute('SELECT plate FROM characters_cars WHERE license_plate = @plate', {
         ['@plate'] = plate
       }, function (result)
        -- print(result[1].plate)
         if result[1] ~= nil then
             local degri = ""..br..","..ax..","..rad..","..cl..","..tra..","..elec..","..fi..","..ft..""  
-            exports.ghmattimysql:execute("UPDATE owned_vehicles SET degredation = @degredation WHERE plate = @plate", {
+            exports.ghmattimysql:execute("UPDATE characters_cars SET degredation = @degredation WHERE license_plate = @plate", {
                 ['@degredation'] = tostring(degri),
                  ['plate'] = plate
             })

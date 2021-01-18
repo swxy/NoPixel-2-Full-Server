@@ -1,7 +1,5 @@
 --[[Register]]--
 
-print('test')
-
 RegisterNetEvent("garages:getVehicles")
 RegisterNetEvent('garages:SpawnVehicle')
 RegisterNetEvent('garages:StoreVehicle')
@@ -544,8 +542,7 @@ function MenuGarage()
 end
 
 function RentrerVehicule()
-	print("triggering check for veh")
-	TriggerServerEvent('garages:CheckForVeh')
+	TriggerServerEvent('garages:CheckForVeh',source)
 	CloseMenu()
 end
 carCount = 0
@@ -809,14 +806,14 @@ function ListeVehicule()
 	  			curGarage = "Any"
 	  		end
 			if (curGarage == "House") and v.vehicle_state == "In" then
-				houseCars[#houseCars+1]= { ["id"] = v.id, ["model"] = v.model, ["name"] = v.model, ["license_plate"] = v.license_plate, ["vehicle_state"] = v.vehicle_state, ["engine_damage"] = v.engine_damage, ["body_damage"] = v.body_damage, ["current_garage"] = v.current_garage, ["data"] = v.data, ["fuel"] = v.fuel }
+				houseCars[#houseCars+1]= { ["id"] = v.id, ["model"] = v.model, ["name"] = v.name, ["license_plate"] = v.license_plate, ["vehicle_state"] = v.vehicle_state, ["engine_damage"] = v.engine_damage, ["body_damage"] = v.body_damage, ["current_garage"] = v.current_garage, ["data"] = v.data, ["fuel"] = v.fuel }
 			end
 	    end 
 	    spawnCars(houseCars)
 	else
 	    for ind, value in pairs(VEHICLES) do
-	    	enginePercent = 100
-	    	bodyPercent = 100
+	    	enginePercent = value.engine_damage / 10
+	    	bodyPercent = value.body_damage / 10
 	  		curGarage = value.current_garage
 
 	  		if curGarage == nil then
@@ -824,13 +821,13 @@ function ListeVehicule()
 	  		end
 
 			if value.vehicle_state == "Standard Impound" then
-				Menu.addButton(tostring(value.model), "OptionVehicle", value.id, "Impounded: $500", " Engine %:" .. enginePercent .. "", " Body %:" .. bodyPercent .. "")
+				Menu.addButton(tostring(value.name), "OptionVehicle", value.id, "Impounded: $500", " Engine %:" .. enginePercent .. "", " Body %:" .. bodyPercent .. "")
 			elseif value.vehicle_state == "Police Impound" then
-				Menu.addButton(tostring(value.model), "OptionVehicle", value.id, "Impounded: $1500", " Engine %:" .. enginePercent .. "", " Body %:" .. bodyPercent .. "")
+				Menu.addButton(tostring(value.name), "OptionVehicle", value.id, "Impounded: $1500", " Engine %:" .. enginePercent .. "", " Body %:" .. bodyPercent .. "")
 			elseif curGarage ~= current_used_garage and curGarage ~= "Any" and value.vehicle_state ~= "Out" then
-				Menu.addButton(tostring(value.model), "OptionVehicle", value.id, "Garage " .. curGarage, " Engine %:" .. enginePercent .. "", " Body %:" .. bodyPercent .. "")
+				Menu.addButton(tostring(value.name), "OptionVehicle", value.id, "Garage " .. curGarage, " Engine %:" .. enginePercent .. "", " Body %:" .. bodyPercent .. "")
 			else
-				Menu.addButton(tostring(value.model), "OptionVehicle", value.id, tostring(value.vehicle_state) , " Engine %:" .. enginePercent .. "", " Body %:" .. bodyPercent .. "")
+				Menu.addButton(tostring(value.name), "OptionVehicle", value.id, tostring(value.vehicle_state) , " Engine %:" .. enginePercent .. "", " Body %:" .. bodyPercent .. "")
 			end
 	    end    
 	end
@@ -885,7 +882,7 @@ function SortirVehicule(vehID)
 		end
 	end
 
-	TriggerServerEvent('garages:CheckForSpawnVeh', vehID, garagecount)
+	TriggerServerEvent('garages:CheckForSpawnVeh', vehID, carCount,impound, current_used_garage,garagefree)
 	firstCar = 1
 	CloseMenu()
 
@@ -1163,7 +1160,7 @@ function drawTxt(x,y ,width,height,scale, text, r,g,b,a, outline)
     SetTextDropShadow()
     SetTextOutline()
     SetTextEntry("STRING")
-    AddTextComponentString(tefxt)
+    AddTextComponentString(text)
     DrawText(x - width/2, y - height/2 + 0.005)
 end
 
@@ -1172,7 +1169,6 @@ AddEventHandler("garages:getVehicles", function(THEVEHICLES)
     VEHICLES = {}
 	VEHICLES = THEVEHICLES
 	TriggerEvent("Garages:PhoneUpdate")
-	TriggerServerEvent('garages:getVehicleList')
 end)
 
 AddEventHandler("playerSpawned", function()
@@ -1182,10 +1178,6 @@ end)
 AddEventHandler('garages:SpawnVehicle', function(vehicle, plate, customized, state, Fuel, coordlocation)
 	local car = GetHashKey(vehicle)
 	local customized = json.decode(customized)
-
-	print('from client ', coordlocation)
-	print("shit")
-
 	
 	Citizen.CreateThread(function()			
 		Citizen.Wait(100)
@@ -1214,18 +1206,14 @@ AddEventHandler('garages:SpawnVehicle', function(vehicle, plate, customized, sta
 			end
 
 			RequestModel(car)
-		print("requesting model")
 			while not HasModelLoaded(car) do
 			Citizen.Wait(0)
 			end
 
 			
 			if coordlocation ~= nil then
-				print("you good mate")
-				print(coordlocation[1],coordlocation[2],coordlocation[3])
 				veh = CreateVehicle(car, coordlocation[1],coordlocation[2],coordlocation[3], 0.0, true, false)
 			else
-				print("coord nil amk cocu")
 				local spawnPos = garages[selectedGarage].spawn
 				veh = CreateVehicle(car, spawnPos[1], spawnPos[2], spawnPos[3], spawnPos[4], true, false)
 			end
@@ -1321,14 +1309,13 @@ AddEventHandler('garages:SpawnVehicle', function(vehicle, plate, customized, sta
 			
 
 
-			print('triggering this event')
-			TriggerServerEvent('garages:SetVehOut', veh, plate)
 
-			print('triggering this event')
+			TriggerServerEvent('garages:SetVehOut', veh, plate)
 
 				SetPedIntoVehicle(PlayerPedId(), veh, - 1)
 
-			
+				TriggerServerEvent('veh.getVehicles', plate, veh)
+				
 
 			if GetEntityModel(veh) == `rumpo4` then
 				SetVehicleLivery(veh,0)
@@ -1397,10 +1384,7 @@ AddEventHandler('garages:StoreVehicle', function(plates)
 
 			TriggerEvent('keys:remove', platecaissei)
 
-			local veh_props = getVehicleProperties(caissei)
-
-			print("setting veh in")
-			TriggerServerEvent('garages:SetVehIn', platecaissei, current_used_garage, veh_props, veh_props.modLivery, veh_props.fuel, GetEntityCoords(caissei, false))
+			TriggerServerEvent('garages:SetVehIn', platecaissei, current_used_garage)
 		else
 			TriggerEvent("DoLongHudText","No Vehicle",2)
 		end   
@@ -1600,72 +1584,4 @@ AddEventHandler('hotel:outfit', function(args,sentType)
 			TriggerServerEvent("raid_clothes:list_outfits")
 		end
 	end
-end)
-
-function GetCurrentXenonColour()
-    local plyPed = PlayerPedId()
-    local plyVeh = GetVehiclePedIsIn(plyPed, false)
-
-    return GetVehicleHeadlightsColour(plyVeh)
-end
-
-function getVehicleProperties(veh)
-	local vehicleMods = {
-        neon = {},
-        colors = {},
-        extracolors = {},
-        dashColour = -1,
-        interColour = -1,
-        lights = {},
-        tint = GetVehicleWindowTint(veh),
-        wheeltype = GetVehicleWheelType(veh),
-        platestyle = GetVehicleNumberPlateTextIndex(veh),
-        mods = {},
-        smokecolor = {},
-        xenonColor = -1,
-        oldLiveries = 24,
-        extras = {},
-        plateIndex = 0,
-    }
-
-    vehicleMods.xenonColor = GetCurrentXenonColour(veh)
-    vehicleMods.lights[1], vehicleMods.lights[2], vehicleMods.lights[3] = GetVehicleNeonLightsColour(veh)
-    vehicleMods.colors[1], vehicleMods.colors[2] = GetVehicleColours(veh)
-    vehicleMods.extracolors[1], vehicleMods.extracolors[2] = GetVehicleExtraColours(veh)
-    vehicleMods.smokecolor[1], vehicleMods.smokecolor[2], vehicleMods.smokecolor[3] = GetVehicleTyreSmokeColor(veh)
-    vehicleMods.dashColour = GetVehicleInteriorColour(veh)
-    vehicleMods.interColour = GetVehicleDashboardColour(veh)
-    vehicleMods.oldLiveries = GetVehicleLivery(veh)
-    vehicleMods.plateIndex = GetVehicleNumberPlateTextIndex(veh)
-
-    for i = 0, 3 do
-        vehicleMods.neon[i] = IsVehicleNeonLightEnabled(veh, i)
-    end
-
-    for i = 0,16 do
-        vehicleMods.mods[i] = GetVehicleMod(veh,i)
-    end
-
-    for i = 17, 22 do
-        vehicleMods.mods[i] = IsToggleModOn(veh, i)
-    end
-
-    for i = 23, 48 do
-        vehicleMods.mods[i] = GetVehicleMod(veh,i)
-    end
-
-    for i = 1, 12 do
-        local ison = IsVehicleExtraTurnedOn(veh, i)
-        if 1 == tonumber(ison) then
-            vehicleMods.extras[i] = 1
-        else
-            vehicleMods.extras[i] = 0
-        end
-    end
-
-	return table.unpack(vehicleMods)
-end
-
-RegisterCommand("testvehicles", function()
-	TriggerServerEvent('garages:getVehicleList')
 end)

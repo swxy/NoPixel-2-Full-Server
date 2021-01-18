@@ -867,49 +867,49 @@ end
 
 
 
--- RegisterNetEvent("phone:Garage")
--- AddEventHandler("phone:Garage", function(vehs)
---   vehicles = vehs
---   local showCarPayments = false
---   local rankCarshop = exports["isPed"]:GroupRank("car_shop")
---   local rankImport = exports["isPed"]:GroupRank("illegal_carshop")
---   local job = exports["isPed"]:isPed("myjob")
+RegisterNetEvent("phone:Garage")
+AddEventHandler("phone:Garage", function(vehs)
+  vehicles = vehs
+  local showCarPayments = false
+  local rankCarshop = exports["isPed"]:GroupRank("car_shop")
+  local rankImport = exports["isPed"]:GroupRank("illegal_carshop")
+  local job = exports["isPed"]:isPed("myjob")
 
 
---   if rankCarshop > 0 or rankImport > 0 or job == "judge" or job == "police" then
---     showCarPayments = true
---   end
+  if rankCarshop > 0 or rankImport > 0 or job == "judge" or job == "police" then
+    showCarPayments = true
+  end
 
---   local parsedVehicleData = {}
---   for ind, value in pairs(vehs) do
---     -- enginePercent = value.engine_damage / 10
---     -- bodyPercent = value.body_damage / 10
---     vehName = value.name
---     vehPlate = value.license_plate
---     currentGarage = value.current_garage
---     state = value.vehicle_state
---     coordlocation = value.coords
---     allowspawnattempt = 0
---     if #(vector3(coordlocation[1],coordlocation[2],coordlocation[3]) - GetEntityCoords(PlayerPedId())) < 20.0 and state == "Out" then
---       allowspawnattempt = 1
---     end
+  local parsedVehicleData = {}
+  for ind, value in pairs(vehs) do
+    enginePercent = value.engine_damage / 10
+    bodyPercent = value.body_damage / 10
+    vehName = value.name
+    vehPlate = value.license_plate
+    currentGarage = value.current_garage
+    state = value.vehicle_state
+    coordlocation = value.coords
+    allowspawnattempt = 0
+    if #(vector3(coordlocation[1],coordlocation[2],coordlocation[3]) - GetEntityCoords(PlayerPedId())) < 20.0 and state == "Out" then
+      allowspawnattempt = 1
+    end
 
---     table.insert(parsedVehicleData, {
---       name = vehName,
---       plate = vehPlate,
---       garage = currentGarage,
---       state = state,
---       enginePercent = enginePercent,
---       bodyPercent = bodyPercent,
---       payments = value.payments,
---       lastPayment = value.last_payment,
---       amountDue = value.amount_due,
---       canSpawn = allowspawnattempt
---     })
---   end
+    table.insert(parsedVehicleData, {
+      name = vehName,
+      plate = vehPlate,
+      garage = currentGarage,
+      state = state,
+      enginePercent = enginePercent,
+      bodyPercent = bodyPercent,
+      payments = value.payments,
+      lastPayment = value.last_payment,
+      amountDue = value.amount_due,
+      canSpawn = allowspawnattempt
+    })
+  end
   
---   SendNUIMessage({ openSection = "Garage", showCarPaymentsOwed = showCarPayments, vehicleData = parsedVehicleData})
--- end)
+  SendNUIMessage({ openSection = "Garage", showCarPaymentsOwed = showCarPayments, vehicleData = parsedVehicleData})
+end)
 
 --[[ 
 RegisterNetEvent("phone:Garage")

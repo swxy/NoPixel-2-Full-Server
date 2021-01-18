@@ -233,25 +233,12 @@ end
 bobbytheobject = 0
 
 function spawnMetalDetector()
-	local metd = `xm_detector`
-	local hash = GetHashKey(metd)
-	print(hash)
-	RequestModel(hash)
-	--print("requesting model")
-	-- while not HasModelLoaded(hash) do
-	-- 	print("loading object wait 0")
-	-- Citizen.Wait(0)
-	-- end
+	local metd = `ch_prop_ch_metal_detector_01a`
+	RequestModel(metd)
+	bobbytheobject = CreateObject(metd, 252,7214,-367.3657,-45.14, 0, 0, 0)
 
-
-	bobbytheobject = CreateObject(hash, 253.1053,-367.8492,-132.99, 0, 0, 0)
-	print("created object")
-
-	SetEntityHeading( bobbytheobject, 344.469 )
-	SetEntityInvincible(bobbytheobject, true)
-	SetEntityCanBeDamaged(bobbytheobject, false)
-	FreezeEntityPosition(bobbytheobject,true)
-	SetModelAsNoLongerNeeded(metd)
+    SetEntityHeading( bobbytheobject, 252.03 )
+	print(metd)
 end
 
 function delMetalDetector()

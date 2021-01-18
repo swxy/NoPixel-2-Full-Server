@@ -16,6 +16,8 @@ data_file 'DLC_ITYP_REQUEST' 'ls_blackwhite/portels_3a.ytyp'
 
 data_file 'DLC_ITYP_REQUEST' 'ls_blackwhite/portels_4a.ytyp'
 
+data_file 'TIMECYCLEMOD_FILE' 'gabz_bennys_timecycle.xml'
+
 
 files {'v_kitch.ytyp'}
 data_file 'DLC_ITYP_REQUEST' 'missionrowpdv2/int_corporate.ytyp'
@@ -26,6 +28,7 @@ files {
 	'iv_int_1_timecycle_mods_1.xml',
 	'audio/ivbsoverride_game.dat151.rel',
 	'interiorproxies.meta',
+	'gabz_bennys_timecycle.xml'
 	
 }
 

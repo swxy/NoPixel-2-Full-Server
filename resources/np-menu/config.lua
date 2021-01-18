@@ -174,22 +174,7 @@ rootMenuConfig =  {
         displayName = "Cuff Actions",
         icon = "#cuffs",
         enableMenu = function()
-            if not isDead and not IsPlayerFreeAiming(PlayerId()) and not IsPedInAnyVehicle(PlayerPedId(), false) and not isHandcuffed and not isHandcuffedAndWalking then
-                if isPolice then
-                    return true
-                elseif exports["np-inventory"]:hasEnoughOfItem("cuffs",1,false) then
-                    t, distance = GetClosestPlayer()
-                    local serverId = GetPlayerServerId(t)
-                    if(distance ~= -1 and distance < 3 and not IsPedRagdoll(PlayerPedId())) then
-                        if cuffStates[serverId] == nil then
-                            return false
-                        else
-                            return cuffStates[serverId]
-                        end
-                    end
-                end
-            end
-            return false
+            return (not isDead and not isHandcuffed and not isHandcuffedAndWalking and (exports["np-inventory"]:hasEnoughOfItem("cuffs",1,false) or isPolice))
         end,
         subMenus = { "cuffs:uncuff", "cuffs:remmask", "cuffs:unseat", "police:seat", "cuffs:checkphone" }
     },

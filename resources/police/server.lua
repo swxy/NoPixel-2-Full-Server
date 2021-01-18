@@ -258,13 +258,16 @@ AddEventHandler('police:updateLicenses', function(targetlicense, status, license
 end)
 
 RegisterServerEvent("police:targetCheckInventory")
-AddEventHandler("police:targetCheckInventory", function(t,isFrisk)
-	-- removed np's original code added mine 
+AddEventHandler("police:targetCheckInventory", function(target, status)
+	-- done for npx ((sway))
 	local src = source
 	local user = exports["np-base"]:getModule("Player"):GetUser(target)
 	local char = user:getCurrentCharacter()
 	TriggerClientEvent("server-inventory-open", source, "1", "ply-"..char.id)
 end)
+
+
+
 
 
 RegisterServerEvent('police:SeizeCash')

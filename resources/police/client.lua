@@ -729,13 +729,14 @@ AddEventHandler("police:rob", function()
 				TriggerServerEvent("police:rob", GetPlayerServerId(t))
 				TriggerServerEvent("police:targetCheckInventory", GetPlayerServerId(t), false)
 			else
-				TriggerEvent("DoLongHudText", "No dead player near you!",2)
+				TriggerEvent("DoLongHudText", "No player near you!",2)
 			end
 		end
 	else
 		TriggerEvent("DoLongHudText", "You are dead, you can't rob people you stupid fuck.",2)
 	end
 end)
+
 
 RegisterNetEvent("police:seizeCash")
 AddEventHandler("police:seizeCash", function()

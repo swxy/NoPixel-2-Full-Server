@@ -230,16 +230,25 @@ function DrawText3DTest(x,y,z, text)
     DrawText(_x,_y)
 end
 
-bobbytheobject = 0
+
 
 function spawnMetalDetector()
-	local metd = `ch_prop_ch_metal_detector_01a`
-	RequestModel(metd)
-	bobbytheobject = CreateObject(metd, 252,7214,-367.3657,-45.14, 0, 0, 0)
+    local metd = `ch_prop_ch_metal_detector_01a`
+    RequestModel(metd)
+    while not HasModelLoaded(metd) do
+    Citizen.Wait(0)
+    end
+
+
+    bobbytheobject = CreateObject(metd, 252.4201,-367.448,-45.14, 0, 0, 0)
 
     SetEntityHeading( bobbytheobject, 252.03 )
-	print(metd)
+    SetEntityInvincible(bobbytheobject, true)
+    SetEntityCanBeDamaged(bobbytheobject, false)
+    FreezeEntityPosition(bobbytheobject,true)
+    SetModelAsNoLongerNeeded(metd)
 end
+
 
 function delMetalDetector()
 
@@ -981,6 +990,7 @@ function EnterXE(i)
 			end
 			if i == 30 then
 				spawnMetalDetector()
+				print("model loaded")
 				timer = 5
 			end
 

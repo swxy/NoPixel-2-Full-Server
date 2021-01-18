@@ -1,2 +1,5 @@
-
+cache
+cache/files/monitor/resource.rpf
+polyzone_created_zones.txt
 *.dll
+*.log

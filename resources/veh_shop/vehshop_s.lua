@@ -81,12 +81,13 @@ end)
 -- Add the car to database when completed purchase
 RegisterServerEvent('BuyForVeh')
 AddEventHandler('BuyForVeh', function(vehicleProps,platew, name, vehicle, price, financed)
+    print(vehicleProps)
     local user = exports["np-base"]:getModule("Player"):GetUser(source)
     local char = user:getVar("character")
     local player = user:getVar("hexid")
     if financed then
-        local cols = 'owner, cid, license_plate, data, purchase_price, financed, last_payment, model'
-        local val = '@owner, @cid, @license_plate, @data, @buy_price, @financed, @last_payment, @model'
+        local cols = 'owner, cid, license_plate, data, purchase_price, financed, last_payment, model, vehicle_state'
+        local val = '@owner, @cid, @license_plate, @data, @buy_price, @financed, @last_payment, @model, @veh_state'
         local downPay = math.ceil(price / 4)
         exports.ghmattimysql:execute('INSERT INTO characters_cars ( '..cols..' ) VALUES ( '..val..' )',{
             ['@owner'] = player,
@@ -96,16 +97,18 @@ AddEventHandler('BuyForVeh', function(vehicleProps,platew, name, vehicle, price,
             ['@model'] = vehicle,
             ['@buy_price'] = price,
             ['@financed'] = price - downPay,
-            ['@last_payment'] = repayTime
+            ['@last_payment'] = repayTime,
+            ['@veh_state'] = "Out"
         })
     else
-        exports.ghmattimysql:execute('INSERT INTO characters_cars (owner, cid, license_plate, data, model, purchase_price) VALUES (@owner, @cid, @license_plate, @data, @model, @buy_price)',{
+        exports.ghmattimysql:execute('INSERT INTO characters_cars (owner, cid, license_plate, data, model, purchase_price, vehicle_state) VALUES (@owner, @cid, @license_plate, @data, @model, @buy_price, @veh_state)',{
             ['@owner']   = player,
             ['@cid'] = char.id,
             ['@license_plate']   = platew,
             ['@data'] = json.encode(vehicleProps),
             ['@model'] = vehicle,
-            ['@buy_price'] = price
+            ['@buy_price'] = price,
+            ['@veh_state'] = "Out"
         })
     end
 end)

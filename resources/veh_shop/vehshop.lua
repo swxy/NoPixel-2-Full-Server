@@ -555,8 +555,8 @@ AddEventHandler("car:testdrive", function()
 
 end)
 
-RegisterNetEvent("finance")
-AddEventHandler("finance", function()
+RegisterNetEvent("finance1")
+AddEventHandler("finance1", function()
 	if rank == 0 or #(vector3(-51.51, -1077.96, 26.92) - GetEntityCoords(PlayerPedId())) > 50.0 then
 		return
 	end	
@@ -577,9 +577,6 @@ AddEventHandler("finance:enableOnClient", function(addplate)
 end)	
 
 
-RegisterCommand('enableFinance', function()
-TriggerEvent('finance')
-end)
 
 RegisterNetEvent("commission")
 AddEventHandler("commission", function(newAmount)
@@ -1468,6 +1465,7 @@ AddEventHandler('vehshop:spawnVehicle', function(v)
 		SetModelAsNoLongerNeeded(car)
 		TaskWarpPedIntoVehicle(playerPed, veh, -1)
 		SetEntityInvincible(veh, true)
+		TriggerEvent("keys:received",veh)
 	end
 end)
 
@@ -1540,100 +1538,66 @@ RegisterCommand('lol', function()
          rank = exports["isPed"]:GroupRank("car_shop")
 end)
 
+function GetCurrentXenonColour()
+    local plyPed = PlayerPedId()
+    local plyVeh = GetVehiclePedIsIn(plyPed, false)
 
+    return GetVehicleHeadlightsColour(plyVeh)
+end
 
-function getVehicleProperties(vehicle)
-	local color1, color2 = GetVehicleColours(vehicle)
-	local pearlescentColor, wheelColor = GetVehicleExtraColours(vehicle)
-	local extras = {}
+function getVehicleProperties(veh)
+    local vehicleMods = {
+        neon = {},
+        colors = {},
+        extracolors = {},
+        dashColour = -1,
+        interColour = -1,
+        lights = {},
+        tint = GetVehicleWindowTint(veh),
+        wheeltype = GetVehicleWheelType(veh),
+        platestyle = GetVehicleNumberPlateTextIndex(veh),
+        mods = {},
+        smokecolor = {},
+        xenonColor = -1,
+        oldLiveries = 24,
+        extras = {},
+        plateIndex = 0,
+    }
 
-	for id=0, 12 do
-		if DoesExtraExist(vehicle, id) then
-			local state = IsVehicleExtraTurnedOn(vehicle, id) == 1
-			extras[tostring(id)] = state
-		end
+    vehicleMods.xenonColor = GetCurrentXenonColour(veh)
+    vehicleMods.lights[1], vehicleMods.lights[2], vehicleMods.lights[3] = GetVehicleNeonLightsColour(veh)
+    vehicleMods.colors[1], vehicleMods.colors[2] = GetVehicleColours(veh)
+    vehicleMods.extracolors[1], vehicleMods.extracolors[2] = GetVehicleExtraColours(veh)
+    vehicleMods.smokecolor[1], vehicleMods.smokecolor[2], vehicleMods.smokecolor[3] = GetVehicleTyreSmokeColor(veh)
+    vehicleMods.dashColour = GetVehicleInteriorColour(veh)
+    vehicleMods.interColour = GetVehicleDashboardColour(veh)
+    vehicleMods.oldLiveries = GetVehicleLivery(veh)
+    vehicleMods.plateIndex = GetVehicleNumberPlateTextIndex(veh)
+
+    for i = 0, 3 do
+        vehicleMods.neon[i] = IsVehicleNeonLightEnabled(veh, i)
+    end
+
+    for i = 0,16 do
+        vehicleMods.mods[i] = GetVehicleMod(veh,i)
+    end
+
+    for i = 17, 22 do
+        vehicleMods.mods[i] = IsToggleModOn(veh, i)
+    end
+
+    for i = 23, 48 do
+        vehicleMods.mods[i] = GetVehicleMod(veh,i)
+    end
+
+    for i = 1, 12 do
+        local ison = IsVehicleExtraTurnedOn(veh, i)
+        if 1 == tonumber(ison) then
+            vehicleMods.extras[i] = 1
+        else
+            vehicleMods.extras[i] = 0
+        end
 	end
-
-	return {
-		model             = GetEntityModel(vehicle),
-
-		plate             = GetVehicleNumberPlateText(vehicle),
-		plateIndex        = GetVehicleNumberPlateTextIndex(vehicle),
-
-		bodyHealth        = GetVehicleBodyHealth(vehicle),
-		engineHealth      = GetVehicleEngineHealth(vehicle),
-
-		fuelLevel         = math.floor(GetVehicleFuelLevel(vehicle), 1),
-		dirtLevel         = math.floor(GetVehicleDirtLevel(vehicle), 1),
-		color1            = color1,
-		color2            = color2,
-
-		pearlescentColor  = pearlescentColor,
-		wheelColor        = wheelColor,
-
-		wheels            = GetVehicleWheelType(vehicle),
-		windowTint        = GetVehicleWindowTint(vehicle),
-
-		neonEnabled       = {
-			IsVehicleNeonLightEnabled(vehicle, 0),
-			IsVehicleNeonLightEnabled(vehicle, 1),
-			IsVehicleNeonLightEnabled(vehicle, 2),
-			IsVehicleNeonLightEnabled(vehicle, 3)
-		},
-
-		extras            = extras,
-
-		neonColor         = table.pack(GetVehicleNeonLightsColour(vehicle)),
-		tyreSmokeColor    = table.pack(GetVehicleTyreSmokeColor(vehicle)),
-
-		modSpoilers       = GetVehicleMod(vehicle, 0),
-		modFrontBumper    = GetVehicleMod(vehicle, 1),
-		modRearBumper     = GetVehicleMod(vehicle, 2),
-		modSideSkirt      = GetVehicleMod(vehicle, 3),
-		modExhaust        = GetVehicleMod(vehicle, 4),
-		modFrame          = GetVehicleMod(vehicle, 5),
-		modGrille         = GetVehicleMod(vehicle, 6),
-		modHood           = GetVehicleMod(vehicle, 7),
-		modFender         = GetVehicleMod(vehicle, 8),
-		modRightFender    = GetVehicleMod(vehicle, 9),
-		modRoof           = GetVehicleMod(vehicle, 10),
-
-		modEngine         = GetVehicleMod(vehicle, 11),
-		modBrakes         = GetVehicleMod(vehicle, 12),
-		modTransmission   = GetVehicleMod(vehicle, 13),
-		modHorns          = GetVehicleMod(vehicle, 14),
-		modSuspension     = GetVehicleMod(vehicle, 15),
-		modArmor          = GetVehicleMod(vehicle, 16),
-
-		modTurbo          = IsToggleModOn(vehicle, 18),
-		modSmokeEnabled   = IsToggleModOn(vehicle, 20),
-		modXenon          = IsToggleModOn(vehicle, 22),
-
-		modFrontWheels    = GetVehicleMod(vehicle, 23),
-		modBackWheels     = GetVehicleMod(vehicle, 24),
-
-		modPlateHolder    = GetVehicleMod(vehicle, 25),
-		modVanityPlate    = GetVehicleMod(vehicle, 26),
-		modTrimA          = GetVehicleMod(vehicle, 27),
-		modOrnaments      = GetVehicleMod(vehicle, 28),
-		modDashboard      = GetVehicleMod(vehicle, 29),
-		modDial           = GetVehicleMod(vehicle, 30),
-		modDoorSpeaker    = GetVehicleMod(vehicle, 31),
-		modSeats          = GetVehicleMod(vehicle, 32),
-		modSteeringWheel  = GetVehicleMod(vehicle, 33),
-		modShifterLeavers = GetVehicleMod(vehicle, 34),
-		modAPlate         = GetVehicleMod(vehicle, 35),
-		modSpeakers       = GetVehicleMod(vehicle, 36),
-		modTrunk          = GetVehicleMod(vehicle, 37),
-		modHydrolic       = GetVehicleMod(vehicle, 38),
-		modEngineBlock    = GetVehicleMod(vehicle, 39),
-		modAirFilter      = GetVehicleMod(vehicle, 40),
-		modStruts         = GetVehicleMod(vehicle, 41),
-		modArchCover      = GetVehicleMod(vehicle, 42),
-		modAerials        = GetVehicleMod(vehicle, 43),
-		modTrimB          = GetVehicleMod(vehicle, 44),
-		modTank           = GetVehicleMod(vehicle, 45),
-		modWindows        = GetVehicleMod(vehicle, 46),
-		modLivery         = GetVehicleLivery(vehicle)
-	}
+	
+	return table.unpack(vehicleMods)
 end

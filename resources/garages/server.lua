@@ -204,7 +204,7 @@ AddEventHandler("garages:SetVehIn",function(plate, garage, vehicleProps, livery,
 	local state = "In"
 	local modLivery = livery
 	local vehProp = json.encode(vehicleProps)
-	exports.ghmattimysql:execute("UPDATE characters_cars SET data = @vehicle, vehicle_state = @state, current_garage = @garage, fuel = @fuel, coords = @coords, engine_damage = @engine_damage, body_damage = @body_damage WHERE license_plate = @plate", {['vehicle'] = vehProp, ['garage'] = garage, ['fuel'] = realFuel, ['state'] = state, ['engine_damage'] = vehicleProps.engineHealth, ['body_damage'] = vehicleProps.bodyHealth, ['plate'] = plate})
+	exports.ghmattimysql:execute("UPDATE characters_cars SET data = @vehicle, vehicle_state = @state, current_garage = @garage, fuel = @fuel, coords = @coords, engine_damage = @engine_damage, body_damage = @body_damage WHERE license_plate = @plate", {['vehicle'] = vehProp, ['garage'] = garage, ['fuel'] = realFuel, ['state'] = "In", ['engine_damage'] = vehicleProps.engineHealth, ['body_damage'] = vehicleProps.bodyHealth, ['plate'] = plate})
 
 end)
 
@@ -214,7 +214,7 @@ AddEventHandler('garages:SetVehOut', function(vehicle, plate)
 	local char = user:getCurrentCharacter()
 	local owner = char.id
 	local state = "Out"
-	 exports.ghmattimysql:execute("UPDATE characters_cars SET vehicle_state = @state WHERE license_plate = @plate", {['garage'] = garage, ['state'] = vehicle_state, ['plate'] = plate})
+	 exports.ghmattimysql:execute("UPDATE characters_cars SET vehicle_state = @state WHERE license_plate = @plate", {['garage'] = garage, ['state'] = state, ['plate'] = plate})
   end)
 
   AddEventHandler('garages:CheckForVeh', function()

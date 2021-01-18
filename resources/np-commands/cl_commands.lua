@@ -67,7 +67,7 @@ end, false)
 
 
 RegisterCommand("finance", function(source, args, rawCommand)
-  TriggerEvent('finance')
+  TriggerEvent('finance1')
 end, false)
 
 RegisterCommand("inv", function(source, args, rawCommand)

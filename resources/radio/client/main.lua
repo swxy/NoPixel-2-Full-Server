@@ -91,9 +91,9 @@ local function handleConnectionEvent(pChannel)
   local newChannel = formattedChannelNumber(pChannel)
 
   if newChannel < 1.0 then
-    TriggerServerEvent("np-voice:radio:removePlayerFromRadio", newChannel)
+    TriggerServerEvent("np:voice:radio:removePlayerFromRadio", newChannel)
   else
-    TriggerServerEvent("np-voice:radio:addPlayerToRadio", newChannel, true)
+    TriggerServerEvent("np:voice:radio:addPlayerToRadio", newChannel, true)
   end
 end
 
@@ -199,6 +199,6 @@ function SetCustomNuiFocus(hasKeyboard, hasMouse)
   SetNuiFocus(hasKeyboard, hasMouse)
   SetNuiFocusKeepInput(HasNuiFocus)
 
-  TriggerEvent("np-voice:focus:set", HasNuiFocus, hasKeyboard, hasMouse)
+  TriggerEvent("np:voice:focus:set", HasNuiFocus, hasKeyboard, hasMouse)
 end
 

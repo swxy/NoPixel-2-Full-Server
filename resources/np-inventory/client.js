@@ -892,8 +892,8 @@ function SetCustomNuiFocus(hasKeyboard, hasMouse) {
 //   SetNuiFocus(hasKeyboard, hasMouse);
 //   SetNuiFocusKeepInput(HasNuiFocus);
 //   if (HasNuiFocus === true) {
-//   	emit("np-voice:focus:set", HasNuiFocus, hasKeyboard, hasMouse);
+//   	emit("np:voice:focus:set", HasNuiFocus, hasKeyboard, hasMouse);
 //   } else {
-// 	  setTimeout(() => {if (HasNuiFocus !== true) emit("np-voice:focus:set", false, false, false);}, 1000)
+// 	  setTimeout(() => {if (HasNuiFocus !== true) emit("np:voice:focus:set", false, false, false);}, 1000)
 //   }
 }

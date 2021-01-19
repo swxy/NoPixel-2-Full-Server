@@ -249,15 +249,15 @@ function CanUseFilter(transmitting, context)
     return true
 end
 
-RegisterNetEvent("np-voice:connection:state")
-AddEventHandler("np-voice:connection:state", function (serverID, isConnected)
+RegisterNetEvent("np:voice:connection:state")
+AddEventHandler("np:voice:connection:state", function (serverID, isConnected)
     if Config.enableFilters.radio and not isConnected then
         DeleteFilterChain(serverID)
         Debug("[Filter] Submix Reset | Player: %s ", serverID)
     end
 end)
 
-AddEventHandler('np-voice:state', function (isActive)
+AddEventHandler('np:voice:state', function (isActive)
     if Config.enableFilters.radio and not isActive then
         for serverID, chain in pairs(ActiveChains) do
             if chain then

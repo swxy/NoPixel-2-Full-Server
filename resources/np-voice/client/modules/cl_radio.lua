@@ -225,23 +225,23 @@ function LoadRadioModule()
         RegisterCommand('-cycleChannels', function() end, false)
     end
 
-    RegisterNetEvent("np-voice:radio:connect")
-    AddEventHandler("np-voice:radio:connect", ConnectToRadio)
+    RegisterNetEvent("np:voice:radio:connect")
+    AddEventHandler("np:voice:radio:connect", ConnectToRadio)
 
-    RegisterNetEvent("np-voice:radio:disconnect")
-    AddEventHandler("np-voice:radio:disconnect", DisconnectFromRadio)
+    RegisterNetEvent("np:voice:radio:disconnect")
+    AddEventHandler("np:voice:radio:disconnect", DisconnectFromRadio)
 
-    RegisterNetEvent("np-voice:radio:added")
-    AddEventHandler("np-voice:radio:added", AddRadioSubscriber)
+    RegisterNetEvent("np:voice:radio:added")
+    AddEventHandler("np:voice:radio:added", AddRadioSubscriber)
 
-    RegisterNetEvent("np-voice:radio:removed")
-    AddEventHandler("np-voice:radio:removed", RemoveRadioSubscriber)
+    RegisterNetEvent("np:voice:radio:removed")
+    AddEventHandler("np:voice:radio:removed", RemoveRadioSubscriber)
 
-    RegisterNetEvent("np-voice:radio:power")
-    AddEventHandler("np-voice:radio:power", SetRadioPowerState)
+    RegisterNetEvent("np:voice:radio:power")
+    AddEventHandler("np:voice:radio:power", SetRadioPowerState)
 
-    RegisterNetEvent("np-voice:radio:volume")
-    AddEventHandler("np-voice:radio:volume", SetRadioVolume)
+    RegisterNetEvent("np:voice:radio:volume")
+    AddEventHandler("np:voice:radio:volume", SetRadioVolume)
 
     exports("SetRadioPowerState", SetRadioPowerState)
     exports("SetRadioVolume", SetRadioVolume)
@@ -263,7 +263,7 @@ function LoadRadioModule()
          UpdateContextFilter("radio", filters)
      end
 
-    TriggerEvent("np-voice:radio:ready")
+    TriggerEvent("np:voice:radio:ready")
 
     Debug("[Radio] Module Loaded")
 end

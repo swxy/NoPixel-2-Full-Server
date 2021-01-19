@@ -25,18 +25,18 @@ AddEventHandler("onResourceStart", function(resName) -- Initialises the script, 
 	-- 	MumbleCreateChannel(i)
 	-- end
 
-	Debug("[np-voice] Initialised Script -Swxy#0001")
+	Debug("[np:voice] Initialised Script -Swxy#0001")
 end)
 
 
-RegisterNetEvent("np-voice:connection:state")
-AddEventHandler("np-voice:connection:state", function(state)
-	TriggerClientEvent('np-voice:connection:state', -1, source, state)
+RegisterNetEvent("np:voice:connection:state")
+AddEventHandler("np:voice:connection:state", function(state)
+	TriggerClientEvent('np:voice:connection:state', -1, source, state)
 end)
 
 
-RegisterNetEvent("np-voice:transmission:state")
-AddEventHandler("np-voice:transmission:state", function(group, context, transmitting, isMult)
+RegisterNetEvent("np:voice:transmission:state")
+AddEventHandler("np:voice:transmission:state", function(group, context, transmitting, isMult)
 	--print('transmission')
 	--print( type(group))
 	local _source = source
@@ -45,10 +45,10 @@ AddEventHandler("np-voice:transmission:state", function(group, context, transmit
 		for k,v in pairs(group) do
 			-- print(v)
 			-- print(k)
-			TriggerClientEvent('np-voice:transmission:state', v, _source, context, transmitting)
+			TriggerClientEvent('np:voice:transmission:state', v, _source, context, transmitting)
 		end
 	else
-		TriggerClientEvent('np-voice:transmission:state', group, _source, context, transmitting)
+		TriggerClientEvent('np:voice:transmission:state', group, _source, context, transmitting)
 	end
 	--else
 	--end

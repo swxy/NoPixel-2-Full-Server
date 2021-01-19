@@ -1870,8 +1870,8 @@ end)
 
 HasNuiFocus, IsFocusThreadRunning = false, false
 
-RegisterNetEvent('np-voice:focus:set')
-AddEventHandler('np-voice:focus:set', function(hasFocus, hasKeyboard, hasMouse)
+RegisterNetEvent('np:voice:focus:set')
+AddEventHandler('np:voice:focus:set', function(hasFocus, hasKeyboard, hasMouse)
 	HasNuiFocus = hasFocus
 
 	if HasNuiFocus and not IsFocusThreadRunning then

@@ -405,7 +405,7 @@ end)
 lasthash = 0
 lastslot = 2
 
-AddEventHandler("np-voice:focus:set", function(pState)
+AddEventHandler("np:voice:focus:set", function(pState)
   focusTaken = pState
 end)
 

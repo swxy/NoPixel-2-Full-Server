@@ -888,11 +888,11 @@ AddEventHandler("phone:Garage", function(vehs)
     vehPlate = value.license_plate
     currentGarage = value.current_garage
     state = value.vehicle_state
-    coordlocation = value.coords
+    --coordlocation = value.coords
     allowspawnattempt = 0
-    if #(vector3(coordlocation[1],coordlocation[2],coordlocation[3]) - GetEntityCoords(PlayerPedId())) < 20.0 and state == "Out" then
-      allowspawnattempt = 1
-    end
+    --if #(vector3(coordlocation[1], coordlocation[2], coordlocation[3]) - GetEntityCoords(PlayerPedId())) < 20.0 and state == "Out" then
+      --allowspawnattempt = 1
+    --end
 
     table.insert(parsedVehicleData, {
       name = vehName,
@@ -901,10 +901,10 @@ AddEventHandler("phone:Garage", function(vehs)
       state = state,
       enginePercent = enginePercent,
       bodyPercent = bodyPercent,
-      payments = value.payments,
+      payments = value.financed,
       lastPayment = value.last_payment,
       amountDue = value.amount_due,
-      canSpawn = allowspawnattempt
+      canSpawn = 0
     })
   end
   

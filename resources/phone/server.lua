@@ -857,7 +857,7 @@ Citizen.CreateThread(function()
                         ['id'] = race.map
                     })
                 end
-                race.saved = trueend
+                race.saved = true 
                 end
             end
         Citizen.Wait(10000)
@@ -940,10 +940,14 @@ AddEventHandler('racing-save-map', function(currentMap, name, description, dista
     local src = source
     local player = exports['np-base']:getModule("Player"):GetUser(src)
     local char = player:getCurrentCharacter()
-    local playername = ""..char.firstname.." "..char.last_name""
+    local playername = ""..char.first_name.." "..char.last_name..""
 
-    exports.ghmattimysql:execute("INSERT INTO racing_tracks (`checkpoints`, `creator`, `track_names`, `description`) VALUES (@currentMap, @creator, @trackname, @distance, @description)",
-        {['currentMap'] = json.encode(currentMap), ['creator'] = playername, ['trackname'] = name, ['distance'] = distanceMap, ['description'] = description})
+    exports.ghmattimysql:execute("INSERT INTO racing_tracks (`checkPoints`, `creator`, `track_names`, `distance`, `description`) VALUES (@currentMap, @creator, @trackname, @distance, @description)",
+        {['currentMap'] = json.encode(currentMap),
+        ['creator'] = playername,
+        ['trackname'] = name,
+        ['distance'] = distanceMap,
+        ['description'] = description})
 
     Wait(1000)
     buildMaps()

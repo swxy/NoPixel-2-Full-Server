@@ -1294,8 +1294,8 @@ AddEventHandler('garages:SpawnVehicle', function(vehicle, plate, customized, sta
 				SetVehicleDashboardColour(veh, customized.interColour)
 			else
 
-				SetVehicleColours(veh, 0, 0)
-				SetVehicleExtraColours(veh, 0, 0)
+				--SetVehicleColours(veh, 0, 0)
+				--SetVehicleExtraColours(veh, 0, 0)
 
 			end
 

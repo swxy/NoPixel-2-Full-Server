@@ -252,6 +252,7 @@ AddEventHandler('garages:CheckForSpawnVeh', function(veh_id, garageCost)
 				local res = result[1]
 				vehiclse = json.decode(result[1].data)
 				vehicle = vehiclse
+				print(res.coords)
 				TriggerClientEvent('garages:SpawnVehicle', src, res.model, res.license_plate, res.data, res.vehicle_state, res.fuel, res.coords)
 			end)
 		else

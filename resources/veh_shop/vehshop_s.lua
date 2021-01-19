@@ -85,24 +85,26 @@ AddEventHandler('BuyForVeh', function(platew, name, vehicle, price, financed)
     local char = user:getVar("character")
     local player = user:getVar("hexid")
     if financed then
-        local cols = 'owner, cid, license_plate, purchase_price, financed, last_payment, model, vehicle_state'
-        local val = '@owner, @cid, @license_plate, @buy_price, @financed, @last_payment, @model, @veh_state'
+        local cols = 'owner, cid, license_plate, name, purchase_price, financed, last_payment, model, vehicle_state'
+        local val = '@owner, @cid, @license_plate, @name, @buy_price, @financed, @last_payment, @model, @veh_state'
         local downPay = math.ceil(price / 4)
         exports.ghmattimysql:execute('INSERT INTO characters_cars ( '..cols..' ) VALUES ( '..val..' )',{
             ['@owner'] = player,
             ['@cid'] = char.id,
             ['@license_plate']   = platew,
             ['@model'] = vehicle,
+            ['@name'] = name,
             ['@buy_price'] = price,
             ['@financed'] = price - downPay,
             ['@last_payment'] = repayTime,
             ['@veh_state'] = "Out"
         })
     else
-        exports.ghmattimysql:execute('INSERT INTO characters_cars (owner, cid, license_plate, model, purchase_price, vehicle_state) VALUES (@owner, @cid, @license_plate, @model, @buy_price, @veh_state)',{
+        exports.ghmattimysql:execute('INSERT INTO characters_cars (owner, cid, license_plate, name, model, purchase_price, vehicle_state) VALUES (@owner, @cid, @license_plate, @name, @model, @buy_price, @veh_state)',{
             ['@owner']   = player,
             ['@cid'] = char.id,
             ['@license_plate']   = platew,
+            ['@name'] = name,
             ['@model'] = vehicle,
             ['@buy_price'] = price,
             ['@veh_state'] = "Out"
@@ -123,7 +125,7 @@ function updateFinance()
             if financeTimer ~= nil then
                 exports.ghmattimysql:execute('UPDATE characters_cars SET last_payment=@last_payment WHERE license_plate=@license_plate', {
                     ['@plate'] = plate,
-                    ['@financetimer'] = newTimer
+                    ['@last_payment'] = newTimer
                 })
             end
         end

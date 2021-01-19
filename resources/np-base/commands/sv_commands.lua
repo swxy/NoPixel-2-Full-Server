@@ -15,7 +15,7 @@ function NPX.Commands.AddCommand(self, command, suggestion, source, cb, args)
 end
 
 function NPX.Commands.RemoveCommand(self, command, suggestion, source, cb, args)
-    print('hi from turkey')
+    print('command removed')
     if not NPX.Commands.Registered[command] or nil then return end
       -- table.remove(NPX.Commands.Registered, { ['command'] = command, ['suggestion'] = suggestion, ['args'] = args })
     NPX.Commands.Registered[command] = false

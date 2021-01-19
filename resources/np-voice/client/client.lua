@@ -39,7 +39,7 @@ Citizen.CreateThread(function()
     end
 
     SetVoiceProximity(2)
-    TriggerEvent("tcm_voice:ready")
+    TriggerEvent("np-voice:ready")
 
     _myServerId = GetPlayerServerId(PlayerId())
     voiceCheck()
@@ -56,11 +56,11 @@ function voiceCheck()
             isVoiceActive = GetConvar('profile_voiceEnable', 0) == '1' 
     
             if isVoiceActive and not VoiceEnabled then
-                TriggerEvent('tcm_voice:state', true)
+                TriggerEvent('np-voice:state', true)
             elseif not isVoiceActive and VoiceEnabled then
-                TriggerEvent('tcm_voice:state', false)
+                TriggerEvent('np-voice:state', false)
             elseif not toggle and not isVoiceActive and not VoiceEnabled then
-                TriggerEvent('tcm_voice:state', false)
+                TriggerEvent('np-voice:state', false)
                 toggle = true
             end
     
@@ -93,12 +93,12 @@ function voiceThread()
 end
 
 
-AddEventHandler('tcm_voice:state', function(state)
+AddEventHandler('np-voice:state', function(state)
     VoiceEnabled = state
 
     -- exports['tcm_hud']:toggleMumbleWarning(state)
 
-    TriggerServerEvent("tcm_voice:connection:state", state)
+    TriggerServerEvent("np-voice:connection:state", state)
 
     if VoiceEnabled then
         _myServerId = GetPlayerServerId(PlayerId())
@@ -186,7 +186,7 @@ function AddPlayerToTargetList(serverID, context, transmit)
     if not Targets:targetContextExist(serverID, context) then
 
         if transmit then
-            TriggerServerEvent("tcm_voice:transmission:state", serverID, context, true, false)
+            TriggerServerEvent("np-voice:transmission:state", serverID, context, true, false)
         end
 
         if not Targets:targetHasAnyActiveContext(serverID) and _myServerId ~= serverID then --and not IsPlayerInTargetChannel(serverID) TEST
@@ -223,7 +223,7 @@ function RemovePlayerFromTargetList(serverID, context, transmit, refresh)
         Targets:remove(serverID, context)
 
         if transmit then
-            TriggerServerEvent("tcm_voice:transmission:state", serverID, context, false, false)
+            TriggerServerEvent("np-voice:transmission:state", serverID, context, false, false)
         end
 
         if refresh then
@@ -243,7 +243,7 @@ function AddGroupToTargetList(group, context)
         end
     end
 
-    TriggerServerEvent("tcm_voice:transmission:state", group, context, true, true)
+    TriggerServerEvent("np-voice:transmission:state", group, context, true, true)
 end
 
 function RemoveGroupFromTargetList(group, context)
@@ -257,7 +257,7 @@ function RemoveGroupFromTargetList(group, context)
 
     RefreshTargets()
 
-    TriggerServerEvent("tcm_voice:transmission:state", group, context, false, true)
+    TriggerServerEvent("np-voice:transmission:state", group, context, false, true)
 end
 
 function AddChannelToTargetList(channel, context)
@@ -367,8 +367,8 @@ function SetSettings(settings)
     end
 end
 
-RegisterNetEvent("tcm_voice:transmission:state")
-AddEventHandler("tcm_voice:transmission:state", function(serverID, context, transmitting)
+RegisterNetEvent("np-voice:transmission:state")
+AddEventHandler("np-voice:transmission:state", function(serverID, context, transmitting)
 
     if not Transmissions:contextExists(context) then
         return
@@ -403,11 +403,11 @@ AddEventHandler("tcm_voice:transmission:state", function(serverID, context, tran
     Debug("[Main] Transmission | Origin: %s | Vol: %s | Ctx: %s | Active: %s", serverID, data.volume, context, transmitting)
 end)
 
-RegisterNetEvent('tcm_voice:targets:player:add')
-AddEventHandler('tcm_voice:targets:player:add', AddPlayerToTargetList)
+RegisterNetEvent('np-voice:targets:player:add')
+AddEventHandler('np-voice:targets:player:add', AddPlayerToTargetList)
 
-RegisterNetEvent('tcm_voice:targets:player:remove')
-AddEventHandler('tcm_voice:targets:player:remove', RemovePlayerFromTargetList)
+RegisterNetEvent('np-voice:targets:player:remove')
+AddEventHandler('np-voice:targets:player:remove', RemovePlayerFromTargetList)
 
 Citizen.CreateThread(function()
     RegisterKeyMapping('+cycleProximity', "Cycle Proximity Range", 'keyboard', Config.cycleProximityHotkey)

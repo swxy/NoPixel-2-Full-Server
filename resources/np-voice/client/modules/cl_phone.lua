@@ -32,11 +32,11 @@ function LoadPhoneModule()
     RegisterCommand('+loudspeaker', CycleVoiceProximity, false)
     RegisterCommand('-loudspeaker', function() end, false)
 
-    RegisterNetEvent("tcm_voice:phone:call:start")
-    AddEventHandler("tcm_voice:phone:call:start", StartPhoneCall)
+    RegisterNetEvent("np-voice:phone:call:start")
+    AddEventHandler("np-voice:phone:call:start", StartPhoneCall)
 
-    RegisterNetEvent("tcm_voice:phone:call:end")
-    AddEventHandler("tcm_voice:phone:call:end", StopPhoneCall)
+    RegisterNetEvent("np-voice:phone:call:end")
+    AddEventHandler("np-voice:phone:call:end", StopPhoneCall)
 
     if Config.enableFilters.phone then
       local filters = {
@@ -48,7 +48,7 @@ function LoadPhoneModule()
       UpdateContextFilter("phone", filters)
     end
 
-    TriggerEvent("tcm_voice:phone:ready")
+    TriggerEvent("np-voice:phone:ready")
 
     Debug("[Phone] Module Loaded")
 end

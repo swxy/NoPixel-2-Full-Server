@@ -100,7 +100,7 @@ function LoadGridModule()
         end
     end)
 
-    TriggerEvent("tcm_voice:grids:ready")
+    TriggerEvent("np-voice:grids:ready")
 
     Debug("[GRID] Module Loaded")
 end

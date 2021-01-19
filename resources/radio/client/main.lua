@@ -91,9 +91,9 @@ local function handleConnectionEvent(pChannel)
   local newChannel = formattedChannelNumber(pChannel)
 
   if newChannel < 1.0 then
-    TriggerServerEvent("tcm_voice:radio:removePlayerFromRadio", newChannel)
+    TriggerServerEvent("np-voice:radio:removePlayerFromRadio", newChannel)
   else
-    TriggerServerEvent("tcm_voice:radio:addPlayerToRadio", newChannel, true)
+    TriggerServerEvent("np-voice:radio:addPlayerToRadio", newChannel, true)
   end
 end
 

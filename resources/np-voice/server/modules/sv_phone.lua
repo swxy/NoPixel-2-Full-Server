@@ -1,14 +1,14 @@
 local activeCallsByNumber = {}
 local activeCallsBySource = {}
 
-RegisterServerEvent("tcm_voice:server:phone:startCall")
-AddEventHandler("tcm_voice:server:phone:startCall", function(phoneNumber, receiverID)
+RegisterServerEvent("np-voice:server:phone:startCall")
+AddEventHandler("np-voice:server:phone:startCall", function(phoneNumber, receiverID)
     local src = source
     startCall(phoneNumber, src, receiverID)
 end)
 
-RegisterServerEvent("tcm_voice:server:phone:endCall")
-AddEventHandler("tcm_voice:server:phone:endCall", function(phoneNumber)
+RegisterServerEvent("np-voice:server:phone:endCall")
+AddEventHandler("np-voice:server:phone:endCall", function(phoneNumber)
     endCall(phoneNumber)
 end)
 
@@ -30,19 +30,19 @@ function startCall(phoneNumber, callerID, receiverID)
         activeCallsByNumber[phoneNumber] = {caller = callerID, receiver = receiverID}
         activeCallsBySource[src] = phoneNumber
         activeCallsBySource[receiverID] = phoneNumber
-        TriggerClientEvent('tcm_voice:phone:call:start', callerID, phoneNumber, receiverID)
-        TriggerClientEvent('tcm_voice:phone:call:start', receiverID, phoneNumber, callerID)
+        TriggerClientEvent('np-voice:phone:call:start', callerID, phoneNumber, receiverID)
+        TriggerClientEvent('np-voice:phone:call:start', receiverID, phoneNumber, callerID)
     end
 end
 
 function endCall(phoneNumber)
     local data = activeCallsByNumber[phoneNumber]
     if data.caller then
-        TriggerClientEvent('tcm_voice:phone:call:end', data.caller, data.receiver, phoneNumber)
+        TriggerClientEvent('np-voice:phone:call:end', data.caller, data.receiver, phoneNumber)
     end
 
     if data.receiver then
-        TriggerClientEvent('tcm_voice:phone:call:end', data.receiver, data.caller, phoneNumber)
+        TriggerClientEvent('np-voice:phone:call:end', data.receiver, data.caller, phoneNumber)
     end
 
 end

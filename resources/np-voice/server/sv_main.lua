@@ -29,14 +29,14 @@ AddEventHandler("onResourceStart", function(resName) -- Initialises the script, 
 end)
 
 
-RegisterNetEvent("tcm_voice:connection:state")
-AddEventHandler("tcm_voice:connection:state", function(state)
-	TriggerClientEvent('tcm_voice:connection:state', -1, source, state)
+RegisterNetEvent("np-voice:connection:state")
+AddEventHandler("np-voice:connection:state", function(state)
+	TriggerClientEvent('np-voice:connection:state', -1, source, state)
 end)
 
 
-RegisterNetEvent("tcm_voice:transmission:state")
-AddEventHandler("tcm_voice:transmission:state", function(group, context, transmitting, isMult)
+RegisterNetEvent("np-voice:transmission:state")
+AddEventHandler("np-voice:transmission:state", function(group, context, transmitting, isMult)
 	--print('transmission')
 	--print( type(group))
 	local _source = source
@@ -45,10 +45,10 @@ AddEventHandler("tcm_voice:transmission:state", function(group, context, transmi
 		for k,v in pairs(group) do
 			-- print(v)
 			-- print(k)
-			TriggerClientEvent('tcm_voice:transmission:state', v, _source, context, transmitting)
+			TriggerClientEvent('np-voice:transmission:state', v, _source, context, transmitting)
 		end
 	else
-		TriggerClientEvent('tcm_voice:transmission:state', group, _source, context, transmitting)
+		TriggerClientEvent('np-voice:transmission:state', group, _source, context, transmitting)
 	end
 	--else
 	--end

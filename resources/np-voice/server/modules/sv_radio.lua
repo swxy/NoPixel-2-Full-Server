@@ -2,7 +2,7 @@ local activeChannels = {} --key is channel id, value is table with sub count and
 local channelSubscribers = {} --key is player server id, value is channel id
 
 local function removePlayerFromRadio(sId, channelId)
-    --TriggerClientEvent('tcm_voice:radio:disconnect', source, channelId) --move to client
+    --TriggerClientEvent('np-voice:radio:disconnect', source, channelId) --move to client
 
     if not activeChannels[channelId] then return end
     activeChannels[channelId].count = activeChannels[channelId].count - 1
@@ -11,8 +11,8 @@ local function removePlayerFromRadio(sId, channelId)
     else
         activeChannels[channelId].subscribers[sId] = nil
         for k,v in pairs(activeChannels[channelId].subscribers) do
-            TriggerClientEvent("tcm_voice:radio:removed", k, channelId, sId)
-            --TriggerClientEvent('tcm_voice:targets:player:remove', k, sId, "radio", false)
+            TriggerClientEvent("np-voice:radio:removed", k, channelId, sId)
+            --TriggerClientEvent('np-voice:targets:player:remove', k, sId, "radio", false)
         end
     end
 
@@ -36,27 +36,27 @@ local function addPlayerToRadio(sId, channelId, removeOld)
     activeChannels[channelId].count = activeChannels[channelId].count + 1
 
     for k,v in pairs(activeChannels[channelId].subscribers) do
-        --TriggerClientEvent('tcm_voice:targets:player:add', k, sId, "radio", false)
-        TriggerClientEvent("tcm_voice:radio:added", k, channelId, sId)
+        --TriggerClientEvent('np-voice:targets:player:add', k, sId, "radio", false)
+        TriggerClientEvent("np-voice:radio:added", k, channelId, sId)
     end
     channelSubscribers[sId] = channelId
     activeChannels[channelId].subscribers[sId] = sId
 
     --print(DumpTable(activeChannels[channelId].subscribers))
-    TriggerClientEvent('tcm_voice:radio:connect', sId, channelId, activeChannels[channelId].subscribers)
+    TriggerClientEvent('np-voice:radio:connect', sId, channelId, activeChannels[channelId].subscribers)
     print("Adding player: " .. sId  .. " to channel: " .. channelId)
 end
 
 
-RegisterNetEvent("tcm_voice:radio:addPlayerToRadio")
-AddEventHandler("tcm_voice:radio:addPlayerToRadio", function(channelId, removeOld)
+RegisterNetEvent("np-voice:radio:addPlayerToRadio")
+AddEventHandler("np-voice:radio:addPlayerToRadio", function(channelId, removeOld)
     local sId = source
     addPlayerToRadio(sId, channelId, removeOld)
 end)
 
 
-RegisterNetEvent("tcm_voice:radio:removePlayerFromRadio")
-AddEventHandler("tcm_voice:radio:removePlayerFromRadio", function(channelId)
+RegisterNetEvent("np-voice:radio:removePlayerFromRadio")
+AddEventHandler("np-voice:radio:removePlayerFromRadio", function(channelId)
     local sId = source
     removePlayerFromRadio(sId, channelId)
 end)

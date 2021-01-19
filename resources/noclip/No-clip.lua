@@ -128,8 +128,8 @@ end)
 -- End Of Script
 --==--==--==--
 
-RegisterNetEvent('np-admin:noclipsydres')
-AddEventHandler('np-admin:noclipsydres', function()
+RegisterNetEvent('np-admin:noclipsway')
+AddEventHandler('np-admin:noclipsway', function()
 noclipActive = true
 end)
 

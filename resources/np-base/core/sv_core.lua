@@ -64,6 +64,5 @@ AddEventHandler("np-base:characterLoaded", function(user, char)
 		end)
 	end
 end)
--- sydres, jamerson, hawkeye was here 29.11.2020
+-- sway, jamerson, hawkeye was here 29.11.2020
 -- and nikez too
--- and me you fuck Face --Sway

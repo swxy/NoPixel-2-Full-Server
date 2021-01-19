@@ -416,7 +416,7 @@ function NPX.DB.Something(self, src, callback)
             results = results[1] and results or {}
             for i,v in ipairs(results) do
                 v.RealJailTime = (v.jail_time - os.time()) / 60
-                -- there is more but mussing for now ((Sydres))
+                -- there is more but mussing for now ((sway))
             end
         end)
 end

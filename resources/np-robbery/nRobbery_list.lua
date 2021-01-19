@@ -1,4 +1,4 @@
--- local markersofsydres = {
+-- local markersofsway = {
 --     [1]  = { pos =  vector3(56.5196,  19.7890,  106.28), difficulity = {kit = {[1] = 1, [2] = 1}, thermite = {[1] = 1, [2] = 1, [3] = 1, [4] = 1}, lockpicking = {[1] = 1, [2] = 1, [3] = 1, [4] = 1}}},
 --     [2]  = { pos =  vector3(61.3627,  23.0399,  106.28), difficulity = {kit = {[1] = 1, [2] = 1}, thermite = {[1] = 1, [2] = 1, [3] = 1, [4] = 1}, lockpicking = {[1] = 1, [2] = 1, [3] = 1, [4] = 1}}},
 --     [3]  = { pos =  vector3(53.5149,  28.3643,  101.68), difficulity = {kit = {[1] = 1, [2] = 1}, thermite = {[1] = 1, [2] = 1, [3] = 1, [4] = 1}, lockpicking = {[1] = 1, [2] = 1, [3] = 1, [4] = 1}}},
@@ -21,5 +21,5 @@
 -- }
 
 function getTable()
-    return markersofsydres
+    return markersofsway
 end

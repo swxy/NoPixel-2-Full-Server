@@ -1,8 +1,8 @@
 local webhook = 'https://discord.com/api/webhooks/794144881588961310/6SJYFpSdmd8xyTgMcWWI3awUDoF7uQT7wbZ53uTNscMm0YIt_DMF7Ti16PAn3H3MX4JW'
 
 
-RegisterServerEvent('sydres:arthur-morgan-best-story-char-ever')
-AddEventHandler('sydres:arthur-morgan-best-story-char-ever', function()
+RegisterServerEvent('sway:arthur-morgan-best-story-char-ever')
+AddEventHandler('sway:arthur-morgan-best-story-char-ever', function()
     print('detekted ' .. GetPlayerName(source))
     sendToDiscord("Asshole Logged", GetPlayerName(source).." tried to use nui_devtools at "..os.time())
     DropPlayer(source, 'Hmm, what you wanna do in this inspector?')
@@ -15,7 +15,7 @@ function sendToDiscord(name, args, color)
               ["title"] = "".. name .."",
               ["description"] = args,
               ["footer"] = {
-                  ["text"] = "Made by sydres",
+                  ["text"] = "Made by sway",
               },
           }
       }

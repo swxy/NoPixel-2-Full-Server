@@ -1,5 +1,5 @@
 local robbedvehicles = {}
--- done ((Sydres))
+-- done ((sway))
 
 RegisterServerEvent('sec:checkRobbed')
 AddEventHandler('sec:checkRobbed', function(data)

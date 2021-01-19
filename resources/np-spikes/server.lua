@@ -1,4 +1,4 @@
--- may be wrong idk ((Sydres))
+-- may be wrong idk ((sway))
 RegisterServerEvent('police:spikesLocation')
 AddEventHandler('police:spikesLocation', function(x,y,z,heading)
     TriggerClientEvent('addSpikes', -1, x..y..z,heading)

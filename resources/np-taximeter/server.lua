@@ -1,4 +1,4 @@
--- done ((Sydres))
+-- done ((sway))
 
 RegisterServerEvent('taximeter:freeze')
 AddEventHandler('taximeter:freeze', function(plate, boolean)

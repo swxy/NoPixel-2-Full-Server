@@ -2,7 +2,6 @@ fx_version 'adamant'
 games { 'gta5' }
 
 server_scripts {
-	'@sway-core/locale.lua',
 	'locales/br.lua',
 	'locales/en.lua',
 	'locales/fr.lua',
@@ -14,7 +13,6 @@ server_scripts {
 
 
 client_scripts {
-	'@sway-core/locale.lua',
 	'locales/br.lua',
 	'locales/en.lua',
 	'locales/fr.lua',

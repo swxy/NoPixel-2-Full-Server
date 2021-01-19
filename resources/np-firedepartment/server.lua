@@ -1,4 +1,4 @@
---done ((sydres))
+--done ((sway))
 RegisterServerEvent('Saw:SyncDoorFall')
 AddEventHandler('Saw:SyncDoorFall', function(netid, data)
     TriggerClientEvent('firedepartment:removeDoor', -1, netid, data)

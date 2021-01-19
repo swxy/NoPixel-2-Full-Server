@@ -77,13 +77,13 @@ AddEventHandler('dr:releaseEscort', function(releaseID)
 	TriggerClientEvent('dr:releaseEscort', tonumber(releaseID))
 end)
 
-RegisterServerEvent('police:IsTargetCuffed') -- that is np's code ((sydres))
+RegisterServerEvent('police:IsTargetCuffed') -- that is np's code ((sway))
 AddEventHandler('police:IsTargetCuffed', function(playerID)
 	local src = source
 	TriggerClientEvent("police:IsPlayerCuffed", playerID, src)
 end)
 
--- done ((Sydres))
+-- done ((sway))
 function CheckLicense(cid, license)
 	exports.ghmattimysql:execute("SELECT @license FROM licenses WHERE cid = @id", {['id'] = cid, ['license'] = license}, function(result)
 		if (result[1]) then
@@ -98,12 +98,12 @@ function CheckLicense(cid, license)
 	end
 end
 
-function getmonth(month) -- that is np's code ((sydres))
+function getmonth(month) -- that is np's code ((sway))
 	local months = { "Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"}
 	return months[tonumber(month)]
 end
 
-function ConvertDate(d) -- that is np's code ((sydres))
+function ConvertDate(d) -- that is np's code ((sway))
 	local newD = math.ceil(tonumber(d/1000))
 	local msgtime = "NA"
 	if newD < 0 then
@@ -138,7 +138,7 @@ AddEventHandler('gc:showthemIdentity', function(user)
 	--
 end)
 
-RegisterServerEvent('police:showPH') -- that is np's code ((sydres))
+RegisterServerEvent('police:showPH') -- that is np's code ((sway))
 AddEventHandler('police:showPH', function()
 	local src = source
 	local player = exports["np-base"]:getModule("Player"):GetUser(src)
@@ -212,14 +212,14 @@ AddEventHandler("police:deletecrimes", function(target)
 	-- missing here
 end)
 
-RegisterServerEvent('police:gsrGranted') -- that is np's code ((sydres))
+RegisterServerEvent('police:gsrGranted') -- that is np's code ((sway))
 AddEventHandler('police:gsrGranted', function(t)
     local copId = source
     TriggerClientEvent("DoLongHudText", t, 'You have been GSR tested',1)
     TriggerClientEvent('police:hasShotRecently', t, copId)
 end)
 
-RegisterServerEvent('police:hasShotRecently') -- that is np's code ((sydres))
+RegisterServerEvent('police:hasShotRecently') -- that is np's code ((sway))
 AddEventHandler('police:hasShotRecently', function(shotRecently, copId)
 	local src = source
 	local user = exports["np-base"]:getModule("Player"):GetUser(src)
@@ -231,19 +231,19 @@ end)
 
 RegisterServerEvent('police:fingerPrintAsk')
 AddEventHandler('police:fingerPrintAsk', function(t, v)
-	-- 3.0 Code ((sydres))
+	-- 3.0 Code ((sway))
 	local src = source
 	TriggerClientEvent("DoLongHudText", src, 'Finger Printing..', 1)
 	TriggerClientEvent("DoLongHudText", t, 'You have ben Finger Print tested', 1)
 	TriggerClientEvent('police:fingerPrintVeh', t, v)
 end)
 
-RegisterServerEvent('police:remmaskGranted') -- that is np's code ((sydres))
+RegisterServerEvent('police:remmaskGranted') -- that is np's code ((sway))
 AddEventHandler('police:remmaskGranted', function(targetplayer)
     TriggerClientEvent('police:remmaskAccepted', targetplayer)
 end)
 
-RegisterServerEvent('unseatAccepted') -- that is np's code ((sydres))
+RegisterServerEvent('unseatAccepted') -- that is np's code ((sway))
 AddEventHandler('unseatAccepted', function(targetplayer,x,y,z)
     TriggerClientEvent('unseatPlayerFinish', targetplayer,x,y,z)
 end)

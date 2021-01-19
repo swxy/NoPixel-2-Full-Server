@@ -222,7 +222,7 @@ end)
 RegisterServerEvent('driving:toggleInstructorMode')
 AddEventHandler('driving:toggleInstructorMode', function(boolean)
   shit = not shit
-  -- done. ((Sydres))
+  -- done. ((sway))
   local src = source
   local user = exports["np-base"]:getModule("Player"):GetUser(src)
   local char = user:getCurrentCharacter()

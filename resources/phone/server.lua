@@ -228,7 +228,7 @@ end)
 
 RegisterNetEvent('phone:callContact')
 AddEventHandler('phone:callContact', function(targetnumber, toggle)
-    -- hard to do ((Sydres))
+    -- hard to do ((sway))
     local src = source
     local user = exports["np-base"]:getModule("Player"):GetUser(src)
     local targetIdentifier = getIdentifierByPhoneNumber(targetnumber)

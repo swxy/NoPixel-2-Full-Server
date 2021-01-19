@@ -3675,7 +3675,7 @@ RegisterCommand('callsign', function(source, args)
 			TriggerEvent('police:setCallSign', args[1])
 		end
 	else
-		TriggerEvent('DoLongHudText', "You need to be police officer or Master Sydres to do that.", 2)
+		TriggerEvent('DoLongHudText', "You need to be police officer or Master sway to do that.", 2)
 	end
 end)
 

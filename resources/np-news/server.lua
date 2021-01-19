@@ -4,4 +4,4 @@ AddEventHandler('NewsStandCheckFinish', function(strg, strg2)
   TriggerClientEvent('NewsStandCheckFinish', src, strg, strg2)
 end)
 
--- cleared and removed ((sydres))
+-- cleared and removed ((sway))

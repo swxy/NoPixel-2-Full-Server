@@ -285,7 +285,7 @@ end)
 
 RegisterServerEvent('scrap:processPayment')
 AddEventHandler('scrap:processPayment', function(amount, garage, material)
--- adding material to garage's sql table ill make it ((Sydres))
+-- adding material to garage's sql table ill make it ((sway))
     local src = source
     local koil
     if material == 26 then koil = "Scrap" 

@@ -481,7 +481,7 @@ RegisterNetEvent("phone:error")
 AddEventHandler("phone:error", function()
       SendNUIMessage({
         openSection = "error",
-        textmessage = "<b>Network Error</b> <br><br> Please contact support if this error persists, thank you for using nopixel Phone Services.",
+        textmessage = "<b>Network Error</b> <br><br> Please contact support if this error persists, thank you for using Evolved Phone Services.",
       })   
 end)
 
@@ -1028,7 +1028,7 @@ function rundropoff(boxcount,costs)
   -- delete this line to enable weed boxes 1 ~= 2 should be curhrs ~= curmins
   if 1 ~= 2 then
     for i = 1, math.random(20) do
-      TriggerEvent("chatMessage", "SPAM EMAIL ", 8, "This message was blocked for your safety. Thank you for using nopixel mail services.")
+      TriggerEvent("chatMessage", "SPAM EMAIL ", 8, "This message was blocked for your safety. Thank you for using Evolved mail services.")
     end
     refreshmail()
     return

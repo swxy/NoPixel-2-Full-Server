@@ -229,7 +229,7 @@ function NPX.DB.UpdateCharacterStressLevel(self, user, characterId, newLevel, ca
         ["characterId"] = characterId
     }
     exports.ghmattimysql:execute(q, v, function(rowsChanged)
-        if not rowsChanged.changedRows then callback(false, true) return end
+        if not rowsChanged.changedRows then callback(true,false) return end
         local updated = rowsChanged and true or false
         callback(updated)
     end)

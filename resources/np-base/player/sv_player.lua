@@ -87,7 +87,7 @@ local function AddMethod(player)
     end
 
     function player.alterStressLevel(self, amt)
-        local characterId = GetUser(self.character.id)
+        local characterid = GetUser(self).character.id
 
         GetUser(self).character.stress_level = amt
 
@@ -99,7 +99,7 @@ local function AddMethod(player)
     end
 
     function player.resetDirtyMoney(self)
-        local characterId = GetUser(self.character.id)
+        local characterid = GetUser(self).character.id
 
         GetUser(self).character.dirty_money = 0
 

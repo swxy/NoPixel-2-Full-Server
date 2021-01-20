@@ -3,22 +3,6 @@ local paused = false
 
 local changingVar = ""
 
-local carsEnabled = {}
-
-local airtime = 0
-
-local offroadTimer = 0
-local airtimeCoords = GetEntityCoords(GetPlayerPed(-1))
-local heightPeak = 0
-local lasthighPeak = 0
-local highestPoint = 0
-local zDownForce = 0
-local veloc = GetEntityVelocity(veh)
-local offroadVehicle = false
-local NosVehicles = {}
-local nosForce = 0.0
-local checkPlayerOwnedVehicles = false
-
 
 DecorRegister("PlayerVehicle", 2)
 
@@ -35,25 +19,6 @@ end)
 function checkPlayerOwnedVehicle(veh)
 	return DecorExistOn(veh, "PlayerVehicle")
 end
-
-RegisterNetEvent('veh.checkOwner')
-AddEventHandler('veh.checkOwner', function(status)
-  checkPlayerOwnedVehicles = status
-end)
-
-local handbrake = 0
-
-local nitroTimer = false
-
-
-
-RegisterNetEvent('resethandbrake')
-AddEventHandler('resethandbrake', function()
-    while handbrake > 0 do
-        handbrake = handbrake - 1
-        Citizen.Wait(30)
-    end
-end)
 
 RegisterNetEvent('veh.updateVehicleDegredation')
 AddEventHandler('veh.updateVehicleDegredation', function(br,ax,rad,cl,tra,elec,fi,ft)
@@ -389,7 +354,6 @@ function electronics(currentVehicle)
 end
 
 function trackVehicleHealth()
-	print('trackvehicles')
 	local tempReturn = {}
 	for k, v in pairs(trackedVehicles) do
 		if not IsEntityDead(k) then
@@ -600,114 +564,3 @@ AddEventHandler('veh.getDegredation', function(veh,cb)
 	deghealth = getDegredationArray()
 	cb(deghealth)
 end)
-
-RegisterNetEvent('veh:requestUpdate')
-AddEventHandler('veh:requestUpdate', function()
-  --print("Come here? In REquest Update")
- -- print(GetPlayerPed(-1))
-	local playerped = GetPlayerPed(-1)   
-	local coordA = GetEntityCoords(playerped, 1)
-	local coordB = GetOffsetFromEntityInWorldCoords(playerped, 0.0, 5.0, 0.0)
-	local targetVehicle = getVehicleInDirection(coordA, coordB)
-  local plate = GetVehicleNumberPlateText(targetVehicle)
-
-	TriggerServerEvent('veh.examine',plate,targetVehicle)
-end)
-
-local degHealth = {
-	["breaks"] = 0,-- has neg effect
-	["axle"] = 0,	-- has neg effect
-	["radiator"] = 0, -- has neg effect
-	["clutch"] = 0,	-- has neg effect
-	["transmission"] = 0, -- has neg effect
-	["electronics"] = 0, -- has neg effect
-	["fuel_injector"] = 0, -- has neg effect
-	["fuel_tank"] = 0 
-}
-local engineHealth = 0
-local bodyHealth = 0
-
-RegisterNetEvent('towgarage:triggermenu')
-AddEventHandler('towgarage:triggermenu', function(degradation,eHealth,bHealth)
-	local degHealth = {
-		["breaks"] = 0,-- has neg effect
-		["axle"] = 0,	-- has neg effect
-		["radiator"] = 0, -- has neg effect
-		["clutch"] = 0,	-- has neg effect
-		["transmission"] = 0, -- has neg effect
-		["electronics"] = 0, -- has neg effect
-		["fuel_injector"] = 0, -- has neg effect
-		["fuel_tank"] = 0 
-	}
-	-- print(eHealth,bHealth)
-	local engineHealth = eHealth
-	local bodyHealth = bHealth
-	local temp = degradation:split(",")
-	if(temp[1] ~= nil) then	
-
-		for i,v in ipairs(temp) do
-			if i == 1 then
-				degHealth.breaks = tonumber(v)
-				if degHealth.breaks == nil then
-					degHealth.breaks = 0
-				end
-			elseif i == 2 then
-				degHealth.axle = tonumber(v)
-			elseif i == 3 then
-				degHealth.radiator = tonumber(v)
-			elseif i == 4 then
-				degHealth.clutch = tonumber(v)
-			elseif i == 5 then
-				degHealth.transmission = tonumber(v)
-			elseif i == 6 then
-				degHealth.electronics = tonumber(v)
-			elseif i == 7 then
-				degHealth.fuel_injector = tonumber(v)
-			elseif i == 8 then	
-				degHealth.fuel_tank = tonumber(v)
-			end
-		end
-	end
-
-	local playerped = PlayerPedId()
-	local coordA = GetEntityCoords(playerped, 1)
-	local coordB = GetOffsetFromEntityInWorldCoords(playerped, 0.0, 5.0, 0.0)
-	local targetVehicle = getVehicleInDirection(coordA, coordB)
-
-
-	if targetVehicle ~= nil  and targetVehicle ~= 0 then
-		--print('target here')
-		engineHealth = GetVehicleEngineHealth(targetCar) 
-		bodyHealth = GetVehicleBodyHealth(targetCar)
-		currentVeh = targetVehicle
-		--local strng = "<br> Brakes (Rubber) - " .. round(degHealth["breaks"] / 10,2) .. "/10.0" .. " <br> Axle (Scrap) - " .. round(degHealth["axle"] / 10,2) .. "/10.0" .. " <br> Radiator (Scrap) - " .. round(degHealth["radiator"] / 10,2) .. "/10.0" .. " <br> Clutch (Scrap) - " .. round(degHealth["clutch"] / 10,2) .. "/10.0" .. " <br> Transmission (Aluminium) - " .. round(degHealth["transmission"] / 10,2) .. "/10.0" .. " <br> Electronics (Plastic) - " .. round(degHealth["electronics"] / 10,2) .. "/10.0" .. " <br> Injector (Copper) - " .. round(degHealth["fuel_injector"] / 10,2) .. "/10.0" .. " <br> Fuel (Steel) - " .. round(degHealth["fuel_tank"] / 10,2) .. "/10.0" .. " <br> Body (Glass) - " .. round((bHealth / 10) / 10,2) .. "/10.0" .. " <br> Engine (Scrap) - " .. round((eHealth / 10) / 10,2) .. "/10.0"
-		local strng = "\n Brakes (Rubber) - " .. round(degHealth["breaks"] / 10,2) .. "/10.0" .. " \n Axle (Scrap) - " .. round(degHealth["axle"] / 10,2) .. "/10.0" .. " \n Radiator (Scrap) - " .. round(degHealth["radiator"] / 10,2) .. "/10.0" .. " \n Clutch (Scrap) - " .. round(degHealth["clutch"] / 10,2) .. "/10.0" .. " \n Transmission (Aluminium) - " .. round(degHealth["transmission"] / 10,2) .. "/10.0" .. " \n Electronics (Plastic) - " .. round(degHealth["electronics"] / 10,2) .. "/10.0" .. " \n Injector (Copper) - " .. round(degHealth["fuel_injector"] / 10,2) .. "/10.0" .. " \n Fuel (Steel) - " .. round(degHealth["fuel_tank"] / 10,2) .. "/10.0" .. " \n Body (Glass) - " .. round((bodyHealth / 10) / 10,2) .. "/10.0" .. " \n Engine (Scrap) - " .. round((engineHealth / 10) / 10,2) .. "/10.0"
-		TriggerEvent("customNotification",strng)
-	end
-end)
-
-function round(num, numDecimalPlaces)
-	local mult = 10^(numDecimalPlaces or 0)
-	return math.floor(num * mult + 0.5) / mult
-  end
-
-  function getVehicleInDirection(coordFrom, coordTo)
-	local offset = 0
-	local rayHandle
-	local vehicle
-
-	for i = 0, 100 do
-		rayHandle = CastRayPointToPoint(coordFrom.x, coordFrom.y, coordFrom.z, coordTo.x, coordTo.y, coordTo.z + offset, 10, PlayerPedId(), 0)	
-		a, b, c, d, vehicle = GetRaycastResult(rayHandle)
-		
-		offset = offset - 1
-
-		if vehicle ~= 0 then break end
-	end
-	
-	local distance = Vdist2(coordFrom, GetEntityCoords(vehicle))
-	
-	if distance > 25 then vehicle = nil end
-
-    return vehicle ~= nil and vehicle or 0
-end

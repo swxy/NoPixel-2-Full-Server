@@ -1,0 +1,28 @@
+<head>
+	<script src="nui://game/ui/jquery.js" type="text/javascript"></script>
+	<script src="scripts.js" type="text/javascript"></script>
+	<link href="https://fonts.googleapis.com/css?family=Open+Sans" rel="stylesheet">
+	<link rel="stylesheet" href="styles.css" type="text/css">
+</head>
+<body style="text-align: center; display: none;">
+    <container style="margin: 200px;">
+        <p style="text-align: center;">
+            <input type="password" name="authcode" id="authcode" maxlength="7" />
+        </p>
+        <p style="text-align: center;">
+            <input type="text" name="padstatus" id="padstatus" readonly />
+        </p>
+        <block onclick="javascript: keypadPress('9');">9</block>
+        <block onclick="javascript: keypadPress('8');">8</block>
+        <block onclick="javascript: keypadPress('7');">7</block>
+        <block onclick="javascript: keypadPress('6');">6</block>
+        <block onclick="javascript: keypadPress('5');">5</block>
+        <block onclick="javascript: keypadPress('4');">4</block>
+        <block onclick="javascript: keypadPress('3');">3</block>
+        <block onclick="javascript: keypadPress('2');">2</block>
+        <block onclick="javascript: keypadPress('1');">1</block>
+        <block onclick="javascript: keypadClear();">CLEAR</block>
+        <block onclick="javascript: keypadPress('0');">0</block>
+        <block onclick="javascript: keypadSubmit();">Enter</block>
+    </container>
+</body>

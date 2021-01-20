@@ -1229,6 +1229,7 @@ AddEventHandler('garages:SpawnVehicle', function(vehicle, plate, customized, sta
 			end
 			
 			DecorSetInt(veh, "CurrentFuel", Fuel)
+			TriggerEvent("veh.PlayerOwned",veh)
 			SetVehicleOnGroundProperly(veh)
 			SetEntityInvincible(veh, false) 
 

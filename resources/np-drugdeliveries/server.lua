@@ -36,3 +36,23 @@ AddEventHandler('delivery:status', function(status)
     end
     TriggerClientEvent('delivery:deliverables', -1, counter, math.random(1,14))
 end)
+
+
+
+local activechop = {}
+local newList = {}
+RegisterServerEvent('request:chopshop')
+AddEventHandler('request:chopshop', function()
+    if #newList == 0 then
+    for i = 1, 5 do
+        table.insert(newList, {["id"] = math.random(1, 118), ["rarity"] = math.random(1, 15), ["resolved"] = false})
+    end
+    end
+    print(newList)
+    TriggerClientEvent("chop:CurrentCarList", source, newList, 10)
+end)
+
+RegisterServerEvent('chop:ServerCompleteCar')
+AddEventHandler('chop:ServerCompleteCar', function()
+    print('chop:ServerCompleteCar called')
+end)

@@ -114,30 +114,7 @@ AddEventHandler('BuyForVeh', function(platew, name, vehicle, price, financed)
     end
 end)
 
--- Get All finance > 0 then take 10min off
--- Every 10 Min
-function updateFinance()
-    exports.ghmattimysql:execute('SELECT last_payment, license_plate FROM characters_cars WHERE last_payment > @last_payment', {
-        ["@financetimer"] = 0
-    }, function(result)
-        for i=1, #result do
-            local financeTimer = result[i].financetimer
-            local plate = result[i].plate
-            local newTimer = financeTimer - 1
-            if financeTimer ~= nil then
-                exports.ghmattimysql:execute('UPDATE characters_cars SET last_payment=@last_payment WHERE license_plate=@license_plate', {
-                    ['@plate'] = plate,
-                    ['@last_payment'] = newTimer
-                })
-            end
-        end
-    end)
-    SetTimeout(timer, updateFinance)
-end
-SetTimeout(timer, updateFinance)
-
-
-
+    
 function updateDisplayVehicles()
     for i=1, #carTable do
         exports.ghmattimysql:execute("UPDATE vehicle_display SET model=@model, commission=@commission, baseprice=@baseprice WHERE ID=@ID",{
@@ -181,7 +158,32 @@ function PayVehicleFinance(vehicleplate)
 
       user:removeMoney(vehicletotalamount / 12)
     else
+        TriggerClientEvent('DoLongHudText', user.source, 'It is Not The Due Date for The Payment', 2)
         print('faggot alert')
     end
       end)
 end
+
+function updateCarDueDates() 
+    local changed = 0
+    exports.ghmattimysql:execute('SELECT * FROM characters_cars', {
+    }, function(result)
+        for k,v in pairs(result) do
+            local new_last_payment = tonumber(v.last_payment - 1)
+            if new_last_payment >= 0 then
+                changed = changed + 1
+                exports.ghmattimysql:execute("UPDATE characters_cars SET last_payment = @timer WHERE license_plate = @license_plate",
+                    {['license_plate'] = tostring(v.license_plate),
+                    ['@timer'] = new_last_payment,
+                })
+            end
+        end
+        print('^1[Evolved RP] ^5Updated all Financing Due Dates for ^2' ..changed ..'^5 vehicles.^7')
+    end)
+end
+
+TriggerEvent('cron:runAt', 16, 0, updateCarDueDates)
+
+--RegisterCommand("penisfuck", function()
+  --  updateCarDueDates()
+---end)

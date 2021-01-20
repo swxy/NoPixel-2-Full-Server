@@ -373,13 +373,13 @@ AddEventHandler('returnmechanicmaterials', function(materialsTable)
 	    [6] = { ["itemid"] = 33, ["itemname"] = "Rubber", ["amount"] = 0 },
 	    [7] = { ["itemid"] = 34, ["itemname"] = "Copper", ["amount"] = 0 },
 	}
-	-- for x = 1, #itemvalues do
-	-- 	local itemid = itemvalues[x]["itemid"]
-	-- 	local itemname = itemvalues[x]["itemname"]
-	-- 	local itemcount = materialsTable["itemid"..itemid]["amount"]
-		TriggerEvent("chatMessage","Storage",4,materialsTable)
+	for x = 1, #itemvalues do
+		local itemid = itemvalues[x]["itemid"]
+		local itemname = itemvalues[x]["itemname"]
+		local itemcount = materialsTable["itemid"..itemid]["amount"]
+		TriggerEvent("chatMessage","Storage",4,itemcount .. " of " .. itemname)
 		Citizen.Wait(10)
-	-- end
+	end
 end)
 
 
@@ -630,31 +630,24 @@ Citizen.CreateThread(function()
 
 		for i,v in ipairs(garage) do
 			if #(vector3(garage[i].x,garage[i].y,garage[i].z) - GetEntityCoords(LocalPed())) < 25 then
-				--print("coord")
 				wait = false
 				local garageDropDistance = #(vector3(garagedrop[i]["x"],garagedrop[i]["y"],garagedrop[i]["z"]) - GetEntityCoords(LocalPed()))
 				if not hasPutCarIn then
-					--print("loll")
 					if i == 2 then
-						print("22222")
 						local rank = exports["isPed"]:GroupRank("parts_shop")
-					--	if rank > 0 then
-							print("yeah")
+						if rank > 0 then
 							if garageDropDistance < 5.0 then
-								print("yeah")
 								DrawText3Ds(garagedrop[i]["x"],garagedrop[i]["y"],garagedrop[i]["z"],"["..Controlkey["generalUseThird"][2].."] store material ["..Controlkey["generalUseSecondary"][2].."] check materials.")
 							end
-					--	end
+						end
 					elseif i == 3 then
-					--	print("3333")
 						local rank = exports["isPed"]:GroupRank("repairs_harmony")
-					--	if rank > 0 then
+						if rank > 0 then
 							if garageDropDistance < 5.0 then
 								DrawText3Ds(garagedrop[i]["x"],garagedrop[i]["y"],garagedrop[i]["z"],"["..Controlkey["generalUseThird"][2].."] store material ["..Controlkey["generalUseSecondary"][2].."] check materials.")
 							end
-					--	end
+						end
 					elseif i == 4 then
-						print("4444")
 						local rank = exports["isPed"]:GroupRank("tuner_carshop")
 						if rank > 0 then
 							if garageDropDistance < 5.0 then
@@ -662,7 +655,6 @@ Citizen.CreateThread(function()
 							end
 						end
 					elseif i == 5 then
-						print("5555")
 						local rank = exports["isPed"]:GroupRank("lost_mc")
 						if rank > 0 then
 							if garageDropDistance < 5.0 then
@@ -670,18 +662,16 @@ Citizen.CreateThread(function()
 							end
 						end
 					else
-					--	print("elsee")
 						local rank = exports["isPed"]:GroupRank("chop_shop")
-					--	if rank > 0 then
+						if rank > 0 then
 							if garageDropDistance < 5.0 then
 								DrawText3Ds(garagedrop[i]["x"],garagedrop[i]["y"],garagedrop[i]["z"],"["..Controlkey["generalUseThird"][2].."] store material ["..Controlkey["generalUseSecondary"][2].."] check materials.")
 							end
-					--	end
+						end
 					end -- If i checks
 				end -- If not hasPutCarin
 
 				if IsControlJustPressed(1,Controlkey["generalUseSecondary"][1]) and garageDropDistance < 1.0 then
-					print("yah")
 
 					local rank = exports["isPed"]:GroupRank("parts_shop")
 					local lrank = exports["isPed"]:GroupRank("lost_mc")
@@ -689,14 +679,12 @@ Citizen.CreateThread(function()
 					local drank = exports["isPed"]:GroupRank("repairs_harmony")
 					local zrank = exports["isPed"]:GroupRank("tuner_carshop")
 					if (i == 3 and drank > 0) or (i == 2 and rank > 0) or (i == 1 and crank > 0) or (i == 4 and zrank > 0) or (i == 5 and lrank > 0)  then
-						print("yah yah")
 						TriggerServerEvent("requestmechanicmaterials","Tow Garage " .. i)
 					end
 
 				end
 
 				if IsControlJustPressed(1, Controlkey["generalUseThird"][1]) and garageDropDistance < 1.0 then
-					print("server")
 
 					local rank = exports["isPed"]:GroupRank("parts_shop")
 					local lrank = exports["isPed"]:GroupRank("lost_mc")
@@ -705,7 +693,6 @@ Citizen.CreateThread(function()
 					local zrank = exports["isPed"]:GroupRank("tuner_carshop")
 
 					if (i == 3 and drank > 0) or (i == 2 and rank > 0) or (i == 1 and crank > 0) or (i == 4 and zrank > 0) or (i == 5 and lrank > 0) then
-						print("rank")
 
 						local itemvalues = {
 						    [1] = { ["itemid"] = 26, ["itemname"] = "Scrap", ["amount"] = 0,["name"] = "scrapmetal" },
@@ -723,13 +710,10 @@ Citizen.CreateThread(function()
 							local itemcount = exports["np-inventory"]:getQuantity(itemvalues[x]["name"])
 
 							if itemcount > 0 then
-								print("ya")
 								local finished = exports["np-taskbar"]:taskBar(2000,"Storing " .. itemname)
 								if finished == 100 then
 									TriggerEvent('inventory:removeItem',itemvalues[x]["name"], itemcount)
 									TriggerServerEvent("scrap:processPayment",itemcount,"Tow Garage " .. i,itemid)
-									print(tostring(itemid))
-									print("payment")
 									Citizen.Wait(1000)
 								end
 							end
@@ -1011,11 +995,15 @@ AddEventHandler('towgarage:checkDegMenu', function(JobCheck,button)
 	if targetVehicle ~= nil  and targetVehicle ~= 0 and not isInMenu then
 		if GetVehicleClass(targetVehicle) ~= 13 and GetVehicleClass(targetVehicle) ~= 21 and GetVehicleClass(targetVehicle) ~= 16 and GetVehicleClass(targetVehicle) ~= 15 and GetVehicleClass(targetVehicle) ~= 14 then
 			TriggerEvent('veh.isPlayers',targetVehicle,function(result)
+				
 				if result then
+					print("plate")
 					isOwend = true
 					local plate = GetVehicleNumberPlateText(targetVehicle)
+
 					TriggerServerEvent('veh.callDegredation',plate,true)
 				else
+					print("cunt")
 					isOwend = false
 				end
 			end)

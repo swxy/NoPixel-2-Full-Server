@@ -681,9 +681,8 @@ end
 
 
 RegisterCommand('finance', function()
-	if rank > 0 then
 	TriggerEvent('finance1')
-	end
+
 end)
 
 RegisterNetEvent("carshop:failedpurchase2")

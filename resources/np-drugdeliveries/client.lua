@@ -1342,6 +1342,10 @@ local hoods = {
 	[3] =  { ['x'] = 1139.68,['y'] = -1715.13,['z'] = 35.67,['h'] = 179.31, ['info'] = ' east side' },
 }
 
+RegisterCommand("choplist", function(source, args, rawCommand)
+    TriggerEvent('chop:commandrequest')
+end)
+
 RegisterNetEvent('chop:commandrequest')
 AddEventHandler('chop:commandrequest', function()
 

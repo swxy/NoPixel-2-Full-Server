@@ -17,7 +17,38 @@ forcedID = 0
 
 local selectedspawnposition = nil
 
-
+RegisterNetEvent('Relog')
+AddEventHandler('Relog', function()
+	currentselection = 1
+	TriggerServerEvent('isVip')
+	TriggerEvent('rehab:changeCharecter')
+	TriggerServerEvent('checkTypes')
+	TriggerEvent("resetinhouse")
+	TriggerEvent("fx:clear")
+	TriggerServerEvent('tattoos:retrieve')
+	TriggerServerEvent('Blemishes:retrieve')
+	TriggerServerEvent("currentconvictions")
+	TriggerServerEvent("GarageData")
+    TriggerServerEvent("Evidence:checkDna")
+	TriggerEvent("banking:viewBalance")
+	TriggerServerEvent("police:getLicensesCiv")
+	TriggerServerEvent('np-doors:requestlatest')
+	TriggerServerEvent("item:UpdateItemWeight")
+	TriggerServerEvent("np-weapons:getAmmo")
+	TriggerServerEvent("ReturnHouseKeys")
+	TriggerServerEvent("requestOffices")
+    Wait(500)
+    TriggerServerEvent("Police:getMeta")
+   	-- Anything that might need to wait for the client to get information, do it here.
+	Wait(3000)
+	TriggerServerEvent("bones:server:requestServer")
+	TriggerEvent("apart:GetItems")
+	TriggerServerEvent("TokoVoip:clientHasSelecterCharecter")
+	
+	Wait(4000)
+	TriggerServerEvent('np-base:sv:player_control')
+	TriggerServerEvent('np-base:sv:player_settings')
+end)
 apartments1 = {
 	[1] = { ["x"] = 312.96966552734,["y"] = -218.2705078125, ["z"] = 54.221797943115},
 	[2] = { ["x"] = 311.27377319336,["y"] = -217.74626159668, ["z"] = 54.221797943115},

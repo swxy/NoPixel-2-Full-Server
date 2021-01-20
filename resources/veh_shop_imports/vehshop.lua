@@ -240,8 +240,8 @@ AddEventHandler("car:testdrive", function()
 
 end)
 
-RegisterNetEvent("finance")
-AddEventHandler("finance", function()
+RegisterNetEvent("finance1")
+AddEventHandler("finance1", function()
 	if rank == 0 or not insideVehShop then
 		return
 	end	
@@ -254,8 +254,8 @@ AddEventHandler("finance", function()
 	TriggerServerEvent("finance:enable",vehplate)
 end)
 
-RegisterNetEvent("finance:enableOnClient")
-AddEventHandler("finance:enableOnClient", function(addplate)
+RegisterNetEvent("finance:enableOnClient1")
+AddEventHandler("finance:enableOnClient1", function(addplate)
 	financedPlates[addplate] = true
 	Citizen.Wait(60000)
 	financedPlates[addplate] = nil
@@ -328,7 +328,7 @@ function AttemptBuy(tableid,financed)
 	local price = baseprice + (baseprice * commission/100)
 	currentlocation = vehshop_blips[1]
 	TaskWarpPedIntoVehicle(PlayerPedId(),veh,-1)
-	TriggerServerEvent('CheckMoneyForVeh3',name, model, price, financed)
+	TriggerServerEvent('CheckMoneyForVeh',name, model, price, financed)
 	commissionbuy = (baseprice * commission/100)
 
 end
@@ -679,6 +679,12 @@ function CloseCreator(name, veh, price, financed)
 	end)
 end
 
+
+RegisterCommand('finance', function()
+	if rank > 0 then
+	TriggerEvent('finance1')
+	end
+end)
 
 RegisterNetEvent("carshop:failedpurchase2")
 AddEventHandler("carshop:failedpurchase2", function()

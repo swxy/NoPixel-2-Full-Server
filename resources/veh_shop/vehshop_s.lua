@@ -81,6 +81,7 @@ end)
 -- Add the car to database when completed purchase
 RegisterServerEvent('BuyForVeh')
 AddEventHandler('BuyForVeh', function(platew, name, vehicle, price, financed)
+    local src = source
     local user = exports["np-base"]:getModule("Player"):GetUser(source)
     local char = user:getVar("character")
     local player = user:getVar("hexid")

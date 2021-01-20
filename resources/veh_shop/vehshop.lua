@@ -540,7 +540,9 @@ AddEventHandler("car:testdrive", function()
 		local vehplate = "CAR"..math.random(10000,99999) 
 		SetVehicleNumberPlateText(veh, vehplate)
 		Citizen.Wait(100)
-		TriggerEvent("keys:addNew", veh, vehplate)
+		local plt = GetVehicleNumberPlateText(veh)
+		print('plate ', plt)
+		TriggerEvent("keys:addNew",veh, plt)
 		SetModelAsNoLongerNeeded(model)
 		SetVehicleOnGroundProperly(veh)
 
@@ -978,6 +980,7 @@ function CloseCreator(name, veh, price, financed)
 				SetVehicleColours(personalvehicle,colors[1],colors[2])
 				SetVehicleExtraColours(personalvehicle,extra_colors[1],extra_colors[2])
 				TaskWarpPedIntoVehicle(PlayerPedId(),personalvehicle,-1)
+				TriggerEvent("keys:addNew", model, plate)
 				local vehname = GetDisplayNameFromVehicleModel(model)
 				print(vehname)
 				SetEntityVisible(ped,true)			
@@ -1007,7 +1010,10 @@ end)
 RegisterNetEvent("veh_shop:setPlate")
 AddEventHandler("veh_shop:setPlate", function(vehicle, plate)
 
+	print('setting plate ', plate)
+
 	SetVehicleNumberPlateText(vehicle, plate)
+	Citizen.Wait(1000)
 	TriggerEvent("keys:addNew", vehicle, plate)
 
 	TriggerServerEvent('garages:SetVehOut', vehicle, plate)
@@ -1018,6 +1024,9 @@ AddEventHandler("veh_shop:setPlate", function(vehicle, plate)
 	TriggerServerEvent("request:illegal:upgrades",plate)
 
 end)
+
+
+
 
 function drawMenuButton(button,x,y,selected)
 	local menu = vehshop.menu
@@ -1444,6 +1453,9 @@ AddEventHandler('FinishMoneyCheckForVeh', function(name, vehicle, price,financed
 	boughtcar = true
 	CloseCreator(name, vehicle, price, financed)
 	TriggerEvent("fistpump")
+	local plt = GetVehicleNumberPlateText(vehicle)
+	print('plate ', plt)
+	TriggerEvent("keys:addNew",vehicle, plt)
 	TriggerServerEvent("server:GroupPayment","car_shop",commissionbuy)
 end)
 
@@ -1466,9 +1478,11 @@ AddEventHandler('vehshop:spawnVehicle', function(v)
 		end
 		local playerCoords = GetEntityCoords(playerPed)
 		veh = CreateVehicle(car, playerCoords, 0.0, true, false)
+		local plate = GetVehicleNumberPlateText(veh)
 		SetModelAsNoLongerNeeded(car)
 		TaskWarpPedIntoVehicle(playerPed, veh, -1)
 		SetEntityInvincible(veh, true)
+		TriggerEvent('veh_shop:setPlate', veh, plate)
 	end
 end)
 

@@ -89,6 +89,16 @@ AddEventHandler('garages:getVehicleList', function()
 	end)
 end)
 
+AddEventHandler('onResourceStart', function(resourceName)
+	exports.ghmattimysql:execute('SELECT * FROM characters_cars', {}, function(vehicles)
+		for k, v in ipairs(vehicles) do
+			if v.vehicle_state == "Out" then
+				exports.ghmattimysql:execute("UPDATE characters_cars SET vehicle_state = @state, current_garage = @garage, coords = @coords WHERE license_plate = @plate", {['garage'] = 'Impound Lot', ['state'] = 'In', ['coords'] = nil, ['plate'] = v.license_plate})
+			end
+		end
+	end)
+end)
+
 -- Jobs
 
 
@@ -244,23 +254,23 @@ AddEventHandler('garages:CheckForSpawnVeh', function(veh_id, garageCost)
 	local owner = char.id
 	local veh_id = veh_id
 	print('this is veh_id ', veh_id)
-	if user:getCash() >= garageCost then
-		if garageCost >= 1 then
-			TriggerClientEvent('notification', src, 'You\'ve been deducted $'..garageCost, 1)
-			user:removeMoney(tonumber(garageCost))
 			exports.ghmattimysql:execute('SELECT * FROM characters_cars WHERE id = @id AND cid = @cid', {['@id'] = veh_id, ['@cid'] = char.id}, function(result)
 				local res = result[1]
 				vehiclse = json.decode(result[1].data)
 				vehicle = vehiclse
 				print(res.coords)
+				print(res.vehicle_state)
 				TriggerClientEvent('garages:SpawnVehicle', src, res.model, res.license_plate, res.data, res.vehicle_state, res.fuel, res.coords)
 			end)
-		else
-				TriggerClientEvent('notification', src, 'Free', 1)
-		end
-	else
-		TriggerClientEvent('notification', src, 'You don\'t have enough money to retrieve your car', 2)
-	end
+end)
+
+
+RegisterServerEvent('ImpoundLot')
+AddEventHandler('ImpoundLot', function()
+local src = source
+local user = exports["np-base"]:getModule("Player"):GetUser(src)
+local char = user:getCurrentCharacter()
+user:removeMoney(150)
 end)
 -- Checks / Updates
 

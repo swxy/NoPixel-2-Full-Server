@@ -1193,8 +1193,9 @@ AddEventHandler('garages:SpawnVehicle', function(vehicle, plate, customized, sta
 			end
 		end
 
-		if state == "Out" and coordlocation == nil then
+		if state == "Out" then
 			TriggerEvent("DoLongHudText","Not in garage",2)
+			
 		else	
 
 			if state == "Normal Impound" then
@@ -1212,9 +1213,11 @@ AddEventHandler('garages:SpawnVehicle', function(vehicle, plate, customized, sta
 
 			
 			if coordlocation ~= nil then
+				print('coord location is not nil')
 				veh = CreateVehicle(car, coordlocation[1],coordlocation[2],coordlocation[3], 0.0, true, false)
 			else
 				local spawnPos = garages[selectedGarage].spawn
+				print('coord location is nil')
 				veh = CreateVehicle(car, spawnPos[1], spawnPos[2], spawnPos[3], spawnPos[4], true, false)
 			end
  				

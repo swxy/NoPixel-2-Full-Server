@@ -22,6 +22,9 @@ AddEventHandler('keys:addNew', function(veh, plate)
   SetVehicleDoorsLocked(veh, 1)
 end)
 
+
+
+
 RegisterNetEvent('garages:giveLoginKeys')
 AddEventHandler("garages:giveLoginKeys", function(myDCKeys)
   for i = 1, #myDCKeys do

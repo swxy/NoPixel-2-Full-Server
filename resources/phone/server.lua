@@ -1,8 +1,6 @@
-Citizen.CreateThread(function()
+--[[Citizen.CreateThread(function()
     TriggerEvent('deleteAllYP')
-end)
-
-
+end)--]]
 
 local callID = nil
 
@@ -763,7 +761,13 @@ local Races = {}
 
 RegisterServerEvent('racing-global-race')
 AddEventHandler('racing-global-race', function(map,laps,counter,reverseTrack,uniqueid,cid,raceName, startTime, mapCreator, mapDistance, mapDescription, street1, street2)
-    Races[uniqueid] = { ["identifier"] = uniqueid, ["map"] = map, ["laps"] = laps, ["counter"] = counter, ["reverseTrack"] = reverseTrack, ["cid"] = cid, ["racer"] = {}, ["open"] = true, ["startTime"] = startTime, ["mapCreator"] = mapCreator, ["mapDistance"] = mapDistance, ["mapDescription"] = mapDescription, ["street1"] = street1, ["street2"] = street2 }
+
+    print("Starting a race? ", map, laps, counter, uniqueid, cid, raceName)
+    Races[uniqueid] = { ["identifier"] = uniqueid, ["map"] = map, ["laps"] = laps, ["counter"] = counter, 
+        ["reverseTrack"] = reverseTrack, ["cid"] = cid, ["racer"] = {}, ["open"] = true, ["startTime"] = startTime, 
+        ["mapCreator"] = mapCreator, ["mapDistance"] = mapDistance, ["mapDescription"] = mapDescription, ["street1"] = street1, 
+        ["street2"] = street2 
+    }
     TriggerEvent('racing:server:sendData', uniqueid, -1, 'event', 'open')
     local waitperiod = (counter * 1000)
     Wait(waitperiod)
@@ -774,9 +778,9 @@ AddEventHandler('racing-global-race', function(map,laps,counter,reverseTrack,uni
             firstStreet = street1,
             secondStreet = street2,
             origin = {
-                x = BuiltMaps[map]["checkpoint"][1].x,
-                y = BuiltMaps[map]["checkpoint"][1].y,
-                z = BuiltMaps[map]["checkpoint"][1].z
+                x = BuiltMaps[map]["checkPoints"][1].x,
+                y = BuiltMaps[map]["checkPoints"][1].y,
+                z = BuiltMaps[map]["checkPoints"][1].z
             }
 
         })
@@ -1012,9 +1016,9 @@ AddEventHandler("stocks:clientvalueupdate", function(table)
     local src = source
     local user = exports["np-base"]:getModule("Player"):GetUser(src)
     local char = user:getCurrentCharacter()
-
+    local tableinsert =  json.encode(table)
     exports.ghmattimysql:execute("UPDATE characters SET stocks = @stock WHERE id = @cid",{
-        ['@stock'] = table,
+        ['@stock'] = tableinsert,
         ['@cid'] = char.id
       }, function(data)
         -- user:removeMoney(clientcash)

@@ -634,8 +634,11 @@ function addRacingTracks(tracks) {
 }
 
 function racingStartsTimer() {
+//    console.log("small peen");
     $('.racing-entries .racing-start-timer').each(function () {
+//        console.log("Fat peen");
         let startTime = moment.utc($(this).data('start-time'));
+        console.log(startTime.diff(moment.utc()));
         if (startTime.diff(moment.utc()) > 0) {
             let formatedTime = makeTimer(startTime);
             $(this).text(`Starts in ${formatedTime.minutes} min ${formatedTime.seconds} sec`);
@@ -1003,7 +1006,6 @@ function addStocks(stocksData) {
 function addVehicles(vehicleData, showCarPayments) {
     if (showCarPayments)
         $('.btn-car-payments').css("visibility", "visible").hide().fadeIn(150);
-
     for (let vehicle of Object.keys(vehicleData)) {
         let carIconColor = "green";
         if (vehicleData[vehicle].amountDue > 0)
@@ -1011,6 +1013,7 @@ function addVehicles(vehicleData, showCarPayments) {
         else if (vehicleData[vehicle].amountDue == 0 && vehicleData[vehicle].payments > 0)
             carIconColor = "orange";
         else
+        console.log(JSON.stringify(vehicleData))
             carIconColor = "green";
         var vehicleElement = `
             <li>
@@ -1026,7 +1029,7 @@ function addVehicles(vehicleData, showCarPayments) {
                                 <li class="collection-item"><i class="fas fa-closed-captioning"></i> ${vehicleData[vehicle].plate}</li>
                                 <li class="collection-item"><i class="fas fa-oil-can"></i> ${vehicleData[vehicle].enginePercent}% Engine</li>
                                 <li class="collection-item"><i class="fas fa-car-crash"></i> ${vehicleData[vehicle].bodyPercent}% Body</li>
-                                <li class="collection-item"><i class="fas fa-hourglass-half"></i> ${vehicleData[vehicle].payments == 0 ? 'No remaining payments.' : Math.ceil(7 - parseFloat(vehicleData[vehicle].lastPayment)) + ' days until payment is due.'}</li>
+                                <li class="collection-item"><i class="fas fa-hourglass-half"></i> ${vehicleData[vehicle].payments == 0 ? 'No remaining payments.' : Math.ceil(vehicleData[vehicle].lastPayment) + ' days until payment is due.'}</li>
                                 `
         if (vehicleData[vehicle].payments != 0) {
             vehicleElement += `

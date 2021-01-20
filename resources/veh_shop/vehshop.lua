@@ -60,7 +60,7 @@ local vehshopDefault = {
 				{name = "Taxi Cab", costs = 4000, description = {}, model = "taxi"},
 				{name = "Flat Bed", costs = 4000, description = {}, model = "flatbed"},
 				{name = "News Rumpo", costs = 4000, description = {}, model = "rumpo"},
-				{name = "Food Truck New", costs = 4000, description = {}, model = "nptaco"},
+				{name = "Food Truck New", costs = 4000, description = {}, model = "taco"},
 			}
 		},
 		["cycles"] = {
@@ -978,12 +978,14 @@ function CloseCreator(name, veh, price, financed)
 				SetVehicleColours(personalvehicle,colors[1],colors[2])
 				SetVehicleExtraColours(personalvehicle,extra_colors[1],extra_colors[2])
 				TaskWarpPedIntoVehicle(PlayerPedId(),personalvehicle,-1)
+				local vehname = GetDisplayNameFromVehicleModel(model)
+				print(vehname)
 				SetEntityVisible(ped,true)			
 				local primarycolor = colors[1]
 				local secondarycolor = colors[2]	
 				local pearlescentcolor = extra_colors[1]
 				local wheelcolor = extra_colors[2]
-				TriggerServerEvent('BuyForVeh', plate, name, vehicle, price, financed)
+				TriggerServerEvent('BuyForVeh', plate, vehname, vehicle, price, financed)
 				DespawnSaleVehicles()
 				SpawnSaleVehicles()
 

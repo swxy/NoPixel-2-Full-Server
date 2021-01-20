@@ -88,7 +88,7 @@ AddEventHandler('garages:getVehicleList', function()
 		TriggerClientEvent('garages:getVehicles', src, vehicles)
 	end)
 end)
-	
+
 -- Jobs
 
 

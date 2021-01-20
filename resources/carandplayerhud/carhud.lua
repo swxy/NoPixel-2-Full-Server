@@ -1913,7 +1913,8 @@ AddEventHandler("police:setClientMeta",function(meta)
 	else
 		SetEntityHealth(PlayerPedId(),meta.health)
 	end
-	SetPlayerMaxArmour(PlayerId(), 60 )
+	SetPlayerMaxArmour(PlayerPedId(), 60 )
+	print(meta.armour)
 	SetPedArmour(PlayerPedId(),meta.armour)
 end)
 
@@ -2234,7 +2235,7 @@ end)
 
 RegisterNetEvent('hud:saveCurrentMeta')
 AddEventHandler('hud:saveCurrentMeta', function()
-	TriggerServerEvent("police:setServerMeta",GetEntityHealth(PlayerPedId()),GetPedArmour(PlayerPedId()),currentValues["thirst"],currentValues["hunger"])
+	TriggerServerEvent("police:setServerMeta",GetEntityHealth(PlayerPedId()),GetPedArmour(PlayerPedId()),currentValues["thirst"],currentValues["hunger"],currentValues["armor"])
 end)
 
 

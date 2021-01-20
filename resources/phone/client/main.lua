@@ -736,7 +736,8 @@ RegisterNUICallback('vehtrack', function(data)
 end)
 
 RegisterNUICallback('vehiclePay', function(data)
-  TriggerEvent('car:dopayment', data.vehiclePlate)
+  TriggerServerEvent('car:dopayment', data.vehiclePlate)
+  print(data.vehiclePlate)
 end)
 
 function findVehFromPlateAndLocate(plate)
@@ -890,10 +891,11 @@ AddEventHandler("phone:Garage", function(vehs)
     state = value.vehicle_state
     --coordlocation = value.coords
     allowspawnattempt = 0
+    print('dsad', value.last_payment)
     --if #(vector3(coordlocation[1], coordlocation[2], coordlocation[3]) - GetEntityCoords(PlayerPedId())) < 20.0 and state == "Out" then
       --allowspawnattempt = 1
     --end
-
+  
     table.insert(parsedVehicleData, {
       name = vehName,
       plate = vehPlate,
@@ -901,9 +903,9 @@ AddEventHandler("phone:Garage", function(vehs)
       state = state,
       enginePercent = enginePercent,
       bodyPercent = bodyPercent,
-      payments = value.financed,
-      lastPayment = value.last_payment,
-      amountDue = value.amount_due,
+      payments = value.payments_left, -- total payments left
+      lastPayment = value.last_payment, -- Days left
+      amountDue = value.financed, -- amount due
       canSpawn = 0
     })
   end
@@ -911,6 +913,11 @@ AddEventHandler("phone:Garage", function(vehs)
   SendNUIMessage({ openSection = "Garage", showCarPaymentsOwed = showCarPayments, vehicleData = parsedVehicleData})
 end)
 
+
+function round(num, numDecimalPlaces)
+  local mult = 10^(numDecimalPlaces or 0)
+  return math.floor(num * mult + 0.5) / mult
+end
 --[[ 
 RegisterNetEvent("phone:Garage")
 AddEventHandler("phone:Garage", function(vehs)
@@ -2124,7 +2131,7 @@ function StartEvent(map,laps,counter,reverseTrack,raceName, startTime, mapCreato
     return
   end
 
-  local mapCheckpoints = customMaps[map]["checkpoints"]
+  local mapCheckpoints = customMaps[map]["checkPoints"]
   local checkPointIndex = 1
   if reverseTrack and laps == 0 then
     checkPointIndex = #mapCheckpoints
@@ -2179,7 +2186,7 @@ function RunRace(identifier)
   end
   local myLap = 0
   
-  local checkpoints = #customMaps[map]["checkpoints"]
+  local checkpoints = #customMaps[map]["checkPoints"]
   local mycheckpoint = 1
 
   local ped = GetPlayerPed(-1)
@@ -2383,7 +2390,7 @@ RegisterNUICallback('racing:event:join', function(data)
   local ped = GetPlayerPed(-1)
   local plyCoords = GetEntityCoords(ped)
 
-  local mapCheckpoints = customMaps[currentRaces[id]["map"]]["checkpoints"]
+  local mapCheckpoints = customMaps[currentRaces[id]["map"]]["checkPoints"]
   local checkPointIndex = 1
   if currentRaces[id]["reverseTrack"] and currentRaces[id]["laps"] == 0 then
     checkPointIndex = #mapCheckpoints
@@ -2473,6 +2480,7 @@ end)
 
 RegisterNetEvent('racing:data:set')
 AddEventHandler('racing:data:set', function(data)
+  print('racing:data:set', json.encode(data))
   if(data.event == "map") then
     if (data.eventId ~= -1) then
       customMaps[data.eventId] = data.data

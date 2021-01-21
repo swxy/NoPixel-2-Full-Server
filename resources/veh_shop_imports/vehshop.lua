@@ -240,8 +240,13 @@ AddEventHandler("car:testdrive", function()
 
 end)
 
-RegisterNetEvent("finance1")
-AddEventHandler("finance1", function()
+RegisterCommand('finance', function()
+	TriggerEvent('finance2')
+end)
+
+
+RegisterNetEvent("finance2")
+AddEventHandler("finance2", function()
 	if rank == 0 or not insideVehShop then
 		return
 	end	
@@ -251,11 +256,11 @@ AddEventHandler("finance1", function()
 		return
 	end
 	local vehplate = GetVehicleNumberPlateText(veh)	
-	TriggerServerEvent("finance:enable",vehplate)
+	TriggerServerEvent("finance:enable2",vehplate)
 end)
 
-RegisterNetEvent("finance:enableOnClient1")
-AddEventHandler("finance:enableOnClient1", function(addplate)
+RegisterNetEvent("finance:enableOnClient2")
+AddEventHandler("finance:enableOnClient2", function(addplate)
 	financedPlates[addplate] = true
 	Citizen.Wait(60000)
 	financedPlates[addplate] = nil
@@ -328,7 +333,7 @@ function AttemptBuy(tableid,financed)
 	local price = baseprice + (baseprice * commission/100)
 	currentlocation = vehshop_blips[1]
 	TaskWarpPedIntoVehicle(PlayerPedId(),veh,-1)
-	TriggerServerEvent('CheckMoneyForVeh',name, model, price, financed)
+	TriggerServerEvent('CheckMoneyForVeh3',name, model, price, financed)
 	commissionbuy = (baseprice * commission/100)
 
 end
@@ -668,7 +673,7 @@ function CloseCreator(name, veh, price, financed)
 			local secondarycolor = colors[2]	
 			local pearlescentcolor = extra_colors[1]
 			local wheelcolor = extra_colors[2]
-			TriggerServerEvent('BuyForVeh3', name, vehicle, price, personalvehicle, primarycolor, secondarycolor, pearlescentcolor, wheelcolor, financed)
+			TriggerServerEvent('BuyForVeh2', name, vehicle, price, personalvehicle, primarycolor, secondarycolor, pearlescentcolor, wheelcolor, financed)
 			DespawnSaleVehicles()
 			SpawnSaleVehicles()
 
@@ -679,11 +684,6 @@ function CloseCreator(name, veh, price, financed)
 	end)
 end
 
-
-RegisterCommand('finance', function()
-	TriggerEvent('finance1')
-
-end)
 
 RegisterNetEvent("carshop:failedpurchase2")
 AddEventHandler("carshop:failedpurchase2", function()

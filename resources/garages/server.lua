@@ -260,7 +260,7 @@ AddEventHandler('garages:CheckForSpawnVeh', function(veh_id, garageCost)
 				vehicle = vehiclse
 				print(res.coords)
 				print(res.vehicle_state)
-				TriggerClientEvent('garages:SpawnVehicle', src, res.model, res.license_plate, res.data, res.vehicle_state, res.fuel, res.coords)
+				TriggerClientEvent('garages:SpawnVehicle', src, res.model, res.license_plate, res.data, res.vehicle_state, res.fuel)
 			end)
 end)
 

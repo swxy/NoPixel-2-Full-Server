@@ -138,7 +138,6 @@ function DefaultGarages()
 end
 
 
-
 RegisterNetEvent("checkifbike")
 AddEventHandler("checkifbike", function(vehicle, veh_id)
 	local bicycle = IsThisModelABicycle( GetHashKey(vehicle) )
@@ -1194,9 +1193,8 @@ AddEventHandler('garages:SpawnVehicle', function(vehicle, plate, customized, sta
 			end
 		end
 
-		if state == "Out" then
+		if state == "Out" and coordlocation == nil then
 			TriggerEvent("DoLongHudText","Not in garage",2)
-			
 		else	
 
 			if state == "Normal Impound" then
@@ -1214,11 +1212,9 @@ AddEventHandler('garages:SpawnVehicle', function(vehicle, plate, customized, sta
 
 			
 			if coordlocation ~= nil then
-				print('coord location is not nil')
 				veh = CreateVehicle(car, coordlocation[1],coordlocation[2],coordlocation[3], 0.0, true, false)
 			else
 				local spawnPos = garages[selectedGarage].spawn
-				print('coord location is nil')
 				veh = CreateVehicle(car, spawnPos[1], spawnPos[2], spawnPos[3], spawnPos[4], true, false)
 			end
  				
@@ -1230,7 +1226,6 @@ AddEventHandler('garages:SpawnVehicle', function(vehicle, plate, customized, sta
 			end
 			
 			DecorSetInt(veh, "CurrentFuel", Fuel)
-			TriggerEvent("veh.PlayerOwned",veh)
 			SetVehicleOnGroundProperly(veh)
 			SetEntityInvincible(veh, false) 
 
@@ -1299,8 +1294,8 @@ AddEventHandler('garages:SpawnVehicle', function(vehicle, plate, customized, sta
 				SetVehicleDashboardColour(veh, customized.interColour)
 			else
 
-				--SetVehicleColours(veh, 0, 0)
-				--SetVehicleExtraColours(veh, 0, 0)
+				SetVehicleColours(veh, 0, 0)
+				SetVehicleExtraColours(veh, 0, 0)
 
 			end
 

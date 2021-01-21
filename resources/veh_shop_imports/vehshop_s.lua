@@ -16,8 +16,8 @@ AddEventHandler('carshop:table', function(table)
     end
 end)
 
-RegisterServerEvent('BuyForVeh3')
-AddEventHandler('BuyForVeh3', function(platew, name, vehicle, price, financed)
+RegisterServerEvent('BuyForVeh2')
+AddEventHandler('BuyForVeh2', function(platew, name, vehicle, price, financed)
     local src = source
     local user = exports["np-base"]:getModule("Player"):GetUser(source)
     local char = user:getVar("character")
@@ -51,7 +51,34 @@ AddEventHandler('BuyForVeh3', function(platew, name, vehicle, price, financed)
     end
 end)
 
-RegisterServerEvent('finance:enable')
-AddEventHandler('finance:enable', function(plate)
-TriggerClientEvent('finance:enableOnClient1', plate)
+
+
+
+RegisterServerEvent('CheckMoneyForVeh3')
+AddEventHandler('CheckMoneyForVeh3', function(name, model,price,financed)
+    local user = exports["np-base"]:getModule("Player"):GetUser(source)
+    local money = tonumber(user:getCash())
+    if financed then
+        local financedPrice = math.ceil(price / 4)
+        if money >= financedPrice then
+            user:removeMoney(financedPrice)
+            TriggerClientEvent('FinishMoneyCheckForVeh', user.source, name, model, price, financed)
+        else
+            TriggerClientEvent('DoLongHudText', user.source, 'You dont have enough money on you!', 2)
+            TriggerClientEvent('carshop:failedpurchase', user.source)
+        end
+    else
+        if money >= price then
+            user:removeMoney(price)
+            TriggerClientEvent('FinishMoneyCheckForVeh', user.source, name, model, price, financed)
+        else
+            TriggerClientEvent('DoLongHudText', user.source, 'You dont have enough money on you!', 2)
+            TriggerClientEvent('carshop:failedpurchase', user.source)
+        end
+    end
+end)
+
+RegisterServerEvent('finance:enable2')
+AddEventHandler('finance:enable2', function(plate)
+TriggerClientEvent('finance:enableOnClient2', plate)
 end)

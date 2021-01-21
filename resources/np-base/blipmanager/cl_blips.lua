@@ -73,6 +73,7 @@ local blips = {
     -- {id = "burgies", name = "Burger Shot", scale = 0.7, color = 8, sprite = 106, x = -1199.61, y = -899.79, z = 14.0},
 
     -- {id = "burgies2", name = "Burger Bar", scale = 0.7, color = 8, sprite = 106, x = 282.58, y = -214.76, z = 54.0},
+    {id = "drift_school", name = "Overboost DriftSchool", scale = 0.6, color = 4, sprite = 52, x = -52.61, y= -2524.91, z= 7.41},
 
     {id = "di", name = "Driving Instructor", scale = 0.6, color = 44, sprite = 380, x = 983.83, y= -206.17, z= 71.07},
 }

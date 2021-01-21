@@ -138,6 +138,7 @@ function DefaultGarages()
 end
 
 
+
 RegisterNetEvent("checkifbike")
 AddEventHandler("checkifbike", function(vehicle, veh_id)
 	local bicycle = IsThisModelABicycle( GetHashKey(vehicle) )

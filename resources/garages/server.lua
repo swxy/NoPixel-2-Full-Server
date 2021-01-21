@@ -93,7 +93,7 @@ AddEventHandler('onResourceStart', function(resourceName)
 	exports.ghmattimysql:execute('SELECT * FROM characters_cars', {}, function(vehicles)
 		for k, v in ipairs(vehicles) do
 			if v.vehicle_state == "Out" then
-				exports.ghmattimysql:execute("UPDATE characters_cars SET vehicle_state = @state, current_garage = @garage, coords = @coords WHERE license_plate = @plate", {['garage'] = 'Impound Lot', ['state'] = 'In', ['coords'] = nil, ['plate'] = v.license_plate})
+				exports.ghmattimysql:execute("UPDATE characters_cars SET vehicle_state = @state, current_garage = @garage, coords = @coords WHERE license_plate = @plate", {['garage'] = 'Impound Lot', ['state'] = 'Normal Impound', ['coords'] = nil, ['plate'] = v.license_plate})
 			end
 		end
 	end)

@@ -1,3 +1,5 @@
+
+
 local NPX = NPX or {}
 NPX.Scoreboard = {}
 NPX._Scoreboard = {}
@@ -43,8 +45,8 @@ function NPX.Scoreboard.RemoveRecent(self, src)
 end
 
 function NPX.Scoreboard.AddAllPlayers(self, data, recentData)
-    NPX._Scoreboard.Players = data
-    NPX._Scoreboard.Recent = recentData
+    NPX._Scoreboard.Players[data.src] = data
+    NPX._Scoreboard.Recent[recentData.src] = recentData
 end
 
 function NPX.Scoreboard.GetPlayerCount(self)
@@ -64,7 +66,7 @@ Citizen.CreateThread(function()
         for k,v in spairs(NPX._Scoreboard.Players, function(t, a, b) return t[a].src < t[b].src end) do
             local playerId = GetPlayerFromServerId(v.src)
 
-            if NetworkIsPlayerActive(playerId) or GetPlayerPed(playerId) == PlayerPedId() then
+            if NetworkIsPlayerActive(playerId) or GetPlayerPed(playerId) == GetPlayerPed(-1) then
                 if WarMenu.MenuButton("[" .. v.src .. "] " .. v.steamid .. " ", "options") then NPX._Scoreboard.SelectedPlayer = v end
             else
                 if WarMenu.MenuButton("[" .. v.src .. "] - instanced?", "options", {r = 255, g = 0, b = 0, a = 255}) then NPX._Scoreboard.SelectedPlayer = v end
@@ -73,7 +75,7 @@ Citizen.CreateThread(function()
 
         
 
-        if WarMenu.MenuButton("Recent D/C's", "recent") then
+        if WarMenu.MenuButton("Recent Disconnects", "recent", {r = 0, g = 0, b = 0, a = 150}) then
         end
     end
 
@@ -84,6 +86,9 @@ Citizen.CreateThread(function()
     end
 
     local function DrawOptions()
+        if group ~= "user" then
+            if WarMenu.Button("Name:", NPX._Scoreboard.SelectedPlayer.name) then end
+        end
         if WarMenu.Button("Steam ID:", NPX._Scoreboard.SelectedPlayer.steamid) then end
         if WarMenu.Button("Community ID:", NPX._Scoreboard.SelectedPlayer.comid) then end
         if WarMenu.Button("Server ID:", NPX._Scoreboard.SelectedPlayer.src) then end
@@ -155,13 +160,6 @@ function NPX.Scoreboard.Menu.Close(self)
     end
 end
 
-Controlkey = {["generalScoreboard"] = {303,"U"}} 
-RegisterNetEvent('event:control:update')
-AddEventHandler('event:control:update', function(table)
-    Controlkey["generalScoreboard"] = table["generalScoreboard"]
-end)
-
--- this one needs to stay in a loop due to how this one operates #Sin #controlChange #9/23/2019
 Citizen.CreateThread(function()
     local function IsAnyMenuOpen()
         for k,v in pairs(NPX._Scoreboard.Menus) do
@@ -173,32 +171,149 @@ Citizen.CreateThread(function()
 
     while true do
         Citizen.Wait(0)
-        if IsControlPressed(0, Controlkey["generalScoreboard"][1]) then
+        if IsControlPressed(0, 303) then
             if not IsAnyMenuOpen() then
                 NPX.Scoreboard.Menu:Open()
             end
         else
             if IsAnyMenuOpen() then NPX.Scoreboard.Menu:Close() end
+            Citizen.Wait(100)
         end
     end
 end)
 
-RegisterNetEvent("np-scoreboard:RemovePlayer")
-AddEventHandler("np-scoreboard:RemovePlayer", function(data)
+RegisterNetEvent("sway_scoreboard:RemovePlayer")
+AddEventHandler("sway_scoreboard:RemovePlayer", function(data)
     NPX.Scoreboard:RemovePlayer(data)
 end)
 
-RegisterNetEvent("np-scoreboard:AddPlayer")
-AddEventHandler("np-scoreboard:AddPlayer", function(data)
+RegisterNetEvent("sway_scoreboard:AddPlayer")
+AddEventHandler("sway_scoreboard:AddPlayer", function(data)
     NPX.Scoreboard:AddPlayer(data)
 end)
 
-RegisterNetEvent("np-scoreboard:RemoveRecent")
-AddEventHandler("np-scoreboard:RemoveRecent", function(src)
+RegisterNetEvent("sway_scoreboard:RemoveRecent")
+AddEventHandler("sway_scoreboard:RemoveRecent", function(src)
     NPX.Scoreboard:RemoveRecent(src)
 end)
 
-RegisterNetEvent("np-scoreboard:AddAllPlayers")
-AddEventHandler("np-scoreboard:AddAllPlayers", function(data, recentData)
+RegisterNetEvent("sway_scoreboard:AddAllPlayers")
+AddEventHandler("sway_scoreboard:AddAllPlayers", function(data, recentData)
     NPX.Scoreboard:AddAllPlayers(data, recentData)
+end)
+
+-----------------------------
+-- Player IDs Above Head
+-----------------------------
+
+local hidden = {}
+local showPlayerBlips = false
+local ignorePlayerNameDistance = false
+local disPlayerNames = 50
+local playerSource = 0
+
+function DrawText3DTalking(x,y,z, text, textColor)
+    local color = { r = 220, g = 220, b = 220, alpha = 255 }
+    if textColor ~= nil then 
+        color = {r = textColor[1] or 22, g = textColor[2] or 55, b = textColor[3] or 155, alpha = textColor[4] or 255}
+    end
+
+    local onScreen,_x,_y=World3dToScreen2d(x,y,z)
+    local px,py,pz=table.unpack(GetGameplayCamCoords())
+    local dist = #(vector3(px,py,pz) - vector3(x,y,z))
+
+    local scale = (1/dist)*2
+    local fov = (1/GetGameplayCamFov())*100
+    local scale = scale*fov
+    
+    if onScreen then
+        SetTextScale(0.0*scale, 0.75*scale)
+        SetTextFont(0)
+        SetTextProportional(1)
+        SetTextColour(color.r, color.g, color.b, color.alpha)
+        SetTextDropshadow(0, 0, 0, 0, 55)
+        SetTextEdge(2, 0, 0, 0, 150)
+        SetTextDropShadow()
+        SetTextOutline()
+        SetTextEntry("STRING")
+        SetTextCentre(1)
+        AddTextComponentString(text)
+        DrawText(_x,_y)
+    end
+end
+
+--[[ RegisterNetEvent("hud:HidePlayer")
+AddEventHandler("hud:HidePlayer", function(player, toggle)
+    if type(player) == "table" then
+        for k,v in pairs(player) do
+            local id = GetPlayerFromServerId(k)
+            hidden[id] = k
+        end
+        return
+    end
+    local id = GetPlayerFromServerId(player)
+    if toggle == true then hidden[id] = player
+    else
+        for k,v in pairs(hidden) do
+            if v == player then hidden[k] = nil end
+        end
+    end
+end) ]]
+
+Citizen.CreateThread(function()
+    while true do
+        if IsControlPressed(0, 303) then
+
+            for i=0,255 do
+                N_0x31698aa80e0223f8(i)
+            end
+            for id = 0, 255 do
+                if NetworkIsPlayerActive( id ) --[[ and GetPlayerPed( id ) ~= GetPlayerPed( -1 )) ]] then
+                    local playerped = PlayerPedId()
+                    local HeadBone = 0x796e
+                    local ped = GetPlayerPed(id)
+                    local playerCoords = GetPedBoneCoords(playerped, HeadBone)
+                    if ped == playerped then
+                        DrawText3DTalking(playerCoords.x, playerCoords.y, playerCoords.z+0.5, " ".. GetPlayerServerId(id) .. " ", {152, 251, 152, 255})
+                    else
+                        local pedCoords = GetPedBoneCoords(ped, HeadBone)
+                        local distance = math.floor(#(playerCoords - pedCoords))
+
+                        local isDucking = IsPedDucking(GetPlayerPed( id ))
+                        local cansee = HasEntityClearLosToEntity( GetPlayerPed( -1 ), GetPlayerPed( id ), 17 )
+                        local isReadyToShoot = IsPedWeaponReadyToShoot(GetPlayerPed( id ))
+                        local isStealth = GetPedStealthMovement(GetPlayerPed( id ))
+                        local isDriveBy = IsPedDoingDriveby(GetPlayerPed( id ))
+                        local isInCover = IsPedInCover(GetPlayerPed( id ),true)
+                        if isStealth == nil then
+                            isStealth = 0
+                        end
+
+                        if isDucking or isStealth == 1 or isDriveBy or isInCover then
+                            cansee = false
+                        end
+
+                        if hidden[id] then cansee = false end
+                        
+                        if (distance < disPlayerNames) then
+--local isTalking = exports.tokovoip_script:getPlayerData(GetPlayerServerId(id), 'voip:talking')
+                            if (isTalking == 1) then
+                                if cansee then
+                                    DrawText3DTalking(pedCoords.x, pedCoords.y, pedCoords.z+0.5, " ".. GetPlayerServerId(id) .. " ", {140, 204, 239, 255})
+                                end
+                            else
+                                if cansee then
+                                    DrawText3DTalking(pedCoords.x, pedCoords.y, pedCoords.z+0.5, " ".. GetPlayerServerId(id) .. " ", {255, 255, 255, 255})
+                                end
+                            end
+                        end
+                            
+                    end
+                end
+            end
+            Citizen.Wait(1)
+        else
+            Citizen.Wait(2000)
+        end
+    end
 end)

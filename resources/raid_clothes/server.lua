@@ -279,7 +279,12 @@ AddEventHandler("raid_clothes:list_outfits",function()
     if not cid then return end
 
     exports.ghmattimysql:execute("SELECT slot, name FROM character_outfits WHERE cid = @cid", {['cid'] = cid}, function(skincheck)
-    	TriggerClientEvent("hotel:listSKINSFORCYRTHESICKFUCK",src, skincheck)
+        if skincheck[1] ~= nil then
+            TriggerClientEvent("hotel:listSKINSFORCYRTHESICKFUCK",src, skincheck)
+        else
+
+            TriggerClientEvent('DoLongHudText', src, 'No Outfits Available.', 2)
+        end
 	end)
 end)
 

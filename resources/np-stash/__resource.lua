@@ -1,14 +1,12 @@
 resource_manifest_version '05cfa83c-a124-4cfa-a768-c24a5811d8f9'
 
-dependency "np-base"
 dependency "ghmattimysql"
 
-client_script "@np-errorlog/client/cl_errorlog.lua"
 client_script 'stashhouse_client.lua'
 
-server_script "@np-fml/server/lib.lua"
 server_scripts {
-	'stashhouse_server.lua',
+	'server/stashhouse_server.lua',
+	'server/svstashes.lua',
 }
 
 export "stash"

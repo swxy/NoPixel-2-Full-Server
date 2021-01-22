@@ -51,6 +51,13 @@ AddEventHandler("robbery:sendServerFlags", function(Prison_Electric_State,Prison
     VaultDoor()
 end)
 
+
+RegisterCommand('setstate', function()
+TriggerEvent('robbery:sendServerFlags', false,false,false,false,false,false,false,false)
+end)
+
+
+
 isCop = false
  
 RegisterNetEvent('nowCopSpawn')
@@ -80,6 +87,7 @@ end)
 
 RegisterNetEvent("robbery:triggerItemUsed")
 AddEventHandler("robbery:triggerItemUsed", function(itemID,activePolice)
+    print(itemID)
     attemptToRob(itemID,activePolice)
 end)
 
@@ -255,15 +263,15 @@ function attemptToRob(itemID,activePolice)
         end
     end
 
-    -- if marker.toolType == CARDED_LOCK2 then
-    --     if itemID == "electronickit" then
-    --         TriggerEvent("DoLongHudText","Must be started with a card , both will be used for this lock.",2)
-    --         return
-    --     elseif itemID ~= "Gruppe6Card22" then
-    --         TriggerEvent("DoLongHudText","Not the right tool for this job.",2)
-    --         return
-    --     end
-    -- end
+    if marker.toolType == CARDED_LOCK2 then
+        if itemID == "electronickit" then
+            TriggerEvent("DoLongHudText","Must be started with a card , both will be used for this lock.",2)
+            return
+        elseif itemID ~= "Gruppe6Card22" then
+            TriggerEvent("DoLongHudText","Not the right tool for this job.",2)
+            return
+        end
+    end
 
     if itemID == "lockpick" then
         local itemNum = 21

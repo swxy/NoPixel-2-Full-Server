@@ -1597,6 +1597,72 @@ Citizen.CreateThread(function()
 end)
 
 
+function nearClothingMotel()
+	if #(vector3(myroomcoords.x, myroomcoords.y + 3, myroomcoords.z) - GetEntityCoords(PlayerPedId())) < 5.5 and curRoomType == 1 then
+		return true
+	end
+	if #(vector3(myroomcoords.x + 10, myroomcoords.y + 6, myroomcoords.z) - GetEntityCoords(PlayerPedId())) < 5.5 and curRoomType == 2 then
+		return true
+	end	
+	if #(vector3(myroomcoords.x - 3, myroomcoords.y - 7, myroomcoords.z) - GetEntityCoords(PlayerPedId())) < 55.5 and curRoomType == 3 then
+		return true
+	end		
+
+	if #(vector3(1782.86, 2494.95, 50.43) - GetEntityCoords(PlayerPedId())) < 8.5 then
+		return true
+	end	
+
+	local myjob = exports["isPed"]:isPed("myjob")
+	--missionrow locker room
+	if myjob == "police" then
+		return true
+	end
+
+	if myjob == "ems" then
+		return true
+	end
+
+	if myjob == "doctor" then
+		return true
+	end
+	return false
+end
+
+RegisterNetEvent('hotel:listSKINSFORCYRTHESICKFUCK')
+AddEventHandler('hotel:listSKINSFORCYRTHESICKFUCK', function(skincheck)
+	for i = 1, #skincheck do
+		TriggerEvent("DoLongHudText", skincheck[i].slot .. " | " .. skincheck[i].name,i)
+	end
+end)
+
+RegisterNetEvent('hotel:outfit')
+AddEventHandler('hotel:outfit', function(args,sentType)
+
+	if nearClothingMotel() then
+		if sentType == 1 then
+			local id = args[2]
+			table.remove(args, 1)
+			table.remove(args, 1)
+			strng = ""
+			for i = 1, #args do
+				strng = strng .. " " .. args[i]
+			end
+			TriggerEvent("raid_clothes:outfits", sentType, id, strng)
+		elseif sentType == 2 then
+			local id = args[2]
+			TriggerEvent("raid_clothes:outfits", sentType, id)
+		elseif sentType == 3 then
+			local id = args[2]
+			TriggerEvent('item:deleteClothesDna')
+			TriggerEvent('InteractSound_CL:PlayOnOne','Clothes1', 0.6)
+			TriggerEvent("raid_clothes:outfits", sentType, id)
+		else
+			TriggerServerEvent("raid_clothes:list_outfits")
+		end
+	end
+end)
+
+
 
 robberycoordsMansions = {
 	[1] =  { ['x'] = -7.22,['y'] = 409.2,['z'] = 120.13,['h'] = 76.61, ['info'] = ' Didion Drive 1', ["office"] = 2 },

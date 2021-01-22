@@ -1143,6 +1143,55 @@ AddEventHandler('raid_clothes:outfits', function(pAction, pId, pName)
     end
 end)
 
+RegisterCommand('outfits', function(source, args)
+    TriggerEvent('raid_clothes:outfits')
+end)
+
+
+RegisterCommand("outfitadd", function(source, args, rawCommand)
+    if (IsNearShop(clothingShops) < 9.0) or homeWardrobe == true then
+       if args[1] and args[2] then
+           TriggerEvent('raid_clothes:outfits', 1, tonumber(args[1]), args[2])
+       else
+           TriggerEvent('notification', 'You need to do something like /outfitadd 1 <br/ > <br/ > 1 being the slot id that you will have had previously saved')
+
+       end
+   else
+     
+       TriggerEvent("notification", "You need to be at a clothing store or a house", 2)
+   end
+end, false)
+
+RegisterCommand("outfituse", function(source, args, rawCommand)
+    if (IsNearShop(clothingShops) < 9.0) or homeWardrobe == true then
+      
+       if args[1] then
+       TriggerEvent('raid_clothes:outfits', 3, tonumber(args[1]))
+       TriggerEvent('InteractSound_CL:PlayOnOne','Clothes1', 0.6)
+
+       else
+           TriggerEvent('notification', 'You need to do something like /oufituse 1 <br/ > <br/ > 1 being the slot id that you will have had previously saved')
+
+       end
+   else
+       TriggerEvent("notification", "You need to be at a clothing store or a house", 2)
+   end
+end, false) 
+
+RegisterCommand("removeoutfit", function(source, args, rawCommand)
+    if (IsNearShop(clothingShops) < 9.0) or homeWardrobe == true then
+       if args[1] then
+           TriggerEvent('raid_clothes:outfits', 2, tonumber(args[1]))
+       else
+           TriggerEvent('notification', 'You need to do something like /removeoutfit 1 <br/ > <br/ > 1 being the slot id that you will have had previously saved')
+
+       end
+   else
+
+       TriggerEvent("notification", "You need to be at a clothing store or a house", 2)
+   end
+end, false) 
+
 
 -- LoadPed(data) Sets clothing based on the data structure given, the same structure that GetCurrentPed() returns
 -- GetCurrentPed() Gives you the data structure of the currently worn clothes

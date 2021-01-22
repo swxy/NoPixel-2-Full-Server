@@ -1516,7 +1516,7 @@ end)
 RegisterNetEvent("police:setCallSign")
 AddEventHandler("police:setCallSign", function(pCallSign)
 	if pCallSign ~= nil then currentCallSign = pCallSign end
-	TriggerEvent('DoLongHudText', "Çağrı kodun belirlendi, ".. currentCallSign..".", 1)
+	TriggerEvent('DoLongHudText', "Set Callsign, ".. currentCallSign..".", 1)
 end)
 
 function GetStreetAndZone()
@@ -3478,13 +3478,13 @@ AddEventHandler("civilian:van", function(args)
 end)
 
 RegisterNetEvent("police:chatCommand")
-AddEventHandler("police:chatCommand", function(source, args, cmd, isVehicleCmd)
+AddEventHandler("police:chatCommand", function(args, cmd, isVehicleCmd)
 	-- remove the cmd itself from the args
 	-- table.remove(args, 1)
 
 
 	
-
+if isCop then
 
 
 	local function errorMsg(msg)
@@ -3654,6 +3654,8 @@ AddEventHandler("police:chatCommand", function(source, args, cmd, isVehicleCmd)
 	if cmd == "spikes" then
 		TriggerEvent("c_setSpike")
 	end
+else
+end
 end)
 
 
@@ -3679,11 +3681,56 @@ RegisterCommand('callsign', function(source, args)
 	end
 end)
 
+RegisterCommand('sv', function(source, args)
+	TriggerEvent("police:chatCommand", args, 'sv', false)
+end)
+
+RegisterCommand('livery', function(source, args)
+	TriggerEvent("police:chatCommand", args, 'livery', true)
+end)
+
+RegisterCommand('extra', function(source, args)
+	TriggerEvent("police:chatCommand", args, 'extra', true)
+end)
+
+RegisterCommand('tint', function(source, args)
+	TriggerEvent("police:chatCommand", args, 'tint', true)
+end)
+
+RegisterCommand('clean', function(source, args)
+	TriggerEvent("police:chatCommand", args, 'clean', true)
+end)
+
+RegisterCommand('color', function(source, args)
+	TriggerEvent("police:chatCommand", args, 'color', true)
+end)
+
+RegisterCommand('color2', function(source, args)
+	TriggerEvent("police:chatCommand", args, 'color2', true)
+end)
+
+RegisterCommand('fix', function(source, args)
+	TriggerEvent("police:chatCommand", args, 'fix', true)
+end)
+
+
+RegisterCommand('whitelist', function(source, args)
+	TriggerEvent("police:chatCommand", args, 'whitelist', false)
+end)
+
+RegisterCommand('remove', function(source, args)
+	TriggerEvent("police:chatCommand", args, 'remove', false)
+end)
+
+RegisterCommand('duty', function(source, args)
+	TriggerEvent("police:chatCommand", args, 'duty', false)
+end)
+
 RegisterCommand('sport', function(source)
 TriggerEvent('police:sport')
 end)
 
-RegisterCommand('trunk', function(source)
+RegisterCommand('trunkgetin', function(source)
 	TriggerEvent('ped:forceTrunkSelf')
 end)
 

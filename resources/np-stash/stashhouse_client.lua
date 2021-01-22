@@ -1,309 +1,75 @@
-local gui = false;
-local currentlyInGame = false;
-local currentStash;
-local isInStash = false;
-local stashDataLoaded = false;
-local closestStashDistance = 10000;
-local playerCoords;
-local playerId;
-local stashShell = {};
-
-local stagePosition = {
-    x = 619.5334, 
-    y = 622.9099,
-    z = -116.9932,
-}
-
-local stageGaragePosition = {
-    x = 627.9164,
-    y = 633.8272,
-    z = -113.2648,
-}
-
-local maxLoadRetries = 5
-
-local stashPoints = {}
-
-local stashTier = {}
-stashTier[1] = `stashhouse3_shell`
-stashTier[2] = `stashhouse1_shell`
-
--- Startup code
-Citizen.CreateThread( function()
-     -- Wait for player spawn to get id
-    while not playerId
-    do
-        Citizen.Wait(1000);
-    end;
-
-    -- Update player position
-    while true
-    do
-        playerId = PlayerPedId()
-        playerCoords = GetEntityCoords(playerId);
-        Citizen.Wait(1000);
-    end;
+local stashes = {}
+local instash = 0
+RegisterNetEvent('np-stash:setInitialState')
+AddEventHandler('np-stash:setInitialState', function(stashesp)
+    print('sec')
+    stashes = stashesp
+    print(json.encode(stashesp))
 end)
 
-AddEventHandler('playerSpawned', function(spawn)
-    local retry = 1
-    -- Load Stash Points
-    while #stashPoints == 0
-    do
-        TriggerServerEvent("npstash:RequestStashHouses");
-        Citizen.Wait(10000 * retry);
-        retry = retry + 1
-        if (retry > maxLoadRetries)
-        then
-            return
-        end
-
-    end
-    playerId = PlayerPedId();
+CreateThread(function()
+    TriggerServerEvent("np-stash:fetchInitialState")
 end)
 
-
-
--- Main code for checking external doors
-Citizen.CreateThread(function()
-    -- Wait for startup tasks
-    while not playerCoords or not playerId
-    do
-        Citizen.Wait(1000);
-    end
-
-    -- Main loop for stash house entrance checks
-    while true do
-        local distanceToEntrance = 100;
-        local distanceToGarage = 100;
-
-        for i = 1, #stashPoints do
-            stashHouse = stashPoints[i];
-            distanceToEntrance = #(playerCoords - vector3(stashHouse.x, stashHouse.y, stashHouse.z));
-            distanceToGarage = GetDistanceBetweenCoords(stashHouse.g_x,stashHouse.g_y,stashHouse.g_z, playerCoords, true)
-
-            if distanceToEntrance < 3 and distanceToEntrance > 0
-            then
-                closestStashDistance = distanceToEntrance
-                if (IsControlJustReleased(1, 38))
-                then
-                    secureWarehouseAttemptEnter(false)
-                end
-                break       
-            elseif distanceToGarage < 5 then
-                closestStashDistance = distanceToGarage
-                if IsControlJustReleased(2, 38) then
-                    local plyVeh = GetVehiclePedIsIn(playerId, false)
-                    if plyVeh ~= 0 and plyVeh ~= nil
-                    then
-                        local drvPed = GetPedInVehicleSeat(plyVeh, -1)
-                        if drvPed == playerId
-                        then
-                            secureWarehouseAttemptEnter(true)
-                        end
-                    end
-                end
-                break
-            else
-                if distanceToEntrance < closestStashDistance
-                then
-                    closestStashDistance = distanceToEntrance;
+RegisterCommand('getnearstash', function(src, args, raw)
+    local closestDoorDistance, closestDoorId = 9999.9, -1
+    local currentPos = GetEntityCoords(PlayerPedId())
+    for id, handle in pairs(stashes) do
+        local currentDoorDistance = #(stashes[id].StashEntry - currentPos)
+        if handle and currentDoorDistance < closestDoorDistance then
+            closestDoorDistance = currentDoorDistance
+            closestDoorId = id
+            if closestDoorId ~= -1 then
+                if stashes[closestDoorId].distance > closestDoorDistance then
+                    TriggerEvent('OpenCodeEntryGUI', {stashes[id].RequiredPin}, stashes[id].StashEntry)
                 end
             end
         end
-        if closestStashDistance ~= nil and (closestStashDistance > 3)
-        then
-            Citizen.Wait(closestStashDistance * 20);
-        end
-        Citizen.Wait(2);
     end
-end)
+end, false)
 
-function secureWarehouseAttemptEnter(pUseGarage)
-    currentStash = stashHouse;
-    currentStash.admin = false;
-    currentStash.useGarage = pUseGarage
-    TriggerEvent("OpenCodeEntryGUI", {currentStash.owner_pin, currentStash.guest_pin});
-    TriggerServerEvent("npstash:log", currentStash.id, "Attempted Secure Warehouse Entry")
-end
-
-function secureWarehouseEnter()
-    isInStash = true;
-    local playerId = PlayerPedId();
-    plyObject = currentStash.useGarage and GetVehiclePedIsIn(playerId, false) or playerId
-    DoScreenFadeOut(1000);
-    while IsScreenFadingOut() do
-        Citizen.Wait(100);
-    end
- 
-    TriggerServerEvent("npstash:log", currentStash.id, "Secure Warehouse Ent")
-
-    if plyObject ~= 0 and plyObject ~= nil
-    then
-        SetEntityCoords(plyObject, stageGaragePosition.x - 29.3069, stageGaragePosition.y + 8.7816, stageGaragePosition.z + 0.1);
-        SetEntityHeading(plyObject,270.0);
-        FreezeEntityPosition(plyObject, true);
-    else
-        return;
-    end
-
-    Citizen.Wait(1000);
-    RequestModel(stashTier[currentStash.tier]);
-
-    while not HasModelLoaded(stashTier[currentStash.tier])
-    do
-        Citizen.Wait(1000);
-    end
-
-    if not IsEntityAnObject(stashShell[currentStash.id])
-    then
-        stashShell[currentStash.id] = CreateObject(`stashhouse3_shell`, currentStash.x, currentStash.y, -55.01, 0, 0, 0);
-        FreezeEntityPosition(stashShell[currentStash.id], true);
-    end
-
-    if currentStash.useGarage
-    then
-        SetEntityCoords(plyObject, currentStash.x - 29.3069, currentStash.y + 8.7816, -55.02);
-        SetEntityHeading(plyObject,270.0);
-    else
-        SetEntityCoords(plyObject, currentStash.x + 6.30, currentStash.y - 3.50, -54.54);
-        SetEntityHeading(plyObject, 90.0001);
-    end
-
-    FreezeEntityPosition(plyObject, false);
-
-    DoScreenFadeIn(2000);
-    while IsScreenFadingIn() do
-        Citizen.Wait(100);
-    end
-end
-
-function secureWarehouseExit()
-    playerId = PlayerPedId();
-    plyObject = currentStash.useGarage and GetVehiclePedIsIn(playerId, false) or playerId
-
-    if currentStash.useGarage
-    then
-        local plyVeh = GetVehiclePedIsIn(playerId, false)
-        if plyVeh == 0 or plyVeh == nil
-        then
-            return;
-        end
-
-        local drvPed = GetPedInVehicleSeat(plyVeh, -1)
-        if drvPed ~= playerId
-        then
-            return;
-        end
-    end
-
-
-    DoScreenFadeOut(1000);
-    while IsScreenFadingOut() do
-        Citizen.Wait(10);
-    end
-    if currentStash.useGarage
-    then
-        SetEntityCoords(plyObject, currentStash.g_x, currentStash.g_y, currentStash.g_z);
-        SetEntityHeading(plyObject,currentStash.g_h);
-    else
-        SetEntityCoords(PlayerPedId(), currentStash.x, currentStash.y, currentStash.z - 0.2);
-        SetEntityHeading(PlayerPedId(), currentStash.h);
-    end
-    isInStash = false;
-    FreezeEntityPosition(plyObject, false);
-
-    --SetEntityAsNoLongerNeeded(stashShell[currentStash.id]);
-    --DeleteObject(stashShell[currentStash.id]);
-    Citizen.Wait(500);
-
-    Wait(100);
-    DoScreenFadeIn(1000);
-    while IsScreenFadingIn() do
-        Citizen.Wait(100);
-    end
-end
-
-Citizen.CreateThread(function()
-    while true do
-        Citizen.Wait(10000)
-        while isInStash
-        do
-            if currentStash.x ~= nil and #(playerCoords - vector3(currentStash.x + 6.72, currentStash.y - 3.92, -55.01)) < 3 then
-                if (IsControlJustReleased(1, 38)) then
-                    currentStash.useGarage = false
-                    secureWarehouseExit()
-                    TriggerServerEvent("npstash:log", currentStash.id, "Left Secure Warehouse - Door")
-                    break
+RegisterNetEvent('np-stash:getnearstash')
+AddEventHandler('np-stash:getnearstash', function()
+    local closestDoorDistance, closestDoorId = 9999.9, -1
+    local currentPos = GetEntityCoords(PlayerPedId())
+    for id, handle in pairs(stashes) do
+        local currentDoorDistance = #(stashes[id].StashEntry - currentPos)
+        if handle and currentDoorDistance < closestDoorDistance then
+            closestDoorDistance = currentDoorDistance
+            closestDoorId = id
+            if closestDoorId ~= -1 then
+                if stashes[closestDoorId].distance > closestDoorDistance then
+                    print(stashes[closestDoorId])
+                    secureWarehouseEnter(stashes[closestDoorId])
                 end
-            elseif currentStash.x ~= nil and #(playerCoords - vector3(currentStash.x - 29.3069, currentStash.y + 8.7816, -55.01)) < 5 then
-                if (IsControlJustReleased(2, 38)) then
-                    currentStash.useGarage = true
-                    secureWarehouseExit()
-                    TriggerServerEvent("npstash:log", currentStash.id, "Left Secure Warehouse - Garage")
-                    break
-                end
-            elseif currentStash.x ~= nil and #(playerCoords - vector3(currentStash.x - 6.3043, currentStash.y - 3.87, -54.00)) < 3 then
-                if (IsControlJustReleased(1, 38)) then
-                    local cid = exports["isPed"]:isPed("cid")
-                    if ((cid == currentStash.owner_cid) or (currentStash.admin))
-                    then
-                        TriggerServerEvent("npstash:log", currentStash.id, "Opened Secure Warehouse Stash")
-                        TriggerEvent("server-inventory-open", "1", "securewarehouse" .. currentStash.tier .."-" .. currentStash.id)
-                    end
-                end             
             end
-            Citizen.Wait(10)
         end
     end
-end)
+end, false)
 
-RegisterNetEvent("npstash:checkStashId")
-AddEventHandler("npstash:checkStashId", function(pStashHouses)
-    if (currentStash.id)
-    then
-        if currentStash.id
-        then
-            TriggerEvent("DoLongHudText", 'Stash House Id: ' .. currentStash.id, 155)
-        else
-            TriggerEvent("DoLongHudText", 'You must be in a stash to check the id.', 155)
-        end
-    end
-end)
 
-RegisterNetEvent("npstash:updateStashHouses")
-AddEventHandler("npstash:updateStashHouses", function(pStashHouses)
-    stashPoints = pStashHouses;
-    stashDataLoaded = true;
-end)
+RegisterCommand('opencodegui', function()
+    local owner_pin = 1234
+    local guest_pin = 1234
+    TriggerEvent('OpenCodeEntryGUI', {owner_pin, guest_pin})
+end, false)
 
-RegisterNetEvent("npstash:requestPlayerPosition")
-AddEventHandler("npstash:requestPlayerPosition", function(pData, pCallBack)
-    playerId = PlayerPedId();
-    playerCoords = GetEntityCoords(playerId);
-    if pCallBack ~= nil
-    then
-        TriggerServerEvent(pCallBack, playerCoords, GetEntityHeading(playerId), pData);
-    else
-        TriggerServerEvent("npstash:requestStashCreate", playerCoords, GetEntityHeading(playerId), pData);
-    end
-end)
 
-local function openCodeGui(pRequiredPin)
+local function openCodeGui(pRequiredPin, coords)
     gui = true;
     SetNuiFocus(true, true);
-    SendNUIMessage({ openPinPad = true, requiredPins = pRequiredPin });
+    SendNUIMessage({openPinPad = true, requiredPins = pRequiredPin, coords = coords});
 end
 
 local function CloseGui()
     currentlyInGame = false;
     gui = false;
     SetNuiFocus(false, false);
-    SendNUIMessage({ openPinPad = false });
+    SendNUIMessage({openPinPad = false});
 end
 
-AddEventHandler("OpenCodeEntryGUI", function(requiredPin)
-    openCodeGui(requiredPin);
+AddEventHandler("OpenCodeEntryGUI", function(requiredPin, coords)
+    openCodeGui(requiredPin, coords);
 end)
 
 -- NUI Callback Methods
@@ -315,39 +81,144 @@ end)
 RegisterNUICallback('failure', function(data, cb)
     CloseGui();
     cb('ok');
-    TriggerEvent("DoLongHudText", 'Incorrect PIN', 155);
 end)
 
 RegisterNUICallback('complete', function(data, cb)
     CloseGui();
+    print(json.encode(data), cb)
     cb('ok');
-    currentStash.admin = data.owner;
-    secureWarehouseEnter();
-end)
-
-RegisterCommand('refreshstash', function(source, args)
-
-    TriggerServerEvent('npstash:RequestStashHouses')
-end)
-
-RegisterCommand('createstash', function(source, args)
-    local ped = GetPlayerPed(-1)
-    local coords = GetEntityCoords(ped)
-    local data = {
-        owner_cid = args[1],
-        x = coords.x,
-        y = coords.y,
-        z = coords.z,
-        useGarage = 0,
-        owner_pin = args[2],
-        guest_pin = args[3],
-        tier = args[4]
-    }
-    TriggerServerEvent('npstash:requestStashCreate', data)
-    TriggerServerEvent('npstash:RequestStashHouses')
+    TriggerEvent('np-stash:getnearstash')
 end)
 
 RegisterCommand('fixblack', function()
-    local playerped = PlayerPedId()
-    DoScreenFadeIn(PlayerPedId(), 100)
+    DoScreenFadeIn(1000)
+    TriggerServerEvent("npstash:RequestStashHouses");
 end)
+
+function secureWarehouseEnter(closeststashid)
+    local metd = `stashhouse1_shell`
+    RequestModel(metd)
+    while not HasModelLoaded(metd) do
+        Citizen.Wait(0)
+        print('no load')
+    end
+    print('coords', closeststashid.StashEntry.x, closeststashid.StashEntry.y)
+    warehouse = CreateObject(GetHashKey("stashhouse1_shell"), closeststashid.StashEntry.x, closeststashid.StashEntry.y, -72.61, false, false, false)
+    FreezeEntityPosition(warehouse, true)
+    instash = closeststashid
+    isinstash = true
+    local targetPed = GetPlayerPed(-1)
+    if(IsPedInAnyVehicle(targetPed))then
+    targetPed = GetVehiclePedIsUsing(targetPed)
+    DoScreenFadeOut(1000)
+    Wait(1000)
+    SetEntityHeading(PlayerPedId(), 88.27)
+    SetEntityCoordsNoOffset(targetPed, closeststashid.StashEntry.x + 18, closeststashid.StashEntry.y - 0.5, -53.0, 0, 0, 1)
+    Wait(1000)
+    DoScreenFadeIn(1000)
+    else
+    DoScreenFadeOut(1000)
+    Wait(1000)
+    SetEntityCoords(PlayerPedId(), closeststashid.StashEntry.x + 20, closeststashid.StashEntry.y - 0.5, -53.0)
+    Wait(1000)
+    DoScreenFadeIn(1000)
+    end
+end
+
+Citizen.CreateThread(function()
+    while true do
+        Citizen.Wait(4)
+        if isinstash == true then
+            local playerPos = GetEntityCoords(PlayerPedId())
+            local targetPos = vector3(instash.StashEntry.x - 19.13, instash.StashEntry.y + 1.66, -53.00)
+            local distance = #(playerPos - targetPos)
+            if distance < 5 then
+                DrawText3Ds(instash.StashEntry.x - 19.13, instash.StashEntry.y + 1.66, -53.00, '~g~E~w~ - open stash')
+                if IsControlJustReleased(0, 38) then
+                    local cid = exports["isPed"]:isPed("cid")
+                    TriggerEvent("server-inventory-open", "1", 'StashHouse-' .. instash.ID)
+                end
+            end
+        else
+            Wait(5000)
+        end
+    end
+end)
+
+
+
+Citizen.CreateThread(function()
+    while true do
+        Citizen.Wait(4)
+        if isinstash == true then
+            local playerPos = GetEntityCoords(PlayerPedId())
+            local targetPos = vector3(instash.StashEntry.x + 17.95, instash.StashEntry.y + 1, -53.0)
+            local distance = #(playerPos - targetPos)
+            if distance < 5 then
+                DrawText3Ds(instash.StashEntry.x + 20, instash.StashEntry.y - 0.5, -53.0, '~g~E~w~ - leave stash')
+                if IsControlJustReleased(0, 38) then
+                    local targetPed = GetPlayerPed(-1)
+                    if(IsPedInAnyVehicle(targetPed))then
+                    targetPed = GetVehiclePedIsUsing(targetPed)
+                    DoScreenFadeOut(1000)
+                    Wait(1000)
+                    SetEntityCoordsNoOffset(targetPed, instash.StashEntry.x, instash.StashEntry.y, instash.StashEntry.z, -53.0, 0, 0, 1)
+                    Wait(1000)
+                    DoScreenFadeIn(1000)
+                    else
+                    DoScreenFadeOut(1000)
+                    Wait(1000)
+                    SetEntityCoords(PlayerPedId(), instash.StashEntry.x, instash.StashEntry.y, instash.StashEntry.z)
+                    secureWareHouseleave()
+                    Wait(1000)
+                    DoScreenFadeIn(1000)
+                    end
+                end
+            end
+        else
+            Wait(2000)
+        end
+    end
+end)
+
+
+function secureWareHouseleave()
+    isinstash = false
+    DeleteObject(warehouse)
+    FreezeEntityPosition(warehouse, false)
+end
+
+function DrawText3Ds(x, y, z, text)
+    local onScreen, _x, _y = World3dToScreen2d(x, y, z)
+    local px, py, pz = table.unpack(GetGameplayCamCoords())
+    SetTextScale(0.35, 0.35)
+    SetTextFont(4)
+    SetTextProportional(1)
+    SetTextColour(255, 255, 255, 215)
+    SetTextEntry("STRING")
+    SetTextCentre(1)
+    AddTextComponentString(text)
+    DrawText(_x, _y)
+    local factor = (string.len(text)) / 370
+    DrawRect(_x, _y + 0.0125, 0.015 + factor, 0.03, 41, 11, 41, 68)
+end
+
+
+RegisterCommand('stashadd', function(source,args)
+    local plycoords = GetEntityCoords(PlayerPedId())
+    local pin = args[1]
+    local id = args[2]
+    local distance = args[3]
+    TriggerServerEvent('stashesaddtoconfig', plycoords, pin, id, distance)
+end)
+
+-- Chat suggestion
+Citizen.CreateThread(function()
+    TriggerEvent("chat:addSuggestion", "/stashadd", "Create a stash", {
+        {name = "pin", help = "Pin Code"},
+        {name = "id", help = "Stash ID"},
+        {name = "distance", help = "Distance to click open keypad"},
+    })
+end)
+
+RegisterKeyMapping('getnearstash', 'Enter', 'keyboard', 'e')

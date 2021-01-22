@@ -710,6 +710,10 @@ end
         TriggerServerEvent("robbery:triggerItemUsedServer",itemid)
     end    
 
+    if (itemid == "Gruppe6Card22")  then
+        TriggerServerEvent("robbery:triggerItemUsedServer",itemid)
+    end    
+
     if (itemid == "ciggy") then
         local finished = exports["np-taskbar"]:taskBar(1000,"Lighting Up",false,false,playerVeh)
         if (finished == 100) then

@@ -1,9 +1,9 @@
 
 -----Power Tracking---
 
-local City_Power_State = true -- main city's power plate    
-local Prison_Power_State = true
-local Paleto_Power_State = true
+local City_Power_State = false -- main city's power plate    
+local Prison_Power_State =  false
+local Paleto_Power_State = false
 local total = 0
 
 ------------------------
@@ -38,9 +38,9 @@ Area_Jewl = "jewlArea"
 
 local markers = {
     [1]  = { attachedDoor = 74, dropChance = 0, toolType = "physicalPick", group = "mainBank", zone = "pacific", pos =  vector3(256.5196, 219.7890, 106.28), difficulty = {kit = {[1] = 1, [2] = 1}, thermite = {[1] = 5, [2] = 1, [3] = 3, [4] = 400}, lockpicking = {[1] = 1, [2] = 1, [3] = 1, [4] = 1}}},
-    [2]  = { attachedDoor = 76, dropChance = 0, toolType = "cardedlock2", group = "mainBank", zone = "pacific", pos =  vector3(261.7722, 223.3470, 106.28), difficulty = {kit = {[1] = 1, [2] = 1}, thermite = {[1] = 5, [2] = 1, [3] = 3, [4] = 400}, lockpicking = {[1] = 1, [2] = 1, [3] = 1, [4] = 1}}},
-    [3]  = { attachedDoor = nil, dropChance = 0, toolType = "cardedlock2", group = "mainBank", zone = "pacific", pos =  vector3(253.5149, 228.3643, 101.68), difficulty = {kit = {[1] = 1, [2] = 1}, thermite = {[1] = 5, [2] = 1, [3] = 3, [4] = 400}, lockpicking = {[1] = 1, [2] = 1, [3] = 1, [4] = 1}}},
-    [4]  = { attachedDoor = nil, dropChance = 0, toolType = "cardedlock", group = "mainBank", zone = "pacific", pos =  vector3(254.1452, 225.7106, 101.87), difficulty = {kit = {[1] = 1, [2] = 1}, thermite = {[1] = 5, [2] = 1, [3] = 3, [4] = 400}, lockpicking = {[1] = 1, [2] = 1, [3] = 1, [4] = 1}}},
+    [2]  = { attachedDoor = 76, dropChance = 0, toolType = "cardedlock2", group = "mainBank", zone = "pacific", pos =  vector3(261.7722, 223.3470, 106.28), difficulty = {kit = {[1] = 5, [2] = 15}, thermite = {[1] = 5, [2] = 1, [3] = 3, [4] = 400}, lockpicking = {[1] = 1, [2] = 1, [3] = 1, [4] = 1}}},
+    [3]  = { attachedDoor = nil, dropChance = 0, toolType = "cardedlock2", group = "mainBank", zone = "pacific", pos =  vector3(253.5149, 228.3643, 101.68), difficulty = {kit = {[1] = 5, [2] = 15}, thermite = {[1] = 5, [2] = 1, [3] = 3, [4] = 400}, lockpicking = {[1] = 1, [2] = 1, [3] = 1, [4] = 1}}},
+    [4]  = { attachedDoor = nil, dropChance = 0, toolType = "cardedlock", group = "mainBank", zone = "pacific", pos =  vector3(254.1452, 225.7106, 101.87), difficulty = {kit = {[1] = 5, [2] = 15}, thermite = {[1] = 5, [2] = 1, [3] = 3, [4] = 400}, lockpicking = {[1] = 1, [2] = 1, [3] = 1, [4] = 1}}},
     [5]  = { attachedDoor = 77, dropChance = 0, toolType = "physicalThermite", group = "mainBank", zone = "pacific", pos =  vector3(252.9976, 221.5834, 101.68), difficulty = {kit = {[1] = 1, [2] = 1}, thermite = {[1] = 5, [2] = 1, [3] = 3, [4] = 400}, lockpicking = {[1] = 1, [2] = 1, [3] = 1, [4] = 1}}},
     [6]  = { attachedDoor = 78, dropChance = 1, toolType = "airLock", group = "mainBank", zone = "pacific", pos =  vector3(257.8968, 214.5024, 101.68), difficulty = {kit = {[1] = 1, [2] = 1}, thermite = {[1] = 5, [2] = 1, [3] = 3, [4] = 400}, lockpicking = {[1] = 1, [2] = 1, [3] = 1, [4] = 1}}},
     [7]  = { attachedDoor = nil, dropChance = 1, toolType = "airLock", group = "mainBank", zone = "pacific", pos =  vector3(259.3956, 218.0461, 101.68), difficulty = {kit = {[1] = 1, [2] = 1}, thermite = {[1] = 5, [2] = 1, [3] = 3, [4] = 400}, lockpicking = {[1] = 1, [2] = 1, [3] = 1, [4] = 1}}},
@@ -53,7 +53,7 @@ local markers = {
     -- ^^ bank
 
     [13]  = { attachedDoor = nil, dropChance = 0, toolType = "physicalThermite", group = "Prison_Power", zone = "power", pos = vector3(2752.080, 1465.003, 49.05), difficulty = {kit = {[1] = 1, [2] = 1}, thermite = {[1] = 5, [2] = 1, [3] = 3, [4] = 400}, lockpicking = {[1] = 1, [2] = 1, [3] = 1, [4] = 1}}},
-    [14]  = { attachedDoor = nil, dropChance = 0, toolType = "physicalThermite", group = "Prison_Power", zone = "power", pos = vector3(2792.160, 1482.197, 24.53), difficulty = {kit = {[1] = 1, [2] = 1}, thermite = {[1] = 4, [2] = 1, [3] = 4, [4] = 400}, lockpicking = {[1] = 1, [2] = 1, [3] = 1, [4] = 1}}},
+    [14]  = { attachedDoor = nil, dropChance = 0, toolType = "physicalThermite", group = "Prison_Power", zone = "power", pos = vector3(2792.160, 1482.197, 24.53), difficulty = {kit = {[1] = 5, [2] = 5}, thermite = {[1] = 4, [2] = 1, [3] = 4, [4] = 400}, lockpicking = {[1] = 1, [2] = 1, [3] = 1, [4] = 1}}},
     [15]  = { attachedDoor = nil, dropChance = 0, toolType = "physicalThermite", group = "Prison_Power", zone = "power", pos = vector3(2800.542, 1513.992, 24.53), difficulty = {kit = {[1] = 1, [2] = 1}, thermite = {[1] = 6, [2] = 1, [3] = 4, [4] = 400}, lockpicking = {[1] = 1, [2] = 1, [3] = 1, [4] = 1}}},
     [16]  = { attachedDoor = nil, dropChance = 0, toolType = "physicalThermite", group = "Prison_Power", zone = "power", pos = vector3(2809.443, 1547.166, 24.53), difficulty = {kit = {[1] = 1, [2] = 1}, thermite = {[1] = 3, [2] = 2, [3] = 5, [4] = 400}, lockpicking = {[1] = 1, [2] = 1, [3] = 1, [4] = 1}}},
     [17]  = { attachedDoor = nil, dropChance = 0, toolType = "physicalThermite", group = "Prison_Power", zone = "power", pos = vector3(2862.568, 1510.230, 24.56), difficulty = {kit = {[1] = 1, [2] = 1}, thermite = {[1] = 4, [2] = 2, [3] = 5, [4] = 400}, lockpicking = {[1] = 1, [2] = 1, [3] = 1, [4] = 1}}},

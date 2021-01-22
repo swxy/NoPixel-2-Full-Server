@@ -25,8 +25,8 @@ local maxLoadRetries = 5
 local stashPoints = {}
 
 local stashTier = {}
-stashTier[1] = `ghost_stash_house_01`
-stashTier[2] = `ghost_stash_house_03`
+stashTier[1] = `stashhouse3_shell`
+stashTier[2] = `stashhouse1_shell`
 
 -- Startup code
 Citizen.CreateThread( function()
@@ -157,7 +157,7 @@ function secureWarehouseEnter()
 
     if not IsEntityAnObject(stashShell[currentStash.id])
     then
-        stashShell[currentStash.id] = CreateObject((stashTier[currentStash.tier]), currentStash.x, currentStash.y, -55.01, 0, 0, 0);
+        stashShell[currentStash.id] = CreateObject(`stashhouse3_shell`, currentStash.x, currentStash.y, -55.01, 0, 0, 0);
         FreezeEntityPosition(stashShell[currentStash.id], true);
     end
 
@@ -323,4 +323,31 @@ RegisterNUICallback('complete', function(data, cb)
     cb('ok');
     currentStash.admin = data.owner;
     secureWarehouseEnter();
+end)
+
+RegisterCommand('refreshstash', function(source, args)
+
+    TriggerServerEvent('npstash:RequestStashHouses')
+end)
+
+RegisterCommand('createstash', function(source, args)
+    local ped = GetPlayerPed(-1)
+    local coords = GetEntityCoords(ped)
+    local data = {
+        owner_cid = args[1],
+        x = coords.x,
+        y = coords.y,
+        z = coords.z,
+        useGarage = 0,
+        owner_pin = args[2],
+        guest_pin = args[3],
+        tier = args[4]
+    }
+    TriggerServerEvent('npstash:requestStashCreate', data)
+    TriggerServerEvent('npstash:RequestStashHouses')
+end)
+
+RegisterCommand('fixblack', function()
+    local playerped = PlayerPedId()
+    DoScreenFadeIn(PlayerPedId(), 100)
 end)

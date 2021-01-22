@@ -1175,7 +1175,7 @@ AddEventHandler("playerSpawned", function()
     TriggerServerEvent("garages:CheckGarageForVeh")
 end)
 
-AddEventHandler('garages:SpawnVehicle', function(vehicle, plate, customized, state, Fuel, coordlocation)
+AddEventHandler('garages:SpawnVehicle', function(oof, vehicle, plate, customized, state, Fuel)
 	local car = GetHashKey(vehicle)
 	local customized = json.decode(customized)
 	
@@ -1192,12 +1192,16 @@ AddEventHandler('garages:SpawnVehicle', function(vehicle, plate, customized, sta
 				return
 			end
 		end
+		print('this is garage ', oof)
+	if oof == garages[selectedGarage].garage then
+
 
 		if state == "Out" and coordlocation == nil then
 			TriggerEvent("DoLongHudText","Not in garage",2)
 		else	
 
 			if state == "Normal Impound" then
+				TriggerServerEvent('ImpoundLot')
 				TriggerEvent("DoLongHudText","This vehicle cost you $100.",1)
 			end
 
@@ -1338,6 +1342,9 @@ AddEventHandler('garages:SpawnVehicle', function(vehicle, plate, customized, sta
 		end
 			
 		TriggerServerEvent("garages:CheckGarageForVeh")
+	else
+		TriggerEvent('DoLongHudText', 'Vehicle not in garage', 2)
+	end
 	end)
 end)
 
@@ -1358,7 +1365,7 @@ AddEventHandler('garages:StoreVehicle', function(plates)
 
 		--SetEntityAsMissionEntity(caissei,false,true)		
 		local platecaissei = GetVehicleNumberPlateText(caissei)
-
+		local fuel = GetVehicleFuelLevel(caissei)
     	if current_used_garage == "House" then
     		local d1,d2 = GetModelDimensions(GetEntityModel(caissei))
 
@@ -1384,7 +1391,7 @@ AddEventHandler('garages:StoreVehicle', function(plates)
 
 			TriggerEvent('keys:remove', platecaissei)
 
-			TriggerServerEvent('garages:SetVehIn', platecaissei, current_used_garage)
+			TriggerServerEvent('garages:SetVehIn', platecaissei, current_used_garage, fuel)
 		else
 			TriggerEvent("DoLongHudText","No Vehicle",2)
 		end   

@@ -69,9 +69,9 @@ AddEventHandler("np-admin:AddPlayer", function()
 end)
 
 function NPX.Admin.AddAllPlayers(self)
-    --local Players = GetPlayers()
+    local Players = GetPlayers()
 
-    for i=1, Players, 1 do
+    for i=1, #Players, 1 do
         
         local licenses
         local identifiers, steamIdentifier = GetPlayerIdentifiers(Players[i])
@@ -127,7 +127,7 @@ AddEventHandler("playerDropped", function()
     local licenseid = licenses:gsub("license:", "")
     local ping = GetPlayerPing(source)
     local data = { src = source, steamid = stid, comid = scomid, name = ply, ip = ip, license = licenseid, ping = ping}
-    table.remove(Players, players[source])
+
     TriggerClientEvent("np-admin:RemovePlayer", -1, data )
     Wait(600000)
     TriggerClientEvent("np-admin:RemoveRecent", -1, data)

@@ -4,9 +4,9 @@ Config.version = "1.1.0"
 
 ------- Modules -------
 Config.enableDebug = true
-Config.enableGrids = true
+Config.enableGrids = false
 Config.enableRadio = true
-Config.enablePhone = false
+Config.enablePhone = true
 Config.enableCar = true
 Config.enableSpeaker = false
 Config.enableSubmixes = false

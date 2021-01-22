@@ -255,15 +255,15 @@ function attemptToRob(itemID,activePolice)
         end
     end
 
-    if marker.toolType == CARDED_LOCK2 then
-        if itemID == "electronickit" then
-            TriggerEvent("DoLongHudText","Must be started with a card , both will be used for this lock.",2)
-            return
-        elseif itemID ~= "Gruppe6Card22" then
-            TriggerEvent("DoLongHudText","Not the right tool for this job.",2)
-            return
-        end
-    end
+    -- if marker.toolType == CARDED_LOCK2 then
+    --     if itemID == "electronickit" then
+    --         TriggerEvent("DoLongHudText","Must be started with a card , both will be used for this lock.",2)
+    --         return
+    --     elseif itemID ~= "Gruppe6Card22" then
+    --         TriggerEvent("DoLongHudText","Not the right tool for this job.",2)
+    --         return
+    --     end
+    -- end
 
     if itemID == "lockpick" then
         local itemNum = 21
@@ -384,6 +384,8 @@ function attemptToRob(itemID,activePolice)
     end
 
     if itemID == "Gruppe6Card22" then
+
+        print('pog')
 
         if exports["np-inventory"]:hasEnoughOfItem("electronickit",1,false) then
             local card = exports["np-taskbar"]:taskBar(9000,"Inserting Card")

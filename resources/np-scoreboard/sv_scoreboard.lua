@@ -4,8 +4,6 @@ NPX._Scoreboard = {}
 NPX._Scoreboard.PlayersS = {}
 NPX._Scoreboard.RecentS = {}
 
-local players = {}
-
 RegisterServerEvent('NPX-scoreboard:AddPlayer')
 AddEventHandler("NPX-scoreboard:AddPlayer", function()
 
@@ -23,13 +21,13 @@ AddEventHandler("NPX-scoreboard:AddPlayer", function()
     local data = { src = source, steamid = stid, comid = scomid, name = ply }
 
     TriggerClientEvent("np-scoreboard:AddPlayer", -1, data )
-    table.insert(players, source)
     NPX.Scoreboard.AddAllPlayers()
 end)
 
 function NPX.Scoreboard.AddAllPlayers(self)
+    local players = GetPlayers()
 
-    for i=1, players, 1 do
+    for i=1, #players, 1 do
         
         local identifiers, steamIdentifier = GetPlayerIdentifiers(players[i])
         for _, v in pairs(identifiers) do
@@ -67,7 +65,7 @@ AddEventHandler("playerDropped", function()
     local scomid = steamIdentifier:gsub("steam:", "")
     local plyid = source
     local data = { src = source, steamid = stid, comid = scomid, name = ply }
-    table.remove(players, players[source])
+
     TriggerClientEvent("np-scoreboard:RemovePlayer", -1, data )
     Wait(600000)
     TriggerClientEvent("np-scoreboard:RemoveRecent", -1, plyid)

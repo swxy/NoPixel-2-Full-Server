@@ -4,7 +4,8 @@ AddEventHandler("npstash:RequestStashHouses", function()
 
     exports.ghmattimysql:execute("SELECT * FROM stash", {}, function(result)
         if (#result > 0) then
-			TriggerClientEvent("npstash:updateStashHouses", -1, result)
+            TriggerClientEvent("npstash:updateStashHouses", -1, result)
+            print(json.encode(result))
 		else
 			print("ERROR happened at query (np-stash)")
 		end

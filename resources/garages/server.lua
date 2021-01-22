@@ -206,13 +206,13 @@ AddEventHandler("garages:CheckGarageForVeh", function()
     end)
 end)
 
-AddEventHandler("garages:SetVehIn",function(plate, garage)
+AddEventHandler("garages:SetVehIn",function(plate, garage, fuel)
     local src = source
     local user = exports["np-base"]:getModule("Player"):GetUser(src)
 	local char = user:getCurrentCharacter()
 	local owner = char.id
 	local state = "In"
-	exports.ghmattimysql:execute("UPDATE characters_cars SET vehicle_state = @state, current_garage = @garage, coords = @coords WHERE license_plate = @plate", {['garage'] = garage, ['state'] = state, ['plate'] = plate, ['coords'] = nil})
+	exports.ghmattimysql:execute("UPDATE characters_cars SET vehicle_state = @state, current_garage = @garage, fuel = @fuel, coords = @coords WHERE license_plate = @plate", {['garage'] = garage, ['state'] = state, ['plate'] = plate,  ['fuel'] = fuel, ['coords'] = nil})
 end)
 
 AddEventHandler('garages:SetVehOut', function(vehicle, plate)
@@ -256,11 +256,13 @@ AddEventHandler('garages:CheckForSpawnVeh', function(veh_id, garageCost)
 	print('this is veh_id ', veh_id)
 			exports.ghmattimysql:execute('SELECT * FROM characters_cars WHERE id = @id AND cid = @cid', {['@id'] = veh_id, ['@cid'] = char.id}, function(result)
 				local res = result[1]
+				local currentgarage = res.current_garage
+				print('fuck you ', currentgarage)
 				vehiclse = json.decode(result[1].data)
 				vehicle = vehiclse
 				print(res.coords)
 				print(res.vehicle_state)
-				TriggerClientEvent('garages:SpawnVehicle', src, res.model, res.license_plate, res.data, res.vehicle_state, res.fuel)
+				TriggerClientEvent('garages:SpawnVehicle', src, currentgarage, res.model, res.license_plate, res.data, res.vehicle_state, res.fuel, res.engine_damage, res.body_damage)
 			end)
 end)
 
@@ -270,7 +272,7 @@ AddEventHandler('ImpoundLot', function()
 local src = source
 local user = exports["np-base"]:getModule("Player"):GetUser(src)
 local char = user:getCurrentCharacter()
-user:removeMoney(150)
+user:removeMoney(100)
 end)
 -- Checks / Updates
 

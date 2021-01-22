@@ -1941,7 +1941,7 @@ $("#group-manage-rank-form").submit(function (e) {
     $.post('http://phone/promoteGroup', JSON.stringify({
         gangid: escapeHtml($(".group-manage-company-name").data('group-id')),
         cid: escapeHtml($("#group-manage-rank-form #group-manage-rank-id").val()),
-        newrank: escapeHtml($("#group-manage-rank-form #group-manage-rank").val()),
+        newrank: escapeHtml($("#group-manage-rank-form #group-manage-rank").val())
     }));
     $('#group-manage-rank-form').trigger('reset');
     $('#group-manage-rank-modal').modal('close');

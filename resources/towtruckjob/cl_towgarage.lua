@@ -373,13 +373,13 @@ AddEventHandler('returnmechanicmaterials', function(materialsTable)
 	    [6] = { ["itemid"] = 33, ["itemname"] = "Rubber", ["amount"] = 0 },
 	    [7] = { ["itemid"] = 34, ["itemname"] = "Copper", ["amount"] = 0 },
 	}
-	for x = 1, #itemvalues do
-		local itemid = itemvalues[x]["itemid"]
-		local itemname = itemvalues[x]["itemname"]
-		local itemcount = materialsTable["itemid"..itemid]["amount"]
-		TriggerEvent("chatMessage","Storage",4,itemcount .. " of " .. itemname)
+	-- for x = 1, #itemvalues do
+	-- 	local itemid = itemvalues[x]["itemid"]
+	-- 	local itemname = itemvalues[x]["itemname"]
+		-- local itemcount = materialsTable["itemid"..itemid]["amount"]
+		TriggerEvent("chatMessage","Storage",4,materialsTable)
 		Citizen.Wait(10)
-	end
+	-- end
 end)
 
 

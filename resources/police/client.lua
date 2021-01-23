@@ -83,9 +83,7 @@ AddEventHandler('uiTest:setRank', function(result)
 	print(rankService)
 end)
 
-RegisterCommand('test', function(source, args)
-	TriggerEvent('uiTest:setRank', tonumber(args[1]))
-end)
+
 Citizen.CreateThread(function()
 	local refreshed = false
 
@@ -160,6 +158,29 @@ local personalLockers = {
 	vector3(1763.720, 2592.793, 49.711),
 	vector3(1765.674, 2589.165, 49.781),
 }
+
+
+Citizen.CreateThread(function()
+    Citizen.Wait(1000)
+    while true do
+    local ped = GetPlayerPed(-1)
+    local pos = GetEntityCoords(ped)
+    local distance = GetDistanceBetweenCoords(pos.x,pos.y,pos.z,481.0489, -995.2978, 30.68964,false)
+        if distance <= 1.2 then
+            DrawText3DTest(481.0489, -995.2978, 30.68964, "[E] - Open Police Armory")
+			if IsControlJustReleased(0, 86) then
+			if isCop then
+				print(isCop)
+                Citizen.Wait(1)
+                TriggerEvent("server-inventory-open", "10", "Shop");	
+            
+            end
+        
+		end
+	end
+        Citizen.Wait(5)
+    end
+end)
 
 
 -- #MarkedForMarker

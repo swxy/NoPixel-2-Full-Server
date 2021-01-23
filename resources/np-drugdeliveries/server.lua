@@ -41,18 +41,51 @@ end)
 
 local activechop = {}
 local newList = {}
-RegisterServerEvent('request:chopshop')
-AddEventHandler('request:chopshop', function()
-    if #newList == 0 then
+
+function makenewlist()
     for i = 1, 5 do
         table.insert(newList, {["id"] = math.random(1, 118), ["rarity"] = math.random(1, 15), ["resolved"] = false})
     end
+end
+
+local timer = 60
+
+function updatetimer()
+    if timer > 0 then
+        timer = timer - 1
+        TriggerClientEvent("chop:CurrentCarList", -1, newList, timer)
+    else
+        newList = {}
+        makenewlist()
+        timer = 60
+        TriggerClientEvent("chop:CurrentCarList", -1, newList, timer)
     end
-    print(newList)
-    TriggerClientEvent("chop:CurrentCarList", source, newList, 10)
+end
+
+RegisterServerEvent('request:chopshop')
+AddEventHandler('request:chopshop', function()
+    TriggerClientEvent("chop:CurrentCarList", -1, newList, timer)
 end)
 
-RegisterServerEvent('chop:ServerCompleteCar')
-AddEventHandler('chop:ServerCompleteCar', function()
-    print('chop:ServerCompleteCar called')
+RegisterServerEvent('chopshop:removevehicle')
+AddEventHandler('chopshop:removevehicle', function(vehicleid, plate, value)
+    newList[vehicleid]["resolved"] = true
+    TriggerClientEvent("chop:CurrentCarListRemove", -1, vehicleid)
+    TriggerClientEvent("keys:remove", source, plate)
+    TriggerClientEvent("payment:chopshopscrap", source, newList[vehicleid]["rarity"])
+end)
+
+AddEventHandler('onResourceStart', function(resourceName)
+    if (GetCurrentResourceName() ~= resourceName) then
+      return
+    end
+    makenewlist()
+    --print('The resource ' .. resourceName .. ' has been started.')
+end)
+
+Citizen.CreateThread(function()
+    while true do
+        Citizen.Wait(60000)
+        updatetimer()
+    end
 end)

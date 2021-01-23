@@ -1542,7 +1542,7 @@ function cmd.DrawCommand()
     end) end
 
     if cmd.vars.target then if WarMenu.Button("Fix " .. cmd.vars.target.name .. "'s vehicle") then NPX.Admin:GetCommandData(cmd.command).runcommand({target = cmd.vars.target, runontarget = true}) end end
-    if GetVehiclePedIsIn(PlayerPedId(), false) ~= 0 then if WarMenu.Button("Fix Current cehicle.") then NPX.Admin:GetCommandData(cmd.command).runcommand({runontarget = false}) end end
+    if GetVehiclePedIsIn(PlayerPedId(), false) ~= 0 then if WarMenu.Button("Fix Current vehicle.") then NPX.Admin:GetCommandData(cmd.command).runcommand({runontarget = false}) end end
 
 end
 

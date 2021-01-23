@@ -276,8 +276,6 @@ end)
 function GiveAmmoNow()
 	for i,v in pairs(ammoTable) do
 		for x,b in pairs(v) do
-			print(v.type)
-			print(v.ammo)
 			SetPedAmmoByType(PlayerPedId(), v.type, v.ammo)
 		end
 	end

@@ -1028,6 +1028,7 @@ local currentTimer = 60
 RegisterNetEvent('chop:CurrentCarListRemove')
 AddEventHandler('chop:CurrentCarListRemove', function(id)
 	currentVehicleList[id]["resolved"] = true
+	print(currentVehicleList[id]["resolved"])
 end)
 
 RegisterNetEvent('chop:CurrentCarList')
@@ -1131,7 +1132,7 @@ function CompleteScrapping(vehicle, originalVehicleLocation)
 	end
 end
 
-
+--[[
 RegisterNetEvent('resetpix')
 AddEventHandler('resetpix', function()
 	Wait(60000)
@@ -1147,6 +1148,7 @@ AddEventHandler('payment:chopPixerium', function()
 		TriggerEvent("resetpix")
 	end
 end)
+]]
 
 function CleanUpArea()
     local playerped = PlayerPedId()
@@ -1283,7 +1285,7 @@ Citizen.CreateThread(function()
     					if #currentVehicleList == 0 then
     						TriggerServerEvent("request:chopshop")
     						Citizen.Wait(2000)
-    					end
+						end
     					local message = "Required List:"
 						for i = 1, #currentVehicleList do 
 							if not currentVehicleList[i]["resolved"] then
@@ -1348,9 +1350,6 @@ end)
 
 RegisterNetEvent('chop:commandrequest')
 AddEventHandler('chop:commandrequest', function()
-
-
-
 	if #currentVehicleList == 0 then
 		TriggerServerEvent("request:chopshop")
 		Citizen.Wait(2000)

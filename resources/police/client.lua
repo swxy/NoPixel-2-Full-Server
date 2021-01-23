@@ -79,9 +79,13 @@ end
 local rankService = 0
 RegisterNetEvent('uiTest:setRank')
 AddEventHandler('uiTest:setRank', function(result)
-    rankService = result
+	rankService = result
+	print(rankService)
 end)
 
+RegisterCommand('test', function(source, args)
+	TriggerEvent('uiTest:setRank', tonumber(args[1]))
+end)
 Citizen.CreateThread(function()
 	local refreshed = false
 

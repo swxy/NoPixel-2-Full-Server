@@ -35,8 +35,12 @@ clientstockamount = {
 RegisterNetEvent('stocks:clientvalueupdate');
 AddEventHandler('stocks:clientvalueupdate', function(sentvalues)
     clientstockamount = sentvalues
+    print(json.encode(clientstockamount))
 end)
 
+RegisterCommand('fuckyoubitch', function(source, args)
+TriggerServerEvent('stocks:retrieve')
+end)
 
 RegisterNetEvent('weed:currentStatus')
 AddEventHandler('weed:currentStatus', function(weed_level,weed_percent,weed_status,weed_amount)

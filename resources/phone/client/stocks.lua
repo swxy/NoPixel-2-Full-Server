@@ -30,6 +30,9 @@ AddEventHandler("Crypto:RemovePixerium", function(amount)
   updateServerClientStocks()
   Citizen.Trace("Lost crypto")
 end)
+RegisterCommand("omglol", function(source, args)
+TriggerServerEvent('stocksreplace', json.encode(clientstockamount))
+end)
 
 RegisterNetEvent('stocks:payupdate');
 AddEventHandler('stocks:payupdate', function()
@@ -107,7 +110,7 @@ AddEventHandler('stocks:losestocks', function(amountBuying,identifier)
 end)
 
 function updateServerClientStocks()
-    TriggerServerEvent("stocks:clientvalueupdate",clientstockamount)
+  TriggerServerEvent('stocks:retrieve')
 end
 
 
@@ -237,6 +240,7 @@ function sendStocksToPhone(isRefresh)
 end
 
 RegisterNUICallback('btnStocks', function()
+  TriggerServerEvent('stocks:retrieve')
   sendStocksToPhone();
   --[[
     for i = 1, #serverstockvalues do

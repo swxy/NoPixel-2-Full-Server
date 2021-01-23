@@ -29,10 +29,8 @@ AddEventHandler("checkJailTime", function(sendmessage)
     local char = user:getCurrentCharacter()
 
     exports.ghmattimysql:execute("SELECT * FROM `characters` WHERE id = @cid", {['cid'] = char.id}, function(result)
-        if result[1] then
-            local remaining = tonumber(result[1]).jail_time - os.time()
-            TriggerClientEvent("TimeRemaining", src, tonumber(remaining), tonumber(result[1].jail_time) and tonumber(result[1].jail_time) <= 0)
-        end
+
+            TriggerClientEvent("TimeRemaining", src, tonumber(result[1].jail_time), tonumber(result[1].jail_time) and tonumber(result[1].jail_time) <= 0)
 	end)
 end)
 
@@ -44,7 +42,7 @@ RegisterCommand('unjail', function(source, args)
 
     if user:getVar("job") == 'police' or user:getVar("job") == 'doc' then
         if args[1] and exports["np-base"]:getModule("Player"):GetUser(tonumber(args[1])) then
-            TriggerClientEvent("endJailTime", target.source)
+            TriggerClientEvent("endJailTime", (args[1]))
             exports.ghmattimysql:execute("UPDATE `characters` SET `jail_time` = @time WHERE `id` = @cid", {['time'] = 0, ['cid'] = char.id})
         else
             TriggerClientEvent("DoLongHudText", src, 'There are no player with this ID.', 2)

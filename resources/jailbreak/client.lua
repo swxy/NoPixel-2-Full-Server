@@ -842,7 +842,7 @@ AddEventHandler('TimeRemaining', function(TimeRemaining, release)
     else
 
     local minutes = math.ceil(TimeR / 60)
-    TriggerEvent("chatMessage", "DOC | " , { 33, 118, 255 }, "You have " .. minutes .. " months remaining")
+    TriggerEvent("chatMessage", "DOC | " , { 33, 118, 255 }, "You have " .. minutes .. " month(s) remaining")
     end
 end)
 

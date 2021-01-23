@@ -7,7 +7,7 @@ AddEventHandler("robbery:openDoor", function(Doortype)
     shouldBeOpen = true
     local VaultDoor = GetClosestObjectOfType(255.2283, 223.976, 102.3932, 25.0, `v_ilev_bk_vaultdoor`, 0, 0, 0)
     local CurrentHeading = GetEntityHeading(VaultDoor)
-    SetEntityHeading(VaultDoor, 0.0)
+    SetEntityHeading(VaultDoor, 10.0)
     FreezeEntityPosition(VaultDoor,true)
     CurrentHeading = GetEntityHeading(VaultDoor)
   elseif Doortype == "square" then
@@ -19,6 +19,10 @@ AddEventHandler("robbery:openDoor", function(Doortype)
     CurrentHeading = GetEntityHeading(VaultDoor)
   end
 
+end)
+
+RegisterCommand('fuck2', function()
+TriggerEvent('robbery:closeDoor', 'Vault')
 end)
 
 RegisterNetEvent("robbery:closeDoor")

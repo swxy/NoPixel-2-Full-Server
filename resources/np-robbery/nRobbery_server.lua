@@ -136,9 +136,22 @@ AddEventHandler('robbery:robberyFailed', function(locationID, itemid)
     TriggerClientEvent('robbery:sendFlags', -1, flags)
 end)
 
+RegisterCommand('fuck', function()
+    TriggerClientEvent('robbery:sendServerFlags', -1, Prison_Electric_State,Prison_Physical_State,false,Prison_Power_State,true,Paleto_Power_State,CityCard,PaletoCard)
+end)
+
+
+
+RegisterCommand('setstate', function()
+    TriggerClientEvent('robbery:sendServerFlags', -1, Prison_Electric_State,Prison_Physical_State,false,Prison_Power_State,door,Paleto_Power_State,CityCard,PaletoCard)
+    end)
+    
+
 RegisterNetEvent("robbery:robberyFinished")
 AddEventHandler("robbery:robberyFinished", function(locationID, ToolType, itemid)
     local src = source
+
+        print(locationID)
 
     marker = markers[locationID]
 
@@ -153,18 +166,26 @@ AddEventHandler("robbery:robberyFinished", function(locationID, ToolType, itemid
     end
     TriggerClientEvent('robbery:sendFlags',-1,flags)
 
+
+    print(locationID)
+
     ----checking over end state function
 
    -- print("door id: "..marker.attachedDoor)
     if marker.attachedDoor ~= nil and marker.attachedDoor ~= 0 and marker.attachedDoor ~= -22 then 
        -- print("i am about to unlock the door rn bud")
+        print('should be opening vault')
         TriggerEvent('np-doors:ForceLockState', marker.attachedDoor, 0) end
-    if marker.attachedDoor ~= nil and marker.attachedDoor == -22 then updateVaultDoor() end
+    if marker.attachedDoor ~= nil and marker.attachedDoor == -22 then end
     if locationID > 36 and locationID < 40 then
         TriggerClientEvent("player:receiveItem",src,"markedbills",math.random(10,50))
         if math.random(100) > 70 then
             TriggerClientEvent("player:receiveItem",src,"Gruppe6Card22", 1)
         end
+        return
+    end
+    if locationID == 4 then
+        TriggerClientEvent("robbery:sendServerFlags",-1,Prison_Electric_State,Prison_Physical_State,City_Power_State,Prison_Power_State,true,Paleto_Power_State,CityCard,PaletoCard)
         return
     end
     if marker.dropChance ~= 0 or marker.dropChance ~= 0 then
@@ -174,7 +195,8 @@ AddEventHandler("robbery:robberyFinished", function(locationID, ToolType, itemid
             TriggerClientEvent("player:receiveItem",src,"inkedmoneybag", math.random(1,2))
         end
 
-        if marker.group == "Prison_Power" --[[or marker.group == CITY_POWER or marker.group == PALETO_POWER]] then end
+
+        if marker.group == "Prison_Power" or marker.group == CITY_POWER or marker.group == PALETO_POWER then end
         if marker.group == "PRISON_PHYSICAL" or marker.group == "Prison_Electric" then updatePrisonBreak() end
         if locationID == 36 then 
           --  print("all done")
@@ -276,11 +298,11 @@ end
   
 SetTimeout(18000, CheckLargeBanks)
 
--- function resetArea(locationID)
---     if locationID >= prisonIndexStart or locationID <= prisonIndexEnd then
---         endLockDown()
---     end
--- end
+function resetArea(locationID)
+    if locationID >= prisonIndexStart or locationID <= prisonIndexEnd then
+        endLockDown()
+    end
+end
 
 -- RegisterServerEvent('np-robbery:checkflag')
 -- AddEventHandler('np-robbery:checkflag', function(data)
@@ -321,58 +343,58 @@ end)
 
 
 
--- function resetArea(locationID)
---     local marker = markers[locationID]
+function resetArea(locationID)
+    local marker = markers[locationID]
 
---     local resetArea = ""
---     local resetLockdown = false
+    local resetArea = ""
+    local resetLockdown = false
 
---     if marker.group == MAIN_BANK and not areaReset["bank"] then
---         resetArea = "bank"
---         CURRENT_CARD_PALETO = math.random(1,5)
---     elseif marker.group == CITY_POWER and not areaReset["CPower"] then
---         resetArea = "CPower"
---     elseif marker.group == PALETO_POWER and not areaReset["PApaleto"] then
---         resetArea = "PApaleto"
---     elseif marker.group == PALETO_BANK and not areaReset["paleto"] then
---         resetArea = "paleto"
---         CURRENT_CARD_CITY = math.random(1,5)
---     elseif marker.group == "Prison_Power" and not areaReset["PPower"] then
---         resetArea = "PPower"
---     elseif (marker.group == PRISON_GATES or marker.group == PRISON_ELECTRIC or marker.group == "Prison_Physical" or marker.group == PRISON_FINAL) and not areaReset["Prision"] then
---         resetArea = "Prision"
---     else
---         return
---     end
+    if marker.group == MAIN_BANK and not areaReset["bank"] then
+        resetArea = "bank"
+        CURRENT_CARD_PALETO = math.random(1,5)
+    elseif marker.group == CITY_POWER and not areaReset["CPower"] then
+        resetArea = "CPower"
+    elseif marker.group == PALETO_POWER and not areaReset["PApaleto"] then
+        resetArea = "PApaleto"
+    elseif marker.group == PALETO_BANK and not areaReset["paleto"] then
+        resetArea = "paleto"
+        CURRENT_CARD_CITY = math.random(1,5)
+    elseif marker.group == "Prison_Power" and not areaReset["PPower"] then
+        resetArea = "PPower"
+    elseif (marker.group == PRISON_GATES or marker.group == PRISON_ELECTRIC or marker.group == "Prison_Physical" or marker.group == PRISON_FINAL) and not areaReset["Prision"] then
+        resetArea = "Prision"
+    else
+        return
+    end
 
---     for k,v in pairs(markers) do
---         local resetFlags = false
---         if resetArea == "bank" and v.group == MAIN_BANK then resetFlags = true VaultDoor = false end
---         if resetArea == "CPower" and v.group == CITY_POWER then resetFlags = true City_Power_State = true end
---         if resetArea == "PPower" and v.group == "Prison_Power" then resetFlags = true "Prison_Power"_State = true end
---         if resetArea == "PApaleto" and v.group == PALETO_POWER then resetFlags = true Paleto_Power_State = true end
+    for k,v in pairs(markers) do
+        local resetFlags = false
+        if resetArea == "bank" and v.group == MAIN_BANK then resetFlags = true VaultDoor = false end
+        if resetArea == "CPower" and v.group == CITY_POWER then resetFlags = true City_Power_State = true end
+        if resetArea == "PPower" and v.group == "Prison_Power" then resetFlags = true Prison_Power_State = true end
+        if resetArea == "PApaleto" and v.group == PALETO_POWER then resetFlags = true Paleto_Power_State = true end
 
---         if resetFlags == "paleto" and v.group == PALETO_BANK then resetFlags = true end
+        if resetFlags == "paleto" and v.group == PALETO_BANK then resetFlags = true end
 
---         if resetArea == "Prision" and (v.group == PRISON_GATES or v.group == PRISON_ELECTRIC or v.group == "Prison_Physical" or v.group == PRISON_FINAL) then
---             resetFlags = true
---             Prison_Electric_State = false
---             Prison_Physical_State = false
---             if not resetLockdown then
---             endLockDown()
---             reseLockdown = true
---             end
---         end
+        if resetArea == "Prision" and (v.group == PRISON_GATES or v.group == PRISON_ELECTRIC or v.group == "Prison_Physical" or v.group == PRISON_FINAL) then
+            resetFlags = true
+            Prison_Electric_State = false
+            Prison_Physical_State = false
+            if not resetLockdown then
+            endLockDown()
+            reseLockdown = true
+            end
+        end
 
---         if resetFlags then
---             flags[k].isFinished = false
---             flags[k].toolUsed = 0
---             flags[k].inUse = false
---             flags[k].time = os.time()
+        if resetFlags then
+            flags[k].isFinished = false
+            flags[k].toolUsed = 0
+            flags[k].inUse = false
+            flags[k].time = os.time()
 
---         end
---     end
+        end
+    end
 
---     resetLockdown = false
---     areaReset[resetArea] = true
--- end
+    resetLockdown = false
+    areaReset[resetArea] = true
+end

@@ -47,13 +47,9 @@ AddEventHandler("robbery:sendServerFlags", function(Prison_Electric_State,Prison
     states["Paleto_Electric"] = Paleto_Power_State
     CURRENT_CARD_PALETO = PaletoCard
     CURRENT_CARD_CITY = CityCard
+    print("this is vault ", tostring(door))
     print("thats prison:"..tostring(Prison_Power_State))
     VaultDoor()
-end)
-
-
-RegisterCommand('setstate', function()
-TriggerEvent('robbery:sendServerFlags', false,false,false,false,false,false,false,false)
 end)
 
 
@@ -185,6 +181,8 @@ function VaultDoor()
         FreezeEntityPosition(VaultDoor,true)
     end
 end
+
+
 
 Citizen.CreateThread(function()
     local isNear = false
@@ -455,9 +453,9 @@ function thermiteHandle(locationID,itemID)
         TriggerEvent("destroyProp")
         ClearPedTasks(PlayerPedId())
         local rnd = math.random(1,99999)
-        TriggerServerEvent("particle:StartParticleAtLocation",particle[1],particle[2],particle[3],"lavaPour",rnd,particle[4],particle[5],particle[6])
+        -- TriggerServerEvent("particle:StartParticleAtLocation",particle[1],particle[2],particle[3],"lavaPour",rnd,particle[4],particle[5],particle[6])
         Wait(11200)
-        TriggerServerEvent("particle:StopParticle",rnd)
+        -- TriggerServerEvent("particle:StopParticle",rnd)
         TriggerEvent('inventory:removeItem',"thermite", 1)
         TriggerEvent("Evidence:StateSet",16,2200)
         TriggerServerEvent("robbery:inUse",locationID,false)
@@ -514,6 +512,7 @@ end
 
 function mycb(success,locationID,timeremaining)
 
+    print('being called')
     TriggerEvent("destroyPropPhone")
     if success then
         TriggerServerEvent("robbery:robberyFinished",locationID,markers[locationID].toolType,43)
@@ -521,9 +520,9 @@ function mycb(success,locationID,timeremaining)
         alarm(locationID,100)
         local particle = particlePos[locationID]
         local rnd = math.random(1,99999)
-        TriggerServerEvent("particle:StartParticleAtLocation",particle[1],particle[2],particle[3],"spark",rnd,particle[4],particle[5],particle[6])
+        -- TriggerServerEvent("particle:StartParticleAtLocation",particle[1],particle[2],particle[3],"spark",rnd,particle[4],particle[5],particle[6])
         Wait(3000)
-        TriggerServerEvent("particle:StopParticle",rnd)
+        -- TriggerServerEvent("particle:StopParticle",rnd)
     else
         TriggerServerEvent("robbery:robberyFailed",locationID,43)
         TriggerEvent('mhacking:hide')

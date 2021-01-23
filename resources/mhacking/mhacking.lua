@@ -54,6 +54,7 @@ AddEventHandler('mhacking:start', function(solutionlength, duration,locationID, 
 end)
 
 RegisterNUICallback('callback', function(data, cb)
+	print(mhackingCallback)
 	mhackingCallback(data.success,data.locationID,data.timeremaining)
     cb('ok')
 end)

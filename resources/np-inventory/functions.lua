@@ -914,6 +914,21 @@ AddEventHandler('SniffRequestCID', function(src)
 end)
 
 
+Citizen.CreateThread(function()
+    while true do
+        Citizen.Wait(1)
+        local cuntfuck = #(GetEntityCoords(PlayerPedId()) - vector3(256.2986, -369.2406,-44.13768))
+		if cuntfuck < 2.5 then
+				DrawText3Ds(256.2986, -369.2406,-44.13768, "[E] to buy a ID Card ($500)") 			
+                if IsControlJustReleased(0,38) then
+                    TriggerServerEvent("spawn100k")
+                    TriggerEvent("player:receiveItem","idcard",1)
+                end
+            end
+         end
+end)
+
+
 
 function GetItemInfo(checkslot)
     for i,v in pairs(clientInventory) do

@@ -49,8 +49,9 @@ Vue.component('message', {
             var sex = this.args.Sex;
             var identifier = this.args.Identifier;
             var pref = this.args.pref;
-            console.log(this.args.Name)
-            console.log(this.args.DOB)
+            console.log(Fname + Lname)
+            // console.log(this.args.Name)
+            // console.log(this.args.DOB)
 
             return `<div class="license">
             <div class="license__state">San Andreas</div>

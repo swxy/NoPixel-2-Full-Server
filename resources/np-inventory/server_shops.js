@@ -241,7 +241,7 @@ function smelter() {
 
 function courthouse() {
     var shopItems = [
-        { item_id: "idcard", id: 0, name: "Shop", information: "{}", slot: 1, amount: 15 },
+        { item_id: "idcard", id: 0, name: "Shop", information: "{}", slot: 1, amount: 1 },
         
     ];
     return JSON.stringify(shopItems);

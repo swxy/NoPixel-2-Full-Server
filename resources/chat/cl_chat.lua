@@ -37,16 +37,23 @@ AddEventHandler('chatMessage', function(author, color, text)
 end)
 
 RegisterNetEvent('chat:showCID')
-AddEventHandler('chat:showCID', function(cidInformation)
-  print(cidInformation)
-  SendNUIMessage({
-    type = 'ON_MESSAGE',
-    message = {
-      color = 9,
-      multiline = false,
-      args = cidInformation
-    }
-  })
+AddEventHandler('chat:showCID', function(cidInformation, pid)
+  local person_src = pid
+  local pid = GetPlayerFromServerId(person_src)
+	local targetPed = GetPlayerPed(pid)
+	local myCoords = GetEntityCoords(GetPlayerPed(-1))
+  local targetCoords = GetEntityCoords(targetPed)
+  print(pid)
+	    if GetDistanceBetweenCoords(myCoords, targetCoords, true) <= 1.5 then
+          SendNUIMessage({
+            type = 'ON_MESSAGE',
+            message = {
+              color = 9,
+              multiline = false,
+              args = cidInformation
+            }
+          })
+      end
 end)
 
 -- AddEventHandler('__cfx_internal:serverPrint', function(msg)

@@ -199,6 +199,6 @@ function SetCustomNuiFocus(hasKeyboard, hasMouse)
   SetNuiFocus(hasKeyboard, hasMouse)
   SetNuiFocusKeepInput(HasNuiFocus)
 
-  TriggerEvent("np:voice:focus:set", HasNuiFocus, hasKeyboard, hasMouse)
+  TriggerEvent("np-voice:focus:set", HasNuiFocus, hasKeyboard, hasMouse)
 end
 

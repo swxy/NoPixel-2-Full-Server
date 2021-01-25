@@ -168,22 +168,42 @@ end)
 --[[ Phone calling stuff ]]
 
 function getNumberPhone(identifier)
-    local result = exports.ghmattimysql:execute("SELECT phone_number FROM characters WHERE id = @identifier", {
+    local prick
+    exports.ghmattimysql:execute("SELECT phone_number FROM characters WHERE id = @identifier", {
         ['identifier'] = identifier
-    })
-    if result[1] ~= nil then
-        return result[1].phone_number
+    }, function(result)
+        if result[1] ~= nil then
+            prick = result[1].phone_number
+        else
+            prick = nil
+        end
+    end)
+    Wait(200)
+    if prick ~= nil then
+        return prick
+    else
+        return nil
     end
-    return nil
 end
-function getIdentifierByPhoneNumber(phone_number) 
-    local result = exports.ghmattimysql:execute("SELECT characters.id FROM characters WHERE characters.phone_number = @phone_number", {
+function getIdentifierByPhoneNumber(phone_number)
+    local prick
+    exports.ghmattimysql:execute("SELECT id FROM characters WHERE phone_number = @phone_number", {
         ['phone_number'] = phone_number
-    })
-    if result[1] ~= nil then
-        return result[1].id
+    }, function(result)
+        --print('lol phone_number ', phone_number)
+        if result[1] ~= nil then
+            print('db result '..result[1].id)
+            prick = result[1].id
+        else
+            prick = nil
+        end
+    end)
+    Wait(200)
+    if prick ~= nil then
+        return prick
+    else
+        return nil
     end
-    return nil
 end
 
 RegisterServerEvent('requestPing')
@@ -228,24 +248,29 @@ RegisterNetEvent('phone:callContact')
 AddEventHandler('phone:callContact', function(targetnumber, toggle)
     -- hard to do ((sway))
     local src = source
+    local targetid = 0
     local user = exports["np-base"]:getModule("Player"):GetUser(src)
+    local char = user:getVar("character")
     local targetIdentifier = getIdentifierByPhoneNumber(targetnumber)
-    local Players = GetPlayers()
-    local srcIdentifier = GetPlayerIdentifiers(src)[1]
-    local srcPhone = getNumberPhone(srcIdentifier)
+    local srcIdentifier = char.id
+    local srcPhone = getNumberPhone(char.id)
 
     TriggerClientEvent('phone:initiateCall', src, src)
     
-    for i=1, #Players, 1 do
-    local People = exports["np-base"]:getModule("Player"):GetUser(Players[i])
-        if People then
-          if srcIdentifier == targetIdentifier then
-            playerID = src
-          end
+    for _, playerId in ipairs(GetPlayers()) do
+        print(playerId)
+        local user = exports["np-base"]:getModule("Player"):GetUser(tonumber(playerId))
+        local char = user:getVar("character")
+        print('charid: '..char.id)
+        print('targetid: '..targetIdentifier)
+        if char.id == targetIdentifier then
+            targetid = playerId
+            print('kekw')
+            TriggerClientEvent('phone:receiveCall', targetid, targetnumber, src, srcPhone)
         end
     end
     print('calling trigger here')
-    TriggerClientEvent('phone:receiveCall', playerID, targetnumber, src, srcPhone)
+    print('lol lol ', targetid)
 end)
 
 RegisterNetEvent('phone:messageSeen')
@@ -427,10 +452,10 @@ AddEventHandler('phone:sendSMS', function(receiver, message)
 	local user = exports["np-base"]:getModule("Player"):GetUser(src)
     local characterId = user:getVar("character").id
     local mynumber = getNumberPhone(characterId)
-
+    local targetid = 0
     local target = getIdentifierByPhoneNumber(receiver)
     
-    local Players = GetActivePlayers()
+    local Players = GetPlayers()
     --if receiver ~= mynumber then
     exports.ghmattimysql:execute('INSERT INTO user_messages (sender, receiver, message) VALUES (@sender, @receiver, @message)', {
         ['sender'] = mynumber,
@@ -438,15 +463,18 @@ AddEventHandler('phone:sendSMS', function(receiver, message)
         ['message'] = message
     }, function(result)
     end)
-    for i=1, #Players, 1 do
-        local People = exports["np-base"]:getModule("Player"):GetUser(Players[i])
-        local PeopleId = People:getVar("character").id
-        if People then
-            if PeopleId == target then
-                local receiverID = People.source
-                TriggerClientEvent('phone:newSMS', receiverID, 1, mynumber)
-                TriggerClientEvent('DoLongHudText', src, "Messege send.", 16)
-            end
+    
+    for _, playerId in ipairs(GetPlayers()) do
+        print(playerId)
+        local user = exports["np-base"]:getModule("Player"):GetUser(tonumber(playerId))
+        local char = user:getVar("character")
+        print('charid: '..char.id)
+        print('targetid: '..target)
+        if char.id == target then
+            targetid = playerId
+            print('kekw')
+            TriggerClientEvent('phone:newSMS', targetid, 1, mynumber)
+            TriggerClientEvent('DoLongHudText', src, "Messege send.", 16)
         end
     end
 
@@ -458,9 +486,16 @@ AddEventHandler('phone:serverGetMessagesBetweenParties', function(sender, receiv
 	local user = exports["np-base"]:getModule("Player"):GetUser(src)
     local characterId = user:getVar("character").id
     local mynumber = getNumberPhone(characterId)
-    local result = exports.ghmattimysql:execute("SELECT * FROM user_messages WHERE (sender = @sender AND receiver = @receiver) OR (sender = @receiver AND receiver = @sender) ORDER BY id ASC", {['sender'] = sender, ['receiver'] = receiver})
+    exports.ghmattimysql:execute("SELECT * FROM user_messages WHERE (sender = @sender AND receiver = @receiver) OR (sender = @receiver AND receiver = @sender) ORDER BY id ASC",
+    {['sender'] = sender,
+    ['receiver'] = receiver},
+    function(result)
+        if result ~= nil then
+            TriggerClientEvent('phone:clientGetMessagesBetweenParties', src, result, displayName, mynumber)
+        end
+    end)
 
-    TriggerClientEvent('phone:clientGetMessagesBetweenParties', src, result, displayName, mynumber)
+    --TriggerClientEvent('phone:clientGetMessagesBetweenParties', src, result, displayName, mynumber)
 end)
 
 RegisterNetEvent('phone:StartCallConfirmed')
@@ -472,8 +507,8 @@ AddEventHandler('phone:StartCallConfirmed', function(mySourceID)
     TriggerClientEvent('phone:callFullyInitiated', src, src, mySourceID)
 
     -- After add them to the same channel or do it from server.
-    TriggerClientEvent('phone:addToCall', source, channel)
-    TriggerClientEvent('phone:addToCall', mySourceID, channel)
+    TriggerClientEvent('np:voice:phone:call:start', source, channel)
+    TriggerClientEvent('np:voice:phone:call:start', mySourceID, channel)
 
     TriggerClientEvent('phone:id', src, channel)
     TriggerClientEvent('phone:id', mySourceID, channel)
@@ -508,10 +543,10 @@ end)
 RegisterNetEvent('phone:EndCall')
 AddEventHandler('phone:EndCall', function(mySourceID, stupidcallnumberidk, somethingextra)
     local src = source
-    TriggerClientEvent('phone:removefromToko', source, stupidcallnumberidk)
+    TriggerClientEvent('np:voice:phone:call:end', source, stupidcallnumberidk)
 
     if mySourceID ~= 0 or mySourceID ~= nil then
-        TriggerClientEvent('phone:removefromToko', mySourceID, stupidcallnumberidk)
+        TriggerClientEvent('np:voice:phone:call:end', mySourceID, stupidcallnumberidk)
         TriggerClientEvent('phone:otherClientEndCall', mySourceID)
     end
 
@@ -567,7 +602,9 @@ end)
 function getOrGeneratePhoneNumber (sourcePlayer, identifier, cb)
     local sourcePlayer = sourcePlayer
     local identifier = identifier
-    local myPhoneNumber = getNumberPhone(identifier)
+    local user = exports["np-base"]:getModule("Player"):GetUser(sourcePlayer)
+    local char = user:getVar("character")
+    local myPhoneNumber = getNumberPhone(char.id)
     if myPhoneNumber == '0' or myPhoneNumber == nil then
         repeat
             myPhoneNumber = getPhoneRandomNumber()
@@ -1029,14 +1066,25 @@ end)
 RegisterServerEvent("stocks:retrieve")
 AddEventHandler("stocks:retrieve", function()
     local src = source
-    local user = exports["np-base"]:getModule("Player"):GetUser()
+    local user = exports["np-base"]:getModule("Player"):GetUser(src)
     local char = user:getCurrentCharacter()
 
     exports.ghmattimysql:execute("SELECT stocks FROM characters WHERE id = @id", {['id'] = char.id}, function(result)
         if result[1].stocks then
-        TriggerClientEvent("stocks:clientvalueupdate", src, result[1].stocks)
+        TriggerClientEvent("stocks:clientvalueupdate", src, json.decode(result[1].stocks))
         end
     end)
+end)
+
+RegisterServerEvent("phone:stockTradeAttempt")
+AddEventHandler("phone:stockTradeAttempt", function(index, id, sending)
+    local src = source
+    local user = exports["np-base"]:getModule("Player"):GetUser(tonumber(id))
+    local char = user:getCurrentCharacter()
+
+    if user ~= nil then
+        TriggerClientEvent("Crypto:GivePixerium", id, sending)
+    end
 end)
 
 -- RegisterNetEvent('LoadHouses')

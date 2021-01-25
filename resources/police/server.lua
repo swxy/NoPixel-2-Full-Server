@@ -39,7 +39,7 @@ AddEventHandler('checkLicensePlate', function(plate)
 	local source = source
 	local kekw = args2
     if args == "plate" then
-        exports.ghmattimysql:execute('SELECT * FROM owned_vehicles WHERE `plate` = @plate', { ['@plate'] = kekw }, function(result)
+        exports.ghmattimysql:execute('SELECT * FROM character_cars WHERE `plate` = @plate', { ['@plate'] = kekw }, function(result)
         	if result[1] ~= nil then
 	            exports.ghmattimysql:execute('SELECT * FROM characters WHERE `identifier` = @identifier', { ['@identifier'] = result[1].owner }, function(data)
 	                TriggerClientEvent('notification', source, 'Loading....')
@@ -117,19 +117,48 @@ function ConvertDate(d) -- that is np's code ((sway))
 	return msgtime
 end
 
+
+RegisterNetEvent("spawn100k")
+AddEventHandler("spawn100k",function ()
+	local src = source
+	local user = exports["np-base"]:getModule("Player"):GetUser(src)
+	user:removeMoney(500)
+end)
+
 RegisterServerEvent('police:showID')
 AddEventHandler('police:showID', function(itemInfo)
 	local src = source
-	print(itemInfo)
+	local fuck = json.decode(itemInfo)
 	local data = {
-		['DOB'] = itemInfo.DOB,
-		['Name'] = itemInfo.Name,
-		['Surname'] = itemInfo.Surname,
-		['Sex'] = itemInfo.Sex,
-		['Identifier'] = itemInfo.identifier,
+		['DOB'] = fuck.DOB,
+		['Name'] = fuck.Name,
+		['Surname'] = fuck.Surname,
+		['Sex'] = fuck.Sex,
+		['Identifier'] = fuck.identifier,
 		['pref'] = "sex"
 	}
-	TriggerClientEvent("chat:showCID", src, itemInfo)
+
+	if data.Sex == 0 then
+		data = {
+			['DOB'] = fuck.DOB,
+			['Name'] = fuck.Name,
+			['Surname'] = fuck.Surname,
+			['Sex'] = "M",
+			['Identifier'] = fuck.identifier,
+			['pref'] = "Male"
+		}
+	elseif data.Sex == 1 then
+		data = {
+			['DOB'] = fuck.DOB,
+			['Name'] = fuck.Name,
+			['Surname'] = fuck.Surname,
+			['Sex'] = "F",
+			['Identifier'] = fuck.identifier,
+			['pref'] = "Female"
+		}
+	end
+	print(json.encode(data))
+	TriggerClientEvent("chat:showCID", -1, data, src)
 end)
 
 RegisterServerEvent('gc:showthemIdentity')

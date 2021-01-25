@@ -438,6 +438,15 @@ else if(secondInventory == "998")
     var shopAmount = 1;
     emitNet("inventory-open-target", src, [invArray,arrayCount,playerinvname,shopArray,shopAmount,targetinvname,500,false]);
 }  
+
+
+else if(secondInventory == "921")
+{
+    var targetinvname = targetName;
+    var shopArray = asslockpick();
+    var shopAmount = 1;
+    emitNet("inventory-open-target", src, [invArray,arrayCount,playerinvname,shopArray,shopAmount,targetinvname,500,false]);
+}  
 else if(secondInventory == "28")
 {
     var targetinvname = targetName;
@@ -456,7 +465,7 @@ else if(secondInventory == "997")
 {
     var targetinvname = targetName;
     var shopArray = prison();
-    var shopAmount = 3;
+    var shopAmount = 7;
     emitNet("inventory-open-target", src, [invArray,arrayCount,playerinvname,shopArray,shopAmount,targetinvname,500,false]);
 }  
    else if(secondInventory == "7")

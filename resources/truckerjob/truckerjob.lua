@@ -247,17 +247,6 @@ AddEventHandler('event:control:update', function(table)
   Controlkey["generalUse"] = table["generalUse"]
 end)
 
-local tradingTable = { 
-	[1] = "scrapmetal",
-	[2] = "electronics",
-	[3] = "plastic",
-	[4] = "glass",
-	[5] = "rubber",
-	[6] = "copper",
-	[7] = "aluminium",
-	[8] = "steel"
-}
-
 local longrun = false
 
 local notspawned = true
@@ -895,33 +884,4 @@ end
 RegisterNetEvent("trucker:acceptspawn")
 AddEventHandler("trucker:acceptspawn", function(i)
     spawnTruck(i)
-end)
-
-local tradingTable = { 
-	[1] = "scrapmetal",
-	[2] = "electronics",
-	[3] = "plastic",
-	[4] = "glass",
-	[5] = "rubber",
-	[6] = "copper",
-	[7] = "aluminium",
-	[8] = "steel"
-}
-
-RegisterNetEvent('payment:chopshopscrap')
-AddEventHandler('payment:chopshopscrap', function(rarity,playsound)
-	
-	
-	if playsound then
-		if math.random(50) == 20 then
-			TriggerEvent( "player:receiveItem", "Gruppe6Card3", 1 )
-		end
-		TriggerServerEvent('InteractSound_SV:PlayWithinDistance', 2.0, 'impactdrill', 0.5)
-	end
-
-	local amount = rarity * 5
-	TriggerEvent('player:receiveItem', tradingTable[math.random(#tradingTable)], amount)	
-
-	TriggerEvent("DoLongHudText","Picked up Scrap Items.",1)
-
 end)

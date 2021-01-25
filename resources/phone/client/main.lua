@@ -2707,6 +2707,7 @@ end)
 RegisterNUICallback('messages', function(data, cb)
   loading()
   TriggerServerEvent('phone:getSMS')
+  print('neek')
   cb('ok')
 end)
 

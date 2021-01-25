@@ -110,7 +110,7 @@ AddEventHandler('stocks:losestocks', function(amountBuying,identifier)
 end)
 
 function updateServerClientStocks()
-  TriggerServerEvent('stocks:retrieve')
+  TriggerServerEvent("stocks:clientvalueupdate",clientstockamount)
 end
 
 

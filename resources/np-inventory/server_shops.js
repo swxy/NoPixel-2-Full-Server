@@ -43,7 +43,7 @@ function prison() {
         { item_id: "Gruppe6Card2", id: 0, name: "Shop", information: "{}", slot: 3, amount: 1 },
         { item_id: "Gruppe6Card222", id: 0, name: "Shop", information: "{}", slot: 4, amount: 1 },
         { item_id: "-538741184", id: 0, name: "Shop", information: "{}", slot:5, amount: 1 },  
-        { item_id: "okaylockpick", id: 0, name: "Shop", information: "{}", slot: 6, amount: 1 },
+        { item_id: "shitlockpick", id: 0, name: "Shop", information: "{}", slot: 6, amount: 1 },
         { item_id: "615608432", id: 0, name: "Shop", information: "{}", slot: 7, amount: 1 },
 
     ];
@@ -57,6 +57,14 @@ function asslockpick() {
     ];
     return JSON.stringify(shopItems);
 }
+
+function assphone() {
+    var shopItems = [
+        { item_id: "assphone", id: 0, name: "Shop", information: "{}", slot: 1, amount: 1 },
+    ];
+    return JSON.stringify(shopItems);
+}
+
 
 function JailFood() {
     var shopItems = [

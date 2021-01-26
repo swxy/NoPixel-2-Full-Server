@@ -1,3 +1,4 @@
+local focusTaken = false
 --[[------------------------------------------------------------------------
 
     Wraith Radar System - v1.02
@@ -29,6 +30,29 @@ function FormatSpeed( speed )
     return string.format( "%03d", speed )
 end 
 
+RegisterNetEvent("nowIsCop")
+AddEventHandler("nowIsCop", function(cb)
+    cb(isCop)
+end)
+RegisterNetEvent('police:noLongerCop')
+AddEventHandler('police:noLongerCop', function()
+    isCop = false
+end)
+
+AddEventHandler("np-voice:focus:set", function(pState)
+  focusTaken = pState
+end)
+
+RegisterNetEvent("np-jobmanager:playerBecameJob")
+AddEventHandler("np-jobmanager:playerBecameJob", function(job, name, notify)
+    if isMedic and job ~= "ems" then isMedic = false isInService = false end
+    if isCop and job ~= "police" then isCop = false isInService = false end
+    if isNews and job ~= "news" then isNews = false end
+    if job == "police" then isCop = true isInService = true end
+    if job == "ems" then isMedic = true isInService = true end
+    if job == "news" then isNews = true end
+end)
+
 function GetVehicleInDirectionSphere( entFrom, coordFrom, coordTo )
     local rayHandle = StartShapeTestCapsule( coordFrom.x, coordFrom.y, coordFrom.z, coordTo.x, coordTo.y, coordTo.z, 2.0, 10, entFrom, 7 )
     local _, _, _, _, vehicle = GetShapeTestResult( rayHandle )
@@ -57,14 +81,13 @@ end
 --[[------------------------------------------------------------------------
     Police Vehicle Radar 
 ------------------------------------------------------------------------]]--
+local lockplates = false
 local radarEnabled = false 
 local hidden = false 
 local radarInfo = 
 { 
     patrolSpeed = "000", 
-
     speedType = "mph", 
-
     fwdPrevVeh = 0, 
     fwdXmit = true, 
     fwdMode = "same", 
@@ -72,39 +95,68 @@ local radarInfo =
     fwdFast = "000", 
     fwdFastLocked = false, 
     fwdDir = nil, 
-    fwdFastSpeed = 0,
-
+    fwdFastSpeed = -1,
     bwdPrevVeh = 0, 
-    bwdXmit = false, 
-    bwdMode = "none", 
+    bwdXmit = true, 
+    bwdMode = "opp", 
     bwdSpeed = "OFF", 
     bwdFast = "OFF",
     bwdFastLocked = false, 
     bwdDir = nil, 
-    bwdFastSpeed = 0, 
+    bwdFastSpeed = -1, 
 
     fastResetLimit = 150,
-    fastLimit = 60, 
+    fastLimit = 80, 
 
-    angles = { [ "same" ] = { x = 0.0, y = 50.0, z = 0.0 }, [ "opp" ] = { x = -10.0, y = 50.0, z = 0.0 } },
+    angles = { [ "same" ] = { x = 0.0, y = 35.0, z = 0.0 }, [ "opp" ] = { x = -10.0, y = 35.0, z = 0.0 } },
 
-    lockBeep = true 
+    lockBeep = true, 
+
+    frontPlate = "No Lock",
+    rearPlate = "No Lock"
+
 }
 
-RegisterNetEvent( 'wk:toggleRadar' )
-AddEventHandler( 'wk:toggleRadar', function()
+RegisterNetEvent("platecheck:frontradar")
+AddEventHandler("platecheck:frontradar", function()
+    TriggerServerEvent('checkLicensePlate',radarInfo.frontPlate)
+end)
+
+RegisterNetEvent("platecheck:rearradar")
+AddEventHandler("platecheck:rearradar", function()
+    TriggerServerEvent('checkLicensePlate',radarInfo.rearPlate)
+end)
+
+local hotPlates = {}
+local hotPlatesReason = {}
+RegisterNetEvent("updateHotPlates")
+AddEventHandler("updateHotPlates", function(newPlates,newReasons)
+    hotPlates = newPlates
+    hotPlatesReason = newReasons
+end)
+
+function isHotVehicle(plate)
+    if hotPlates[string.upper(plate)] ~= nil or hotPlates[string.lower(plate)] ~= nil or hotPlates[plate] ~= nil then
+        return true
+    else
+        return false
+    end
+end
+
+
+RegisterNetEvent( 'startSpeedo' )
+AddEventHandler( 'startSpeedo', function()
     local ped = GetPlayerPed( -1 )
 
     if ( IsPedSittingInAnyVehicle( ped ) ) then 
         local vehicle = GetVehiclePedIsIn( ped, false )
 
-        if ( GetVehicleClass( vehicle ) == 18 ) then
             radarEnabled = not radarEnabled
 
             if ( radarEnabled ) then 
-                Notify( "~b~Radar enabled." )
+                Notify( "Radar enabled.",5 )
             else 
-                Notify( "~b~Radar disabled." )
+                Notify( "Radar disabled.",5 )
             end 
 
             ResetFrontAntenna()
@@ -117,11 +169,45 @@ AddEventHandler( 'wk:toggleRadar', function()
                 bwdxmit = radarInfo.bwdXmit, 
                 bwdmode = radarInfo.bwdMode
             })
-        else 
-            Notify( "~r~You must be in a police vehicle." )
-        end 
+    end
+end)
+
+RegisterNetEvent('wk:disableRadar')
+AddEventHandler('wk:disableRadar', function()
+    radarEnabled = false
+    SendNUIMessage({
+        disableRadar = true
+    })
+end)
+
+RegisterNetEvent( 'wk:toggleRadar' )
+AddEventHandler( 'wk:toggleRadar', function()
+    local ped = GetPlayerPed( -1 )
+
+    if ( IsPedSittingInAnyVehicle( ped ) ) then 
+        local vehicle = GetVehiclePedIsIn( ped, false )
+
+            radarEnabled = not radarEnabled
+
+            if ( radarEnabled ) then 
+                Notify( "Radar enabled.",5 )
+            else 
+                Notify( "Radar disabled.",5 )
+            end 
+
+            ResetFrontAntenna()
+            ResetRearAntenna()
+
+            SendNUIMessage({
+                toggleradar = true, 
+                fwdxmit = radarInfo.fwdXmit, 
+                fwdmode = radarInfo.fwdMode, 
+                bwdxmit = radarInfo.bwdXmit, 
+                bwdmode = radarInfo.bwdMode
+            })
+
     else 
-        Notify( "~r~You must be in a vehicle." )
+        Notify( "Not in vehicle.",2 )
     end 
 end )
 
@@ -168,7 +254,7 @@ function ResetFrontAntenna()
     end 
 
     radarInfo.fwdDir = nil
-    radarInfo.fwdFastSpeed = 0 
+    radarInfo.fwdFastSpeed = -1 
     radarInfo.fwdFastLocked = false 
 end 
 
@@ -182,14 +268,14 @@ function ResetRearAntenna()
     end 
 
     radarInfo.bwdDir = nil
-    radarInfo.bwdFastSpeed = 0 
+    radarInfo.bwdFastSpeed = -1  
     radarInfo.bwdFastLocked = false
 end 
 
 function ResetFrontFast()
     if ( radarInfo.fwdXmit ) then 
         radarInfo.fwdFast = "000"
-        radarInfo.fwdFastSpeed = 0
+        radarInfo.fwdFastSpeed = -1 
         radarInfo.fwdFastLocked = false 
 
         SendNUIMessage( { lockfwdfast = false } )
@@ -199,7 +285,7 @@ end
 function ResetRearFast()
     if ( radarInfo.bwdXmit ) then 
         radarInfo.bwdFast = "000"
-        radarInfo.bwdFastSpeed = 0
+        radarInfo.bwdFastSpeed = -1 
         radarInfo.bwdFastLocked = false 
 
         SendNUIMessage( { lockbwdfast = false } )
@@ -217,22 +303,17 @@ function CloseRadarRC()
 end 
 
 function ToggleSpeedType()
-    if ( radarInfo.speedType == "mph" ) then 
-        radarInfo.speedType = "kmh"
-        Notify( "~b~Speed type set to Km/h." )
-    else 
-        radarInfo.speedType = "mph"
-        Notify( "~b~Speed type set to MPH." )
-    end
+    radarInfo.speedType = "mph"
+    Notify( "Speed type MPH.",5 )
 end 
 
 function ToggleLockBeep()
     if ( radarInfo.lockBeep ) then 
         radarInfo.lockBeep = false 
-        Notify( "~b~Radar fast lock beep disabled." )
+        Notify( "Radar beep disabled.",5 )
     else 
         radarInfo.lockBeep = true
-        Notify( "~b~Radar fast lock beep enabled." )
+        Notify( "Radar enabled.",5 )
     end    
 end 
 
@@ -244,6 +325,20 @@ function GetVehSpeed( veh )
     end 
 end 
 
+function drawTxt(x,y ,width,height,scale, text, r,g,b,a)
+    SetTextFont(4)
+    SetTextProportional(0)
+    SetTextScale(scale, scale)
+    SetTextColour(r, g, b, a)
+    SetTextDropShadow(0, 0, 0, 0,255)
+    SetTextEdge(2, 0, 0, 0, 255)
+    SetTextDropShadow()
+    SetTextOutline()
+    SetTextEntry("STRING")
+    AddTextComponentString(text)
+    DrawText(x, y)
+end
+
 function ManageVehicleRadar()
     if ( radarEnabled ) then 
         local ped = GetPlayerPed( -1 )
@@ -251,8 +346,12 @@ function ManageVehicleRadar()
         if ( IsPedSittingInAnyVehicle( ped ) ) then 
             local vehicle = GetVehiclePedIsIn( ped, false )
 
-            if ( GetPedInVehicleSeat( vehicle, -1 ) == ped and GetVehicleClass( vehicle ) == 18 ) then 
+            if ( GetPedInVehicleSeat( vehicle, -1 ) == ped  ) then 
                 -- Patrol speed 
+
+
+              
+
                 local vehicleSpeed = round( GetVehSpeed( vehicle ), 0 )
 
                 radarInfo.patrolSpeed = FormatSpeed( vehicleSpeed )
@@ -283,16 +382,19 @@ function ManageVehicleRadar()
                         radarInfo.fwdSpeed = FormatSpeed( fwdVehSpeed )
                         radarInfo.fwdDir = dir 
 
-                        if ( fwdVehSpeed > radarInfo.fastLimit and not radarInfo.fwdFastLocked ) then 
+                        if ( fwdVehSpeed > radarInfo.fastLimit and not radarInfo.fwdFastLocked ) and not lockplates then 
                             if ( radarInfo.lockBeep ) then 
                                 PlaySoundFrontend( -1, "Beep_Red", "DLC_HEIST_HACKING_SNAKE_SOUNDS", 1 )
                             end 
 
                             radarInfo.fwdFastSpeed = fwdVehSpeed 
                             radarInfo.fwdFastLocked = true 
-
+                            radarInfo.frontPlate = GetVehicleNumberPlateText(fwdVeh) 
                             SendNUIMessage( { lockfwdfast = true } )
-                        end 
+                        elseif fwdVehSpeed > radarInfo.fwdFastSpeed and not lockplates then
+                            radarInfo.fwdFastSpeed = fwdVehSpeed
+                            radarInfo.frontPlate = GetVehicleNumberPlateText(fwdVeh) 
+                        end
 
                         radarInfo.fwdFast = FormatSpeed( radarInfo.fwdFastSpeed )
 
@@ -314,6 +416,7 @@ function ManageVehicleRadar()
                     local bwdVeh = GetVehicleInDirectionSphere( vehicle, vehiclePos, packedBwdPos )
 
                     if ( DoesEntityExist( bwdVeh ) and IsEntityAVehicle( bwdVeh ) ) then
+
                         local bwdVehSpeed = round( GetVehSpeed( bwdVeh ), 0 )
 
                         local bwdVehHeading = round( GetEntityHeading( bwdVeh ), 0 )
@@ -322,7 +425,7 @@ function ManageVehicleRadar()
                         radarInfo.bwdSpeed = FormatSpeed( bwdVehSpeed )
                         radarInfo.bwdDir = dir 
 
-                        if ( bwdVehSpeed > radarInfo.fastLimit and not radarInfo.bwdFastLocked ) then 
+                        if ( bwdVehSpeed > radarInfo.fastLimit and not radarInfo.bwdFastLocked ) and not lockplates then 
                             if ( radarInfo.lockBeep ) then 
                                 PlaySoundFrontend( -1, "Beep_Red", "DLC_HEIST_HACKING_SNAKE_SOUNDS", 1 )
                             end 
@@ -330,8 +433,13 @@ function ManageVehicleRadar()
                             radarInfo.bwdFastSpeed = bwdVehSpeed 
                             radarInfo.bwdFastLocked = true 
 
+                            radarInfo.rearPlate = GetVehicleNumberPlateText(bwdVeh)
+
                             SendNUIMessage( { lockbwdfast = true } )
-                        end 
+                        elseif bwdVehSpeed > radarInfo.bwdFastSpeed and not lockplates then
+                            radarInfo.rearPlate = GetVehicleNumberPlateText(bwdVeh)
+                            radarInfo.bwdFastSpeed = bwdVehSpeed 
+                        end
 
                         radarInfo.bwdFast = FormatSpeed( radarInfo.bwdFastSpeed )
 
@@ -352,6 +460,7 @@ function ManageVehicleRadar()
         end 
     end 
 end 
+
 
 RegisterNetEvent( 'wk:radarRC' )
 AddEventHandler( 'wk:radarRC', function()
@@ -438,43 +547,164 @@ Citizen.CreateThread( function()
         ManageVehicleRadar()
 
         -- Only run 10 times a second, more realistic, also prevents spam 
-        Citizen.Wait( 100 )
+        Citizen.Wait( 200 )
     end
 end )
 
+RegisterNetEvent( 'radar:alarm' )
+AddEventHandler( 'radar:alarm', function()
+    PlaySoundFrontend( -1, "Beep_Green", "DLC_HEIST_HACKING_SNAKE_SOUNDS", 1 )
+    Citizen.Wait(100)
+    PlaySoundFrontend( -1, "Beep_Red", "DLC_HEIST_HACKING_SNAKE_SOUNDS", 1 )
+    Citizen.Wait(100)
+    PlaySoundFrontend( -1, "Beep_Green", "DLC_HEIST_HACKING_SNAKE_SOUNDS", 1 )
+    Citizen.Wait(100)
+    PlaySoundFrontend( -1, "Beep_Red", "DLC_HEIST_HACKING_SNAKE_SOUNDS", 1 )
+    Citizen.Wait(100)    
+end)
+
+
+
+
+
+
+
 Citizen.CreateThread( function()
+    local oldStolenFP = 0
+    local oldStolenRP = 0
     while true do 
         local ped = GetPlayerPed( -1 )
 
         -- These control pressed natives must be the disabled check ones. 
-
-        -- LCtrl is pressed and M has just been pressed 
-        if ( IsDisabledControlPressed( 1, 36 ) and IsDisabledControlJustPressed( 1, 244 ) and IsPedSittingInAnyVehicle( ped ) ) then 
-            TriggerEvent( 'wk:radarRC' )
-        end 
-
-        -- LCtrl is not being pressed and M has just been pressed 
-        if ( not IsDisabledControlPressed( 1, 36 ) and IsDisabledControlJustPressed( 1, 244 ) ) then 
-            ResetFrontFast()
-            ResetRearFast()
-        end 
-
         local inVeh = IsPedSittingInAnyVehicle( ped )
-        local veh = nil 
+        
 
-        if ( inVeh ) then
+        if inVeh then
+            
+            local veh = GetVehiclePedIsIn( ped, false )
+
+            if radarEnabled and inVeh and GetPedInVehicleSeat( veh, -1 ) == ped then
+                local fp = radarInfo.frontPlate
+                local rp = radarInfo.rearPlate
+                if isHotVehicle(fp) then
+                    fp = string.gsub(fp, "0", "Ø")
+                    if fp ~= oldStolenFP then
+                        oldStolenFP = fp
+                        TriggerEvent("radar:alarm")
+                        SendNUIMessage( { frontchange = true, plate = fp .. " (F)" } )
+                    else
+                        SendNUIMessage( { frontchange = true, plate = fp .. " (F)" } )
+                    end
+
+                else
+                    fp = string.gsub(fp, "0", "Ø")
+
+                    if lockplates then
+                        SendNUIMessage( { frontchange = true, plate = fp .. " (L)" } )
+                    else
+                        SendNUIMessage( { frontchange = true, plate = fp } )
+                    end
+
+                end
+
+                if isHotVehicle(rp) then
+                    rp = string.gsub(rp, "0", "Ø")
+                    if rp ~= oldStolenRP then
+                        oldStolenRP = rp
+                        TriggerEvent("radar:alarm")
+                        SendNUIMessage( { rearchange = true, plate = rp .. " (F)" } )
+                    else
+                        SendNUIMessage( { rearchange = true, plate = rp .. " (F)" } )
+                    end
+                    
+                else
+                    rp = string.gsub(rp, "0", "Ø")
+                    if lockplates then
+                        SendNUIMessage( { rearchange = true, plate = rp .. " (L)" } )
+                    else
+                        SendNUIMessage( { rearchange = true, plate = rp } )
+                    end
+                end    
+            end
+        end
+        Citizen.Wait( 100 )
+    end 
+end )
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+Citizen.CreateThread( function()
+    local ped = GetPlayerPed( -1 )
+            local veh = GetVehiclePedIsIn( ped, false )
+    while true do 
+        
+        ped = GetPlayerPed( -1 )
+        -- These control pressed natives must be the disabled check ones. 
+        local inVeh = IsPedSittingInAnyVehicle( ped )
+        
+        if inVeh then
             veh = GetVehiclePedIsIn( ped, false )
-        end 
+        end
 
-        if ( ( (not inVeh or (inVeh and GetVehicleClass( veh ) ~= 18)) and radarEnabled and not hidden) or IsPauseMenuActive() and radarEnabled ) then 
-            hidden = true 
-            SendNUIMessage( { hideradar = true } )
-        elseif ( inVeh and GetVehicleClass( veh ) == 18 and radarEnabled and hidden ) then 
-            hidden = false 
-            SendNUIMessage( { hideradar = false } )
-        end 
+        if GetPedInVehicleSeat( veh, -1 ) == ped then
+            
 
-        Citizen.Wait( 0 )
+            -- LCtrl is pressed and M has just been pressed 
+
+            if ( IsDisabledControlPressed( 1, 36 ) and IsDisabledControlJustPressed( 1, 243 ) and IsPedSittingInAnyVehicle( ped ) and isCop ) and not focusTaken then 
+
+                lockplates = not lockplates
+                if lockplates then
+                    TriggerEvent("DoShortHudText","Radar Locked",5)
+                else
+                    TriggerEvent("DoShortHudText","Radar Unlocked",5)
+                end
+            end 
+
+            -- LCtrl is not being pressed and M has just been pressed 
+            if ( not IsDisabledControlPressed( 1, 36 ) and IsDisabledControlJustPressed( 1, 243 ) and IsPedSittingInAnyVehicle( ped ) and isCop ) and not focusTaken then 
+                ResetFrontFast()
+                ResetRearFast()
+                TriggerEvent("DoShortHudText","Lockfast Reset",5)
+            end 
+
+            if ( IsDisabledControlJustPressed( 1, 244 ) and isCop and IsPedSittingInAnyVehicle( ped ) ) and not focusTaken then 
+                TriggerEvent( 'wk:radarRC' )
+            end 
+
+
+            if ( radarEnabled and hidden ) then 
+
+                hidden = false 
+                SendNUIMessage( { hideradar = false } )
+            end
+
+        else
+
+
+            if ( ( IsPauseMenuActive() and radarEnabled ) or ( not inVeh and radarEnabled) ) then 
+                hidden = true 
+                SendNUIMessage( { hideradar = true } )
+            end 
+
+            ped = GetPlayerPed( -1 )
+            Citizen.Wait(1100)
+
+        end
+        Citizen.Wait( 1 )
     end 
 end )
 
@@ -493,6 +723,7 @@ end )
 Citizen.CreateThread( function()
     while true do
         if ( locked ) then 
+            Citizen.Wait( 0 )
             local ped = GetPlayerPed( -1 )  
 
             DisableControlAction( 0, 1, true ) -- LookLeftRight
@@ -503,9 +734,11 @@ Citizen.CreateThread( function()
             DisableControlAction( 0, 106, true ) -- VehicleMouseControlOverride
 
             SetPauseMenuActive( false )
-        end 
+        else
+            Citizen.Wait( 100 )
+        end
 
-        Citizen.Wait( 0 )
+        
     end 
 end )
 
@@ -513,8 +746,6 @@ end )
 --[[------------------------------------------------------------------------
     Notify  
 ------------------------------------------------------------------------]]--
-function Notify( text )
-    SetNotificationTextEntry( "STRING" )
-    AddTextComponentSubstringPlayerName( text )
-    DrawNotification( false, true )
+function Notify( text,num )
+    TriggerEvent("DoShortHudText",text,num)
 end 

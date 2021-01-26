@@ -27,10 +27,18 @@ RegisterServerEvent('police:targetCheckBank')
 AddEventHandler('police:targetCheckBank', function(target)
 	local src = source
 	local user = exports["np-base"]:getModule("Player"):GetUser(target)
-	local char = player:getCurrentCharacter()
+	local char = user:getCurrentCharacter()
 	balance = user:getBalance()
   local strng = " Bank: "..balance
   TriggerClientEvent("DoLongHudText",src,strng)
+end)
+
+
+RegisterNetEvent("policeimpound")
+AddEventHandler("policeimpound",function()
+local src = source
+local user = exports["np-base"]:getModule("Player"):GetUser(source)
+user:addMoney(100)
 end)
 
 RegisterServerEvent('checkLicensePlate')
@@ -171,7 +179,7 @@ RegisterServerEvent('police:showPH') -- that is np's code ((sway))
 AddEventHandler('police:showPH', function()
 	local src = source
 	local player = exports["np-base"]:getModule("Player"):GetUser(src)
-	local char = player:getCurrentCharacter()
+	local char = user:getCurrentCharacter()
 	local result = {phone_number = char.phone_number}
 	TriggerClientEvent('outlawNotifyPhone', -1, src, result)
 end)
@@ -185,15 +193,9 @@ AddEventHandler('police:jailGranted', function(args)
 	end
 
 	local player = tonumber(args[1])
-	local playerName = GetPlayerName(player)
 	local target = exports["np-base"]:getModule("Player"):GetUser(player)
 	local character = target:getCurrentCharacter()
-
-	if (target == nil and character.first_name == nil and character.last_name == nil) then
-		playerName = character.first_name .. ' ' .. character.last_name
-	end
-
-	args[2] = tonumber(args[2]) >= 120 and 120 or tonumber(args[2])
+	local playerName = character.first_name .. ' ' .. character.last_name
 
 	local pdunit = exports["np-base"]:getModule("Player"):GetUser(src)
 	if not pdunit:getVar("job") == "police" then
@@ -225,7 +227,7 @@ RegisterServerEvent("police:deletecrimes")
 AddEventHandler("police:deletecrimes", function(target)
 	local src = source
 	local user = exports["np-base"]:getModule("Player"):GetUser(src)
-	local character = player:getCurrentCharacter()
+	local character = user:getCurrentCharacter()
 	local identifier = user:getVar("hexid")
 
 	local pdunit = exports["np-base"]:getModule("Player"):GetUser(src)
@@ -628,14 +630,14 @@ AddEventHandler('police:getEmoteData', function()
 		end
 	end)
 end)
-
+--[[
  RegisterCommand('testing123', function(source)
  	local src = source
  	local user = exports["np-base"]:getModule("Player"):GetUser(src)
  	user:setRank("dev")
  	print("done knk")
  end)
-
+--]]
 
 RegisterServerEvent('police:whitelist')
 AddEventHandler('police:whitelist', function(arg,jobType)

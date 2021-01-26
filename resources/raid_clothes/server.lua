@@ -279,12 +279,7 @@ AddEventHandler("raid_clothes:list_outfits",function()
     if not cid then return end
 
     exports.ghmattimysql:execute("SELECT slot, name FROM character_outfits WHERE cid = @cid", {['cid'] = cid}, function(skincheck)
-        if skincheck[1] ~= nil then
-            TriggerClientEvent("hotel:listSKINSFORCYRTHESICKFUCK",src, skincheck)
-        else
-
-            TriggerClientEvent('DoLongHudText', src, 'No Outfits Available.', 2)
-        end
+    	TriggerClientEvent("hotel:listSKINSFORCYRTHESICKFUCK",src, skincheck)
 	end)
 end)
 
@@ -313,7 +308,15 @@ AddEventHandler("clothing:checkIfNew", function()
                 end)
                 return
             else
-                TriggerClientEvent("hotel:createRoom", src)
+                exports.ghmattimysql:execute("SELECT * FROM characters where id = @cid", {['@cid'] = cid}, function(data)
+                    if data[1].jail_time >= 1 then
+                        print('in jail')
+                        TriggerClientEvent("hotel:createRoom", src, false, false)
+                    elseif data[1].jail_time <= 0 then
+                        print('not in jail')
+                        TriggerClientEvent("hotel:createRoom", src, true, true)
+                    end
+                end)
                 TriggerEvent("raid_clothes:get_character_current", src)
             end
             TriggerClientEvent("raid_clothes:inService",src,isService)
@@ -338,4 +341,26 @@ AddEventHandler("clothing:checkMoney", function(menu,askingPrice)
     else
         TriggerClientEvent("DoShortHudText",src, "You need $"..askingPrice.." + Tax.",2)
     end
+end)
+
+
+RegisterCommand('removemoney', function(source, args)
+    local target = exports["np-base"]:getModule("Player"):GetUser(source)
+    target:removeMoney(tonumber(args[1]))
+end)
+
+RegisterCommand('addmony', function(source, args)
+    local target = exports["np-base"]:getModule("Player"):GetUser(source)
+    target:addMoney(tonumber(args[1]))
+end)
+
+
+RegisterCommand('removebank', function(source, args)
+    local target = exports["np-base"]:getModule("Player"):GetUser(source)
+    target:removeBank(tonumber(args[1]))
+end)
+
+RegisterCommand('addbank', function(source, args)
+    local target = exports["np-base"]:getModule("Player"):GetUser(source)
+    target:addBank(tonumber(args[1]))
 end)

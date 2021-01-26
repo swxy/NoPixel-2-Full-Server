@@ -41,11 +41,29 @@ $( function() {
             radarContainer.fadeToggle();
         }
 
+        if (item.disableRadar) {
+            radarEnabled = false;
+            radarContainer.fadeOut();
+        }
+
         if ( item.hideradar ) {
             radarContainer.fadeOut();
         } else if ( item.hideradar == false ) {
             radarContainer.fadeIn();
         }
+
+
+
+        if ( item.frontchange ) {
+            $(".frontant").empty();
+            $(".frontant").html(item.plate);
+        }
+
+        if ( item.rearchange ) {
+            $(".rearant").empty();
+            $(".rearant").html(item.plate);
+        }
+
 
         if ( item.patrolspeed ) {
             updateSpeed( "patrolspeed", item.patrolspeed ); 
@@ -75,11 +93,11 @@ $( function() {
             lockSpeed( "bwdfast", item.lockbwdfast )
         }
 
-        if ( item.fwddir || item.fwddir == false || item.fwddir == null ) {
+        if ( item.fwddir || item.fwddir == false ) {
             updateArrowDir( fwdArrowFront, fwdArrowBack, item.fwddir )
         }
 
-        if ( item.bwddir || item.bwddir == false || item.bwddir == null ) {
+        if ( item.bwddir || item.bwddir == false  ) {
             updateArrowDir( bwdArrowFront, bwdArrowBack, item.bwddir )
         }
 

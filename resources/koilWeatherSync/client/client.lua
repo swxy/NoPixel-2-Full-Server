@@ -372,8 +372,6 @@ end)
 
 
 
-
-
 synctime = {}
 secondOfDay = 31800
 -- In-game Clock Manipulation Loop
@@ -578,6 +576,9 @@ end
 
 
 local lastminute = 0
+
+
+
 
 function SetTimeSync()
 	local coordsply = GetEntityCoords(PlayerPedId())

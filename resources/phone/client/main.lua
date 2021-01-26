@@ -1421,7 +1421,6 @@ function hasDevice()
 end
 
 function hasPhone()
-
     if
       (
       (exports["np-inventory"]:hasEnoughOfItem("mobilephone",1,false) or 

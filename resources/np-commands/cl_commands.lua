@@ -117,6 +117,10 @@ RegisterCommand("debug", function(source, args, rawCommand)
 end, false)
 
 
+RegisterCommand("carry", function(source, args, rawCommand)
+  TriggerEvent('police:carryAI')
+end, false)
+
 RegisterCommand("atm", function(src, args, raw)
   TriggerEvent('bank:checkATM')
 end)

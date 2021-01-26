@@ -447,6 +447,14 @@ else if(secondInventory == "921")
     var shopAmount = 1;
     emitNet("inventory-open-target", src, [invArray,arrayCount,playerinvname,shopArray,shopAmount,targetinvname,500,false]);
 }  
+
+else if(secondInventory == "26")
+{
+    var targetinvname = targetName;
+    var shopArray = assphone();
+    var shopAmount = 1;
+    emitNet("inventory-open-target", src, [invArray,arrayCount,playerinvname,shopArray,shopAmount,targetinvname,500,false]);
+}  
 else if(secondInventory == "28")
 {
     var targetinvname = targetName;

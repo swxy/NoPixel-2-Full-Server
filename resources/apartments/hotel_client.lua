@@ -394,14 +394,14 @@ local spawning = false
  
 
 RegisterNetEvent('hotel:createRoom')
-AddEventHandler('hotel:createRoom', function(source, numMultiplier,roomType)
+AddEventHandler('hotel:createRoom', function(source, isImprisoned, isClothesSpawn)
 
 	TriggerServerEvent('hotel:load')
 	Citizen.Wait(250)
+
+	local isinprison
+	isinprison = isImprisoned
 	
-	local isClothesSpawn = false
-	local imprisoned = false
-	isImprisoned = false
 	spawning = false
 	TriggerEvent("spawning",true)
 	FreezeEntityPosition(PlayerPedId(),true)
@@ -422,12 +422,24 @@ AddEventHandler('hotel:createRoom', function(source, numMultiplier,roomType)
 	}
 
 
+	local devspawn = exports["storage"]:tryGet("vector4","devspawn")
+	if devspawn then
+		myspawnpoints[#myspawnpoints + 1] = { ['x'] = devspawn.x,['y'] = devspawn.y,['z'] = devspawn.z,['h'] = devspawn.w, ['info'] = 'Dev Spawn', ["typeSpawn"] = 1 }
+	end
+
+
 	if myRoomType == 1 then
 		myspawnpoints[#myspawnpoints + 1] = { ['x'] = 326.38,['y'] = -212.11,['z'] = 54.09,['h'] = 166.11, ['info'] = ' Apartments 1', ["typeSpawn"] = 2 }
 	elseif myRoomType == 2 then
 		myspawnpoints[#myspawnpoints + 1] = { ['x'] = 262.0,['y'] = -639.15,['z'] = 42.88,['h'] = 67.09, ['info'] = ' Apartments 2', ["typeSpawn"] = 2 }
 	else
 		myspawnpoints[#myspawnpoints + 1] = { ['x'] = 173.96,['y'] = -631.29,['z'] = 47.08,['h'] = 303.12, ['info'] = ' Apartments 3', ["typeSpawn"] = 2 }
+	end
+
+
+	local rooster = exports["isPed"]:GroupRank("rooster_academy")
+	if rooster >= 2 then
+		myspawnpoints[#myspawnpoints + 1] = { ['x'] = -172.83,['y'] = 331.17,['z'] = 93.76,['h'] = 266.08, ['info'] = ' Rooster Cab', ["typeSpawn"] = 1 }
 	end
 	
 	if isClothesSpawn then
@@ -448,7 +460,8 @@ AddEventHandler('hotel:createRoom', function(source, numMultiplier,roomType)
 
 		confirmSpawning(true)
 	else
-		if not imprisoned then
+		if isinprison then
+			print('not prisoned bruv')
 			SendNUIMessage({
 				openSection = "main",
 			})
@@ -457,8 +470,15 @@ AddEventHandler('hotel:createRoom', function(source, numMultiplier,roomType)
 			doSpawn(myspawnpoints)
 			DoScreenFadeIn(2500)
 			doCamera()
+		elseif not isinprison then
+			print('prisoned bruv')
+			TriggerServerEvent("np-shops:getCharecter")
+			DoScreenFadeIn(2500)
+			doCamera(true)
+			prisionSpawn()
 		end
 	end
+ 
  
 	
 
@@ -470,10 +490,11 @@ function prisionSpawn()
 	Citizen.Wait(100)
 
 
-	local x = 1802.51
-	local y = 2607.19
-	local z = 46.01
-	local h = 93.0
+	local x = 1708.443
+	local y = 2444.588
+	local z = 45.73673
+	local h = 108.0
+
 
 	ClearFocus()
 	SetNuiFocus(false,false)
@@ -489,6 +510,7 @@ function prisionSpawn()
 	FreezeEntityPosition(PlayerPedId(),false)
 
 	Citizen.Wait(2000)
+
 	TriggerEvent("attachWeapons")
 	TriggerEvent("spawning",false)
 
@@ -497,10 +519,11 @@ function prisionSpawn()
 	TriggerServerEvent("request-dropped-items")
 	TriggerServerEvent("HOWMUCHCASHUHGOT")
 	TriggerServerEvent("server-request-update",exports["isPed"]:isPed("cid"))
-	if(DoesCamExist(cam)) then
-		DestroyCam(cam, false)
-	end
+	TriggerServerEvent("jail:charecterFullySpawend")
+	DestroyCam(cam, false)
 	 TriggerServerEvent("stocks:retrieveclientstocks")
+	 DoScreenFadeIn(1000)
+	 Citizen.Wait(1000)
 end
 
 RegisterNUICallback('selectedspawn', function(data, cb)

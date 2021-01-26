@@ -382,10 +382,10 @@ function attachCarryPed(ped)
 end
 RegisterNetEvent('police:carryAI')
 AddEventHandler('police:carryAI', function()
-	local ped = carryPedNow()
-	if DoesEntityExist(ped) then
+	local ped = GetClosestPlayer()
+	print('lol ', ped)
+		print('entity exists')
 		carryPed(ped)
-	end
 end)
 
 RegisterNetEvent('police:reviveAI')
@@ -2434,3 +2434,38 @@ Citizen.CreateThread( function()
 	end
 
 end)
+
+function GetClosestPlayer()
+    local players = GetPlayers()
+    local closestDistance = -1
+    local closestPlayer = -1
+    local ply = PlayerPedId()
+    local plyCoords = GetEntityCoords(ply, 0)
+    
+    for index,value in ipairs(players) do
+        local target = GetPlayerPed(value)
+        if(target ~= ply) then
+            local targetCoords = GetEntityCoords(GetPlayerPed(value), 0)
+            local distance = #(vector3(targetCoords["x"], targetCoords["y"], targetCoords["z"]) - vector3(plyCoords["x"], plyCoords["y"], plyCoords["z"]))
+            if(closestDistance == -1 or closestDistance > distance) then
+                closestPlayer = value
+                closestDistance = distance
+            end
+        end
+    end
+    
+    return closestPlayer
+end
+
+
+function GetPlayers()
+    local players = {}
+
+    for i = 0, 255 do
+        if NetworkIsPlayerActive(i) then
+            players[#players+1]= i
+        end
+    end
+
+    return players
+end

@@ -1,5 +1,6 @@
 local isHandcuffed, isSoftCuffed = false, false
 
+
 local animations = {
     { dict = "anim@amb@nightclub@dancers@crowddance_facedj@hi_intensity", anim = "hi_dance_facedj_15_v1_male^6"},
     { dict = "anim@amb@nightclub@dancers@crowddance_facedj@hi_intensity", anim = "hi_dance_facedj_17_v1_flats_female^3", disabled = true},
@@ -3908,6 +3909,8 @@ function LoadAnimationDic(dict)
         end
     end
 end
+
+
 
 RegisterNetEvent('np:dances:dance')
 AddEventHandler('np:dances:dance', function(pDance)

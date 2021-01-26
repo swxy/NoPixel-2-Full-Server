@@ -347,7 +347,11 @@ Citizen.CreateThread(function()
     TriggerEvent('chat:addSuggestion', '/news', 'Grabs Nearest Newspaper')
     TriggerEvent('chat:addSuggestion', '/me', 'Roleplay a Acton out')
     TriggerEvent('chat:addSuggestion', '/cash', 'Check how much cash you have on you.')
-
+    TriggerEvent('chat:addSuggestion', '/outfit add', '/outfit add [examplenumber] [examplename]')
+    TriggerEvent('chat:addSuggestion', '/removeoutfit', '/removeoutfit [examplenumber] ')
+    TriggerEvent('chat:addSuggestion', '/outfits', '/outfits shows the list of outfits you have ')
+    TriggerEvent('chat:addSuggestion', '/outfit use', '/outfit use [examplenumber]')
+    TriggerEvent('chat:addSuggestion', '/cpr ', '/cpr to rezzurect dead homies at grandmas or gramps yard')
 end)
 
 
@@ -971,6 +975,7 @@ AddEventHandler("np-base:initialSpawnModelLoaded", function()
     TriggerServerEvent("trucker:returnCurrentJobs")
     TriggerServerEvent("police:SetMeta")
     TriggerEvent("reviveFunction")
+    TriggerServerEvent("kGetWeather")
 end)
 
 
@@ -1035,7 +1040,7 @@ AddEventHandler("raid_clothes:setclothes", function(data,alreadyExist)
             TriggerEvent("doApartHelp")
         end)
     end
-
+    
 	if not data.model and alreadyExist <= 0 then setDefault() return end
     if not data.model and alreadyExist >= 1 then return end
     model = data.model
@@ -1052,6 +1057,7 @@ AddEventHandler("raid_clothes:setclothes", function(data,alreadyExist)
 	TriggerServerEvent("Police:getMeta")
     TriggerEvent("e-blips:updateAfterPedChange",exports["isPed"]:isPed("myjob"))
 end)
+
 
 RegisterNetEvent("raid_clothes:AdminSetModel")
 AddEventHandler("raid_clothes:AdminSetModel", function(model)

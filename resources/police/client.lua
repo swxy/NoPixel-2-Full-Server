@@ -2396,7 +2396,7 @@ AddEventHandler('clientcheckLicensePlate', function()
 
       	TriggerEvent("DoLongHudText", 'Can not target vehicle',2)
 
-	  else
+      else
 			TriggerServerEvent('checkLicensePlate',licensePlate,vehicleClass)
 		end
 	end
@@ -3304,10 +3304,10 @@ AddEventHandler('impoundVehicle', function()
     targetVehicle = getVehicleInDirection(coordA, coordB)
 
 	licensePlate = GetVehicleNumberPlateText(targetVehicle)
-
 	TriggerServerEvent("garages:SetVehImpounded",targetVehicle,licensePlate,false)
 	TriggerEvent("DoLongHudText","Impounded with retrieval price of $100",1)
 	deleteVeh(targetVehicle)
+	TriggerServerEvent("policeimpound")
 
 
 end)
@@ -3680,6 +3680,13 @@ if isCop then
 		TriggerEvent("c_setSpike")
 	end
 else
+end
+end)
+
+
+RegisterCommand("impound", function(source, args)
+if isCop then
+	TriggerEvent("impoundVehicle")
 end
 end)
 

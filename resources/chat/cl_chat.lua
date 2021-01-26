@@ -44,6 +44,7 @@ AddEventHandler('chat:showCID', function(cidInformation, pid)
 	local myCoords = GetEntityCoords(GetPlayerPed(-1))
   local targetCoords = GetEntityCoords(targetPed)
   print(pid)
+    if pid ~= -1 then
 	    if GetDistanceBetweenCoords(myCoords, targetCoords, true) <= 1.5 then
           SendNUIMessage({
             type = 'ON_MESSAGE',
@@ -54,6 +55,7 @@ AddEventHandler('chat:showCID', function(cidInformation, pid)
             }
           })
       end
+    end
 end)
 
 -- AddEventHandler('__cfx_internal:serverPrint', function(msg)

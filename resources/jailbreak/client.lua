@@ -416,7 +416,7 @@ RegisterNetEvent('jail:lockdown')
 AddEventHandler('jail:lockdown', function(lockdownState)
     lockdown = lockdownState
     if lockdown and imjailed and not hasMoved then
-        mycell = math.random(1,32)
+        mycell = math.random(1,20)
         mycell = math.ceil(mycell)
         SetEntityCoords(PlayerPedId(), cellcoords[mycell].x,cellcoords[mycell].y,cellcoords[mycell].z) 
         TriggerEvent("chatMessage", "DOC | " , { 33, 118, 255 }, "You have been placed into lockdown due to a disturbance.")
@@ -671,7 +671,7 @@ AddEventHandler('beginJail', function(skipintake,time,name,cid,date)
     end    
 
     TriggerEvent("DensityModifierEnable",false)
-    mycell = math.random(1,32)
+    mycell = math.random(1,20)
     minutes = tonumber(time)
 
 
@@ -707,7 +707,8 @@ AddEventHandler('beginJail', function(skipintake,time,name,cid,date)
     FreezeEntityPosition(playerPed, false)
     DoScreenFadeIn(1500)
     TriggerEvent("falseCuffs")  
-    TriggerServerEvent("updateJailTime",minutes)
+
+    
     imjailed = true
     RemoveAllPedWeapons(playerPed)
     TriggerEvent("attachWeapons")
@@ -831,9 +832,11 @@ end)
 RegisterNetEvent('TimeRemaining')
 AddEventHandler('TimeRemaining', function(TimeRemaining, release)
 
+    local playerPed = GetPlayerPed(-1)
+
     local TimeR = TimeRemaining
 
-    if TimeR < 0 and release then 
+    if TimeR <= 0 and release then 
        imjailed = false
         TriggerEvent("DoLongHudText", "You are free!.",1)
         TriggerEvent("givePhone")
@@ -841,7 +844,7 @@ AddEventHandler('TimeRemaining', function(TimeRemaining, release)
        
     else
 
-    local minutes = math.ceil(TimeR / 60)
+    local minutes = TimeR
     TriggerEvent("chatMessage", "DOC | " , { 33, 118, 255 }, "You have " .. minutes .. " month(s) remaining")
     end
 end)

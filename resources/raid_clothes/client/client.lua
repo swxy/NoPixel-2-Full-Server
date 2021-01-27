@@ -353,6 +353,7 @@ Citizen.CreateThread(function()
     TriggerEvent('chat:addSuggestion', '/outfituse', '/outfituse [examplenumber]')
     TriggerEvent('chat:addSuggestion', '/cpr ', '/cpr to rezzurect dead homies at grandmas or gramps yard')
     TriggerEvent('chat:addSuggestion', '/calculator ', '/calculator to do your maths Homework')
+    TriggerEvent('chat:addSuggestion', '/givekey ', '/givekey give Vehicle keys to nearest person')
 end)
 
 

@@ -48,7 +48,7 @@ RegisterCommand("showid", function(source, args, rawCommand)
   TriggerEvent("showID")
 end, false)
 
-RegisterCommand("givekeys", function(source, args, rawCommand)
+RegisterCommand("givekey", function(source, args, rawCommand)
   TriggerEvent("keys:give")
 end, false)
 

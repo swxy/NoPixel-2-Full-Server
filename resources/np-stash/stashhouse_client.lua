@@ -2,9 +2,9 @@ local stashes = {}
 local instash = 0
 RegisterNetEvent('np-stash:setInitialState')
 AddEventHandler('np-stash:setInitialState', function(stashesp)
-    print('sec')
+    print('loaded')
     stashes = stashesp
-    print(json.encode(stashesp))
+    
 end)
 
 CreateThread(function()

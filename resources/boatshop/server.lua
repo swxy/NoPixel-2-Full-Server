@@ -87,7 +87,7 @@ AddEventHandler('ply_docks:CheckForBoat', function(plate)
     local boat_plate = boatPlate(plate)
     if boat_plate == plate then
         local state = state_in
-        exports.ghmattimysql.execute("UPDATE user_boat SET boat_state=@state WHERE identifier=@identifier AND boat_plate=@plate", { ['@identifier'] = char.id, ['@state'] = state, ['@plate'] = plate })
+        exports.ghmattimysql:execute("UPDATE user_boat SET boat_state=@state WHERE identifier=@identifier AND boat_plate=@plate", { ['@identifier'] = char.id, ['@state'] = state, ['@plate'] = plate })
         TriggerClientEvent('ply_docks:StoreBoatTrue', source)
     else
         TriggerClientEvent('ply_docks:StoreBoatFalse', source)
@@ -101,7 +101,7 @@ AddEventHandler('ply_docks:SetBoatOut', function(boat, plate)
     local boat = boat
     local state = state_out
     local plate = plate
-    exports.ghmattimysql.execute("UPDATE user_boat SET boat_state=@state WHERE identifier=@identifier AND boat_plate=@plate AND boat_model=@boat", { ['@identifier'] = char.id, ['@boat'] = boat, ['@state'] = state, ['@plate'] = plate })
+    exports.ghmattimysql:execute("UPDATE user_boat SET boat_state=@state WHERE identifier=@identifier AND boat_plate=@plate AND boat_model=@boat", { ['@identifier'] = char.id, ['@boat'] = boat, ['@state'] = state, ['@plate'] = plate })
 end)
 
 AddEventHandler('ply_docks:CheckForSelBoat', function(plate)
@@ -115,7 +115,7 @@ AddEventHandler('ply_docks:CheckForSelBoat', function(plate)
     if boat_plate == plate then
         local boat_price = boat_price / 2
             user:addMoney((boat_price))
-        exports.ghmattimysql.execute("DELETE from user_boat WHERE identifier=@identifier AND boat_plate=@plate", { ['@identifier'] = char.id, ['@plate'] = plate })
+        exports.ghmattimysql:execute("DELETE from user_boat WHERE identifier=@identifier AND boat_plate=@plate", { ['@identifier'] = char.id, ['@plate'] = plate })
         TriggerClientEvent('ply_docks:SelBoatTrue', source)
     else
         TriggerClientEvent('ply_docks:SelBoatFalse', source)

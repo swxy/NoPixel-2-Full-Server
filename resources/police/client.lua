@@ -121,7 +121,7 @@ local lawSignOn = { -- #MarkedForMarker
 }
 
 local evidencelocker = { -- #MarkedForMarker
-	vector3(478.45,-984.73,24.92), -- mrpd
+	vector3(474.799,-994.24,26.23), -- mrpd
     vector3(2059.51,2993.21,-72.70),
 	vector3(325.05,-1629.5, -66.78),
 	vector3(1848.47,3694.51,34.28), -- sandy
@@ -132,7 +132,7 @@ local evidencelocker2 = { -- #MarkedForMarker
 }
 
 local trashlocker = {
-	vector3(449.18, -984.83, 26.68), -- mrpd
+	vector3(446.84, -996.90, 30.68), -- mrpd
 	vector3(1773.814, 2593.880, 49.711), -- jail
 	vector3(1851.14,3694.54,34.28), -- sandy
 	vector3(-442.0,6005.38,31.72) -- paleto
@@ -140,17 +140,17 @@ local trashlocker = {
 }
 
 local outfits = {
-	vector3(456.3154, -993.079, 30.691),
-	vector3(449.8465, -990.204, 30.691),
-	vector3(459.9250, -988.291, 30.691),
-	vector3(1765.041, 2591.543, 49.711)
+	vector3(458.52, -999.266, 30.691),
+	--vector3(449.8465, -990.204, 30.691),
+	--vector3(459.9250, -988.291, 30.691),
+	--vector3(1765.041, 2591.543, 49.711)
 }
 
 local personalLockers = {
 	-- MRPD 
-	vector3(457.07, -988.76, 30.69),
-	vector3(450.23, -993.19, 30.69),
-	vector3(458.87, -993.28, 30.69),
+	vector3(474.32, -990.68, 26.27),
+	--vector3(450.23, -993.19, 30.69),
+	--vector3(458.87, -993.28, 30.69),
 	-- sandy
 	vector3(1860.99,3691.32,34.28),
 	-- paleto
@@ -220,7 +220,7 @@ Citizen.CreateThread(function()
 				dstCheck = #(v - myCoord)
 				if dstCheck < 30 then nearby = true end
 				if dstCheck < 0.7 then
-				 	DrawText3DTest(v.x, v.y, v.z,"~r~E~w~ Open OLD Evidence Locker - use /evidence case# ")
+				 	DrawText3DTest(v.x, v.y, v.z,"~r~E~w~ Open OLD Evidence Locker - use MDT case# ")
 				end
 				
 			end
@@ -229,7 +229,7 @@ Citizen.CreateThread(function()
 				dstCheck = #(v - myCoord)
 				if dstCheck < 30 then nearby = true end
 				if dstCheck < 2 then
-				 	DrawText3DTest(v.x, v.y, v.z,"~r~E~w~ Open Evidence Locker - use /evidence case# ")
+				 	DrawText3DTest(v.x, v.y, v.z,"~r~E~w~ Open Evidence Locker - use /MDT case# ")
 				end
 			end
 			
@@ -258,12 +258,12 @@ Citizen.CreateThread(function()
 			end
 
 			-- Character Switcher
-			dstCheck = #(vector3(469.73, -986.62, 30.69) - myCoord)
+			dstCheck = #(vector3(453.00, -983.803, 30.69) - myCoord)
 			if dstCheck < 30 then nearby = true end
 			if dstCheck < 3 then
-				DrawMarker(25, 469.73, -986.62, 29.75, 0.0, 0.0, 0.0, 0.0, 180.0, 0.0, 1.5, 1.5, 1.5, 0, 0, 255, 100, false, true, 2, nil, nil, false)
+				DrawMarker(25, 453.00, -983.803, 29.69, 0.0, 0.0, 0.0, 0.0, 180.0, 0.0, 1.5, 1.5, 1.5, 0, 0, 255, 100, false, true, 2, nil, nil, false)
 				if dstCheck < 1 then
-					DrawText3DTest(469.73, -986.62, 30.69,"Press ~r~E~w~ to change characters")
+					DrawText3DTest(453.00, -983.803, 30.69,"Press ~r~E~w~ to change characters")
 					if IsControlJustReleased(1, 38) then
 						isCop = false
 						TransitionToBlurred(500)

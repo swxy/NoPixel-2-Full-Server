@@ -16,7 +16,10 @@ local endloop = false
 -- Open Gui and Focus NUI
 
 
-recentconvictions = {}
+recentconvictions = {
+  "LSPD Have reported a major spike in drugs and locals are reporting a large increase in crime in their local area of South LS. Local Crackhead 'Steve' has stated to Weazel News he has seen many individuals selling Weed and Crack in the southside, Weazel News stated he has been placed in protective custody for the safety of himself as they are assuimng he is buying Crack.",
+  "A huge increase in drug dealing has spiked in Vinewood BLVD For the product Cocaine. Police Assume it has something to do with Dean Suppling The Streets from Behind Bars."
+}
 
 
 function openGui()
@@ -99,10 +102,10 @@ end)
 RegisterNetEvent('stringGangGlobalReputations')
 AddEventHandler('stringGangGlobalReputations', function()
 
-  local strg = "<font size='5'>Daily Crime Statistics</font> <br><br> <br> <b> Crack epidemic around "
+  local strg = "<font size='20'>Daily Crime News</font> <br><br> <br> <b> Dean Smith has been sentanced to life imprisonment for multiple Murders and Running a county Line across the border. Sources Say Dean has been supplying the Streets from the inside of his cell. Police will continue to investigate his life from prison to crack down on the epidemic in the increase of drugs on the streets. "
 
     count = #recentconvictions
-    strg = strg .. " <br><br><br><br><font size='5'>Recent Incarcerations</font>" 
+    strg = strg .. " <br><br><br><br><font size='10'>Recent News</font>" 
             
     while count > 0 do
         strg = strg .. "<br><br>" .. recentconvictions[count] 

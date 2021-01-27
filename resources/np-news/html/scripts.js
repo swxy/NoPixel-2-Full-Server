@@ -73,7 +73,7 @@ $(document).ready(function(){
   // On 'Esc' call close method
   document.onkeyup = function (data) {
     if (data.which == 27 ) {
-      $.post('http://trp-news/close', JSON.stringify({}));
+      $.post('http://np-news/close', JSON.stringify({}));
     }
   };
 });

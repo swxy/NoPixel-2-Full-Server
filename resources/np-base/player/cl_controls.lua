@@ -124,13 +124,13 @@ NPX.Controls.Distcheck.use = {
 	[1] = {["pos"] = {249.29,-369.28,-44.13},	["r"] = 2,["event"] = "police",["id"] = 1,["maxwait"] = 200},
 	[2] = {["pos"] = {-1579.71,-580.48,108.53},	["r"] = 2,["event"] = "police",["id"] = 1,["maxwait"] = 200},
 	-- evidence locker 1
-	[3] = {["pos"] = {485.53,-989.2,24.23},	["r"] = 2,["event"] = "police",["id"] = 2,["maxwait"] = 200},
+	[3] = {["pos"] = {474.799,-994.24,26.23},	["r"] = 2,["event"] = "police",["id"] = 2,["maxwait"] = 200},
 	[4] = {["pos"] = {2059.51,2993.21,-72.70},	["r"] = 2,["event"] = "police",["id"] = 2,["maxwait"] = 200},
 	[5] = {["pos"] = {325.05,-1629.5, -66.78},	["r"] = 2,["event"] = "police",["id"] = 2,["maxwait"] = 200}, 
 	-- evidence locker 2
 	[6] = {["pos"] = {483.15,-992.61,24.23},	["r"] = 2,["event"] = "police",["id"] = 3,["maxwait"] = 200},
 	-- Trash
-	[7] = {["pos"] = {483.76,-987.58,24.23},		["r"] = 2,["event"] = "police",["id"] = 4,["maxwait"] = 200},
+	[7] = {["pos"] = {446.84, -996.90, 30.68},		["r"] = 2,["event"] = "police",["id"] = 4,["maxwait"] = 200},
 
 	-- Bennys,import,tuner
 	[8] = {["pos"] = {938.37,-970.82,39.76},	["r"] = 2,["event"] = "bennys",["id"] = 3,["maxwait"] = 200},
@@ -205,7 +205,7 @@ NPX.Controls.Distcheck.use = {
 	[59] = {["pos"] = {1198.39,-1455.64,34.967},["r"] = 2,["event"] = "hospitalGarage",["id"] = 1,["maxwait"] = 300},
 	-- police garage
 	[60] = {["pos"] = {2131.38,2925.52,-61.90},	["r"] = 2,["event"] = "policeGarage",["id"] = 1,["maxwait"] = 300},
-	[61] = {["pos"] = {440.99,-976.11,30.68},	["r"] = 2,["event"] = "policeGarage",["id"] = 1,["maxwait"] = 300},
+	[61] = {["pos"] = {441.25,-981.89,30.68},	["r"] = 2,["event"] = "policeGarage",["id"] = 1,["maxwait"] = 300},
 	[62] = {["pos"] = {834.41,-1263.51,26.06},	["r"] = 2,["event"] = "policeGarage",["id"] = 1,["maxwait"] = 300},
 	[63] = {["pos"] = {1859.45,3676.70,33.40},	["r"] = 2,["event"] = "policeGarage",["id"] = 1,["maxwait"] = 300},
 	[64] = {["pos"] = {-460.09,6023.54,31.34},	["r"] = 2,["event"] = "policeGarage",["id"] = 1,["maxwait"] = 300},
@@ -242,7 +242,7 @@ NPX.Controls.Distcheck.use = {
 
 
 		-- MRPD personal lockers	
-		[76] ={ ["pos"] = {474.49,-991.32,24.23},	["r"] = 1,["event"] = "openpersonalpd",["id"] = 1,["maxwait"] = 200},	
+		[76] ={ ["pos"] = {474.49,-991.32,26.23},	["r"] = 1,["event"] = "openpersonalpd",["id"] = 1,["maxwait"] = 200},	
 		[77] ={ ["pos"] = {480.81,-992.78,24.23},	["r"] = 1,["event"] = "openpersonalpd",["id"] = 1,["maxwait"] = 200},	
 		[78] ={ ["pos"] = {477.3,-993.21,24.27},	["r"] = 1,["event"] = "openpersonalpd",["id"] = 1,["maxwait"] = 200},	
 		-- Sandy personal lockers	
@@ -276,7 +276,7 @@ NPX.Controls.Distcheck.useThird = {
 	-- police garage
 
 	[5] = {["pos"] = {2131.38,2925.52,-61.90},["r"] = 2,["event"] = "policeGarage",["id"] = 2,["maxwait"] = 300},
-	[6] = {["pos"] = {440.99,-976.11,30.68},["r"] = 2,["event"] = "policeGarage",["id"] = 2,["maxwait"] = 300},
+	[6] = {["pos"] = {441.25,-981.8,30.68},["r"] = 2,["event"] = "policeGarage",["id"] = 2,["maxwait"] = 300},
 	[7] = {["pos"] = {834.41,-1263.51,26.06},["r"] = 2,["event"] = "policeGarage",["id"] = 2,["maxwait"] = 300},
 	[8] = {["pos"] = {1859.45,3676.70,33.40},["r"] = 2,["event"] = "policeGarage",["id"] = 2,["maxwait"] = 300},
 	[9] = {["pos"] = {-460.09,6023.54,31.34},["r"] = 2,["event"] = "policeGarage",["id"] = 2,["maxwait"] = 300},

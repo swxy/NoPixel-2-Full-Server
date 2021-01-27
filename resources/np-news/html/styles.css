@@ -48,7 +48,7 @@ h1,h2,h3,h4 {
   align-items: center;
 }
 .news-container {
-  background-image: url("nui://trp-news/html/background.png");
+  background-image: url("nui://np-news/html/background.png");
   background-repeat:no-repeat;
   background-size:100% 100%;
   width: 95%;

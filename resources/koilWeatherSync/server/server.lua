@@ -1,11 +1,14 @@
-local currentweather = "clear"
+
+local currentweather = "CLEAR"
 local currenttime = 130000
 
 
 RegisterServerEvent('kGetWeather')
 AddEventHandler('kGetWeather', function()
-TriggerClientEvent('kWeatherSync', source, currentweather)
-TriggerClientEvent('kTimeSync', source, currenttime)
+    print('Set Weather', source, currentweather)
+    print('Set Time', source, currenttime)
+    TriggerClientEvent('kWeatherSync', source, currentweather)
+    TriggerClientEvent('kTimeSync', source, currenttime)
 end)
 
 RegisterServerEvent('kTimeSync')
@@ -21,24 +24,36 @@ AddEventHandler("kWeatherSync", function(wfer)
 end)
 
 RegisterServerEvent('weather:time')
-AddEventHandler('weather:time', function(src,time)
+AddEventHandler('weather:time', function(src, time)
     currenttime = tonumber(time)
     TriggerClientEvent('kTimeSync', -1, time)
-    TriggerClientEvent("timeheader",time)
+    TriggerClientEvent("timeheader", time)
 end)
 
 RegisterServerEvent('weather:setWeather')
-AddEventHandler('weather:setWeather', function(src,weather)
+AddEventHandler('weather:setWeather', function(src, weather)
     currentweather = tostring(weather)
     TriggerClientEvent('kWeatherSync', -1, weather)
 end)
 
 RegisterServerEvent('weather:setCycle')
-AddEventHandler('weather:setCycle', function(src,weather)
+AddEventHandler('weather:setCycle', function(src, weather)
+    local source = source
+    local xPlayer = ESX.GetPlayerFromId(source)
+    if xPlayer.getGroup() == 'superadmin' then
     TriggerClientEvent('weather:setCycle', -1, weather)
+    end
 end)
 
-RegisterServerEvent('weather:blackout')
-AddEventHandler('weather:blackout', function(src,boolean)
-    TriggerClientEvent('weather:blackout', -1, boolean)
+
+RegisterCommand('syncallweather', function()
+    TriggerClientEvent('kWeatherSync', -1, currentweather)
+    TriggerClientEvent('kTimeSync', -1, currenttime)
+end, false)
+
+
+RegisterServerEvent('weather:receivefromcl')
+AddEventHandler('weather:receivefromcl', function(secondsofday)
+currenttime = secondsofday
 end)
+

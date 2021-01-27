@@ -326,14 +326,14 @@ DensityMultiplier = 1.0
 
 isAllowedToSpawn = true
 
--- Citizen.CreateThread(function()
---   while true do
---     Citizen.Wait(1)
---     if robbing then
---       SetPedDensityMultiplierThisFrame(0.0)
---     end
---   end
--- end)
+Citizen.CreateThread(function()
+  while true do
+    Citizen.Wait(1)
+    if robbing then
+      SetPedDensityMultiplierThisFrame(0.0)
+    end
+  end
+end)
 
 RegisterNetEvent("DensityModifierEnable")
 AddEventHandler("DensityModifierEnable",function(newValue)
@@ -365,8 +365,9 @@ AddEventHandler('playerSpawned', function(spawn)
 		TriggerServerEvent("kGetWeather")
 		TriggerServerEvent("server:requestNotes")
 	end
-
 end)
+
+
 
 
 
@@ -403,7 +404,7 @@ Citizen.CreateThread( function()
 		synctime.m = math.floor( (secondOfDay - (synctime.h * 3600)) / 60 )
 		synctime.s = secondOfDay - (synctime.h * 3600) - (synctime.m * 60)
 		
-		if enableSync and not insidebuilding and not inhotel and not robbing and not inhouse and not spawning then NetworkOverrideClockTime( synctime.h, synctime.m, synctime.s ) end
+		if enableSync and not insidebuilding and not inhotel and not robbing and not inhouse and not spawning then NetworkOverrideClockTime(synctime.h, synctime.m, synctime.s)  TriggerServerEvent('weather:receivefromcl', secondOfDay)end
 
 	end
 
@@ -462,10 +463,19 @@ AddEventHandler("weather:setCycle", function(cycle)
 end)
 
 insideWeather = "CLEAR"
-curWeather = insideWeather
+curWeather = "CLEAR"
 RegisterNetEvent("kWeatherSync")
 AddEventHandler("kWeatherSync", function(wfer)
 	curWeather = wfer
+	-- if curWeather == 'SNOW' then
+	-- 	SetForceVehicleTrails(true)
+	-- 	SetForcePedFootstepsTracks(true)
+	-- 	ForceSnowPass(true)
+	-- else
+	-- 	SetForceVehicleTrails(false)
+	-- 	SetForcePedFootstepsTracks(false)
+	-- 	ForceSnowPass(false)
+	-- end
 end)
 
 RegisterNetEvent("kWeatherSyncForce")
@@ -558,11 +568,15 @@ function SetWeather()
 		if weatherTimer < 0 and curWeather == oldweather then
 			TriggerEvent("inside:weather",false)
 			weatherTimer = 60000
-	        ClearOverrideWeather()
-	        ClearWeatherTypePersist()
-	        SetWeatherTypePersist(curWeather)
-	        SetWeatherTypeNow(curWeather)
-	        SetWeatherTypeNowPersist(curWeather)
+			ClearOverrideWeather()
+			ClearWeatherTypePersist()
+			SetWeatherTypePersist(curWeather)
+			SetWeatherTypeNow(curWeather)
+			SetWeatherTypeNowPersist(curWeather)
+			SetForceVehicleTrails(curWeather == 'BLIZZARD' or curWeather == 'XMAS')
+			SetForcePedFootstepsTracks(curWeather == 'BLIZZARD' or curWeather == 'XMAS')
+			ForceSnowPass(curWeather == 'BLIZZARD' or curWeather == 'XMAS' )
+
 		elseif weatherTimer < 0 and (insidebuilding or robbing or inhouse) then
 			weatherTimer = 10000
 	        ClearOverrideWeather()
@@ -576,9 +590,6 @@ end
 
 
 local lastminute = 0
-
-
-
 
 function SetTimeSync()
 	local coordsply = GetEntityCoords(PlayerPedId())

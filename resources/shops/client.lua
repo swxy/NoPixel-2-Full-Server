@@ -50,7 +50,7 @@ local twentyfourseven_shops = {
 	{ ['x'] = -1223.6690673828, ['y'] = -906.67517089844, ['z'] = 12.326356887817 },
 	{ ['x'] = -708.19256591797, ['y'] = -914.65264892578, ['z'] = 19.215591430664 },
 	{ ['x'] = 26.419162750244, ['y'] = -1347.5804443359, ['z'] = 29.497024536133 },
-	{ ['x'] = 436.144, ['y'] = -985.824, ['z'] = 30.6896 },
+	{ ['x'] = 460.642, ['y'] = -985.127, ['z'] = 30.6896 },
 	{ ['x'] = -45.4649, ['y'] = -1754.41, ['z'] = 29.421 },
 	{ ['x'] = 24.5889, ['y'] = -1342.32, ['z'] = 29.497 },
 	{ ['x'] = -707.394, ['y'] = -910.114, ['z'] = 19.2156 },
@@ -247,33 +247,7 @@ Citizen.CreateThread(function()
 
 
 
-		if(Vdist(477.97, -989.71, 24.23, pos.x, pos.y, pos.z) < 20.0)then
-			found = true
-			DrawMarker(27, 477.97, -989.71, 24.23 - 1, 0, 0, 0, 0, 0, 0, 1.0001, 1.0001, 1.5001, 0, 25, 165, 165, 0,0, 0,0)
-			if(Vdist(477.97, -989.71, 24.23, pos.x, pos.y, pos.z) < 2.0)then
-				local job = exports["isPed"]:isPed("myjob")
-				DisplayHelpText("Press ~INPUT_CONTEXT~ to open the ~g~shop.")
-				if IsControlJustPressed(1, 38) and job == "police" then	
-					TriggerEvent("server-inventory-open", "10", "Shop");	
-					Wait(1000)
-					--TriggerEvent("openSubMenu","shop")
-			    end
-			end
-		end
-
-		if(Vdist(1773.92, 2517.05, 45.83, pos.x, pos.y, pos.z) < 20.0)then
-			found = true
-			DrawMarker(27, 1773.92, 2517.05, 45.83 - 1, 0, 0, 0, 0, 0, 0, 1.0001, 1.0001, 1.5001, 0, 25, 165, 165, 0,0, 0,0)
-			if(Vdist(1773.92, 2517.05, 45.83, pos.x, pos.y, pos.z) < 2.0)then
-				local job = exports["isPed"]:isPed("myjob")
-				DisplayHelpText("Press ~INPUT_CONTEXT~ to open the ~g~shop.")
-				if IsControlJustPressed(1, 38) and job == "police" then	
-					TriggerEvent("server-inventory-open", "10", "Shop");	
-					Wait(1000)
-					--TriggerEvent("openSubMenu","shop")
-			    end
-			end
-		end
+	
 
 
 

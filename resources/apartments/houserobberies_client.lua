@@ -3377,7 +3377,6 @@ function buildMansion()
 	local generator = { x = curHouseCoords["x"] , y = curHouseCoords["y"], z = curHouseCoords["z"] - 40.0}
 	SetEntityCoords(PlayerPedId(), generator.x-5.5793 , generator.y+5.100, generator.z)
 
-
 	local building = CreateObject(`shell_michael`,generator.x+3.57921200,generator.y+3.70079500,generator.z+0.045,false,false,false)
 	CreateObject(`V_44_Shell_DT`,generator.x+3.53319000,generator.y+0.63158610,generator.z+0.05,false,false,false)
 	CreateObject(`V_44_Shell_kitchen`,generator.x+10.43252000,generator.y+6.99729500,generator.z+0.50649800,false,false,false)
@@ -4265,9 +4264,8 @@ function buildHouseRob(id,firstin)
 	else
 		SetEntityCoords(PlayerPedId(), generator.x+4.5 , generator.y-14, generator.z+2.9)
 	end
-
-
-	local building = CreateObject(`v_16_mid_shell`,generator.x+2.29760700,generator.y-1.33191200,generator.z+1.26253700,false,false,false)
+	local shelves = CreateObject(`v_16_midapttex`,generator.x+3.04164100,generator.y+0.31671810,generator.z+3.58363900,false,false,false)
+	local building = CreateObject(`playerhouse_tier1`,generator.x-0.01854400,generator.y-0.01389600,generator.z+-0.08068600,false,false,false)
 	FreezeEntityPosition(building,true)
 	Citizen.Wait(100)
 	FloatTilSafeR(building)
@@ -4348,7 +4346,7 @@ function buildHouseRob(id,firstin)
 	local tapeplayer = CreateObject(`Prop_Tapeplayer_01`,generator.x-1.26010100,generator.y-3.62966400,generator.z+2.37883200,false,false,false)
 	local woodbowl2 = CreateObject(`v_res_tre_fruitbowl`,generator.x+2.77764900,generator.y-4.138297000,generator.z+2.10340100,false,false,false)
 	local sculpt = CreateObject(`v_res_sculpt_dec`,generator.x+3.03932200,generator.y+1.62726400,generator.z+3.58363900,false,false,false)
-	local jewlry = CreateObject(`v_res_jewelbox`,generator.x+3.04164100,generator.y+0.31671810,generator.z+3.58363900,false,false,false)
+	local jewlry = CreateObject(`v_res_jewelbox`,generator.x+3.04164100,generator.y+0.31671810,generator.z+3.58363900,false,false,false)	
 
 	local basket6 = CreateObject(`v_res_tre_basketmess`,generator.x-1.64906300,generator.y+1.62675900,generator.z+1.39038500,false,false,false)
 	local basket7 = CreateObject(`v_res_tre_flatbasket`,generator.x-1.63938900,generator.y+0.91133310,generator.z+1.39038500,false,false,false)
@@ -4371,7 +4369,7 @@ function buildHouseRob(id,firstin)
 	local pants2 = CreateObject(`V_16_Ap_Mid_Pants5`,generator.x+7.76753200,generator.y+3.00476500,generator.z+1.33052800,false,false,false)
 	local hairdryer = CreateObject(`v_club_vuhairdryer`,generator.x+8.12616000,generator.y-2.50562000,generator.z+1.96009390,false,false,false)
 
-
+	FreezeEntityPosition(shelves,true)
 	FreezeEntityPosition(dt,true)
 	FreezeEntityPosition(mpmid01,true)
 	FreezeEntityPosition(mpmid09,true)

@@ -13,6 +13,13 @@ RegisterNUICallback('close', function()
   closeGui()
 end)
 
+
+RegisterCommand('calculator', function(source, args)
+  openCalc()
+end)
+
+
+
 RegisterNetEvent('openCalculator')
 AddEventHandler('openCalculator', function()
 	openCalc()

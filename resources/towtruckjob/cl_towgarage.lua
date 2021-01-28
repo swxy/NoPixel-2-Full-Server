@@ -997,9 +997,8 @@ AddEventHandler('towgarage:checkDegMenu', function(JobCheck,button)
 			TriggerEvent('veh.isPlayers',targetVehicle,function(result)
 				
 				if result then
-					print("plate")
-					isOwend = true
 					local plate = GetVehicleNumberPlateText(targetVehicle)
+					print("plate: "..plate)
 
 					TriggerServerEvent('veh.callDegredation',plate,true)
 				else

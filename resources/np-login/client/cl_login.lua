@@ -11,12 +11,14 @@ local function openMenu()
     sendMessage({open = true})
     SetNuiFocus(true, true)
     TriggerEvent("resetinhouse")
+    TriggerEvent("loading:disableLoading")
     Citizen.CreateThread(function()
         while menuOpen do
             Citizen.Wait(0)
             HideHudAndRadarThisFrame()
             DisableAllControlActions(0)
             TaskSetBlockingOfNonTemporaryEvents(PlayerPedId(), true)
+            
         end
     end)
 end

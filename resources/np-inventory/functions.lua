@@ -495,6 +495,24 @@ AddEventHandler('RunUseItem', function(itemid, slot, inventoryName, isWeapon)
     end
 
 
+    if (itemid == "nails") then
+        local finished = exports["np-taskbar"]:taskBar(5000,"Reloading",false,false,playerVeh)
+        if (finished == 100) then
+            TriggerEvent("actionbar:ammo",965225813,50,true)
+            remove = true
+        end
+    end
+    
+
+    if (itemid == "taserammo") then
+        local finished = exports["np-taskbar"]:taskBar(2000,"Reloading",false,false,playerVeh)
+        if (finished == 100) then
+            TriggerEvent("actionbar:ammo",-1575030772,3,true)
+            remove = true
+        end
+    end
+
+
     if (itemid == "armor") then
         local finished = exports["np-taskbar"]:taskBar(10000,"Armor",true,false,playerVeh)
         if (finished == 100) then
@@ -633,6 +651,31 @@ end
             end
         else
             TriggerEvent("DoLongHudText","You are missing something to open the crate with",2)
+        end
+    end
+
+    if (itemid == "fishingtacklebox") then
+        local finished = exports["np-taskbar"]:taskBar(5000,"Opening",true,false,playerVeh)
+        if (finished == 100) then
+            remove = true
+            TriggerServerEvent('loot:useItem', itemid)
+        end
+    end
+
+    if (itemid == "fishingchest") then
+        local finished = exports["np-taskbar"]:taskBar(5000,"Opening",true,false,playerVeh)
+        if (finished == 100) then
+            remove = true
+            TriggerEvent( "player:receiveItem", "goldbar", math.random(1,5) )
+        end
+    end
+
+    if (itemid == "fishinglockbox") then
+        local finished = exports["np-taskbar"]:taskBar(5000,"Opening",true,false,playerVeh)
+        if (finished == 100) then
+            --remove = true
+            --TriggerServerEvent('loot:useItem', itemid)
+            TriggerEvent("DoLongHudText","Add your map thing here DW you fucking fuck fuck",2)
         end
     end
 

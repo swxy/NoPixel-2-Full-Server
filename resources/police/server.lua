@@ -407,12 +407,14 @@ end)
 
 RegisterServerEvent('Evidence:GetWounds')
 AddEventHandler('Evidence:GetWounds', function(t)
+	print(t)
 	TriggerClientEvent('Evidence:GiveWounds',t,source)
 end)
 
 RegisterServerEvent('Evidence:GiveWoundsFinish')
 AddEventHandler('Evidence:GiveWoundsFinish', function(CurrentDamageList,id,bones)
-	TriggerClientEvent('Evidence:CurrentDamageListTarget',id,CurrentDamageList,bones,source)
+	local src = source
+	TriggerClientEvent('Evidence:CurrentDamageListTarget',id,CurrentDamageList,bones,src)
 end)
 
 RegisterServerEvent('evidence:bleeder')

@@ -290,3 +290,28 @@ RegisterNetEvent("admin:isFlying")
 AddEventHandler("admin:isFlying", function(state)
     isFlying = state
 end)
+
+
+Citizen.CreateThread( function()
+    while true do
+        playerPed = PlayerPedId() 
+        if IsPedArmed(playerPed, 6) then
+            if IsPedDoingDriveby(playerPed) then
+                if GetFollowPedCamViewMode() == 0 or GetFollowVehicleCamViewMode() == 0 then
+                    SetPlayerCanDoDriveBy(PlayerId(),false)
+                    SetFollowPedCamViewMode(4)
+                    SetFollowVehicleCamViewMode(4)
+                    Wait(50)
+                    SetPlayerCanDoDriveBy(PlayerId(),true)
+                end
+            else
+                DisableControlAction(0,36,true)
+                if GetPedStealthMovement(playerPed) == 1 then
+                    SetPedStealthMovement(playerPed,0)
+                end
+            end
+        end
+        Wait(1)
+    end
+end)
+

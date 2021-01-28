@@ -1650,7 +1650,6 @@ function GetClosestPlayerAny()
 end
 
 
-
 function GetClosestPlayer()
 	local players = GetPlayers()
 	local closestDistance = -1
@@ -2234,6 +2233,7 @@ AddEventHandler('requestWounds', function()
 	if t ~= nil and t ~= -1 then
 		if(distance ~= -1 and distance < 5) then
 			TriggerServerEvent("Evidence:GetWounds", GetPlayerServerId(t))
+			print(t)
 		end
 	end
 end)
@@ -2255,6 +2255,7 @@ AddEventHandler("ems:heal", function()
 
 			TriggerEvent("animation:PlayAnimation","layspike")
 			TriggerServerEvent("ems:healplayer", GetPlayerServerId(t))
+			print(t)
 		end
 	end
 end)

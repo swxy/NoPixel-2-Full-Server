@@ -215,6 +215,55 @@ local vehshopOwner = {
 				-- GTAWiseGuy
 				{name = "Sentinel SG4", costs = 150000, description = {}, model = "sentinelsg4"},
 				{name = "Elegy RH8", costs = 150000, description = {}, model = "elegy2"},
+				--imports 
+				{name = "Lamborghini Aventador LP700R", costs = 400000, description = {}, model = "lp700r"},
+                {name = "Porsche 911 Turbo S", costs = 325000, description = {}, model = "911turbos"},
+                {name = "Mazda RX7 RB", costs = 275000, description = {}, model = "rx7rb"},
+                {name = "Subaru Impreza WRX", costs = 250000, description = {}, model = "subwrx"},
+                {name = "Subaru WRX", costs = 240000, description = {}, model = "ff4wrx"},
+                {name = "Ford Mustang RMod", costs = 375000, description = {}, model = "rmodmustang"},
+                {name = "Honda Civic EG", costs = 250000, description = {}, model = "delsoleg"},
+                {name = "Nissan Skyline R34 GTR", costs = 325000, description = {}, model = "fnf4r34"},
+                {name = "Honda S2000", costs = 275000, description = {}, model = "ap2"},
+				{name = "Mitsubishi Lancer Evolution X MR FQ-400", costs = 275000, description = {}, model = "evo10"},
+				
+				-- pack 2
+				
+                {name = "BMW i8", costs = 300000, description = {}, model = "acs8"},
+                {name = "Datsun 510", costs = 325000, description = {}, model = "510"},
+
+                -- pack 3
+
+                {name = "Nissan GTR R35 LW", costs = 350000, description = {}, model = "LWGTR"},
+                {name = "Toyota Supra Mk.IV", costs = 335000, description = {}, model = "a80"},
+                {name = "Nissan 370Z", costs = 300000, description = {}, model = "370Z"},
+                {name = "1966 Ford Mustang", costs = 275000, description = {}, model = "66fastback"},
+                {name = "BMW M3 E46", costs = 250000, description = {}, model = "E46"},
+
+				-- GTA Wise Guy new vehicles pack 1
+				
+                {name = "Mazda MX5 NA", costs = 200000, description = {}, model = "na6"},
+                {name = "2019 Ford Mustang", costs = 350000, description = {}, model = "mustang19"},
+                {name = "Yamaha R1", costs = 250000, description = {}, model = "r1"},
+                {name = "Audi RS6", costs = 325000, description = {}, model = "audirs6tk"},
+                {name = "Mercedes AMG GT63", costs = 375000, description = {}, model = "gt63"},
+                {name = "1969 Dodge Charger", costs = 300000, description = {}, model = "69charger"},
+                {name = "Corvette C7", costs = 350000, description = {}, model = "c7"},
+				{name = "McLaren 650S LW", costs = 650000, description = {}, model = "650slw"},
+
+				-- GTA Wise Guy new vehicles pack 2
+
+				-- {name = "S14 RB Boss", costs = 650000, description = {}, model = "s14boss"},
+				{name = "Mazda RX7 FD3S", costs = 275000, description = {}, model = "fnfrx7"},
+				{name = "Nissan Silvia S15", costs = 300000, description = {}, model = "s15rb"},
+				{name = "Honda Civic Type-R FK8", costs = 300000, description = {}, model = "fk8"},
+				{name = "Ford Focus RS", costs = 285000, description = {}, model = "focusrs"},
+				{name = "Ford Raptor F150", costs = 250000, description = {}, model = "f150"},
+				{name = "Jeep Grand Cherokee SRT8", costs = 325000, description = {}, model = "srt8b"},
+				{name = "Porsche Panamera Turbo", costs = 375000, description = {}, model = "panamera17turbo"},
+				{name = "Camaro ZL1", costs = 350000, description = {}, model = "exor"},
+				{name = "Porsche 911 GT3RS", costs = 390000, description = {}, model = "gt3rs"},
+				-- {name = "Lamborghini Murcielago LP670", costs = 450000, description = {}, model = "lp670"},
 				-- {name = "Schwartzer, costs = 80000, description = {}, model = "schwarzer"},
 			}
 		},

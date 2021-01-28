@@ -11,18 +11,21 @@ client_script "@PolyZone/client.lua"
 ui_page 'nui/ui.html'
 
 files {
-	'nui/ui.html',
-	'nui/pricedown.ttf',
-	'nui/default.png',
-	'nui/background.png',
-	'nui/invbg.png',
-	'nui/styles.css',
-	'nui/scripts.js',
-	'nui/debounce.min.js',
-	'nui/loading.gif',
-	'nui/loading.svg',
-	'nui/icons/*',
-}
+	"nui/ui.html",
+	"nui/pricedown.ttf",
+	"nui/default.png",
+	"nui/background.png",
+	"nui/weight-hanging-solid.png",
+	"nui/hand-holding-solid.png",
+	"nui/search-solid.png",
+	"nui/invbg.png",
+	"nui/styles.css",
+	"nui/scripts.js",
+	"nui/debounce.min.js",
+	"nui/loading.gif",
+	"nui/loading.svg",
+	"nui/icons/*"
+  }
 
 server_script "@np-fml/server/lib.lua"
 shared_script 'shared_list.js'

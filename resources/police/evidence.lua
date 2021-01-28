@@ -698,7 +698,7 @@ end)
 RegisterNetEvent("Evidence:GiveWounds")
 AddEventHandler("Evidence:GiveWounds",function(id) 
 	updateStates()
-	TriggerServerEvent("Evidence:GiveWoundsFinish",CurrentDamageList,bones)
+	TriggerServerEvent("Evidence:GiveWoundsFinish",CurrentDamageList,id,bones)
 end)
 
 RegisterNetEvent("Evidence:CurrentDamageListTarget")
@@ -707,7 +707,7 @@ AddEventHandler("Evidence:CurrentDamageListTarget",function(CurrentDamageListTar
 		TriggerEvent('chatMessage', 'STATUS: ', 1, CurrentDamageListTarget[i])
 	end
     local myJob = exports["isPed"]:isPed("myJob")
-    if myJob == "police" or myJob == "ems" or myJob == "doctor" then
+	if myJob == "police" or myJob == "ems" or myJob == "doctor" then
     	boneIssuesTarget(bt,targetid)
     end
 end)
@@ -1630,6 +1630,7 @@ function boneIssuesTarget(bt,targetid)
 		for i = 1, #bonesTarget do
 			local crds = GetPedBoneCoords(targetChar, bonesTarget[i]["boneIndex"], 0.0, 0.0, 0.0)
 			if bonesTarget[i]["timer"] > 0 then
+				print('stage2')
 				local onScreen2,x2,y2=World3dToScreen2d(crds["x"], crds["y"],crds["z"])
 			    if x2 > 0.33 and x2 < 0.66 and y2 > 0.33 and y2 < 0.66 then
 

@@ -13,14 +13,13 @@ AddEventHandler('np:infinity:entity:coords', function(netId)
     TriggerClientEvent('np:infinity:player:coords', source, coords)
 end)
 
--- Citizen.CreateThread(function()
---     while true do
---         Citizen.Wait(30000)
---         local sexinthetube = GetEntityCoords(GetPlayerPed(source))
---         if source == nil then return end
-
---         TriggerClientEvent('np:infinity:player:coords', source, sexinthetube)
---         TriggerEvent("np-base:updatecoords", sexinthetube.x, sexinthetube.y, sexinthetube.z)
---      --   print("[^2np-infinity^0]^3 Sync Successful.^0")
---     end
--- end)
+ Citizen.CreateThread(function()
+     while true do
+         Citizen.Wait(30000)
+         local sexinthetube = GetEntityCoords(GetPlayerPed(source))
+         if source == nil then return end
+       TriggerClientEvent('np:infinity:player:coords', source, sexinthetube)
+         TriggerEvent("np-base:updatecoords", sexinthetube.x, sexinthetube.y, sexinthetube.z)
+   print("[^2np-infinity^0]^3 Sync Successful.^0")
+     end
+ end)

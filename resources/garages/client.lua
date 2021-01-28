@@ -1230,6 +1230,7 @@ AddEventHandler('garages:SpawnVehicle', function(oof, vehicle, plate, customized
 			end
 			
 			DecorSetInt(veh, "CurrentFuel", Fuel)
+			DecorSetBool(veh, "PlayerVehicle", true)
 			SetVehicleOnGroundProperly(veh)
 			SetEntityInvincible(veh, false) 
 

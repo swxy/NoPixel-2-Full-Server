@@ -135,6 +135,7 @@ function getDegredationArray()
 						degHealth.fuel_tank = tonumber(v)
 					end
 			end
+			print(json.encode(degHealth))
 		return degHealth
 	end
 end

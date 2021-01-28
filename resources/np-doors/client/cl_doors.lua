@@ -8,8 +8,7 @@ local isPDM = false
 
 local asSteamIdKeys = false
 local cidDoctorsCopAccess = {
-    9, -- syd
-    16
+   1
 }
 
 

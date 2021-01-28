@@ -1922,33 +1922,34 @@ end)
 
 RegisterNetEvent('lowerthirst')
 AddEventHandler('lowerthirst', function()
-	
-	currentValues["thirst"] = currentValues["thirst"] - 1
+    
+    currentValues["thirst"] = currentValues["thirst"] - 1
 
-	if currentValues["thirst"] < 0 then
-		currentValues["thirst"] = 0
-	end
+    if currentValues["thirst"] < 0 then
+        currentValues["thirst"] = 0
+    end
 
-	if currentValues["thirst"] > 100 then
-		currentValues["thirst"] = 100
-	end
+    if currentValues["thirst"] > 100 then
+        currentValues["thirst"] = 100
+    end
 
 end)
 
 RegisterNetEvent('changethirst')
 AddEventHandler('changethirst', function()
-	
-	currentValues["thirst"] = currentValues["thirst"] + 25
+    
+    currentValues["thirst"] = currentValues["thirst"] + 25
 
-	if currentValues["thirst"] < 0 then
-		currentValues["thirst"] = 0
-	end
+    if currentValues["thirst"] < 0 then
+        currentValues["thirst"] = 0
+    end
 
-	if currentValues["thirst"] > 100 then
-		currentValues["thirst"] = 100
-	end
+    if currentValues["thirst"] > 100 then
+        currentValues["thirst"] = 100
+    end
 
 end)
+
 RegisterNetEvent('coffee:drink')
 AddEventHandler('coffee:drink', function()
 	
@@ -2112,7 +2113,7 @@ end)
 -- this should just use nui instead of drawrect - it literally ass fucks usage.
 Citizen.CreateThread(function()
 	local minimap = RequestScaleformMovie("minimap")
-    SetRadarBigmapEnabled(true, false)
+    SetRadarBigmapEnabled(false, false)
     Wait(0)
     SetRadarBigmapEnabled(false, false)
 

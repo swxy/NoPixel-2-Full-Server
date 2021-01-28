@@ -1,0 +1,504 @@
+<!-- --------------------------------------------------------------------------------- -->
+<!--                                                                                   -->
+<!-- Name:    frontend.xml                                                             -->
+<!-- Purpose: placement and sizes for frontend items in the game,                      -->
+<!--          fonts, hud, pause menu, minimap etc                                      -->
+<!-- Author:  Derek Payne                                                              -->
+<!-- Notes:   Filenames must not include any file type                                 -->
+<!--                                                                                   -->
+<!-- --------------------------------------------------------------------------------- -->
+
+
+<frontend>
+    
+    <!------------------------->
+    <!-----------hud ---------->
+    <!------------------------->
+
+    <Hud>
+        <component name="HUD"                                               posX="0.0"      posY="0.0"      sizeX="1.0"     sizeY="1.0"     hudcolor="HUD_COLOUR_BLACK"         alpha="0"   depth="0"  listId="-1" listPriority="-1"  hasGfx="1" standaloneMovie="1"/>
+       
+        <component name="HUD_WANTED_STARS"          alignX="R"  alignY="T"  posX="0.00115"  posY="0.0"     	sizeX=".075" 	sizeY="0.0264"  hudcolor="HUD_COLOUR_PURE_WHITE"    alpha="255" depth="120" listId="1"  listPriority="1"	hasGfx="0" standaloneMovie="0"/>
+        <component name="HUD_WEAPON_ICON"           alignX="R"  alignY="T"  posX="0.0"      posY="0.0"      sizeX="0.2"     sizeY="0.03701" hudcolor="HUD_COLOUR_PURE_WHITE"    alpha="255" depth="130" listId="1"  listPriority="6"	hasGfx="0" standaloneMovie="0"/>
+        <component name="HUD_CASH"                  alignX="R"  alignY="T"  posX="0.00115"  posY="0.0"      sizeX="0.2"		sizeY="0.0428" 	hudcolor="HUD_COLOUR_PURE_WHITE"    alpha="255" depth="140" listId="1"  listPriority="4"	hasGfx="0" standaloneMovie="0"/>
+        <component name="HUD_MP_CASH"               alignX="R"  alignY="T"  posX="0.00115"  posY="0.0"      sizeX="0.2"  	sizeY="0.0428" 	hudcolor="HUD_COLOUR_PURE_WHITE"    alpha="255" depth="150" listId="1"  listPriority="2"	hasGfx="0" standaloneMovie="0"/>
+        <component name="HUD_MP_MESSAGE"            alignX="R"  alignY="T"  posX="0.00115"  posY="0.0"      sizeX="0.2"     sizeY="0.0428"   hudcolor="HUD_COLOUR_PURE_WHITE"    alpha="255" depth="160" listId="1"  listPriority="3"	hasGfx="0" standaloneMovie="0"/>
+		<component name="HUD_VEHICLE_NAME"          alignX="R"  alignY="B"  posX="0.0"      posY="-0.06" 	sizeX="0.781"   sizeY="0.0472"  hudcolor="HUD_COLOUR_PURE_WHITE"    alpha="255" depth="170" listId="-1" listPriority="-1"	hasGfx="0" standaloneMovie="0"/>
+        <component name="HUD_AREA_NAME"             alignX="R"  alignY="B"  posX="0.0"      posY="-0.022" 	sizeX="0.781"   sizeY="0.0472"  hudcolor="HUD_COLOUR_PURE_WHITE"    alpha="255" depth="180" listId="-1" listPriority="-1"	hasGfx="0" standaloneMovie="0"/>
+        <component name="HUD_UNUSED"         		alignX="R"  alignY="B"  posX="0.0"      posY="0.0" 		sizeX="0.0"  	sizeY="0.0"		hudcolor="HUD_COLOUR_WHITE"         alpha="255" depth="190" listId="-1" listPriority="-1"	hasGfx="0" standaloneMovie="0"/>
+        <component name="HUD_STREET_NAME"           alignX="R"  alignY="B"  posX="0.0"      posY="0.0154" 	sizeX="0.781"   sizeY="0.0472"  hudcolor="HUD_COLOUR_PURE_WHITE"    alpha="255" depth="200" listId="-1" listPriority="-1"	hasGfx="0" standaloneMovie="0"/>
+        <component name="HUD_HELP_TEXT"             alignX="L"  alignY="T"  posX="0.0"      posY="0.0"      sizeX="0.203"   sizeY="0.389"   hudcolor="HUD_COLOUR_PURE_WHITE"    alpha="255" depth="210" listId="2"  listPriority="0"  	hasGfx="0" standaloneMovie="0"/>
+        <component name="HUD_FLOATING_HELP_TEXT_1"  alignX="L"  alignY="T"  posX="0.0"      posY="0.0"      sizeX="0.218"   sizeY="0.389"   hudcolor="HUD_COLOUR_PURE_WHITE"    alpha="255" depth="220" listId="-1" listPriority="-1"	hasGfx="0" standaloneMovie="0"/>
+        <component name="HUD_FLOATING_HELP_TEXT_2"  alignX="L"  alignY="T"  posX="0.0"      posY="0.0"      sizeX="0.218"   sizeY="0.389"   hudcolor="HUD_COLOUR_PURE_WHITE"    alpha="255" depth="230" listId="-1" listPriority="-1"	hasGfx="0" standaloneMovie="0"/>
+        <component name="HUD_CASH_CHANGE"           alignX="R"  alignY="T"  posX="0.00115" 	posY="0.0"     	sizeX="0.2"  	sizeY="0.0428" 	hudcolor="HUD_COLOUR_PURE_WHITE"    alpha="255" depth="240" listId="1"  listPriority="5"	hasGfx="0" standaloneMovie="0"/>
+        <component name="HUD_RETICLE"               alignX="C"  alignY="C"  posX="0.0"      posY="0.0"      sizeX="1.0"     sizeY="1.0"     hudcolor="HUD_COLOUR_PURE_WHITE"    alpha="255" depth="110" listId="-1" listPriority="-1"	hasGfx="1" standaloneMovie="0"/>
+        <component name="HUD_SUBTITLE_TEXT"         alignX="C"  alignY="B"  posX="0.0"      posY=".0051"	sizeX="1.0"     sizeY="0.167"   hudcolor="HUD_COLOUR_PURE_WHITE"    alpha="255" depth="250" listId="-1" listPriority="-1"	hasGfx="0" standaloneMovie="0"/>
+        <component name="HUD_RADIO_STATIONS_WHEEL"  alignX="C"  alignY="C"  posX="0.0"      posY="-0.042"   sizeX="0.5625"  sizeY="1.0"     hudcolor="HUD_COLOUR_PURE_WHITE"    alpha="255" depth="260" listId="-1" listPriority="-1"	hasGfx="0" standaloneMovie="0"/>
+        <component name="HUD_SAVING"                alignX="R"  alignY="B"  posX="0.0"      posY="0.0"      sizeX="0.3125"  sizeY="0.042"   hudcolor="HUD_COLOUR_PURE_WHITE"    alpha="255" depth="2000"listId="-1" listPriority="-1"	hasGfx="0" standaloneMovie="0"/>
+        <component name="HUD_GAME_STREAM_UNUSED"    alignX="I"  alignY="I"  posX="0.0"		posY="-0.260"   sizeX="0.140"  	sizeY="1.0"     hudcolor="HUD_COLOUR_PURE_WHITE"    alpha="255" depth="280" listId="2"  listPriority="-1"	hasGfx="1" standaloneMovie="0"/>
+        <component name="HUD_WEAPON_WHEEL"          alignX="C"  alignY="C"  posX="0.0"      posY="-0.09"    sizeX="0.4688"  sizeY="0.7639"  hudcolor="HUD_COLOUR_PURE_WHITE"    alpha="255" depth="290" listId="-1" listPriority="-1"	hasGfx="0" standaloneMovie="0"/>
+        <component name="HUD_WEAPON_WHEEL_STATS"    alignX="R"  alignY="T"  posX="0.0"      posY="0.045"    sizeX="0.1156"   sizeY="0.171"   hudcolor="HUD_COLOUR_PURE_WHITE"    alpha="255" depth="300" listId="1" 	listPriority="9"	hasGfx="0" standaloneMovie="0"/>
+    </Hud>
+    
+    
+    
+    <!------------------------->
+    <!-------- minimap -------->
+    <!------------------------->
+    
+	<minimap v="1.0">
+		<data name="minimap"        	alignX="L"	alignY="B"	posX="-0.0045"		posY="-0.022"		sizeX="0.210"		sizeY="0.258888" /> <!-- WARNING! Feed MUST match sizeX -->
+		<data name="minimap_mask"   	alignX="L"	alignY="B"	posX="0.000"		posY="0.032" 	 	sizeX="0.101"		sizeY="0.259" />
+		<data name="minimap_blur"   	alignX="L"	alignY="B"	posX="0.012"		posY="0.022"		sizeX="0.256"		sizeY="0.337" />
+		<data name="bigmap"         	alignX="L"	alignY="B"	posX="-0.003975"	posY="0.022"		sizeX="0.364"		sizeY="0.460416666" />
+		<data name="bigmap_mask"    	alignX="L"	alignY="B"	posX="0.145"		posY="0.015"		sizeX="0.176"		sizeY="0.395" />
+		<data name="bigmap_blur"    	alignX="L"	alignY="B"	posX="-0.019"		posY="0.022"		sizeX="0.262"		sizeY="0.464" />
+		<data name="pausemap" 			alignX="I"	alignY="I"	posX="0.0"			posY="0.0"			sizeX="1.0"			sizeY="1.0" />
+		<data name="pausemap_mask"		alignX="I"	alignY="I"	posX="0.1615"		posY="0.222"		sizeX="0.679"		sizeY="0.598"/>											
+		<data name="gallery"        	alignX="I"	alignY="I"	posX="0.49218"		posY="0.222"		sizeX="0.0"	sizeY="0.0" /> <!--sizeX="0.471875"	sizeY="0.5975"-->
+		<data name="gallery_mask"   	alignX="I"	alignY="I"	posX="0.700"		posY="0.222"		sizeX="0.0"		sizeY="0.0" /> <!--sizeX="0.1775"		sizeY="0.5975"-->
+		<data name="golf_courses"   	alignX="L"	alignY="B"	posX="0.003"		posY="-0.038"		sizeX="0.27375"		sizeY="0.347" />
+	</minimap>
+	
+
+    <!----------------------------------->
+    <!-------- minimap interiors -------->
+    <!----------------------------------->
+    
+    <minimap_interiors>
+	  <interior name="xm_x17DLC_FakeBase" posX="800.0" posY="5500.0" rot="0.0">
+            <content name="xm_x17DLC_int_silo_01"/>
+            <content name="xm_x17DLC_int_silo_02"/>
+            <content name="xm_x17DLC_int_base_loop"/>
+            <content name="xm_x17DLC_int_bse_tun"/>
+            <content name="xm_x17DLC_int_base_tun"/>
+            <content name="xm_x17DLC_int_base"/>
+            <content name="xm_x17DLC_int_base_ent"/>
+            <content name="xm_x17DLC_int_tun_straight"/>
+            <content name="xm_x17DLC_int_tun_slope_flat"/>
+            <content name="xm_x17DLC_int_tun_flat_slope"/>
+            <content name="xm_x17DLC_int_slope_flat"/>
+            <content name="xm_x17DLC_int_tun_30d_r"/>
+            <content name="xm_x17DLC_int_tun_30d_l"/>
+            <content name="xm_x17DLC_int_tun_flat_slope"/>
+            <content name="xm_x17DLC_int_tun_entry"/>
+        </interior>
+        <interior name="V_FakeMetro" posX="-200.0" posY="-1500.0" rot="0.0">
+            <content name="Metro_Map_End"/>
+            <content name="Metro_Sl_Top"/>
+            <content name="Metro_30"/>
+            <content name="Metro_End_031"/>
+            <content name="Metro_End"/>
+            <content name="Metro_Map_Join_1"/>
+            <content name="Metro_Map_Join_2"/>
+            <content name="Metro_NEWwalk1"/>
+            <content name="Metro_NEWwalk2"/>
+            <content name="Metro_NEWwalk3"/>
+            <content name="Metro_NEWwalk4"/>
+            <content name="Metro_NEWwalk5"/>
+            <content name="Metro_NEWwalk6"/>
+            <content name="Metro_Sl_Bot"/>
+            <content name="Metro_Sm"/>
+            <content name="Metro_Sm_Sl"/>
+            <content name="Metro_Sm1"/>
+            <content name="Metro_Sm2"/>
+            <content name="Metro_Small_30"/>
+            <content name="Metro_stat3join1"/>
+            <content name="Metro_stat3join2"/>
+            <content name="Metro_stat3join3"/>
+            <content name="Metro_stat3join4"/>
+            <content name="Metro_stat3special"/>
+            <content name="Metro_Station_3_seoul"/>
+            <content name="Metro_T_End_30"/>
+            <content name="Metro_T_End"/>
+            <content name="Metro_T_End2_30"/>
+            <content name="Metro_T_Join"/>
+            <content name="Metro_T_Lg_30"/>
+            <content name="Metro_T_Sl_Bot"/>
+            <content name="Metro_T_Sl_Top"/>
+            <content name="Metro_T_St_Lg_30"/>
+            <content name="Metro_T_St_Sl_Bot"/>
+            <content name="Metro_T_St_Sl_Top"/>
+            <content name="Metro_T_Stair"/>
+            <content name="Metro_T_Stair2"/>
+            <content name="Metro_T_Step_20"/>
+            <content name="Metro_T_Step"/>
+            <content name="Metro_Topen_Step"/>
+            <content name="Metro_Tsidex"/>
+            <content name="Metrotest"/>
+            <content name="V_31_Tun_01"/>
+            <content name="V_31_Tun_02"/>
+            <content name="V_31_Tun_03"/>
+            <content name="V_31_Tun_04"/>
+            <content name="V_31_Tun_05"/>
+            <content name="V_31_Tun_06"/>
+            <content name="V_31_Tun_07"/>
+            <content name="V_31_Tun_08"/>
+            <content name="V_31_Tun_09"/>
+            <content name="V_31_Tun_10"/>
+            <content name="V_31_newTunnel1"/>
+            <content name="V_31_newTun2"/>
+            <content name="V_31_newTun3"/>
+            <content name="V_31_newTun4"/>
+            <content name="V_31_newTun5"/>
+			<content name="V_31_newTun4b"/>
+        </interior>
+        <interior name="V_FakeWaterTunnel" posX="-1500.0" posY="-875.0" rot="0.0">
+            <content name="VBCA_Tunnel1"/>
+            <content name="VBCA_Tunnel2"/>
+            <content name="VBCA_Tunnel3"/>
+            <content name="VBCA_Tunnel4"/>
+            <content name="VBCA_Tunnel5"/>
+        </interior>
+    <interior name="V_Factory" posX="-71.9" posY="6239.4" rot="-44.9">
+            <content name="V_Factory1"/>
+            <content name="V_Factory2"/>
+            <content name="V_Factory3"/>
+            <content name="V_Factory4"/>
+        </interior>
+    <interior name="V_FakeTunnel_SC1" posX="420.0" posY="-1940.0" rot="0.0">
+            <content name="SC1_RD_INTtun1"/>
+            <content name="SC1_RD_INTtun2"/>
+            <content name="SC1_RD_INTtun2b"/>
+            <content name="SC1_RD_INTtun2b_end"/>
+            <content name="SC1_RD_INTtun3"/>
+            <content name="SC1_RD_INTtun3b"/>
+            <content name="SC1_RD_INTtun3b_end"/>
+        </interior>
+    <interior name="V_FakeTunnel_ID1" posX="770" posY="-2070" rot="0.0">
+            <content name="ID1_11_tunnel1_int"/>
+            <content name="ID1_11_tunnel2_int"/>
+            <content name="ID1_11_tunnel3_int"/>
+            <content name="ID1_11_tunnel4_int"/>
+            <content name="ID1_11_tunnel5_int"/>
+            <content name="ID1_11_tunnel6_int"/>
+            <content name="ID1_11_tunnel7_int"/>
+            <content name="ID1_11_tunnel8_int"/>
+    </interior>
+	<interior name="V_Michael" posX="-807.343" posY="174.981" rot="-21">
+            <content name="V_Michael_Garage"/>
+            <content name="V_Michael"/>
+	</interior>
+	<interior name="V_FakeBoatPO1SH2A" posX="1240.0" posY="-2970.0" rot="0.0">
+            <content name="V_FakeBoatPO1SH2A"/>
+	</interior>
+    </minimap_interiors>
+    
+
+    
+    <!------------------------->  
+    <!------ pause menu ------->
+    <!------------------------->
+    <PauseMenu>
+        <CPauseMenuPersistentData v="2">
+            <Spinner v="3">
+                <vPos  x="0.501"   y="0.518"/>
+                <vSize x="0.012" y="0.021"/>
+                
+                
+<!-- As the SP_CONTENT movie has now scaled up, these offsets have been adjusted by the old movie size, 0.678x  0.635y-->
+<!-- but they're still just regular fractions -->
+                <Offsets>
+					<Column0 		x="0.113" 		y="0.296"/>
+					<Column1 		x="0.339"		y="0.296"/>
+					<Column2 		x="0.565"		y="0.296"/>
+					<Skinny5_6ths 	x="0.5085"		y="0.296"/>
+					<Skinny6_6ths 	x="0.6215"		y="0.296"/>
+					<WideFirst2 	x="0.226"		y="0.296"/>
+					<WideSecond2 	x="0.452"		y="0.296"/>
+					<CharSelectMom 	x="0.340"		y="0.185"/>
+					<CharSelectDad 	x="0.113"		y="0.40386"/>
+					<CharSelectYou 	x="0.565"		y="0.296"/>
+					<CharSelSlot1 	x="0.07"		y="0.2"/>
+					<CharSelSlot2 	x="0.205"		y="0.2"/>
+					<CharSelSlot3 	x="0.34"		y="0.2"/>
+					<CharSelSlot4 	x="0.475"		y="0.2"/>
+					<CharSelSlot5 	x="0.61"		y="0.2"/>
+					<CharSelSlot6 	x="0.621"		y="0.2"/>
+					<PauseSlot1	 	x="0.34"		y="0.2"/>
+					<PauseSlot2	 	x="0.61"		y="0.2"/>
+                </Offsets>
+            </Spinner>
+            <Gradient>
+                <vPos  x="0.0"   y="0.0"/>
+                <vSize x="1.0" y="1.0"/>
+            </Gradient>
+            <Arrows>
+                <vPos       x="0.145" y="0.1745"/>
+                <vPosRight  x="0.8435" y="0.1745"/>
+                <vPos43       x="0.145" y="0.1745"/>
+                <vPosRight43  x="0.8435" y="0.1745"/>
+                <vSize      x="0.01225" y="0.02"/>
+                <shownAlpha value="255"/>
+                <hiddenAlpha value="50"/>
+            </Arrows>
+        </CPauseMenuPersistentData>
+    </PauseMenu>
+    
+    
+    
+    <!------------------------->
+    <!-------weapon hud ------->
+    <!------------------------->
+
+    <WeaponHud>
+    </WeaponHud>
+    
+    
+    <!------------------------->
+    <!-------script hud ------->
+    <!------------------------->
+
+    <ScriptHud>
+        
+        <component name="HUD_DRUGS_PURSE_01"            alignX="R"  alignY="T"  posX="0.0"      posY="0.0"      sizeX="0.2"     sizeY="0.043"  hudcolor="HUD_COLOUR_PURE_WHITE" alpha="255"  depth="780" listId="1" listPriority="8"  hasGfx="1" standaloneMovie="0"/>
+        <component name="HUD_DRUGS_PURSE_02"            alignX="R"  alignY="T"  posX="0.0"      posY="0.0"      sizeX="0.2"     sizeY="0.043"  hudcolor="HUD_COLOUR_PURE_WHITE" alpha="255"  depth="790" listId="1" listPriority="9"  hasGfx="1" standaloneMovie="0"/>
+        <component name="HUD_DRUGS_PURSE_03"            alignX="R"  alignY="T"  posX="0.0"      posY="0.0"      sizeX="0.2"     sizeY="0.043"  hudcolor="HUD_COLOUR_PURE_WHITE" alpha="255"  depth="800" listId="1" listPriority="10"  hasGfx="1" standaloneMovie="0"/>
+        <component name="HUD_DRUGS_PURSE_04"            alignX="R"  alignY="T"  posX="0.0"      posY="0.0"      sizeX="0.2"     sizeY="0.043"  hudcolor="HUD_COLOUR_PURE_WHITE" alpha="255"  depth="810" listId="1" listPriority="11"  hasGfx="1" standaloneMovie="0"/>
+        <component name="HUD_MP_TAG_CASH_FROM_BANK"     alignX="R"  alignY="T"  posX="0.0"      posY="0.0"      sizeX="0.2"     sizeY="0.043"  hudcolor="HUD_COLOUR_PURE_WHITE" alpha="255"  depth="820" listId="1" listPriority="12"  hasGfx="0" standaloneMovie="0"/>
+        <component name="HUD_MP_TAG_PACKAGES"           alignX="R"  alignY="T"  posX="0.0"      posY="0.0"      sizeX="0.2"     sizeY="0.043"  hudcolor="HUD_COLOUR_PURE_WHITE" alpha="255"  depth="830" listId="1" listPriority="13"  hasGfx="0" standaloneMovie="0"/>
+        <component name="HUD_MP_TAG_CUFF_KEYS"          alignX="R"  alignY="T"  posX="0.0"      posY="0.0"      sizeX="0.2"     sizeY="0.043"  hudcolor="HUD_COLOUR_PURE_WHITE" alpha="255"  depth="840" listId="1" listPriority="14"  hasGfx="0" standaloneMovie="0"/>
+        <component name="HUD_MP_TAG_DOWNLOAD_DATA"      alignX="R"  alignY="T"  posX="0.0"      posY="0.0"      sizeX="0.2"     sizeY="0.043"  hudcolor="HUD_COLOUR_PURE_WHITE" alpha="255"  depth="850" listId="1" listPriority="15"  hasGfx="0" standaloneMovie="0"/>
+        <component name="HUD_MP_TAG_IF_PED_FOLLOWING"   alignX="R"  alignY="T"  posX="0.0"      posY="0.0"      sizeX="0.2"     sizeY="0.043"  hudcolor="HUD_COLOUR_PURE_WHITE" alpha="255"  depth="860" listId="1" listPriority="16"  hasGfx="0" standaloneMovie="0"/>
+        <component name="HUD_MP_TAG_KEY_CARD"           alignX="R"  alignY="T"  posX="0.0"      posY="0.0"      sizeX="0.2"     sizeY="0.043"  hudcolor="HUD_COLOUR_PURE_WHITE" alpha="255"  depth="870" listId="1" listPriority="17"  hasGfx="0" standaloneMovie="0"/>
+        <component name="HUD_MP_TAG_RANDOM_OBJECT"      alignX="R"  alignY="T"  posX="0.0"      posY="0.0"      sizeX="0.2"     sizeY="0.043"  hudcolor="HUD_COLOUR_PURE_WHITE" alpha="255"  depth="880" listId="1" listPriority="18"  hasGfx="0" standaloneMovie="0"/>
+        <component name="HUD_MP_TAG_REMOTE_CONTROL"     alignX="R"  alignY="T"  posX="0.0"      posY="0.0"      sizeX="0.2"     sizeY="0.043"  hudcolor="HUD_COLOUR_PURE_WHITE" alpha="255"  depth="890" listId="1" listPriority="19"  hasGfx="0" standaloneMovie="0"/>
+        <component name="HUD_MP_TAG_CASH_FROM_SAFE"     alignX="R"  alignY="T"  posX="0.0"      posY="0.0"      sizeX="0.2"     sizeY="0.043"  hudcolor="HUD_COLOUR_PURE_WHITE" alpha="255"  depth="900" listId="1" listPriority="20"  hasGfx="0" standaloneMovie="0"/>
+        <component name="HUD_MP_TAG_WEAPONS_PACKAGE"    alignX="R"  alignY="T"  posX="0.0"      posY="0.0"      sizeX="0.2"     sizeY="0.043"  hudcolor="HUD_COLOUR_PURE_WHITE" alpha="255"  depth="910" listId="1" listPriority="21"  hasGfx="0" standaloneMovie="0"/>
+        <component name="HUD_MP_TAG_KEYS"               alignX="R"  alignY="T"  posX="0.0"      posY="0.0"      sizeX="0.2"     sizeY="0.043"  hudcolor="HUD_COLOUR_PURE_WHITE" alpha="255"  depth="920" listId="1" listPriority="22"  hasGfx="0" standaloneMovie="0"/>
+        <component name="HUD_MP_VEHICLE"                alignX="R"  alignY="T"  posX="0.0"      posY="0.0"      sizeX="0.2"     sizeY="0.043"  hudcolor="HUD_COLOUR_PURE_WHITE" alpha="255"  depth="930" listId="1" listPriority="23"  hasGfx="0" standaloneMovie="0"/>
+        <component name="HUD_MP_VEHICLE_HELI"           alignX="R"  alignY="T"  posX="0.0"      posY="0.0"      sizeX="0.2"     sizeY="0.043"  hudcolor="HUD_COLOUR_PURE_WHITE" alpha="255"  depth="940" listId="1" listPriority="24"  hasGfx="0" standaloneMovie="0"/>
+        <component name="HUD_MP_VEHICLE_PLANE"          alignX="R"  alignY="T"  posX="0.0"      posY="0.0"      sizeX="0.2"     sizeY="0.043"  hudcolor="HUD_COLOUR_PURE_WHITE" alpha="255"  depth="950" listId="1" listPriority="25"  hasGfx="0" standaloneMovie="0"/>
+        <component name="HUD_PLAYER_SWITCH_ALERT"       alignX="L"  alignY="B"  posX="0.146"    posY="-0.144"   sizeX="0.026"   sizeY="0.046"  hudcolor="HUD_COLOUR_PURE_WHITE" alpha="255"  depth="960" listId="-1" listPriority="-1"  hasGfx="1" standaloneMovie="0"/>
+        <component name="MP_RANK_BAR"                   alignX="C"  alignY="T"  posX="0"        posY="0"        sizeX="0.429"   sizeY="0.097"  hudcolor="HUD_COLOUR_PURE_WHITE" alpha="255"  depth="970" listId="-1" listPriority="-1"  hasGfx="0" standaloneMovie="0"/>
+        <component name="HUD_DIRECTOR_MODE"             alignX="R"  alignY="T"  posX="0.00115"  posY="0.0"      sizeX="0.23"	sizeY="0.0332"  hudcolor="HUD_COLOUR_PURE_WHITE" alpha="255"  depth="980" listId="1"  listPriority="0"	hasGfx="0" standaloneMovie="0"/>
+        <component name="HUD_CHIP"              		    alignX="R"  alignY="T"  posX="0.00115"  posY="0.0"      sizeX="0.2"		sizeY="0.0428" 	hudcolor="HUD_COLOUR_PURE_WHITE" alpha="255" depth="990" listId="1"  listPriority="7"	hasGfx="0" standaloneMovie="0"/>
+        <component name="HUD_CHIP_CHANGE"           		alignX="R"  alignY="T"  posX="0.00115" 	posY="0.0"     	sizeX="0.2"  	sizeY="0.0428" 	hudcolor="HUD_COLOUR_PURE_WHITE" alpha="255" depth="1000" listId="1"  listPriority="8"	hasGfx="0" standaloneMovie="0"/>
+        
+	</ScriptHud>
+
+    <!------------------------->
+    <!------ store menu ------->
+    <!------------------------->
+        
+    <CommerceStore>
+        <baseCoords_16_9 posX="0.1375"   posY="0.063888" sizeX="0.72656" sizeY="0.875" />
+        <baseCoords_4_3 posX="0.051"   posY="0.063888" sizeX="0.898" sizeY="0.875" />
+    </CommerceStore>
+
+
+    <!------------------------->
+    <!-------replay hud ------->
+    <!------------------------->
+
+    <ReplayHud>
+        <!--   GTA IV values:       pos (x, y)   size(x, y)   hud_color      alpha   -->
+        <!--HUD_REPLAY_CONTROLLER       0.089,0.037 0.813,0.100 HUD_COLOUR_BLACK                    200-->
+        <!--HUD_REPLAY_MOUSE                0.069,0.928 0.300,0.400 HUD_COLOUR_MENU_STANDARD    125-->
+        <component name="HUD_REPLAY_CONTROLLER"         posX="0.089"    posY="0.050"    sizeX="0.813"       sizeY="0.100"       hudcolor="HUD_COLOUR_BLACK"         alpha="200" depth="140" listId="1" listPriority="-1" hasGfx="0" standaloneMovie="0"/>
+        <component name="HUD_REPLAY_MOUSE"              posX="0.069"    posY="0.928"    sizeX="0.300"       sizeY="0.400"       hudcolor="HUD_COLOUR_PURE_WHITE"    alpha="125" depth="100" listId="1" listPriority="-1" hasGfx="0" standaloneMovie="0"/>
+        <component name="HUD_REPLAY_HEADER"             posX="0.100"    posY="0.025"    sizeX="0.600"       sizeY="0.700"       hudcolor="HUD_COLOUR_PURE_WHITE"    alpha="255" depth="120" listId="1" listPriority="-1" hasGfx="0" standaloneMovie="0"/>
+        <component name="HUD_REPLAY_OPTIONS"            posX="0.050"    posY="0.050"    sizeX="0.450"       sizeY="0.550"       hudcolor="HUD_COLOUR_PURE_WHITE"    alpha="255" depth="120" listId="2" listPriority="-1" hasGfx="0" standaloneMovie="0"/>
+        <component name="HUD_REPLAY_HELP_TEXT"          posX="0.050"    posY="0.050"    sizeX="0.353"       sizeY="0.450"       hudcolor="HUD_COLOUR_PURE_WHITE"    alpha="255" depth="110" listId="2" listPriority="-1" hasGfx="0" standaloneMovie="0"/>
+        <component name="HUD_REPLAY_MISC_TEXT"          posX="0.050"    posY="0.005"    sizeX="0.350"       sizeY="0.370"       hudcolor="HUD_COLOUR_PURE_WHITE"    alpha="255" depth="160" listId="2" listPriority="-1" hasGfx="0" standaloneMovie="0"/>
+        <component name="HUD_REPLAY_TOP_LINE"           posX="0.000"    posY="0.192"    sizeX="1.000"       sizeY="0.192"       hudcolor="HUD_COLOUR_PURE_WHITE"    alpha="255" depth="100" listId="3" listPriority="-1" hasGfx="0" standaloneMovie="0"/>
+        <component name="HUD_REPLAY_BOTTOM_LINE"        posX="0.000"    posY="0.808"    sizeX="1.000"       sizeY="0.192"       hudcolor="HUD_COLOUR_PURE_WHITE"    alpha="255" depth="100" listId="3" listPriority="-1" hasGfx="0" standaloneMovie="0"/>
+        <component name="HUD_REPLAY_LEFT_BAR"           posX="0.065"    posY="0.000"    sizeX="0.500"       sizeY="0.800"       hudcolor="HUD_COLOUR_PURE_WHITE"    alpha="255" depth="100" listId="3" listPriority="-1" hasGfx="0" standaloneMovie="0"/>
+        <component name="HUD_REPLAY_TIMER"              posX="0.768"    posY="0.065"    sizeX="1.000"       sizeY="0.192"       hudcolor="HUD_COLOUR_PURE_WHITE"    alpha="255" depth="130" listId="1" listPriority="-1" hasGfx="0" standaloneMovie="0"/>
+    </ReplayHud>
+ 
+    <!------------------------------------>
+    <!------ the feed (GameStream) ------->
+    <!------------------------------------>
+        
+    <GameStream>
+        <position   alignX="L"  alignY="B"  posX="0.0"      		posY="0.0"	    sizeX="0.150"   sizeY="1.0" />
+		<posloading alignX="L"  alignY="B"  posX="0.0"				posY="0.0"		sizeX="0.150"	sizeY="1.0" />
+		<gametips lasttip="153" />
+		<onlinetips lasttip="-1" />
+    </GameStream>
+    
+	<!------------------------------------>
+    <!------ warning screens ------->
+    <!------------------------------------>
+    <WarningScreen>
+        <!-- remember that bitindex is the exponent, ie, 2^n, so bi of 0 is 1, bi of 1 is 2, bi 2 is 4, etc -->
+        <!-- Default sound is "SELECT", so don't need to define it for EVERY one of these -->
+        
+        <CMenuButton BitIndex="0"> 					<hButtonHash>IB_SELECT</hButtonHash>     <ButtonInput>INPUT_FRONTEND_ACCEPT</ButtonInput>     </CMenuButton>
+        <CMenuButton BitIndex="1"> 					<hButtonHash>IB_OK</hButtonHash>         <ButtonInput>INPUT_FRONTEND_ACCEPT</ButtonInput>     </CMenuButton>
+        <CMenuButton BitIndex="2"> 					<hButtonHash>IB_YES</hButtonHash>        <ButtonInput>INPUT_FRONTEND_ACCEPT</ButtonInput>     </CMenuButton>
+        <CMenuButton BitIndex="3" Sound="BACK"> 	<hButtonHash>IB_BACK</hButtonHash>       <ButtonInput>INPUT_FRONTEND_CANCEL</ButtonInput>     </CMenuButton>
+        <CMenuButton BitIndex="4" Sound="BACK"> 	<hButtonHash>IB_CANCEL</hButtonHash>     <ButtonInput>INPUT_FRONTEND_CANCEL</ButtonInput>     </CMenuButton>
+        <CMenuButton BitIndex="5" Sound="BACK">		<hButtonHash>IB_NO</hButtonHash>         <ButtonInput>INPUT_FRONTEND_CANCEL</ButtonInput>     </CMenuButton>
+        <CMenuButton BitIndex="6"> 					<hButtonHash>IB_RETRY</hButtonHash>      <ButtonInput>INPUT_FRONTEND_X</ButtonInput>     </CMenuButton>
+        <CMenuButton BitIndex="7"> 					<hButtonHash>IB_RESTART</hButtonHash>    <ButtonInput>INPUT_FRONTEND_X</ButtonInput>     </CMenuButton>
+        <CMenuButton BitIndex="8"> 					<hButtonHash>IB_SKIP</hButtonHash>       <ButtonInput>INPUT_FRONTEND_X</ButtonInput>     </CMenuButton>
+        <CMenuButton BitIndex="9" Sound="BACK"> 	<hButtonHash>IB_QUIT</hButtonHash>       <ButtonInput>INPUT_FRONTEND_CANCEL</ButtonInput>     </CMenuButton>
+        <CMenuButton BitIndex="10"> 				<hButtonHash>IB_ADJUST</hButtonHash>    <ButtonInputGroup>INPUTGROUP_FRONTEND_DPAD_LR</ButtonInputGroup>      </CMenuButton>
+        <CMenuButton BitIndex="11"> 				<hButtonHash>IB_IGNORE</hButtonHash>    <ButtonInput>INPUT_FRONTEND_X</ButtonInput>     </CMenuButton>
+        <CMenuButton BitIndex="12"> 				<hButtonHash>IB_SHARE</hButtonHash>     <ButtonInput>INPUT_FRONTEND_X</ButtonInput>     </CMenuButton>
+        <CMenuButton BitIndex="13"> 				<hButtonHash>HUD_SIGNIN</hButtonHash>   <ButtonInput>INPUT_FRONTEND_X</ButtonInput>     </CMenuButton>
+        <CMenuButton BitIndex="14"> 				<hButtonHash>HUD_CONTINUE</hButtonHash> <ButtonInput>INPUT_FRONTEND_ACCEPT</ButtonInput>     </CMenuButton>
+        <CMenuButton BitIndex="15"> 				<hButtonHash>IB_ADJUST</hButtonHash>    <RawButtonIcon>ARROW_LEFTRIGHT</RawButtonIcon>       </CMenuButton>
+        <CMenuButton BitIndex="16"> 				<hButtonHash>FE_HLP5</hButtonHash>      <RawButtonIcon>ARROW_UPDOWN</RawButtonIcon>      </CMenuButton>
+        <CMenuButton BitIndex="17"> 				<hButtonHash>HUD_OVERWRITE</hButtonHash><ButtonInput>INPUT_FRONTEND_X</ButtonInput>     </CMenuButton>
+        <CMenuButton BitIndex="18"> 				<hButtonHash>IB_SOCIAL_CLUB</hButtonHash><ButtonInput>INPUT_FRONTEND_ACCEPT</ButtonInput>        </CMenuButton>
+        <CMenuButton BitIndex="19"> 				<hButtonHash>IB_CONFIRM</hButtonHash>     <ButtonInput>INPUT_FRONTEND_ACCEPT</ButtonInput>     </CMenuButton>
+        <CMenuButton BitIndex="20"> 				<hButtonHash>HUD_ENTERQUEUE</hButtonHash>     <ButtonInput>INPUT_FRONTEND_ACCEPT</ButtonInput>     </CMenuButton>
+        <CMenuButton BitIndex="21"> 				<hButtonHash>IB_RETRY</hButtonHash>     <ButtonInput>INPUT_FRONTEND_ACCEPT</ButtonInput>     </CMenuButton>
+        <CMenuButton BitIndex="22" Sound="SELECT"> 	<hButtonHash>IB_BACK</hButtonHash>     <ButtonInput>INPUT_FRONTEND_CANCEL</ButtonInput>     </CMenuButton>
+        <CMenuButton BitIndex="23"> 				<hButtonHash>IB_UPDATE_SOCIAL_CLUB</hButtonHash>     <ButtonInput>INPUT_FRONTEND_ACCEPT</ButtonInput>     </CMenuButton>
+        <CMenuButton BitIndex="24"Sound="SELECT">	<hButtonHash>HUD_ENTERSPEC</hButtonHash>     <ButtonInput>INPUT_FRONTEND_X</ButtonInput>     </CMenuButton>
+        <CMenuButton BitIndex="25"Sound="SELECT">	<hButtonHash>IB_OK</hButtonHash>     		<ButtonInput>INPUT_FRONTEND_CANCEL</ButtonInput>     </CMenuButton>
+        <CMenuButton BitIndex="26"Sound="BACK">		<hButtonHash>HUD_CANCEL_TRANS</hButtonHash>     <ButtonInput>INPUT_FRONTEND_CANCEL</ButtonInput>     </CMenuButton>
+        <CMenuButton BitIndex="27">					<RawButtonIcon>ICON_SPINNER</RawButtonIcon> </CMenuButton>
+        <CMenuButton BitIndex="28"Sound="BACK">		<hButtonHash>HUD_RETSP</hButtonHash>     <ButtonInput>INPUT_FRONTEND_CANCEL</ButtonInput>     </CMenuButton>
+        <CMenuButton BitIndex="29"Sound="BACK"> 	<hButtonHash>IB_CANCEL</hButtonHash>      <ButtonInput>INPUT_FRONTEND_CANCEL</ButtonInput>     </CMenuButton>
+        <!-- BIT30 is reserved for NO SOUND -->
+        <CMenuButton BitIndex="31"Sound="EXIT">		<hButtonHash>FE_HLP16</hButtonHash>		 <ButtonInput>INPUT_FRONTEND_CANCEL</ButtonInput>     </CMenuButton>
+        <CMenuButton BitIndex="32"Sound="BACK">		<hButtonHash>IB_NO</hButtonHash>		 <ButtonInput>INPUT_FRONTEND_X</ButtonInput>     </CMenuButton>
+        <CMenuButton BitIndex="33"Sound="BACK">		<hButtonHash>IB_HOST</hButtonHash>		 <ButtonInput>INPUT_FRONTEND_CANCEL</ButtonInput>     </CMenuButton>
+        <CMenuButton BitIndex="34"Sound="SELECT">		<hButtonHash>IB_ANYJOB</hButtonHash>		 <ButtonInput>INPUT_FRONTEND_ACCEPT</ButtonInput>     </CMenuButton>
+        <CMenuButton BitIndex="35"Sound="SELECT">		<hButtonHash>BUTTON_PLUS_PROMO2</hButtonHash>		 <ButtonInput>INPUT_FRONTEND_ACCEPT</ButtonInput>     </CMenuButton>
+        <CMenuButton BitIndex="36"Sound="BACK">		<hButtonHash>IB_FREEMODE</hButtonHash>		 <ButtonInput>INPUT_FRONTEND_CANCEL</ButtonInput>     </CMenuButton>
+    </WarningScreen>
+
+  <!------------------------------------>
+  <!------ warning screens ------->
+  <!------------------------------------>
+  <TextEntryBox>
+    <!-- remember that bitindex is the exponent, ie, 2^n, so bi of 0 is 1, bi of 1 is 2, bi 2 is 4, etc -->
+    <!-- Default sound is "SELECT", so don't need to define it for EVERY one of these -->
+
+    <CMenuButton BitIndex="0">
+      <hButtonHash>IB_SELECT</hButtonHash>
+      <ButtonInput>INPUT_FRONTEND_ACCEPT</ButtonInput>
+    </CMenuButton>
+    <CMenuButton BitIndex="1">
+      <hButtonHash>IB_OK</hButtonHash>
+      <ButtonInput>INPUT_FRONTEND_ACCEPT</ButtonInput>
+    </CMenuButton>
+    <CMenuButton BitIndex="2">
+      <hButtonHash>IB_YES</hButtonHash>
+      <ButtonInput>INPUT_FRONTEND_ACCEPT</ButtonInput>
+    </CMenuButton>
+    <CMenuButton BitIndex="3" Sound="BACK">
+      <hButtonHash>IB_BACK</hButtonHash>
+      <ButtonInput>INPUT_FRONTEND_CANCEL</ButtonInput>
+    </CMenuButton>
+    <CMenuButton BitIndex="4" Sound="BACK">
+      <hButtonHash>IB_CANCEL</hButtonHash>
+      <ButtonInput>INPUT_FRONTEND_CANCEL</ButtonInput>
+    </CMenuButton>
+    <CMenuButton BitIndex="5" Sound="BACK">
+      <hButtonHash>IB_NO</hButtonHash>
+      <ButtonInput>INPUT_FRONTEND_CANCEL</ButtonInput>
+    </CMenuButton>
+    <CMenuButton BitIndex="6">
+      <hButtonHash>IB_RETRY</hButtonHash>
+      <ButtonInput>INPUT_FRONTEND_X</ButtonInput>
+    </CMenuButton>
+    <CMenuButton BitIndex="7">
+      <hButtonHash>IB_RESTART</hButtonHash>
+      <ButtonInput>INPUT_FRONTEND_X</ButtonInput>
+    </CMenuButton>
+    <CMenuButton BitIndex="8">
+      <hButtonHash>IB_SKIP</hButtonHash>
+      <ButtonInput>INPUT_FRONTEND_X</ButtonInput>
+    </CMenuButton>
+    <CMenuButton BitIndex="9" Sound="BACK">
+      <hButtonHash>IB_CANCEL</hButtonHash>
+      <ButtonInput>INPUT_FRONTEND_PAUSE_ALTERNATE</ButtonInput>
+    </CMenuButton>
+    <CMenuButton BitIndex="10">
+      <hButtonHash>IB_ADJUST</hButtonHash>
+      <ButtonInputGroup>INPUTGROUP_FRONTEND_DPAD_LR</ButtonInputGroup>
+    </CMenuButton>
+    <CMenuButton BitIndex="11">
+      <hButtonHash>IB_IGNORE</hButtonHash>
+      <ButtonInput>INPUT_FRONTEND_X</ButtonInput>
+    </CMenuButton>
+    <CMenuButton BitIndex="12">
+      <hButtonHash>IB_SHARE</hButtonHash>
+      <ButtonInput>INPUT_FRONTEND_X</ButtonInput>
+    </CMenuButton>
+    <CMenuButton BitIndex="13">
+      <hButtonHash>HUD_SIGNIN</hButtonHash>
+      <ButtonInput>INPUT_FRONTEND_X</ButtonInput>
+    </CMenuButton>
+    <CMenuButton BitIndex="14">
+      <hButtonHash>HUD_CONTINUE</hButtonHash>
+      <ButtonInput>INPUT_FRONTEND_ACCEPT</ButtonInput>
+    </CMenuButton>
+    <CMenuButton BitIndex="15">
+      <hButtonHash>IB_ADJUST</hButtonHash>
+      <RawButtonIcon>ARROW_LEFTRIGHT</RawButtonIcon>
+    </CMenuButton>
+    <CMenuButton BitIndex="16">
+      <hButtonHash>FE_HLP5</hButtonHash>
+      <RawButtonIcon>ARROW_UPDOWN</RawButtonIcon>
+    </CMenuButton>
+    <CMenuButton BitIndex="17">
+      <hButtonHash>HUD_OVERWRITE</hButtonHash>
+      <ButtonInput>INPUT_FRONTEND_X</ButtonInput>
+    </CMenuButton>
+    <CMenuButton BitIndex="18">
+      <hButtonHash>IB_SOCIAL_CLUB</hButtonHash>
+      <ButtonInput>INPUT_FRONTEND_ACCEPT</ButtonInput>
+    </CMenuButton>
+    <CMenuButton BitIndex="19">
+      <hButtonHash>IB_CONFIRM</hButtonHash>
+      <ButtonInput>INPUT_FRONTEND_ACCEPT</ButtonInput>
+    </CMenuButton>
+    <CMenuButton BitIndex="20">
+      <hButtonHash>HUD_ENTERQUEUE</hButtonHash>
+      <ButtonInput>INPUT_FRONTEND_ACCEPT</ButtonInput>
+    </CMenuButton>
+    <CMenuButton BitIndex="21">
+      <hButtonHash>IB_RETRY</hButtonHash>
+      <ButtonInput>INPUT_FRONTEND_ACCEPT</ButtonInput>
+    </CMenuButton>
+    <CMenuButton BitIndex="22" Sound="SELECT">
+      <hButtonHash>IB_BACK</hButtonHash>
+      <ButtonInput>INPUT_FRONTEND_CANCEL</ButtonInput>
+    </CMenuButton>
+    <CMenuButton BitIndex="23">
+      <hButtonHash>IB_UPDATE_SOCIAL_CLUB</hButtonHash>
+      <ButtonInput>INPUT_FRONTEND_ACCEPT</ButtonInput>
+    </CMenuButton>
+    <CMenuButton BitIndex="24"Sound="SELECT">
+      <hButtonHash>HUD_ENTERSPEC</hButtonHash>
+      <ButtonInput>INPUT_FRONTEND_X</ButtonInput>
+    </CMenuButton>
+    <CMenuButton BitIndex="25"Sound="SELECT">
+      <hButtonHash>IB_OK</hButtonHash>
+      <ButtonInput>INPUT_FRONTEND_CANCEL</ButtonInput>
+    </CMenuButton>
+    <CMenuButton BitIndex="26"Sound="BACK">
+      <hButtonHash>HUD_CANCEL_TRANS</hButtonHash>
+      <ButtonInput>INPUT_FRONTEND_CANCEL</ButtonInput>
+    </CMenuButton>
+    <!-- BIT27 reserved for FE_WARNING_SPINNER_ONLY -->
+    <CMenuButton BitIndex="28"Sound="BACK">
+      <hButtonHash>HUD_RETSP</hButtonHash>
+      <ButtonInput>INPUT_FRONTEND_CANCEL</ButtonInput>
+    </CMenuButton>
+    <CMenuButton BitIndex="29"Sound="BACK">
+      <hButtonHash>IB_CANCEL</hButtonHash>
+      <ButtonInput>INPUT_FRONTEND_CANCEL</ButtonInput>
+    </CMenuButton>
+    <!-- BIT30 is reserved for NO SOUND -->
+    <CMenuButton BitIndex="31"Sound="EXIT">
+      <hButtonHash>FE_HLP16</hButtonHash>
+      <ButtonInput>INPUT_FRONTEND_CANCEL</ButtonInput>
+    </CMenuButton>
+    <CMenuButton BitIndex="32"Sound="BACK">
+      <hButtonHash>IB_NO</hButtonHash>
+      <ButtonInput>INPUT_FRONTEND_X</ButtonInput>
+    </CMenuButton>
+  </TextEntryBox>
+
+</frontend>
+
+<!-- eof -->

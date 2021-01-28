@@ -1,3 +1,11 @@
+
+     if NetworkIsSessionStarted() then  
+        TriggerEvent('LoadingScreen:close')
+   end
+
+
+
+
 local waiting = false
 
 local locations = {

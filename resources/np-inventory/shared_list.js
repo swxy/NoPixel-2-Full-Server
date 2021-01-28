@@ -843,3 +843,390 @@ itemList["galleryvip"]	    = {fullyDegrades: false, decayrate: 0.0, displayname:
 
 // curvy gift - can delete in merge
 itemList["curvyelephant"]	    = {fullyDegrades: false, decayrate: 0.0, displayname: "Pet Elephant", price: 1, weight: 0, nonStack: true, model:  "", image: "np_pet-elephant.png", information: "Pretty curvy", deg: false }
+
+// Progression
+itemList['godbook'] = {
+    fullyDegrades: false,
+    decayrate: 0.0,
+    displayname: 'Dummies For Dummies',
+    price: 1,
+    weight: 0,
+    nonStack: true,
+    model: '',
+    image: 'np_textbook-a.png',
+    information: 'You look like you need knowlage',
+    deg: false,
+  };
+  
+  itemList['newaccountbox'] = {
+    fullyDegrades: true,
+    decayrate: 0.02,
+    displayname: 'Presents',
+    price: 350,
+    weight: 0,
+    nonStack: false,
+    model: '',
+    image: 'np_box.png',
+    information: 'Welcome to NoPixel!',
+    deg: true,
+  };
+  
+  itemList['pimpcane'] = {
+    fullyDegrades: false,
+    decayrate: 2.0,
+    displayname: 'Cane',
+    price: 350,
+    weight: 0,
+    nonStack: false,
+    model: '',
+    image: 'np_pimp-cane.png',
+    information: 'Walk with style.',
+    deg: true,
+  };
+  
+  itemList['burgerReceipt'] = {
+    fullyDegrades: false,
+    decayrate: 0.0,
+    displayname: 'Work Receipt',
+    price: 40,
+    weight: 0,
+    nonStack: false,
+    model: '',
+    image: 'np_receipt.png',
+    information: 'BurgerShot - San Andreas & Prosperity',
+    deg: false,
+  };
+  
+  itemList['softdrink'] = {
+    fullyDegrades: true,
+    decayrate: 0.01,
+    displayname: 'Soft Drink',
+    price: 5,
+    weight: 1,
+    nonStack: false,
+    model: '',
+    image: 'np_softdrink.png',
+    information: 'Sates thirst and gives a sugar rush',
+    deg: false,
+  };
+  
+  itemList['bscoffee'] = {
+    fullyDegrades: true,
+    decayrate: 0.01,
+    displayname: 'Cheap Coffee',
+    price: 50,
+    weight: 1,
+    nonStack: false,
+    model: '',
+    image: 'np_bscoffee.png',
+    information: 'Tastes like dirt, but has the caffeine you need',
+    deg: false,
+  };
+
+
+  // weapon_taser
+itemList['-820634585'] = {
+    fullyDegrades: false,
+    decayrate: 0.5,
+    displayname: 'PD Taser',
+    price: 10,
+    craft: [
+      { itemid: 'aluminium', amount: 1 },
+      { itemid: 'plastic', amount: 1 },
+      { itemid: 'rubber', amount: 1 },
+    ],
+    weight: 11,
+    nonStack: true,
+    model: '',
+    image: 'np_stun-gun.png',
+    weapon: true,
+    deg: false,
+  };
+
+
+
+  itemList['taserammo'] = {
+    fullyDegrades: true,
+    decayrate: 0.1,
+    displayname: 'Taser Cartridges',
+    craft: [
+      { itemid: 'aluminium', amount: 1 },
+      { itemid: 'plastic', amount: 1 },
+      { itemid: 'rubber', amount: 1 },
+    ],
+    price: 10,
+    weight: 1,
+    nonStack: false,
+    model: '',
+    image: 'np_taserammo.png',
+    deg: false,
+  };
+  
+
+  
+// Nail gun nailgun
+itemList['1748076076'] = {
+    fullyDegrades: false,
+    decayrate: 0.0,
+    displayname: 'Nail gun',
+    price: 10,
+    craft: [
+      { itemid: 'aluminium', amount: 1 },
+      { itemid: 'plastic', amount: 1 },
+      { itemid: 'rubber', amount: 1 },
+    ],
+    weight: 11,
+    nonStack: true,
+    model: '',
+    image: 'np_nailgun.png',
+    weapon: true,
+    deg: true,
+  };
+
+
+  // weapon_glock
+itemList['-120179019'] = {
+    fullyDegrades: false,
+    decayrate: 1.0,
+    displayname: 'PD Glock',
+    price: 10,
+    craft: [
+      { itemid: 'aluminium', amount: 1 },
+      { itemid: 'plastic', amount: 1 },
+      { itemid: 'rubber', amount: 1 },
+    ],
+    weight: 11,
+    nonStack: true,
+    model: '',
+    image: 'np_glock.png',
+    weapon: true,
+    deg: true,
+  };
+
+  
+// FISHING
+itemList['fishingrod'] = {
+  fullyDegrades: false,
+  decayrate: 0.0,
+  displayname: 'Fishing Rod',
+  price: 100,
+  weight: 10,
+  nonStack: true,
+  model: '',
+  image: 'np_fishing-rod.png',
+  information: 'Lets fish',
+  deg: false,
+};
+
+itemList['fishingbass'] = {
+  fullyDegrades: true,
+  decayrate: 0.02,
+  displayname: 'Bass',
+  price: 1,
+  weight: 1,
+  nonStack: false,
+  model: '',
+  image: 'np_fishing-bass.png',
+  information: 'Striped Bass. Bass like the fish, not the officer',
+  deg: false,
+};
+
+itemList['fishingbluefish'] = {
+  fullyDegrades: true,
+  decayrate: 0.02,
+  displayname: 'Bluefish',
+  price: 1,
+  weight: 1,
+  nonStack: false,
+  model: '',
+  image: 'np_fishing-bluefish.png',
+  information: 'Whoever coined this name was a genius',
+  deg: false,
+};
+
+itemList['fishingflounder'] = {
+  fullyDegrades: true,
+  decayrate: 0.02,
+  displayname: 'Flounder',
+  price: 1,
+  weight: 1,
+  nonStack: false,
+  model: '',
+  image: 'np_fishing-flounder.png',
+  information: 'I went fishing and all I got was this lousy flounder',
+  deg: false,
+};
+
+itemList['fishingmackerel'] = {
+  fullyDegrades: true,
+  decayrate: 0.02,
+  displayname: 'Mackerel',
+  price: 1,
+  weight: 1,
+  nonStack: false,
+  model: '',
+  image: 'np_fishing-mackerel.png',
+  information: 'Sometimes holy',
+  deg: false,
+};
+
+itemList['fishingcod'] = {
+  fullyDegrades: true,
+  decayrate: 0.02,
+  displayname: 'Cod',
+  price: 1,
+  weight: 1,
+  nonStack: false,
+  model: '',
+  image: 'np_fishing-cod.png',
+  information: 'Modern Warfare',
+  deg: false,
+};
+
+itemList['fishingwhale'] = {
+  fullyDegrades: true,
+  decayrate: 0.02,
+  displayname: 'Baby Whale',
+  price: 1,
+  weight: 100,
+  nonStack: true,
+  model: '',
+  image: 'np_fishing-whale.png',
+  information: 'A fucking whale! Someone might be interested in buying it? Lol, jk. Throw it back. Unless..?',
+  deg: false,
+};
+
+itemList['fishingdolphin'] = {
+  fullyDegrades: true,
+  decayrate: 0.02,
+  displayname: 'Baby Dolphin',
+  price: 1,
+  weight: 100,
+  nonStack: true,
+  model: '',
+  image: 'np_fishing-dolphin.png',
+  information: 'A fucking dolphin! Someone might be interested in buying it? Lol, jk. Throw it back. Unless..?',
+  deg: false,
+};
+
+itemList['fishingshark'] = {
+  fullyDegrades: true,
+  decayrate: 0.02,
+  displayname: 'Baby Shark',
+  price: 1,
+  weight: 100,
+  nonStack: true,
+  model: '',
+  image: 'np_fishing-shark.png',
+  information: 'A fucking shark! Someone might be interested in buying it? Lol, jk. Throw it back. Unless..?',
+  deg: false,
+};
+
+// FISHING JUNK
+
+itemList['fishingboot'] = {
+  fullyDegrades: true,
+  decayrate: 0.02,
+  displayname: 'Boot',
+  price: 1,
+  weight: 1,
+  nonStack: false,
+  model: '',
+  image: 'np_fishingboot.png',
+  information: 'insert shit here',
+  deg: false,
+};
+
+itemList['fishinglog'] = {
+  fullyDegrades: true,
+  decayrate: 0.02,
+  displayname: 'Log',
+  price: 1,
+  weight: 1,
+  nonStack: false,
+  model: '',
+  image: 'np_fishinglog.png',
+  information: 'insert shit here',
+  deg: false,
+};
+
+itemList['fishingtin'] = {
+  fullyDegrades: true,
+  decayrate: 0.02,
+  displayname: 'Tincan',
+  price: 1,
+  weight: 1,
+  nonStack: false,
+  model: '',
+  image: 'np_fishingtin.png',
+  information: 'insert shit here',
+  deg: false,
+};
+
+itemList['-102323637'] = {
+  fullyDegrades: true,
+  decayrate: 0.02,
+  displayname: 'Old broken bottle',
+  price: 1,
+  weight: 1,
+  nonStack: false,
+  model: '',
+  image: 'np_glass-bottle.png',
+  information: 'insert shit here',
+  deg: false,
+};
+
+itemList['fishingtacklebox'] = {
+  fullyDegrades: true,
+  decayrate: 0.02,
+  displayname: 'Tackle box',
+  price: 1,
+  weight: 1,
+  nonStack: false,
+  model: '',
+  image: 'np_fishingtacklebox.png',
+  information: 'insert shit here',
+  deg: false,
+};
+
+itemList['fishingchest'] = {
+  fullyDegrades: true,
+  decayrate: 0.02,
+  displayname: 'Treasure chest',
+  price: 1,
+  weight: 1,
+  nonStack: false,
+  model: '',
+  image: 'np_fishingchest.png',
+  information: 'insert shit here',
+  deg: false,
+};
+
+itemList['fishinglockbox'] = {
+  fullyDegrades: true,
+  decayrate: 0.02,
+  displayname: 'Lockbox',
+  price: 1,
+  weight: 1,
+  nonStack: false,
+  model: '',
+  image: 'np_fishinglockbox.png',
+  information: 'insert shit here',
+  deg: false,
+};
+
+itemList['fishingtunac'] = {
+  fullyDegrades: true,
+  decayrate: 0.1,
+  displayname: 'Tuna Chip',
+  craft: [{ itemid: 'electronics', amount: 100 }],
+  price: 500,
+  weight: 0,
+  nonStack: false,
+  model: '',
+  image: 'np_tuner.png',
+  information: 'Works better on boats.',
+  deg: false,
+};
+
+// FISHING END

@@ -276,6 +276,7 @@ end)
 
 AddEventHandler("playerSpawned", function()
 	TriggerServerEvent('doctor:setTriageState')
+	TriggerEvent("loading:disableLoading")
 end)
 
 RegisterNetEvent("doctor:setTriageState")

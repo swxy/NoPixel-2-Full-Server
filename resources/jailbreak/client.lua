@@ -691,6 +691,8 @@ AddEventHandler('beginJail', function(skipintake,time,name,cid,date)
     end
     
     SetEntityCoords(playerPed, cellcoords[mycell].x,cellcoords[mycell].y,cellcoords[mycell].z ) 
+
+    TriggerServerEvent("updateJailTime",minutes)
  
     InmateDelete()
     InmateCreate()
@@ -744,7 +746,6 @@ AddEventHandler('beginJail', function(skipintake,time,name,cid,date)
             return
         end
 
-        TriggerServerEvent("updateJailTime",0)
         -- if not jailbreak then
         --     TriggerEvent("DoLongHudText", "You are free!.",1)
         --     TriggerEvent("givePhone")

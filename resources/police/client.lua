@@ -1398,7 +1398,8 @@ end)
 RegisterNetEvent('police:jailing')
 AddEventHandler('police:jailing', function(args)
 	Citizen.Trace("Jailing in process.")
-	TriggerServerEvent( 'police:jailGranted', args )
+	TriggerServerEvent('police:jailGranted', args )
+	TriggerServerEvent('updateJailTime', tonumber(args[2]))
 end)
 
 RegisterNetEvent('police:payFines')
@@ -1408,6 +1409,12 @@ AddEventHandler('police:payFines', function(amount)
 	TriggerEvent('chatMessage', "BILL ", {255, 140, 0}, "You were billed for ^2" .. tonumber(amount) .. " ^0dollar(s).")
 
 
+end)
+
+
+RegisterNetEvent('startJail')
+AddEventHandler('startJail', function(minutes)
+	TriggerServerEvent('updateJailTime', tonumber(minutes))
 end)
 
 RegisterNetEvent('police:forceEnter')

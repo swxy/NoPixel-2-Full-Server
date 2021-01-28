@@ -446,6 +446,7 @@ $(document).ready(function () {
             case "racing-start":
                 $('#racing-start-tracks').empty();
                 maps = item.maps;
+                console.log('maps ' + item.maps.track_n)
                 addRacingTracks(maps);
                 openContainer('racing-start');
                 break;
@@ -638,7 +639,7 @@ function racingStartsTimer() {
     $('.racing-entries .racing-start-timer').each(function () {
 //        console.log("Fat peen");
         let startTime = moment.utc($(this).data('start-time'));
-        console.log(startTime.diff(moment.utc()));
+        // console.log(startTime.diff(moment.utc()));
         if (startTime.diff(moment.utc()) > 0) {
             let formatedTime = makeTimer(startTime);
             $(this).text(`Starts in ${formatedTime.minutes} min ${formatedTime.seconds} sec`);
@@ -699,6 +700,7 @@ function addRace(race, raceId) {
 function addRaces(races) {
     for (let race in races) {
         let curRace = races[race]
+        console.log(curRace)
         addRace(curRace, race);
     }
 }

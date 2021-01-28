@@ -210,6 +210,7 @@ AddEventHandler('police:jailGranted', function(args)
 	TriggerClientEvent('chatMessage', src, "JAILED ", 3, "" .. playerName .. " has been put in jail for " .. tonumber(args[2]) .. " month(s) for " .. reason)
 	
 	TriggerClientEvent('beginJail', player, false,args[2], playerName, character.id, date)
+	
 
 	local date = os.date("%c")
 	TriggerClientEvent("drawScaleformJail", -1,tonumber(args[2]),playerName,character.id,date)

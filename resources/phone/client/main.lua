@@ -2065,8 +2065,8 @@ function LoadMapBlips(id, reverseTrack, laps)
   local id = tostring(id)
   ClearBlips()
   loadCheckpointModels()
-  if(customMaps[id].checkpoints ~= nil) then
-    local checkpoints = customMaps[id].checkpoints
+  if(customMaps[id].checkPoints ~= nil) then
+    local checkpoints = customMaps[id].checkPoints
     if reverseTrack then
       local newCheckpoints = {}
       local count = 1
@@ -2160,6 +2160,7 @@ function StartEvent(map,laps,counter,reverseTrack,raceName, startTime, mapCreato
   local street1 = street1 .. ", " .. playerStreetsLocation
   local street2 = GetStreetNameFromHashKey(s2) .. " " .. dir
   TriggerServerEvent("racing-global-race",map, laps, counter, reverseTrack, uniqueid, cid, raceName, startTime, mapCreator, mapDistance, mapDescription, street1, street2)
+  print('kekw ', map, laps, counter, reverseTrack, uniqueid, cid, raceName, startTime, mapCreator, mapDistance, mapDescription, street1, street2)
 end
 
 function hudUpdate(pHudState, pHudData)
@@ -2173,6 +2174,10 @@ function hudUpdate(pHudState, pHudData)
 end
 
 function RunRace(identifier)
+
+  print('getting here')
+
+  print('identifier = ', identifier)
 
   local map = currentRaces[identifier].map
   local laps = currentRaces[identifier].laps
@@ -2210,7 +2215,7 @@ function RunRace(identifier)
     maxCheckpoints = checkpoints
   })
 
-  local tempCheckpoints = customMaps[map].checkpoints
+  local tempCheckpoints = customMaps[map].checkPoints
   if currentRaces[identifier].reverseTrack then
     local newCheckpoints = {}
     local count = 1
@@ -2339,12 +2344,12 @@ end
 
 RegisterNUICallback('racing:events:list', function()
   local rank = exports["isPed"]:GroupRank("ug_racing")
+  TriggerServerEvent("racing-retreive-maps")
   SendNUIMessage({
     openSection = "racing:events:list",
       races = currentRaces,
-      canMakeMap = (rank >= 4 and true or false)
+      canMakeMap = (true)
     });
-    TriggerServerEvent("racing-retreive-maps")
 end)
 
 RegisterNUICallback('racing:events:highscore', function()
@@ -2427,6 +2432,7 @@ end)
 
 -- Fix
 RegisterNUICallback('racing:event:start', function(data)
+  print('start race ', json.encode(data))
   StartEvent(data.raceMap, data.raceLaps, data.raceCountdown, data.reverseTrack, data.raceName, data.raceStartTime, data.mapCreator, data.mapDistance, data.mapDescription)
   Wait(500)
   SendNUIMessage({
@@ -2479,13 +2485,15 @@ end)
 
 RegisterNetEvent('racing:data:set')
 AddEventHandler('racing:data:set', function(data)
-  print('racing:data:set', json.encode(data))
+  print('r ', json.encode(data))
+  print('event ', data.event)
   if(data.event == "map") then
     if (data.eventId ~= -1) then
       customMaps[data.eventId] = data.data
     else
       customMaps = data.data
       if(data.subEvent == nil or data.subEvent ~= "noNUI") then
+        print('data ', json.encode(data.data))
         SendNUIMessage({
           openSection = 'racing-start',
           maps = customMaps
@@ -2494,6 +2502,7 @@ AddEventHandler('racing:data:set', function(data)
     end
   elseif (data.event == "event") then
     if (data.eventId ~= -1) then
+      print('cuck lord lol')
       currentRaces[data.eventId] = data.data
       if JoinedRaces[data.eventId] and racing and data.subEvent == "close" then
         RunRace(data.eventId)

@@ -915,8 +915,10 @@ local dataObject = {
 }
     if (changeType == "event") then
         dataObject.data = (pEventId == -1 and Races[pEventId] or Races)
+        print('kekw ', json.encode(dataObject.data))
     elseif (changeType == "map") then
         dataObject.data = (pEventId == -1 and BuiltMaps[pEventId] or BuiltMaps)
+        print('kekw ', json.encode(dataObject.data))
     end
     TriggerClientEvent("racing:data:set", clientId, dataObject)
 end)

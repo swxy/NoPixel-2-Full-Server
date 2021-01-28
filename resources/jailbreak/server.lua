@@ -4,9 +4,11 @@ AddEventHandler("updateJailTime", function(minutes)
     local user = exports["np-base"]:getModule("Player"):GetUser(src)
 	local char = user:getCurrentCharacter()
     if minutes == 0 then
+        print('oof ', minutes)
         TriggerClientEvent('endJailTime', src)
     else
-        exports.ghmattimysql:execute("UPDATE `characters` SET `jail_time` = '" .. minutes .. "' WHERE `id` = '" .. char.id .. "'")
+        print('trying ', minutes)
+        exports.ghmattimysql:execute("UPDATE `characters` SET `jail_time` = '" .. tonumber(minutes) .. "' WHERE `id` = '" .. char.id .. "'")
     end
 end)
 

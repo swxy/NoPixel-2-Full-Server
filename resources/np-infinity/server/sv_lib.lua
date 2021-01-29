@@ -12,7 +12,7 @@ AddEventHandler('np:infinity:entity:coords', function(netId)
     
     TriggerClientEvent('np:infinity:player:coords', source, coords)
 end)
-
+--[[
  Citizen.CreateThread(function()
      while true do
          Citizen.Wait(30000)
@@ -23,3 +23,5 @@ end)
    print("[^2np-infinity^0]^3 Sync Successful.^0")
      end
  end)
+
+ ---]]

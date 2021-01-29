@@ -357,7 +357,7 @@ else if(secondInventory == "47")
 {
     var targetinvname = targetName;
     var shopArray = EMT();
-    var shopAmount = 11;
+    var shopAmount = 13;
     emitNet("inventory-open-target", src, [invArray,arrayCount,playerinvname,shopArray,shopAmount,targetinvname,500,false]);
 }    
 else if(secondInventory == "14")
@@ -407,7 +407,7 @@ else if(secondInventory == "12")
 {
     var targetinvname = targetName;
     var shopArray = Mechanic();
-    var shopAmount = 4;
+    var shopAmount = 6;
     emitNet("inventory-open-target", src, [invArray,arrayCount,playerinvname,shopArray,shopAmount,targetinvname,500,false]);
 }
 else if(secondInventory == "141")
@@ -417,13 +417,7 @@ else if(secondInventory == "141")
     var shopAmount = 8;
     emitNet("inventory-open-target", src, [invArray,arrayCount,playerinvname,shopArray,shopAmount,targetinvname,500,false]);
 }
-else if(secondInventory == "611")
-{
-    var targetinvname = targetName;
-    var shopArray = Mechanic();
-    var shopAmount = 4;
-    emitNet("inventory-open-target", src, [invArray,arrayCount,playerinvname,shopArray,shopAmount,targetinvname,500,false]);
-}
+
     else if(secondInventory == "31")
 {
     var targetinvname = targetName;
@@ -698,15 +692,6 @@ onNet("server-inventory-move", async (player, data, coords) => {
             for (let i = 0; i < parseInt(amount); i++) {
         
                 db(`INSERT INTO user_inventory2 (item_id, name, information, slot, creationDate) VALUES ('${itemidsent}','${targetName}','${info}','${targetslot}','${creationDate}' );`);
-            }
-        } else if (PlayerStore) {
-             payStore(startname,itemCosts,itemidsent)
-           
-                db(`INSERT INTO user_inventory2 (item_id, name, information, slot, creationDate) VALUES ('${itemidsent}','${targetName}','${info}','${targetslot}','${creationDate}' );`);
-
-            for (let i = 0; i < parseInt(amount); i++) {
-                db(`UPDATE user_inventory2 SET slot='${targetslot}', name='${targetName}', dropped='0' WHERE slot='${startslot}' and name='${startname}'`);
- 
             }
         } else if (crafting) {
      

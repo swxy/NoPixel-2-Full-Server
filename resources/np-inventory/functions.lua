@@ -78,19 +78,17 @@ end)
 RegisterNetEvent('RunUseItem')
 AddEventHandler('RunUseItem', function(itemid, slot, inventoryName, isWeapon)
 
-     if itemid == nil then
+    if itemid == nil then
         return
     end
     local ItemInfo = GetItemInfo(slot)
-    if ItemInfo.quality == nil then return end
-    if ItemInfo.quality < 1 then
-        TriggerEvent("DoLongHudText","Item is too worn.",2)
-        if isWeapon then
-            TriggerEvent("brokenWeapon")
-        end
-        return
-    end
-
+    -- if tonumber(ItemInfo.quality) < 1 then
+    --     TriggerEvent("DoLongHudText","Item is too worn.",2) 
+    --     if isWeapon then
+    --         TriggerEvent("brokenWeapon")
+    --     end
+    --     return
+    -- end
 
     if justUsed then
         retardCounter = retardCounter + 1
@@ -962,6 +960,23 @@ end)
 Citizen.CreateThread(function()
     while true do
         Citizen.Wait(1)
+        local cuntfuck = #(GetEntityCoords(PlayerPedId()) - vector3(953.29, -977.82,39.49))
+		if cuntfuck < 2.5 then
+				DrawText3Ds(953.29, -977.82,39.49, "[E] to open Mechanic Crafting") 			
+                if IsControlJustPressed(1, 38) and exports["isPed"]:GroupRank("tuner_carshop") > 3 then
+                    TriggerEvent("server-inventory-open", "27", "Craft");
+
+                end
+            end
+         end
+end)
+
+
+
+
+Citizen.CreateThread(function()
+    while true do
+        Citizen.Wait(1)
         local cuntfuck = #(GetEntityCoords(PlayerPedId()) - vector3(256.2986, -369.2406,-44.13768))
 		if cuntfuck < 2.5 then
 				DrawText3Ds(256.2986, -369.2406,-44.13768, "[E] to buy a ID Card ($500)") 			
@@ -972,7 +987,6 @@ Citizen.CreateThread(function()
             end
          end
 end)
-
 
 
 function GetItemInfo(checkslot)

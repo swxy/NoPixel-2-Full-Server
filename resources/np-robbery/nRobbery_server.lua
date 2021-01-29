@@ -135,7 +135,7 @@ AddEventHandler('robbery:robberyFailed', function(locationID, itemid)
 
     TriggerClientEvent('robbery:sendFlags', -1, flags)
 end)
-
+--[[
 RegisterCommand('fuck', function()
     TriggerClientEvent('robbery:sendServerFlags', -1, Prison_Electric_State,Prison_Physical_State,false,Prison_Power_State,true,Paleto_Power_State,CityCard,PaletoCard)
 end)
@@ -146,7 +146,7 @@ RegisterCommand('setstate', function()
     TriggerClientEvent('robbery:sendServerFlags', -1, Prison_Electric_State,Prison_Physical_State,false,Prison_Power_State,door,Paleto_Power_State,CityCard,PaletoCard)
     end)
     
-
+--]]
 RegisterNetEvent("robbery:robberyFinished")
 AddEventHandler("robbery:robberyFinished", function(locationID, ToolType, itemid)
     local src = source

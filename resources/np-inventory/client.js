@@ -131,14 +131,41 @@ on('Inventory-brought-update', (broughtData) => {
 	hadBrought = JSON.parse(broughtData)
 })
 
-RegisterNetEvent('player:receiveItem')
-on('player:receiveItem', (id, amount,generateInformation, itemdata) => {
-	if (personalWeight > 250) {
-		emit("DoLongHudText","Failed to give " + id + " because you were overweight!",2)
-		return
-	}
-	SendNuiMessage(JSON.stringify({ response: "GiveItemChecks", id: id, amount: amount, generateInformation: generateInformation, data: Object.assign({}, itemdata) }))
-})
+RegisterNetEvent('player:receiveItem');
+on('player:receiveItem', (id, amount, generateInformation, itemdata, returnData = '{}') => {
+    if (!(id in itemList)) {
+        //Try to hash the ID
+        let hashed = GetHashKey(id);
+        if (hashed in itemList) {
+            id = hashed;
+        } else {
+            //If item is still not found, try to find by name
+            Object.keys(itemList).forEach(function (key) {
+                if (itemList[key].displayname.toLowerCase().trim().replace(' ', '') === id.toLowerCase().trim().replace(' ', '')) {
+                    id = key;
+                    return;
+                }
+            });
+        }
+    }
+
+    let combined = parseFloat(itemList[id].weight) * parseFloat(amount);
+    if (parseFloat(personalWeight) > 250 || parseFloat(personalWeight) + combined > 250) {
+        emit('DoLongHudText', 'Failed to give ' + id + ' because you were overweight!', 2);
+        //TODO: Drop item on ground?
+        return;
+    }
+    SendNuiMessage(
+        JSON.stringify({
+            response: 'GiveItemChecks',
+            id: id,
+            amount: amount,
+            generateInformation: generateInformation,
+            data: Object.assign({}, itemdata),
+            returnData: returnData,
+        }),
+    );
+});
 
 
 

@@ -239,11 +239,11 @@ AddEventHandler("car:testdrive", function()
 	end
 
 end)
-
+--[[
 RegisterCommand('finance', function()
 	TriggerEvent('finance2')
 end)
-
+--]]
 
 RegisterNetEvent("finance2")
 AddEventHandler("finance2", function()

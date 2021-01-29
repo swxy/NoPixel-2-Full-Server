@@ -605,7 +605,7 @@ AddEventHandler("car:testdrive", function()
 
 end)
 
-RegisterCommand('enablefinance', function()
+RegisterCommand('finance', function()
 TriggerEvent('finance')
 end)
 	

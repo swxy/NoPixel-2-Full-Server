@@ -21,17 +21,19 @@ function PoliceArmory() {
 
 function EMT() {
     var shopItems = [
-        { item_id: "watch", id: 0, name: "Shop", information: "{}", slot: 1, amount: 50 },
-        { item_id: "IFAK", id: 0, name: "Shop", information: "{}", slot: 2, amount: 50 },
-        { item_id: "repairkit", id: 0, name: "Shop", information: "{}", slot: 3, amount: 50 },
-        { item_id: "radio", id: 0, name: "Shop", information: "{}", slot: 4, amount: 50 },
-        { item_id: "bandage", id: 0, name: "Shop", information: "{}", slot: 5, amount: 50 },
-        { item_id: "aspirin", id: 0, name: "Shop", information: "{}", slot: 6, amount: 50 },
-        { item_id: "bodybag", id: 0, name: "Shop", information: "{}", slot: 7, amount: 50 },
-        { item_id: "organcooler", id: 0, name: "Shop", information: "{}", slot: 8, amount: 50 },
-        { item_id: "bloodbag", id: 0, name: "Shop", information: "{}", slot: 9, amount: 50 },
-        { item_id: "bloodvial", id: 0, name: "Shop", information: "{}", slot: 10, amount: 50 },
-        { item_id: "MedicalBag", id: 0, name: "Shop", information: "{}", slot: 11, amount: 50 },
+        { item_id: "watch", id: 0, name: "Shop", information: "{}", slot: 1, amount: 1 },
+        { item_id: "IFAK", id: 0, name: "Shop", information: "{}", slot: 2, amount: 5 },
+        { item_id: "repairkit", id: 0, name: "Shop", information: "{}", slot: 3, amount: 5 },
+        { item_id: "radio", id: 0, name: "Shop", information: "{}", slot: 4, amount: 1 },
+        { item_id: "bandage", id: 0, name: "Shop", information: "{}", slot: 5, amount: 5 },
+        { item_id: "aspirin", id: 0, name: "Shop", information: "{}", slot: 6, amount: 1 },
+        { item_id: "bodybag", id: 0, name: "Shop", information: "{}", slot: 7, amount: 1 },
+        { item_id: "organcooler", id: 0, name: "Shop", information: "{}", slot: 8, amount: 1 },
+        { item_id: "bloodbag", id: 0, name: "Shop", information: "{}", slot: 9, amount: 1 },
+        { item_id: "bloodvial", id: 0, name: "Shop", information: "{}", slot: 10, amount: 1 },
+        { item_id: "MedicalBag", id: 0, name: "Shop", information: "{}", slot: 11, amount: 1 },
+        { item_id: "flowers", id: 0, name: "Shop", information: "{}", slot: 12, amount: 1 },
+        { item_id: "101631238", id: 0, name: "Shop", information: "{}", slot: 13, amount: 1 },
     ];
     return JSON.stringify(shopItems);
 }
@@ -127,13 +129,14 @@ function JailMeth() {
 
 
 
-
 function Mechanic() {
     var shopItems = [
-        { item_id: "lockpick", id: 0, name: "craft", information: "{}", slot: 1, amount: 5 },
-        { item_id: "advlockpick", id: 0, name: "craft", information: "{}", slot: 2, amount: 5 },
-        { item_id: "repairkit", id: 0, name: "craft", information: "{}", slot: 3, amount: 5 },
-        { item_id: "advrepairkit", id: 0, name: "craft", information: "{}", slot: 4, amount: 5 },
+        { item_id: "lockpick", id: 0, name: "Craft", information: "{}", slot: 1, amount: 5 },
+        { item_id: "advlockpick", id: 0, name: "Craft", information: "{}", slot: 2, amount: 5 },
+        { item_id: "repairkit", id: 0, name: "Craft", information: "{}", slot: 3, amount: 5 },
+        { item_id: "advrepairkit", id: 0, name: "Craft", information: "{}", slot: 4, amount: 5 },
+        { item_id: "tuner", id: 0, name: "Craft", information: "{}", slot: 5, amount: 5 },
+        { item_id: "nitrous", id: 0, name: "Craft", information: "{}", slot: 6, amount:5 },
     ];
     return JSON.stringify(shopItems);
 }

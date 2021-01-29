@@ -30,9 +30,11 @@ AddEventHandler("Crypto:RemovePixerium", function(amount)
   updateServerClientStocks()
   Citizen.Trace("Lost crypto")
 end)
+--[[
 RegisterCommand("omglol", function(source, args)
 TriggerServerEvent('stocksreplace', json.encode(clientstockamount))
 end)
+--]]
 
 RegisterNetEvent('stocks:payupdate');
 AddEventHandler('stocks:payupdate', function()

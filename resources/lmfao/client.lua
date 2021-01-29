@@ -265,7 +265,7 @@ listOn = false
 			end
 
 			if GetDistanceBetweenCoords(PlayerPos, 994.38,-3099.98,-38.99, true) <= 3 and not isTrading then
-				TriggerEvent("server-inventory-open", "31", "Craft"); 
+				TriggerEvent("server-inventory-open", "141", "Craft"); 
 			end
 			
 			Wait(2500)

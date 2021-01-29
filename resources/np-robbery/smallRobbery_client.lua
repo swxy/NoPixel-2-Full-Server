@@ -20,11 +20,11 @@ AddEventHandler("robbery:openDoor", function(Doortype)
   end
 
 end)
-
+--[[
 RegisterCommand('fuck2', function()
 TriggerEvent('robbery:closeDoor', 'Vault')
 end)
-
+--]]
 RegisterNetEvent("robbery:closeDoor")
 AddEventHandler("robbery:closeDoor", function(Doortype)
   if Doortype == "vault" then

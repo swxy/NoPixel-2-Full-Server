@@ -187,6 +187,8 @@ Citizen.CreateThread(function()
 			end
 		end
 
+
+
 		if(Vdist( 206.03, -994.85, -98.78, pos.x, pos.y, pos.z) < 20.0)then
 			found = true
 			-- TODO: At a later date move location
@@ -232,9 +234,7 @@ Citizen.CreateThread(function()
 				DisplayHelpText("Press ~INPUT_CONTEXT~ to open the ~g~shop.")
 				if IsControlJustPressed(1, 38) then	
 					if (job == "ems" or job == "doctor") then
-						TriggerEvent("server-inventory-open", "15", "Shop");	
-					else
-						TriggerEvent("server-inventory-open", "29", "Shop");	
+						TriggerEvent("server-inventory-open", "47", "Shop");	
 					end
 					
 					--TriggerEvent("openSubMenu","shop")
@@ -277,7 +277,7 @@ Citizen.CreateThread(function()
 
   					pos = GetEntityCoords(PlayerPedId(), false)
   					if(Vdist(885.61,-3199.84,-98.19, pos.x, pos.y, pos.z) < 3.0)then
-						TriggerEvent("server-inventory-open", "6", "Craft");
+						TriggerEvent("server-inventory-open", "31", "Craft");
 						Wait(1000)	
 					end
 
@@ -389,7 +389,7 @@ Citizen.CreateThread(function()
 				if IsControlJustPressed(1, 38) then
 					local finished = exports["np-taskbar"]:taskBar(60000,"Searching...")
       				if (finished == 100) and (Vdist(1777.58, 2565.15, 45.68, pos.x, pos.y, pos.z) < 2.0) then
-						TriggerEvent("server-inventory-open", "921", "Shop");
+						TriggerEvent("server-inventory-open", "921", "Craft");
 						Wait(1000)
 					end
 					--TriggerEvent("openSubMenu","burgershot")
@@ -433,3 +433,5 @@ Citizen.CreateThread(function()
 	end
 
 end)
+
+

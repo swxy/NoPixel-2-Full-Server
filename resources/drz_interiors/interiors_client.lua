@@ -82,8 +82,8 @@ interiors = {
 	[38] = { ['xo'] = 334.85,['yo'] = -590.61,['zo'] = 43.3,['ho'] = 69.32, ['xe'] = 334.85,['ye'] = -590.61,['ze'] = 43.3,['he'] = 69.32, ["name"] = 'Hospital Rooms', ["locked"] = true },
 
 	[39] = { ["xe"] = 224.834991455, ["ye"] = -419.5123291015, ["ze"] = -118.1995620727, ["he"] = 0.000, ["xo"] = 238.3043823242, ["yo"] = -412.010040283, ["zo"] = 48.11193847656, ["ho"] = 0.00, ["name"] = 'Judge Offices', ["locked"] = false },
-
-	[40] = { ['xo'] = 930.01,['yo'] = 43.33,['zo'] = 81.1,['ho'] = 52.76, ['xe'] = 889.861,['ye'] = 9.36351,['ze'] = -185.046,['he'] = 283.14, ["name"] = 'Casino', ["locked"] = false },
+	
+	[40] = { ['xo'] = 929.78,['yo'] = 43.33,['zo'] = 81.1,['ho'] = 52.76, ['xe'] = 1089.83,['ye'] = 206.84,['ze'] = -49.0,['he'] = 283.14, ["name"] = 'Casino', ["locked"] = false },
 
 	[41] = { ['xe'] = 1759.56,['ye'] = 2513.16,['ze'] = 45.78,['he'] = 0.97, ['xo'] = 1747.03,['yo'] = 2644.49,['zo'] = 48.11,['ho'] = 85.94, ["name"] = 'Jail Block Police', ["locked"] = false },
 
@@ -480,83 +480,6 @@ spawnedPedLocations = {
 	[31] = { ["pedType"] = 1092080539, ["x"] = 2112.0483398438, ["y"] = 2948.0483398438, ["z"] = -65.501899719238, ["h"] = 180.2264251709},
 }
 
-spawnedPedsCasino = {}
-spawnedPedLocationsCasino = {
-	[1] =  { ["pedType"] = 's_f_y_bartender_01', ['x'] = 907.15,['y'] = 27.41,['z'] = -185.04,['h'] = 15.05, ['info'] = ' Bartender Casino' },
-	[2] =  { ["pedType"] = 's_f_y_bartender_01', ['x'] = 911.42,['y'] = 26.52,['z'] = -185.04,['h'] = 318.0, ['info'] = ' Bartender Casino' },
-	[3] =  { ["pedType"] = 's_f_y_bartender_01', ['x'] = 914.55,['y'] = 23.14,['z'] = -185.04,['h'] = 280.24, ['info'] = ' Bartender Casino' },
-	[4] =  { ["pedType"] = 's_m_m_security_01', ['x'] = 919.03,['y'] = 38.81,['z'] = -185.04,['h'] = 323.54, ['info'] = ' Security Casino' },
-	[5] =  { ["pedType"] = 's_m_m_security_01', ['x'] = 933.79,['y'] = 48.19,['z'] = -185.04,['h'] = 47.33, ['info'] = ' Security Casino' },
-	[6] =  { ["pedType"] = 'a_m_y_business_01', ['x'] = 918.67,['y'] = 47.27,['z'] = -185.04,['h'] = 190.72, ['info'] = ' Smoker Casino' },
-	[7] =  { ["pedType"] = 'a_m_y_business_02', ['x'] = 912.74,['y'] = 29.1,['z'] = -185.04,['h'] = 138.25, ['info'] = ' Smoker Casino' },
-	[8] =  { ["pedType"] = 'a_m_y_business_03', ['x'] = 916.64,['y'] = 27.58,['z'] = -185.04,['h'] = 49.11, ['info'] = ' Civilian Casino' },
-	[9] =  { ["pedType"] = 'a_m_y_business_01', ['x'] = 920.53,['y'] = 35.05,['z'] = -185.04,['h'] = 1.38, ['info'] = ' Civilian Casino' },
-	[10] =  { ["pedType"] = 'a_m_y_business_02', ['x'] = 918.69,['y'] = 45.73,['z'] = -185.04,['h'] = 4.15, ['info'] = ' Civilian Casino' },
-	[11] =  { ["pedType"] = 'a_m_y_business_03', ['x'] = 930.81,['y'] = 56.8,['z'] = -185.04,['h'] = 11.45, ['info'] = ' Civilian Casino' },
-	[12] =  { ["pedType"] = 'a_f_y_business_01', ['x'] = 894.86,['y'] = 8.45,['z'] = -185.04,['h'] = 126.42, ['info'] = ' Civilian Casino' },
-	[13] =  { ["pedType"] = 'ig_lifeinvad_02', ['x'] = 893.6,['y'] = -2.65,['z'] = -185.04,['h'] = 162.36, ['info'] = ' Civilian Casino' },
-	[14] =  { ["pedType"] = 'a_f_m_bevhills_01', ['x'] = 903.33,['y'] = 10.42,['z'] = -185.04,['h'] = 174.13, ['info'] = ' Civilian Casino' },
-	[15] =  { ["pedType"] = 'a_m_m_bevhills_02', ['x'] = 916.58,['y'] = 28.46,['z'] = -180.9,['h'] = 324.91, ['info'] = ' Civilian Casino' },
-	[16] =  { ["pedType"] = 'a_f_m_bevhills_02', ['x'] = 915.4,['y'] = 37.0,['z'] = -180.89,['h'] = 349.61, ['info'] = ' Civilian Casino' },
-	[17] =  { ["pedType"] = 'a_m_y_business_01', ['x'] = 922.91,['y'] = 39.88,['z'] = -180.89,['h'] = 283.8, ['info'] = ' Civilian Casino' },
-	[18] =  { ["pedType"] = 'a_f_y_business_02', ['x'] = 923.9,['y'] = 47.73,['z'] = -180.88,['h'] = 346.23, ['info'] = ' Civilian Casino' },
-	[19] =  { ["pedType"] = 'a_m_m_soucent_02', ['x'] = 933.04,['y'] = 55.24,['z'] = -180.74,['h'] = 299.3, ['info'] = ' Civilian Casino' },
-	[20] =  { ["pedType"] = 'ig_lifeinvad_02', ['x'] = 937.34,['y'] = 53.11,['z'] = -180.74,['h'] = 168.08, ['info'] = ' Civilian Casino' },
-	[21] =  { ["pedType"] = 'a_m_y_business_02', ['x'] = 929.77,['y'] = 62.36,['z'] = -180.74,['h'] = 63.9, ['info'] = ' Civilian Casino' },
-	[22] =  { ["pedType"] = 'a_f_y_business_01', ['x'] = 916.96,['y'] = 49.98,['z'] = -180.89,['h'] = 142.33, ['info'] = ' Civilian Casino' },
-
-	[23] =  { ["pedType"] = 'a_f_y_business_03', ['x'] = 909.21,['y'] = 36.52,['z'] = -185.04,['h'] = 312.94, ['info'] = ' Civilian' },
-	[24] =  { ["pedType"] = 'a_m_y_business_03', ['x'] = 916.4,['y'] = 49.96,['z'] = -185.04,['h'] = 322.65, ['info'] = ' Civilian' },
-	[25] =  { ["pedType"] = 'a_m_m_bevhills_02', ['x'] = 919.65,['y'] = 51.88,['z'] = -185.04,['h'] = 225.42, ['info'] = ' Civilian' },
-	[26] =  { ["pedType"] = 'a_f_m_bevhills_01', ['x'] = 913.94,['y'] = 41.4,['z'] = -185.04,['h'] = 274.44, ['info'] = ' Civilian' },
-	[27] =  { ["pedType"] = 'a_f_y_business_02', ['x'] = 915.11,['y'] = 40.15,['z'] = -185.04,['h'] = 312.1, ['info'] = ' Civilian' },
-	[28] =  { ["pedType"] = 'a_m_m_soucent_02', ['x'] = 916.44,['y'] = 40.4,['z'] = -185.04,['h'] = 47.09, ['info'] = ' Civilian' },
-	[29] =  { ["pedType"] = 'a_f_m_bevhills_02', ['x'] = 922.17,['y'] = 37.89,['z'] = -185.04,['h'] = 268.07, ['info'] = ' Civilian' },
-	[30] =  { ["pedType"] = 'ig_lifeinvad_02', ['x'] = 922.1,['y'] = 36.06,['z'] = -185.04,['h'] = 255.03, ['info'] = ' Civilian' },
-	[31] =  { ["pedType"] = 'a_f_y_business_04', ['x'] = 922.96,['y'] = 35.21,['z'] = -185.04,['h'] = 355.16, ['info'] = ' Civilian' },
-	[32] =  { ["pedType"] = 'a_m_y_business_01', ['x'] = 928.39,['y'] = 43.57,['z'] = -185.04,['h'] = 300.85, ['info'] = ' Civilian' },
-	[33] =  { ["pedType"] = 'a_f_y_business_03', ['x'] = 924.72,['y'] = 43.63,['z'] = -185.04,['h'] = 103.35, ['info'] = ' Civilian' },
-	[34] =  { ["pedType"] = 's_f_y_bartender_01', ['x'] = 921.14,['y'] = 48.56,['z'] = -185.04,['h'] = 13.55, ['info'] = ' Civilian' },
-	[35] =  { ["pedType"] = 'a_m_y_business_02', ['x'] = 922.19,['y'] = 48.84,['z'] = -185.04,['h'] = 30.47, ['info'] = ' Civilian' },
-	[36] =  { ["pedType"] = 'a_f_m_bevhills_01', ['x'] = 923.06,['y'] = 50.32,['z'] = -185.04,['h'] = 67.83, ['info'] = ' Civilian' },
-	[37] =  { ["pedType"] = 'a_m_m_bevhills_02', ['x'] = 920.83,['y'] = 52.57,['z'] = -185.04,['h'] = 164.27, ['info'] = ' Civilian' },
-	[38] =  { ["pedType"] = 'a_m_m_soucent_02', ['x'] = 926.06,['y'] = 57.33,['z'] = -185.04,['h'] = 306.27, ['info'] = ' Civilian' },
-	[39] =  { ["pedType"] = 'a_m_y_business_03', ['x'] = 916.71,['y'] = 26.13,['z'] = -180.89,['h'] = 308.23, ['info'] = ' Civilian' },
-	[40] =  { ["pedType"] = 'a_f_y_business_04', ['x'] = 918.35,['y'] = 29.45,['z'] = -180.89,['h'] = 164.28, ['info'] = ' Civilian' },
-	[41] =  { ["pedType"] = 'ig_lifeinvad_02', ['x'] = 921.83,['y'] = 32.36,['z'] = -180.89,['h'] = 192.35, ['info'] = ' Civilian' },
-	[42] =  { ["pedType"] = 'a_m_y_business_01', ['x'] = 923.08,['y'] = 31.62,['z'] = -180.89,['h'] = 108.52, ['info'] = ' Civilian' },
-	[43] =  { ["pedType"] = 's_f_y_bartender_01', ['x'] = 914.27,['y'] = 36.21,['z'] = -180.89,['h'] = 62.9, ['info'] = ' Civilian' },
-	[44] =  { ["pedType"] = 'a_m_m_bevhills_02', ['x'] = 911.92,['y'] = 35.88,['z'] = -180.89,['h'] = 325.37, ['info'] = ' Civilian' },
-	[45] =  { ["pedType"] = 'a_m_y_business_01', ['x'] = 920.31,['y'] = 48.15,['z'] = -180.89,['h'] = 354.53, ['info'] = ' Civilian' },
-	[46] =  { ["pedType"] = 'a_f_m_bevhills_02', ['x'] = 920.87,['y'] = 51.11,['z'] = -180.89,['h'] = 120.61, ['info'] = ' Civilian' },
-	[47] =  { ["pedType"] = 'a_m_m_soucent_02', ['x'] = 922.86,['y'] = 52.34,['z'] = -180.89,['h'] = 341.33, ['info'] = ' Civilian' },
-	[48] =  { ["pedType"] = 'a_m_y_business_02', ['x'] = 921.77,['y'] = 53.39,['z'] = -180.89,['h'] = 294.17, ['info'] = ' Civilian' },
-	[49] =  { ["pedType"] = 'a_m_m_soucent_02', ['x'] = 930.34,['y'] = 49.12,['z'] = -180.89,['h'] = 242.11, ['info'] = ' Civilian' },
-	[50] =  { ["pedType"] = 'a_m_y_business_02', ['x'] = 930.54,['y'] = 47.58,['z'] = -180.89,['h'] = 302.87, ['info'] = ' Civilian' },
-	[51] =  { ["pedType"] = 'a_m_y_business_03', ['x'] = 929.26,['y'] = 46.04,['z'] = -180.89,['h'] = 173.63, ['info'] = ' Civilian' },
-	[52] =  { ["pedType"] = 'a_m_y_business_02', ['x'] = 928.15,['y'] = 44.84,['z'] = -180.89,['h'] = 253.43, ['info'] = ' Civilian' },
-	[53] =  { ["pedType"] = 'a_m_y_business_03', ['x'] = 927.87,['y'] = 43.16,['z'] = -180.89,['h'] = 303.86, ['info'] = ' Civilian' },
-	[54] = { ["pedType"] = 's_m_m_highsec_02', ['x'] = 919.59,['y'] = 26.69,['z'] = -180.89,['h'] = 55.79, ['info'] = ' Dealer' },
-	[55] = { ["pedType"] = 's_m_m_highsec_02', ['x'] = 921.23,['y'] = 30.36,['z'] = -180.89,['h'] = 323.45, ['info'] = ' Dealer' },
-	[56] = { ["pedType"] = 's_m_m_highsec_02', ['x'] = 925.0,['y'] = 35.07,['z'] = -180.89,['h'] = 44.45, ['info'] = ' Dealer' },
-	[57] = { ["pedType"] = 's_m_m_highsec_02', ['x'] = 927.37,['y'] = 39.5,['z'] = -180.89,['h'] = 41.67, ['info'] = ' Dealer' },
-	[58] = { ["pedType"] = 's_m_m_highsec_02', ['x'] = 930.31,['y'] = 43.68,['z'] = -180.89,['h'] = 51.39, ['info'] = ' Dealer' },
-	[59] = { ["pedType"] = 's_m_m_highsec_02', ['x'] = 933.21,['y'] = 47.62,['z'] = -180.89,['h'] = 44.0, ['info'] = ' Dealer' },
-	[60] = { ["pedType"] = 's_m_m_highsec_02', ['x'] = 923.56,['y'] = 54.95,['z'] = -180.89,['h'] = 148.7, ['info'] = ' Dealer' },
-	[61] = { ["pedType"] = 's_m_m_highsec_02', ['x'] = 921.11,['y'] = 50.55,['z'] = -180.89,['h'] = 109.54, ['info'] = ' Dealer' },
-	[62] = { ["pedType"] = 's_m_m_highsec_02', ['x'] = 918.27,['y'] = 46.65,['z'] = -180.89,['h'] = 143.45, ['info'] = ' Dealer' },
-	[63] = { ["pedType"] = 's_m_m_highsec_02', ['x'] = 915.64,['y'] = 42.67,['z'] = -180.89,['h'] = 141.33, ['info'] = ' Dealer' },
-	[64] = { ["pedType"] = 's_m_m_highsec_02', ['x'] = 912.82,['y'] = 38.59,['z'] = -180.89,['h'] = 149.36, ['info'] = ' Dealer' },
-	[65] = { ["pedType"] = 's_m_m_highsec_02', ['x'] = 908.25,['y'] = 33.84,['z'] = -180.77,['h'] = 229.21, ['info'] = ' Dealer' },
-	[66] = { ["pedType"] = 's_m_m_highsec_02', ['x'] = 904.24,['y'] = 3.87,['z'] = -185.04,['h'] = 346.1, ['info'] = ' Dealer' },
-	[67] = { ["pedType"] = 's_m_m_highsec_02', ['x'] = 902.56,['y'] = 5.01,['z'] = -185.04,['h'] = 327.13, ['info'] = ' Dealer' },
-	[68] = { ["pedType"] = 's_m_m_highsec_02', ['x'] = 900.97,['y'] = 5.79,['z'] = -185.04,['h'] = 342.22, ['info'] = ' Dealer' },
-	[69] = { ["pedType"] = 's_m_m_highsec_02', ['x'] = 897.48,['y'] = 6.08,['z'] = -185.04,['h'] = 50.26, ['info'] = ' Dealer' },
-	[70] = { ["pedType"] = 's_m_m_highsec_02', ['x'] = 901.67,['y'] = -2.57,['z'] = -185.04,['h'] = 165.4, ['info'] = ' Dealer' },
-	[71] = { ["pedType"] = 'a_f_m_bevhills_02', ['x'] = 905.2,['y'] = 6.1,['z'] = -185.04,['h'] = 151.57, ['info'] = ' Civilian' },
-	[72] = { ["pedType"] = 'a_m_m_soucent_02', ['x'] = 901.76,['y'] = 7.8,['z'] = -185.04,['h'] = 156.95, ['info'] = ' Civilian' },
-
-}
 
 function randomScenario2()
 	local math = math.random(10)
@@ -614,14 +537,7 @@ end
 
 local retry2 = 0
 
-function spawncasino()
 
-
-end
-
-function delcasino()
-
-end
 
 
 function DelCocainePeds()
@@ -645,24 +561,7 @@ function DelCocainePeds()
 end
 
 
-RegisterNetEvent('accept:casinospawn')
-AddEventHandler('accept:casinospawn', function(entspawn)
 
-	if entspawn then
-		spawncasino()
-	end
-end)
-
-RegisterNetEvent('delete:casinospawn')
-AddEventHandler('delete:casinospawn', function(entdel)
-	if entdel then
-		CleanUpArea()
-	end
-
-
-
-	--SetEntityCoords(PlayerPedId(),930.01, 43.33, 81.1)
-end)
 
 RegisterNetEvent('accept:cocainespawn')
 AddEventHandler('accept:cocainespawn', function()
@@ -934,7 +833,6 @@ function EnterXE(i)
 	elseif i == 40 then
 
 		SetEntityCoords(PlayerPedId(),840.77,29.34,-185.04)
-		--TriggerServerEvent("request:casinospawn")
 		Citizen.Wait(1100)
 
 
@@ -945,7 +843,7 @@ function EnterXE(i)
 
 		SetEntityCoords(PlayerPedId(),930.01, 43.33, 81.1)
 		Citizen.Wait(500)
-		SetEntityCoords(PlayerPedId(),889.861, 9.36351, -185.046)
+		SetEntityCoords(PlayerPedId(),1089.83, 206.84, -49.0)
 		timer = 5
 
 

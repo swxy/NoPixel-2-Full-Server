@@ -25,11 +25,11 @@ AddEventHandler("NPX-scoreboard:AddPlayer", function()
 end)
 
 function NPX.Scoreboard.AddAllPlayers(self)
-    local players = GetActivePlayers()
+    --local players = GetActivePlayers()
 
-    for i=1, #players, 1 do
+    for i, _PlayerId in pairs(GetPlayers()) do
         
-        local identifiers, steamIdentifier = GetPlayerIdentifiers(players[i])
+        local identifiers, steamIdentifier = GetPlayerIdentifiers(_PlayerId)
         for _, v in pairs(identifiers) do
             if string.find(v, "steam") then
                 steamIdentifier = v
@@ -38,9 +38,9 @@ function NPX.Scoreboard.AddAllPlayers(self)
         end
 
         local stid = HexIdToSteamId(steamIdentifier)
-        local ply = GetPlayerName(players[i])
+        local ply = GetPlayerName(_PlayerId)
         local scomid = steamIdentifier:gsub("steam:", "")
-        local data = { src = players[i], steamid = stid, comid = scomid, name = ply }
+        local data = { src = tonumber(_PlayerId), steamid = stid, comid = scomid, name = ply }
 
         TriggerClientEvent("np-scoreboard:AddAllPlayers", source, data, recentData)
 

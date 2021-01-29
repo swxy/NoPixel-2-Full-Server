@@ -69,12 +69,12 @@ AddEventHandler("np-admin:AddPlayer", function()
 end)
 
 function NPX.Admin.AddAllPlayers(self)
-    local Players = GetPlayers()
+    --local Players = GetPlayers()
 
-    for i=1, #Players, 1 do
+    for i, _PlayerId in pairs(GetPlayers()) do
         
         local licenses
-        local identifiers, steamIdentifier = GetPlayerIdentifiers(Players[i])
+        local identifiers, steamIdentifier = GetPlayerIdentifiers(_PlayerId)
         for _, v in pairs(identifiers) do
             if string.find(v, "steam") then
                 steamIdentifier = v
@@ -87,13 +87,13 @@ function NPX.Admin.AddAllPlayers(self)
                 break
             end
         end
-        local ip = GetPlayerEndpoint(Players[i])
+        local ip = GetPlayerEndpoint(_PlayerId)
         local licenseid = licenses:gsub("license:", "")
-        local ping = GetPlayerPing(Players[i])
+        local ping = GetPlayerPing(_PlayerId)
         local stid = HexIdToSteamId(steamIdentifier)
-        local ply = GetPlayerName(Players[i])
+        local ply = GetPlayerName(_PlayerId)
         local scomid = steamIdentifier:gsub("steam:", "")
-        local data = { src = Players[i], steamid = stid, comid = scomid, name = ply, ip = ip, license = licenseid, ping = ping }
+        local data = { src = tonumber(_PlayerId), steamid = stid, comid = scomid, name = ply, ip = ip, license = licenseid, ping = ping }
 
         TriggerClientEvent("np-admin:AddAllPlayers", source, data)
 

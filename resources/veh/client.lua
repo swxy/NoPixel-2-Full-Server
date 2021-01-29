@@ -31,6 +31,7 @@ AddEventHandler('veh.updateVehicleDegredation', function(br,ax,rad,cl,tra,elec,f
 		end
 		if #tempReturn > 0 then
 			TriggerServerEvent('veh.updateVehicleDegredationServer', v[1],br,ax,rad,cl,tra,elec,fi,ft)
+			print('this causing it?')
 		end		
 	end
 end)

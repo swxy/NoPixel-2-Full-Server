@@ -196,7 +196,7 @@ AddEventHandler('event:control:adminDev', function(useID)
         elseif useID == 2 then
             local bool = not isInNoclip
             NPX.Admin.RunNclp(nil,bool)
-            TriggerEvent("np-admin:NoclipState",bool)
+            TriggerEvent("np-admin:noClipToggle",bool)
             TriggerServerEvent("admin:noclipFromClient",bool)
         elseif useID == 3 then
             TriggerEvent("np-admin:CloakRemote")
@@ -288,73 +288,8 @@ function NPX.Admin.RunNclp(self,bool)
     
     if bool and isInNoclip then return end
     isInNoclip = bool
-    if not isInNoclip then return end
-
-    Citizen.CreateThread(function()
-        local speed = 0.5
-        while isInNoclip do
-            Citizen.Wait(0)
-            local playerPed = PlayerPedId()
-            cmd.vars.targetEntity = playerPed
-            cmd.vars.heading = cmd.vars.heading == nil and GetEntityHeading(playerPed) or cmd.vars.heading
-            cmd.vars.noclip_pos = cmd.vars.noclip_pos == nil and GetEntityCoords(playerPed, false) or cmd.vars.noclip_pos
-
-            SetPlayerInvincible(PlayerId(), true)
-
-            if IsPedInAnyVehicle(playerPed, true) then
-                local vehicle = GetVehiclePedIsIn(playerPed, false)
-                if vehicle and vehicle ~= 0 then
-                    if GetPedInVehicleSeat(vehicle, -1) == playerPed then
-                        cmd.vars.targetEntity = vehicle
-                    end
-                end
-            end
-
-            SetEntityCollision(cmd.vars.targetEntity,false, false)
-
-            SetEntityCoordsNoOffset(cmd.vars.targetEntity,  cmd.vars.noclip_pos.x,  cmd.vars.noclip_pos.y,  cmd.vars.noclip_pos.z,  0, 0, 0)
-
-            if IsControlPressed(1, 34) then
-                cmd.vars.heading = cmd.vars.heading + 1.5
-                if cmd.vars.heading > 360 then
-                    cmd.vars.heading = 0
-                end
-                SetEntityHeading(cmd.vars.targetEntity,  cmd.vars.heading)
-            end
-
-            if IsControlPressed(1, 9) then
-                cmd.vars.heading = cmd.vars.heading - 1.5
-                if cmd.vars.heading < 0 then
-                    cmd.vars.heading = 360
-                end
-                SetEntityHeading(cmd.vars.targetEntity,  cmd.vars.heading)
-            end
-
-            if IsControlPressed(0, 8) then
-                cmd.vars.noclip_pos = GetOffsetFromEntityInWorldCoords(cmd.vars.targetEntity, 0.0, -speed, 0.0)
-            end
-
-            if IsControlPressed(0, 32) then
-                cmd.vars.noclip_pos = GetOffsetFromEntityInWorldCoords(cmd.vars.targetEntity, 0.0, speed, 0.0)
-            end
-
-            if IsControlPressed(0, 22) then
-                cmd.vars.noclip_pos = GetOffsetFromEntityInWorldCoords(cmd.vars.targetEntity, 0.0, 0.0, speed)
-            end
-            if IsControlPressed(0, 73) then
-                cmd.vars.noclip_pos = GetOffsetFromEntityInWorldCoords(cmd.vars.targetEntity, 0.0, 0.0, -speed)
-            end
-
-            if IsControlJustPressed(0, 131) then
-                if speed >= 6.5 then speed = 0.5 else speed = speed + 1.0 end
-            end
-        end
-        cmd.vars.heading = nil 
-        cmd.vars.noclip_pos = nil 
-        SetPlayerInvincible(PlayerId(), false) 
-        SetEntityCollision(cmd.vars.targetEntity,true, true) 
-        cmd.vars.targetEntity = nil
-    end)
+    
+    TriggerEvent("np-admin:noClipToggle", isInNoclip)
 end
 
 function GetPlayers()

@@ -4,3 +4,4 @@ polyzone_created_zones.txt
 *.dll
 *.log
 *.dmp
+*.txt

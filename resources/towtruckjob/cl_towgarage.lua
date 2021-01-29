@@ -972,7 +972,7 @@ AddEventHandler('towgarage:TriggerRepairs', function(degname,amount)
 		if finished == 100 then
 			local plate = GetVehicleNumberPlateText(targetVehicle)
 			if targetVehicle ~= nil  and targetVehicle ~= 0 then
-				TriggerServerEvent('scrap:towTake',amount,0,degname,garagename,current,itemid,plate)
+				TriggerServerEvent('scrap:towTake',amount,0,degname,garagename,current,itemname,plate)
 			else
 				TriggerEvent("customNotification","No Vehicle")
 			end

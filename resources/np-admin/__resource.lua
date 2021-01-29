@@ -26,6 +26,7 @@ server_script "shared/sh_ranks.lua"
 client_script "shared/sh_admin.lua"
 
 client_script "client/cl_menu.lua"
+client_script "client/cl_noclip.lua"
 
 client_script "shared/sh_commands.lua"
 client_script "shared/sh_ranks.lua"

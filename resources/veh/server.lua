@@ -37,11 +37,15 @@ AddEventHandler('veh.callDegredation', function(plate,status)
       }, function (result) 
 
         if result[1] ~= nil then
-            TriggerClientEvent('veh.getSQL',_src, result[1].degredation)
+            if status == nil or status == false then
+                TriggerClientEvent('veh.getSQL',_src, result[1].degredation)
+            elseif status == true then
+                TriggerClientEvent('towgarage:triggermenu',_src, result[1].degredation)
+            end
         else
             --TriggerClientEvent("Notifications",_src, "This vehicle is not listed",2) 
         end   
-        TriggerClientEvent("veh:checkVeh",_src, degration) 
+        --TriggerClientEvent("veh:checkVeh",_src, degration) 
       end)
     
 end)
@@ -71,14 +75,15 @@ AddEventHandler('veh.updateVehicleHealth', function(tempReturn)
         ['@engine_damage'] = engine_damage,
         ['@body_damage'] = body_damage,
         ['@fuel'] = fuel,
-        ['plate'] = plate
+        ['@plate'] = plate
     })
 
 end)
 
 RegisterNetEvent('veh.updateVehicleDegredationServer')
 AddEventHandler('veh.updateVehicleDegredationServer', function(plate,br,ax,rad,cl,tra,elec,fi,ft)
-    exports.ghmattimysql:execute('SELECT plate FROM characters_cars WHERE license_plate = @plate', {
+    if ft ~= nil then
+    exports.ghmattimysql:execute('SELECT license_plate FROM characters_cars WHERE license_plate = @plate', {
         ['@plate'] = plate
       }, function (result)
        -- print(result[1].plate)
@@ -86,12 +91,27 @@ AddEventHandler('veh.updateVehicleDegredationServer', function(plate,br,ax,rad,c
             local degri = ""..br..","..ax..","..rad..","..cl..","..tra..","..elec..","..fi..","..ft..""  
             exports.ghmattimysql:execute("UPDATE characters_cars SET degredation = @degredation WHERE license_plate = @plate", {
                 ['@degredation'] = tostring(degri),
-                 ['plate'] = plate
+                 ['@plate'] = plate
             })
         else
             local degri = ""..br..","..ax..","..rad..","..cl..","..tra..","..elec..","..fi..","..ft..""  
             -- print('not mine veh_damage',degri)
           
+        end
+      end)
+    end
+end)
+
+RegisterNetEvent('veh.getVehicles')
+AddEventHandler('veh.getVehicles', function(plate,veh)
+    local _src = source
+    exports.ghmattimysql:execute('SELECT * FROM characters_cars WHERE license_plate = @plate', {
+        ['@plate'] = plate
+      }, function (result)
+        if result[1] ~= nil then
+            TriggerClientEvent('veh.setVehicleHealth',_src, result[1].engine_damage, result[1].body_damage, result[1].fuel, veh)
+        else
+            --TriggerClientEvent("Notifications",_src, "This vehicle is not listed",2) 
         end
       end)
 end)

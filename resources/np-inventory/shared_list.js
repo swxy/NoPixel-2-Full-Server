@@ -82,7 +82,7 @@ itemList["4024951519"]	= {fullyDegrades: false, decayrate: 2.0, displayname: "As
 itemList["4191993645"]	= {fullyDegrades: false, decayrate: 2.0, displayname: "Hatchet", price: 250, weight: 11, nonStack: true, model: "", image: "np_hatchet.png", weapon: true , deg: false}
 itemList["4192643659"]	= {fullyDegrades: false, decayrate: 2.0, displayname: "Bottle", price: 250, weight: 11, nonStack: true, model: "", image: "np_glass-bottle.png", weapon: true , deg: false}
 itemList["419712736"]	= {fullyDegrades: false, decayrate: 2.0, displayname: "Wrench", price: 250, weight: 11, nonStack: true, model: "", image: "np_wrench.png", weapon: true , deg: false}
-itemList["453432689"]	= {fullyDegrades: false, decayrate: 2.0, displayname: "Pistol", price: 250, craft: [{itemid: "aluminium", amount: 1 }, {itemid: "plastic", amount: 1 }, {itemid: "rubber", amount: 1 }], weight: 11, nonStack: true, model: "", image: "np_pistol.png", weapon: true , deg: true} //'Pistol'
+itemList["453432689"]	= {fullyDegrades: false, decayrate: 2.0, displayname: "Colt 1911", price: 250, craft: [{itemid: "aluminium", amount: 1 }, {itemid: "plastic", amount: 1 }, {itemid: "rubber", amount: 1 }], weight: 11, nonStack: true, model: "", image: "np_pistol.png", weapon: true , deg: true} //'Pistol'
 itemList["487013001"]	= {fullyDegrades: false, decayrate: 2.0, displayname: "PD Beanbag SG", price: 10, craft: [{itemid: "aluminium", amount: 5 }, {itemid: "plastic", amount: 1 }, {itemid: "rubber", amount: 1 }], weight: 11, nonStack: true, model: "", image: "np_pump-shotgun2.png", weapon: true , deg: true} //'Pump Shotgun'
 itemList["584646201"]	= {fullyDegrades: false, decayrate: 2.0, displayname: "AP Pistol", price: 250, craft: [ {itemid: "valuablegoods", amount: 1 }, {itemid: "goldbar", amount: 1 } ], weight: 11, nonStack: true, model:  "", image: "np_ap-pistol.png", weapon: true, deg: true} //'AP Pistol'
 itemList["615608432"]	= {fullyDegrades: false, decayrate: 2.0, displayname: "Moly", craft: [ {itemid: "methbag", amount: 35 }, {itemid: "ciggy", amount: 25 } ], price: 250, weight: 11, nonStack: false, model: "", image: "np_molotov.png", weapon: true , deg: false}
@@ -1230,3 +1230,5 @@ itemList['fishingtunac'] = {
 };
 
 // FISHING END
+
+

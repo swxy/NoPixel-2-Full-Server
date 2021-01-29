@@ -78,17 +78,19 @@ end)
 RegisterNetEvent('RunUseItem')
 AddEventHandler('RunUseItem', function(itemid, slot, inventoryName, isWeapon)
 
-    if itemid == nil then
+     if itemid == nil then
         return
     end
     local ItemInfo = GetItemInfo(slot)
-    -- if tonumber(ItemInfo.quality) < 1 then
-    --     TriggerEvent("DoLongHudText","Item is too worn.",2) 
-    --     if isWeapon then
-    --         TriggerEvent("brokenWeapon")
-    --     end
-    --     return
-    -- end
+    if ItemInfo.quality == nil then return end
+    if ItemInfo.quality < 1 then
+        TriggerEvent("DoLongHudText","Item is too worn.",2)
+        if isWeapon then
+            TriggerEvent("brokenWeapon")
+        end
+        return
+    end
+
 
     if justUsed then
         retardCounter = retardCounter + 1

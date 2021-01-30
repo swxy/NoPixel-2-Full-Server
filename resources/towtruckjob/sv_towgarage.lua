@@ -8,6 +8,26 @@ local garage = {
   {Name = "Tow Garage 5", plate = 0, offsetx = 0, offsety = 0, offsetz = 0, CurrentHead = 0, x = 110.91, y = 3614.98, z = 40.27, xe = 110.91, ye = 3614.98, ze = 40.27, he = 0.0, xd = 110.91, yd = 3614.98, zd = 40.27},
 }
 
+
+
+
+RegisterCommand('tow', function(source, args)
+    local src = source
+  local user = exports["np-base"]:getModule("Player"):GetUser(src)
+
+    if user:getVar("job") == 'towtruck' then
+      TriggerClientEvent('pv:tow', src)
+end
+end)
+
+RegisterNetEvent("paytheuglytowpeople")
+AddEventHandler("paytheuglytowpeople",function ()
+    local amount = math.random(125,200)
+    local src = source
+    local user = exports["np-base"]:getModule("Player"):GetUser(src)
+    user:addMoney(amount)
+end)
+
 RegisterServerEvent('towgarage:flatbed')
 AddEventHandler('towgarage:flatbed', function(model)
 	local src = source

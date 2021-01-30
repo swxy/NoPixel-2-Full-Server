@@ -149,6 +149,9 @@ AddEventHandler('animation:tow', function()
 end)
 
 
+
+
+
 RegisterNetEvent('pv:tow')
 AddEventHandler('pv:tow', function()
 	local playerped = PlayerPedId()
@@ -294,8 +297,7 @@ AddEventHandler('pv:tow', function()
 				CleanDetachedVehicles()
 
 
-				currentlyTowedVehicle = nil
-
+				
 				local location = GetEntityCoords(playerped, 0)
 				calc = CalculateTravelDistanceBetweenPoints( location, 549.47204589844,-55.185947418213,71.188438415527 )
 
@@ -306,16 +308,16 @@ AddEventHandler('pv:tow', function()
 				if CalculateTravelDistanceBetweenPoints( location, -195.68403625488,6219.8081054688,31.491077423096 ) < calc then
 					calc = CalculateTravelDistanceBetweenPoints( location, -195.68403625488,6219.8081054688,31.491077423096 )
 				end
-
-				-- Only pay out if we are within the tow truck area and the pay is more then $0
-				if calc < 50 and mypaytruck > 0 then
-					if mypaytruck > 0 then
-						TriggerServerEvent("server:givepayJob", "Tow Truck Car Delivery Payment 2", math.random(125,200)) 
-					end
+				print("this far")
+			
+						print("i should now be paying")
+						TriggerServerEvent("paytheuglytowpeople") 
+					
+					print(currentlyTowedVehicle)
 					deleteVehicle(currentlyTowedVehicle)
+					currentlyTowedVehicle = nil
 				end
 			end
 		end
-	end
 	towingProcess = false
 end)

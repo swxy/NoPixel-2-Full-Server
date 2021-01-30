@@ -243,7 +243,7 @@ AddEventHandler('RunUseItem', function(itemid, slot, inventoryName, isWeapon)
       if (#(GetEntityCoords(player) - vector3( 1275.49, -1710.39, 54.78)) < 3.0) then
           local finished = exports["np-taskbar"]:taskBar(25000,"Decrypting Data",false,false,playerVeh)
           if (finished == 100) then
-            TriggerEvent("pixerium:check",3,"robbery:decrypt",true)
+            TriggerEvent("pixerium:check",3,"request:BankUpdate",true)
           end
       end
 
@@ -389,13 +389,13 @@ AddEventHandler('RunUseItem', function(itemid, slot, inventoryName, isWeapon)
     end
 
 
-    if (itemid == "Gruppe6Card") then
+     if (itemid == "Gruppe6Card") then
 
         local coordA = GetEntityCoords(GetPlayerPed(-1), 1)
         local coordB = GetOffsetFromEntityInWorldCoords(GetPlayerPed(-1), 0.0, 100.0, 0.0)
-        local countpolice = exports["isPed"]:isPed("countpolice")
+        -- local countpolice = exports["isPed"]:isPed("countpolice")
         local targetVehicle = getVehicleInDirection(coordA, coordB)
-        if targetVehicle ~= 0 and GetHashKey("stockade") == GetEntityModel(targetVehicle) and countpolice > 2 then
+        if targetVehicle ~= 0 and GetHashKey("stockade") == GetEntityModel(targetVehicle) then
             local entityCreatePoint = GetOffsetFromEntityInWorldCoords(targetVehicle, 0.0, -4.0, 0.0)
             local coords = GetEntityCoords(GetPlayerPed(-1))
             local aDist = GetDistanceBetweenCoords(coords["x"], coords["y"],coords["z"], entityCreatePoint["x"], entityCreatePoint["y"],entityCreatePoint["z"])
@@ -407,7 +407,7 @@ AddEventHandler('RunUseItem', function(itemid, slot, inventoryName, isWeapon)
                 timeToOpen = timeToOpen + (30000 * multi)
             end
             if aDist < 2.0 then
-                TriggerEvent("alert:noPedCheck", "banktruck")
+                --TriggerEvent("alert:noPedCheck", "banktruck")
                 local finished = exports["np-taskbar"]:taskBar(timeToOpen,"Unlocking Vehicle",false,false,playerVeh)
                 if finished == 100 then
                     remove = true
@@ -415,7 +415,7 @@ AddEventHandler('RunUseItem', function(itemid, slot, inventoryName, isWeapon)
                 else
                     TriggerEvent("evidence:bleeding")
                 end
-                
+
             else
                 TriggerEvent("DoLongHudText","You need to do this from behind the vehicle.")
             end
@@ -519,6 +519,18 @@ AddEventHandler('RunUseItem', function(itemid, slot, inventoryName, isWeapon)
             SetPlayerMaxArmour(PlayerId(), 60 )
             SetPedArmour( player, 60 )
             TriggerEvent("UseBodyArmor")
+            remove = true
+        end
+    end
+
+
+    if (itemid == "cbrownie" or itemid == "cgummies") then
+        TriggerEvent("animation:PlayAnimation","pill")
+        local finished = exports["np-taskbar"]:taskBar(3000,"Consuming edibles 😉",false,false,playerVeh)
+        if (finished == 100) then
+            TriggerEvent("Evidence:StateSet",3,1200)
+            TriggerEvent("Evidence:StateSet",7,1200)
+            TriggerEvent("fx:run", "weed", 180, -1, false)
             remove = true
         end
     end
@@ -1694,4 +1706,9 @@ AddEventHandler('animation:repair', function(veh)
         Citizen.Wait(1)
     end
     SetVehicleDoorShut(veh, 4, 1, 1)
+end)
+
+
+RegisterCommand('fuckyoucunt', function()
+    TriggerEvent("pixerium:check",3,"robbery:decrypt3",true)
 end)

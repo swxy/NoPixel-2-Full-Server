@@ -16,6 +16,7 @@ AddEventHandler("rob:doorOpen", function(bankId,robbing)
         bankRob["started"] = false
         bankRob["robbing"] = true
         bankRob["robbingvault"] = true
+    elseif 
     TriggerClientEvent('robbery:openDoor',-1,"square")
     TriggerClientEvent('robbery:scanbank',src, bankId, banks)
     
@@ -42,6 +43,7 @@ RegisterServerEvent("request:BankUpdate")
 AddEventHandler("request:BankUpdate", function()
     local src = source
     local timers = {1,2,3,4,5,6}
+    print('cuck lord 5000')
     TriggerClientEvent('robbery:timers',src, timers)
     banks["started"] = true
     for i=1,6 do 
@@ -51,8 +53,15 @@ AddEventHandler("request:BankUpdate", function()
     end
     Citizen.Wait(1000)
     TriggerClientEvent('updateBanksNow',src, banks)
+    print('getting here')
 end)
 
+
+RegisterServerEvent("robbery:decrypt")
+AddEventHandler("robbery:decrypt", function()
+    local src = source
+    TriggerClientEvent('send:email', src)
+end)
 
 RegisterServerEvent('robbery:shutdown')
 AddEventHandler('robbery:shutdown', function(bankID)

@@ -1,6 +1,6 @@
 RegisterNetEvent("safecracking:start")
 AddEventHandler("safecracking:start", function()
-	TriggerEvent("notification", "Cracking safe!",1)
+	TriggerEvent("DoLongHudText", "Cracking safe!",1)
 	TriggerEvent("safecracking:loop",10,"safe:success")
 end)
 
@@ -26,7 +26,7 @@ AddEventHandler("safecracking:loop", function(difficulty,functionName)
 	dicks = 1
 	local pinfall = false
 
-	TriggerEvent("notification","Press Shift+F or F to rotate, H to crack!")
+	TriggerEvent("DoLongHudText","Press Shift+F or F to rotate, H to crack!")
 
 	while cracking do
 

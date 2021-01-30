@@ -1,15 +1,16 @@
-local JobCount = {}
+-- local JobCount = {}
 
-RegisterNetEvent('np-numbers:setjobs')
-AddEventHandler('np-numbers:setjobs', function(jobslist)
-  JobCount = jobslist
-    if JobCount['cops'] ~= nil then
-      CopsOnline = JobCount['cops']
-    else
-      CopsOnline = 0
-    end
+-- RegisterNetEvent('np-numbers:setjobs')
+-- AddEventHandler('np-numbers:setjobs', function(jobslist)
+--   JobCount = jobslist
+--     if JobCount['cops'] ~= nil then
+-- 	  CopsOnline = JobCount['cops']
+-- 	  print('adding cop')
+--     else
+--       CopsOnline = 0
+--     end
     
-end)
+-- end)
 
 RegisterNetEvent("np-jobmanager:playerBecameJob")
 AddEventHandler("np-jobmanager:playerBecameJob", function(job, name, notify)
@@ -199,15 +200,15 @@ end
 
 RegisterNetEvent("store:dosafe")
 AddEventHandler("store:dosafe", function()
-	if CopsOnline >= 1 then
+	-- if CopsOnline >= 1 then
 		local storeid = isStoreRobbery()
 		TriggerEvent("alert:noPedCheck", "storeRobbery")
 		TriggerServerEvent("police:camrobbery",storeid)
 		TriggerEvent("client:newStress",true,200)	
 		TriggerEvent("safecracking:loop",8,"robbery:safe")
-	else
-	TriggerEvent("notification", "Not enough cops online")
-	end
+	-- else
+	-- TriggerEvent("notification", "Not enough cops online")
+	-- end
 end)
 
 
@@ -219,7 +220,7 @@ local you = 0
 
 RegisterNetEvent("store:register")
 AddEventHandler("store:register", function(storeid,regid)
-	if CopsOnline >= 1 then
+	-- if CopsOnline >= 1 then
 		TriggerEvent("alert:noPedCheck", "storeRobbery")
 		TriggerServerEvent("police:camrobbery",storeid)
 		TriggerEvent("client:newStress",true,200)	
@@ -227,10 +228,10 @@ AddEventHandler("store:register", function(storeid,regid)
 		fuck = storeid
 		you = regid
 		isLockpicking = true
-	else
+	-- else
 		TriggerEvent("notification", "Not enough cops online")
 
-	end
+	-- end
 end)
 
 
@@ -322,10 +323,11 @@ end)
 RegisterCommand('cctv', function(source, args)
 camNumber = tonumber(args[1])
 local job = exports["isPed"]:isPed("myjob")
-	if job == "police" then
+	if job == "police" and args[1] ~= nil then
 		TriggerEvent('security:startcamera', camNumber)
 		if args[1] == "off" then
 			inCam = false
+			TriggerEvent('animation:tablet',false)
 		
 		else
 			TriggerEvent('notification', 'Accesing Camera Number ' .. camNumber .. '', 1)

@@ -2405,9 +2405,42 @@ AddEventHandler('clientcheckLicensePlate', function()
       	TriggerEvent("DoLongHudText", 'Can not target vehicle',2)
 
       else
-			TriggerServerEvent('checkLicensePlate',licensePlate,vehicleClass)
+			TriggerServerEvent('checkLicensePlate',licensePlate)
 		end
 	end
+end)
+
+RegisterCommand('runplatet', function(source, args)
+	if isCop then
+		TriggerEvent('clientcheckLicensePlate')
+	end
+end)
+
+RegisterCommand('runplate', function(source, args)
+	if isCop then
+		TriggerServerEvent('checkLicensePlate',args[1])
+	end
+end)
+
+
+RegisterCommand('pn', function(source, args)
+	TriggerServerEvent('police:showPH')
+end)
+
+RegisterCommand('911', function(source, args)
+TriggerServerEvent('911', args)
+end)
+
+RegisterCommand('911r', function(source, args)
+	TriggerServerEvent('911r', args)
+end)
+
+RegisterCommand('311', function(source, args)
+	TriggerServerEvent('311', args)
+end)
+	
+RegisterCommand('311r', function(source, args)
+	TriggerServerEvent('311r', args)
 end)
 
 RegisterNetEvent('sniffVehicle')

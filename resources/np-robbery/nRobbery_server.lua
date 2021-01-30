@@ -1,9 +1,9 @@
 
 -----Power Tracking---
 
-local City_Power_State = false -- main city's power plate    
-local Prison_Power_State =  false
-local Paleto_Power_State = false
+local City_Power_State = true -- main city's power plate    
+local Prison_Power_State =  true
+local Paleto_Power_State = true
 local total = 0
 
 ------------------------
@@ -135,18 +135,17 @@ AddEventHandler('robbery:robberyFailed', function(locationID, itemid)
 
     TriggerClientEvent('robbery:sendFlags', -1, flags)
 end)
---[[
-RegisterCommand('fuck', function()
-    TriggerClientEvent('robbery:sendServerFlags', -1, Prison_Electric_State,Prison_Physical_State,false,Prison_Power_State,true,Paleto_Power_State,CityCard,PaletoCard)
-end)
+
+-- RegisterCommand('fuck', function()
+--     TriggerClientEvent('robbery:sendServerFlags', -1, Prison_Electric_State,Prison_Physical_State,false,Prison_Power_State,true,Paleto_Power_State,CityCard,PaletoCard)
+-- end)
 
 
 
 RegisterCommand('setstate', function()
-    TriggerClientEvent('robbery:sendServerFlags', -1, Prison_Electric_State,Prison_Physical_State,false,Prison_Power_State,door,Paleto_Power_State,CityCard,PaletoCard)
+    TriggerClientEvent('robbery:sendServerFlags', -1, false,Prison_Physical_State,false,false,door,false,false,false)
     end)
-    
---]]
+
 RegisterNetEvent("robbery:robberyFinished")
 AddEventHandler("robbery:robberyFinished", function(locationID, ToolType, itemid)
     local src = source
@@ -286,7 +285,7 @@ function CheckLargeBanks()
             end
         end
         if flags[k].time ~= 0 and (os.time() - flags[k].time) > 5400 then
-          --  resetArea(k)
+           resetArea(k)
         end
     end
 
@@ -341,7 +340,20 @@ AddEventHandler('np-robbery:checkflag', function()
 end)
 
 
-
+RegisterServerEvent('robbery:alarmTrigger')
+AddEventHandler('robbery:alarmTrigger', function(locationID)
+    local src = source
+    local marker = markers[locationID]
+    if marker.group == "Prison_Power" then
+        -- print('cuck')
+        TriggerClientEvent('powerplant:alert', src)
+        alarms["PPower"] = true
+    elseif marker.group == "mainBank" then
+        TriggerClientEvent('vault:alert', src)
+        -- TriggerEvent('OfficerEMSDown')
+        -- TriggerClientEvent('dispatch:clNotify',-1,{ dispatchCode = "10-90", callSign = data.callSign, dispatchMessage = "Disturbance at the Power Plant", firstStreet = 'Power Plant', recipientList = recipientList, playSound = false, soundName = "10-1314", isImportant = false, priority = 3, origin = data.origin, blipSprite = blipSprite, blipColor = blipColor})
+    end
+end)
 
 function resetArea(locationID)
     local marker = markers[locationID]

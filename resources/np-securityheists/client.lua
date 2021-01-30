@@ -1,12 +1,13 @@
 local attempted = 0
-local canberobbed = true
 
 local pickup = false
+local additionalWait = 0
 RegisterNetEvent('sec:PickupCash')
 AddEventHandler('sec:PickupCash', function()
     pickup = true
     TriggerEvent("sec:PickupCashLoop")
     Wait(180000)
+    Wait(additionalWait)
     pickup = false
 end)
 
@@ -15,7 +16,7 @@ AddEventHandler('sec:PickupCashLoop', function()
     local markerlocation = GetOffsetFromEntityInWorldCoords(attempted, 0.0, -3.7, 0.1)
     SetVehicleHandbrake(attempted,true)
     while pickup do
-        Citizen.Wait(1)
+        Citizen.Wait(0)
         local coords = GetEntityCoords(GetPlayerPed(-1))
         local aDist = GetDistanceBetweenCoords(coords["x"], coords["y"],coords["z"], markerlocation["x"],markerlocation["y"],markerlocation["z"])
         if aDist < 10.0 then
@@ -25,13 +26,9 @@ AddEventHandler('sec:PickupCashLoop', function()
                 if IsDisabledControlJustReleased(0, 38) then
                     pickUpCash()
                 end
-                if canberobbed then
                 DrawText3Ds(markerlocation["x"],markerlocation["y"],markerlocation["z"], "Press [E] to pick up cash.")
-                end
             else
-                if canberobbed then
                 DrawText3Ds(markerlocation["x"],markerlocation["y"],markerlocation["z"], "Get Closer to pick up the cash.")
-                end
             end
         end
     end
@@ -69,8 +66,11 @@ AddEventHandler('sec:AddPeds', function(veh)
 
 
    ped2 = CreatePedInsideVehicle(veh, 4, pedmodel, 0, 1, 0.0)
+   DecorSetBool(ped2, 'ScriptedPed', true)
    ped3 = CreatePedInsideVehicle(veh, 4, pedmodel, 1, 1, 0.0)
+   DecorSetBool(ped3, 'ScriptedPed', true)
    ped4 = CreatePedInsideVehicle(veh, 4, pedmodel, 2, 1, 0.0)
+   DecorSetBool(ped4, 'ScriptedPed', true)
 
    GiveWeaponToPed(ped2, GetHashKey('WEAPON_SpecialCarbine'), 420, 0, 1)
    GiveWeaponToPed(ped3, GetHashKey('WEAPON_SpecialCarbine'), 420, 0, 1)
@@ -109,13 +109,24 @@ end)
 
 
 
-
-
-
+-- Citizen.CreateThread(function()
+--     local cityCenter = vector3(-204.92, -1010.13, 29.55) -- alter
+--     local milBase = vector3(-2819.06, 3333.5, 32.82) -- milbase
+--     local island = vector3(-906.56, 6046.82, 43.93) -- island
+--     print(#(cityCenter - milBase), #(cityCenter - island))
+    
+--     local distToCityCenter = #(GetEntityCoords(GetPlayerPed(-1)) - cityCenter)
+--     if distToCityCenter > 1000 then
+--         local multi = math.floor(distToCityCenter / 1000)
+--         print(30000 * multi)
+--     end
+-- end)
 
 local pickingup = false
 function pickUpCash()
     local gotcard = false
+    local alerted = false
+    local addedAdditionalTime = false
     if not pickingup then
         TriggerEvent("alert:noPedCheck", "banktruck")
         local coords = GetEntityCoords(GetPlayerPed(-1))
@@ -144,20 +155,26 @@ function pickUpCash()
 
             local chance = math.random(1,60)
 
+            if not alerted then
+                TriggerEvent("alert:noPedCheck", "banktruck")
+                alerted = true
+            end
+
             if chance > 35 and not gotcard then
                 gotcard = true
-                TriggerEvent("alert:noPedCheck", "banktruck")
                 DropItemPedBankCard()
             end
 
-            if chance < 10 then
-                TriggerEvent("alert:noPedCheck", "banktruck")
+            if chance < 30 then
                 TriggerEvent("player:receiveItem","band",math.random(length))
             end
 
             TriggerEvent("player:receiveItem","rollcash",math.random(length))
             
-            Wait(math.random(4000,6000))
+            local waitMin = 4000
+            local waitMax = 6000
+            
+            Wait(waitMin, waitMax)
 
             length = length + 1
 
@@ -166,7 +183,7 @@ function pickUpCash()
             end
 
         end
-
+        additionalWait = 0
         ClearPedTasks(GetPlayerPed(-1))
         
     end
@@ -177,13 +194,10 @@ end
 RegisterNetEvent('sec:AttemptHeist')
 AddEventHandler('sec:AttemptHeist', function(veh)
     attempted = veh
-    if canberobbed then
     SetEntityAsMissionEntity(attempted,true,true)
     local plate = GetVehicleNumberPlateText(veh)
+    print('this is plate ', plate)
     TriggerServerEvent("sec:checkRobbed",plate)
-    else
-        print("already robbed lol bitch")
-    end
 
 end)
 RegisterNetEvent('sec:AllowHeist')
@@ -244,3 +258,59 @@ function FindEndPointCar(x,y)
 	end
     --endResult["x"], endResult["y"], endResult["z"]
 end
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

@@ -22,11 +22,6 @@ local function uuid()
   end)
 end
 
-local idx = 0
-function gcr()
-    idx = idx + 1
-    return idx
-end
 
 colors = {
 --[0] = "Metallic Black",
@@ -523,7 +518,7 @@ AddEventHandler("gangs:setHatredFull",function()
     TriggerEvent("gangs:setDefaultRelations")
 end)
 
-
+--TriggerEvent("civilian:alertPolice",20.0,"lockpick",0)
 local daytime = false
 RegisterNetEvent('daytime')
 AddEventHandler("daytime",function(passedTime)
@@ -574,16 +569,19 @@ AddEventHandler('alert:noPedCheck', function(alertType)
 end)
 
 
-RegisterNetEvent('civilian:alertPolice')	
-AddEventHandler("civilian:alertPolice",function(basedistance,alertType,objPassed,isGunshot,isSpeeder)	
-    if not CallChance() then	
-      return	
-    end	
-    local job = exports["isPed"]:isPed("job")	
-    local pd = false	
-    if job == "police" then	
-        pd = true	
-    end	
+RegisterNetEvent('civilian:alertPolice')
+AddEventHandler("civilian:alertPolice",function(basedistance,alertType,objPassed,isGunshot,isSpeeder)
+    if not CallChance() then
+      return
+    end
+    local job = exports["isPed"]:isPed("myjob")
+    local pd = false
+    print('MY JOB ',job)
+    -- if job == "police" then
+    --     pd = false --must be true after editing this script
+    --     print("YES IM POLICE")
+    -- end
+
     local object = objPassed
 
     if not daytime then
@@ -615,7 +613,7 @@ AddEventHandler("civilian:alertPolice",function(basedistance,alertType,objPassed
     end
 
     if nearNPC == nil and alertType ~= "robberyhouseMansion" and not pd then
-      --nobody around for the police call.
+      --nobody around for the police call.deat
       return
     else
       if alertType == "robberyhouseMansion" and not pd then 
@@ -690,15 +688,17 @@ AddEventHandler("civilian:alertPolice",function(basedistance,alertType,objPassed
       AlertSuspicious()
     end
 
-    if alertType == "fight" and not underground and not pd then	
-      AlertFight()      	
+    if alertType == "fight" then
+      print("THIS IS ALERT FIGHT EVIDENCE")
+      AlertFight()      
     end
 
     if (alertType == "gunshot" or alertType == "gunshotvehicle") and not pd then
+      print("ALERT FOR GUNSHOT")
       AlertGunShot()
     end
 
-    if alertType == "lockpick" and not pd then
+    if alertType == "lockpick" then
       if dst > 12.0 and dst < 18.0 then
           AlertCheckLockpick(object)
       end
@@ -791,7 +791,6 @@ function AlertSuspicious()
     eventId = eventId,
     isImportant = false,
     priority = 1,
-    ctxId = gcr(),
     origin = {
       x = plyPos.x,
       y = plyPos.y,
@@ -819,7 +818,6 @@ function AlertSuspicious()
       dispatchMessage = "Vehicle seen at scene",
       blipSprite = 225,
       blipColor = 0,
-      ctxId = gcr(),
       origin = {
         x = plyPos.x,
         y = plyPos.y,
@@ -848,7 +846,6 @@ function DrugSale()
       eventId = eventId,
       isImportant = false,
       priority = 1,
-      ctxId = gcr(),
       origin = {
         x = plyPos.x,
         y = plyPos.y,
@@ -873,7 +870,6 @@ function DrugSale()
         heading = vehicleData.heading,
         eventId = eventId,
         isImportant = false,
-        ctxId = gcr(),
       priority = 1,
         origin = {
           x = plyPos.x,
@@ -903,7 +899,6 @@ function DrugUse()
       gender = gender,
       eventId = eventId,
       isImportant = false,
-      ctxId = gcr(),
       priority = 1,
       origin = {
         x = plyPos.x,
@@ -928,7 +923,6 @@ function DrugUse()
         secondColor = vehicleData.secondColor,
         heading = vehicleData.heading,
         eventId = eventId,
-        ctxId = gcr(),
         isImportant = false,
       priority = 1,
         origin = {
@@ -958,12 +952,11 @@ function CarCrash()
     gender = gender,
     eventId = eventId,
     recipientList = {
-      police = "police", ambulance = "ems"
+      police = "police", ambulance = "ambulance"
     },
     dispatchMessage = "Car crash",
     isImportant = false,
     priority = 1,
-    ctxId = gcr(),
     blipSprite = 84,
     blipColor = 0,
     origin = {
@@ -992,12 +985,11 @@ function CarCrash()
       isImportant = false,
       priority = 1,
       recipientList = {
-        police = "police", ambulance = "ems"
+        police = "police", ambulance = "ambulance"
       },
       blipSprite = 84,
       blipColor = 0,
       eventId = eventId,
-      ctxId = gcr(),
       origin = {
         x = plyPos.x,
         y = plyPos.y,
@@ -1006,6 +998,10 @@ function CarCrash()
     })
   end
 end
+
+
+
+
 
 function AlertDeath()
   local street1 = GetStreetAndZone()
@@ -1023,11 +1019,10 @@ function AlertDeath()
     isImportant = false,
       priority = 1,
     recipientList = {
-      police = "police", ambulance = "ems"
+      police = "police", ambulance = "ambulance"
     },
     blipSprite = 84,
     blipColor = 0,
-    ctxId = gcr(),
     origin = {
       x = plyPos.x,
       y = plyPos.y,
@@ -1042,6 +1037,7 @@ function AlertFight()
   local gender = IsPedMale(PlayerPedId())
   local armed = IsPedArmed(PlayerPedId(), 7)
   local plyPos = GetEntityCoords(PlayerPedId(), true)
+  print('ALERT FIGHTING')
   if checkedLocations() then
     return
   end
@@ -1058,29 +1054,27 @@ function AlertFight()
   local isInVehicle = IsPedInAnyVehicle(PlayerPedId())
   local eventId = uuid()
 
-    TriggerServerEvent('dispatch:svNotify', {
-      dispatchCode = dispatchCode,
-      firstStreet = street1,
-      isImportant = false,
-      priority = 1,
-      gender = gender,
-      eventId = eventId,
-      ctxId = gcr(),
-      recipientList = {
-        police = "police"
-      },
-      blipSprite = 154,
-      dispatchMessage = "Fight in progress",
-      blipColor = 40,
-      origin = {
-        x = plyPos.x,
-        y = plyPos.y,
-        z = plyPos.z
-      }
-    })
-  
+  TriggerServerEvent('dispatch:svNotify', {
+    dispatchCode = dispatchCode,
+    firstStreet = street1,
+    isImportant = false,
+    priority = 1,
+    gender = gender,
+    eventId = eventId,
+    recipientList = {
+      police = "police"
+    },
+    blipSprite = 154,
+    dispatchMessage = "Fight in progress",
+    blipColor = 40,
+    origin = {
+      x = plyPos.x,
+      y = plyPos.y,
+      z = plyPos.z
+    }
+  })
 
-  Wait(math.random(5000,7500))
+  Wait(math.random(5000,15000))
 
   if math.random(1,10) > 3 and IsPedInAnyVehicle(PlayerPedId()) and not isInVehicle then
     vehicleData = GetVehicleDescription() or {}
@@ -1100,7 +1094,6 @@ function AlertFight()
       blipSprite = 84,
       blipColor = 0,
       eventId = eventId,
-      ctxId = gcr(),
       origin = {
         x = plyPos.x,
         y = plyPos.y,
@@ -1134,7 +1127,6 @@ function AlertPdof()
     priority = 1,
     blipSprite = 458,
     blipColor = 0,
-    ctxId = gcr(),
     recipientList = {
       police = "police"
     },
@@ -1145,7 +1137,7 @@ function AlertPdof()
     }
   })
 
-  Wait(math.random(5000,7500))
+  Wait(math.random(5000,15000))
 
   if math.random(1,10) > 3 and IsPedInAnyVehicle(PlayerPedId()) and not isInVehicle then
     vehicleData = GetVehicleDescription() or {}
@@ -1162,7 +1154,6 @@ function AlertPdof()
       heading = vehicleData.heading,
       eventId = eventId,
       isImportant = false,
-      ctxId = gcr(),
       priority = 1,
       recipientList = {
       police = "police"
@@ -1200,7 +1191,6 @@ function AlertpersonRobbed(vehicle)
     gender = gender,
     eventId = eventId,
     isImportant = false,
-    ctxId = gcr(),
     priority = 1,
     dispatchMessage = "Robbery at gun point",
     blipSprite = 458,
@@ -1215,7 +1205,7 @@ function AlertpersonRobbed(vehicle)
     }
   })
 
-  Wait(math.random(5000,7500))
+  Wait(math.random(5000,15000))
 
   if math.random(1,10) > 3 and IsPedInAnyVehicle(PlayerPedId()) then
     vehicleData = GetVehicleDescription() or {}
@@ -1224,7 +1214,6 @@ function AlertpersonRobbed(vehicle)
       dispatchCode = 'CarFleeing',
       relatedCode = dispatchCode,
       firstStreet = street1,
-      ctxId = gcr(),
       gender = gender,
       model = vehicleData.model,
       plate = vehicleData.plate,
@@ -1269,7 +1258,6 @@ function AlertCheckRobbery2()
     firstStreet = street1,
     gender = gender,
     eventId = eventId,
-    ctxId = gcr(),
     isImportant = false,
     priority = 1,
     recipientList = {
@@ -1285,7 +1273,7 @@ function AlertCheckRobbery2()
     }
   })
 
-  Wait(math.random(25000,30000))
+  Wait(math.random(5000,15000))
 
   if math.random(1,10) > 3 and IsPedInAnyVehicle(PlayerPedId()) and not isInVehicle then
     vehicleData = GetVehicleDescription() or {}
@@ -1295,7 +1283,6 @@ function AlertCheckRobbery2()
       relatedCode = dispatchCode,
       firstStreet = street1,
       gender = gender,
-      ctxId = gcr(),
       model = vehicleData.model,
       plate = vehicleData.plate,
       firstColor = vehicleData.firstColor,
@@ -1342,7 +1329,6 @@ function AlertBankTruck()
     isImportant = true,
     priority = 3,
     blipSprite = 500,
-    ctxId = gcr(),
     blipColor = 1,
     dispatchMessage = "Bank truck robbery in progress",
     playSound = true,
@@ -1356,7 +1342,8 @@ function AlertBankTruck()
       z = plyPos.z
     }
   })
-  Wait(math.random(5000,7500))
+
+  Wait(math.random(5000,15000))
 
   if math.random(1,10) > 3 and IsPedInAnyVehicle(PlayerPedId()) and not isInVehicle then
     plyPos = GetEntityCoords(PlayerPedId())
@@ -1365,7 +1352,6 @@ function AlertBankTruck()
       dispatchCode = 'CarFleeing',
       relatedCode = dispatchCode,
       firstStreet = street1,
-      ctxId = gcr(),
       gender = gender,
       model = vehicleData.model,
       plate = vehicleData.plate,
@@ -1391,6 +1377,91 @@ function AlertBankTruck()
   end
 end
 
+
+RegisterNetEvent('powerplant:alert')
+AddEventHandler('powerplant:alert', function()
+  AlertPowerPlant()
+  print('cunt')
+end)
+RegisterNetEvent('vault:alert')
+AddEventHandler('vault:alert', function()
+  AlertVault()
+end)
+
+function AlertPowerPlant()
+  local street1 = GetStreetAndZone()
+  local gender = IsPedMale(PlayerPedId())
+  local plyPos = GetEntityCoords(PlayerPedId())
+
+  if checkedLocations() then
+    return
+  end
+
+
+  local isInVehicle = IsPedInAnyVehicle(PlayerPedId())
+  local dispatchCode = "10-90C"
+  local eventId = uuid()
+
+  TriggerServerEvent('dispatch:svNotify', {
+    dispatchCode = dispatchCode,
+    firstStreet = street1,
+    gender = gender,
+    eventId = eventId,
+    isImportant = true,
+    priority = 3,
+    blipSprite = 500,
+    blipColor = 1,
+    dispatchMessage = "Power Plant Disturbance",
+    playSound = true,
+    recipientList = {
+      police = "police"
+    },
+
+    origin = {
+      x = plyPos.x,
+      y = plyPos.y,
+      z = plyPos.z
+    }
+  })
+end
+
+function AlertVault()
+    local street1 = GetStreetAndZone()
+    local gender = IsPedMale(PlayerPedId())
+    local plyPos = GetEntityCoords(PlayerPedId())
+  
+    if checkedLocations() then
+      return
+    end
+  
+  
+    local isInVehicle = IsPedInAnyVehicle(PlayerPedId())
+    local dispatchCode = "10-90A"
+    local eventId = uuid()
+  
+    TriggerServerEvent('dispatch:svNotify', {
+      dispatchCode = dispatchCode,
+      firstStreet = street1,
+      gender = gender,
+      eventId = eventId,
+      isImportant = true,
+      priority = 3,
+      blipSprite = 500,
+      blipColor = 1,
+      dispatchMessage = "Pacific Standard Bank Alarm Triggered",
+      playSound = true,
+      recipientList = {
+        police = "police"
+      },
+  
+      origin = {
+        x = plyPos.x,
+        y = plyPos.y,
+        z = plyPos.z
+      }
+    })
+  end
+
 function AlertGunShot()
   Citizen.CreateThread(function() 
     local street1 = GetStreetAndZone()
@@ -1406,14 +1477,13 @@ function AlertGunShot()
     local initialTenCode = (not isInVehicle and '10-71A' or '10-71B')
     local initialDispatchMsg = (not isInVehicle and 'Vehicle seen at scene' or 'Gun shot from a vehicle')
     local eventId = uuid()
-    Wait(math.random(1500))
+    Wait(math.random(30000))
     TriggerServerEvent('dispatch:svNotify', {
       dispatchCode = initialTenCode,
       firstStreet = street1,
       gender = gender,
       model = vehicleData.model,
       plate = vehicleData.plate,
-      ctxId = gcr(),
       firstColor = vehicleData.firstColor,
       secondColor = vehicleData.secondColor,
       heading = vehicleData.heading,
@@ -1433,7 +1503,7 @@ function AlertGunShot()
       }
     })
 
-    Wait(math.random(5000,7500))
+    Wait(math.random(5000,10000))
 
     if math.random(1,10) > 3 and IsPedInAnyVehicle(PlayerPedId()) and not isInVehicle then
       vehicleData = GetVehicleDescription() or {}
@@ -1442,7 +1512,6 @@ function AlertGunShot()
         dispatchCode = 'CarFleeing',
         relatedCode = initialTenCode,
         firstStreet = street1,
-        ctxId = gcr(),
         gender = gender,
         model = vehicleData.model,
         plate = vehicleData.plate,
@@ -1510,7 +1579,6 @@ function AlertCheckLockpick(object)
         dispatchMesasge = 'Car lock picking',
         firstStreet = street1,
         isImportant = false,
-        ctxId = gcr(),
         priority = 1,
         blipSprite = 255,
         blipColor = 1,
@@ -1740,13 +1808,7 @@ tasksIdle = {
 
 RegisterNetEvent('TriggerAIRunning')
 AddEventHandler("TriggerAIRunning",function(p)
-  local usingped = p	
-  local pedOwner = NetworkGetEntityOwner(usingped)	
-  if pedOwner == PlayerId() then	
-      DecorSetBool(usingped, 'ScriptedPed', true)	
-  else	
-      TriggerServerEvent('np:peds:decor', GetPlayerServerId(pedOwner), PedToNet(usingped))	
-  end
+    local usingped = p
 
     local nm1 = math.random(6,9) / 100
     local nm2 = math.random(6,9) / 100
@@ -1802,75 +1864,5 @@ AddEventHandler("TriggerAIRunning",function(p)
 
     SetEntityAsNoLongerNeeded(usingped)
     ClearPedTasks(usingped)
-    DecorSetBool(usingped, 'ScriptedPed', false)
+
 end)
-
-function HouseRobbery()
-  local street1 = GetStreetAndZone()
-  local gender = IsPedMale(PlayerPedId())
-  local plyPos = GetEntityCoords(PlayerPedId())
-
-  if checkedLocations() then
-    return
-  end
-
-  TriggerServerEvent('phone:triggerHOAAlert', street1)
-
-  local isInVehicle = IsPedInAnyVehicle(PlayerPedId())
-  local dispatchCode = "10-90D"
-  local eventId = uuid()
-
-  TriggerServerEvent('dispatch:svNotify', {
-    dispatchCode = dispatchCode,
-    firstStreet = street1,
-    gender = gender,
-    eventId = eventId,
-    isImportant = true,
-    priority = 3,
-    blipSprite = 500,
-    blipColor = 1,
-    dispatchMessage = "House robbery in progress",
-    playSound = true,
-    recipientList = {
-      police = "police"
-    },
-
-    origin = {
-      x = plyPos.x,
-      y = plyPos.y,
-      z = plyPos.z
-    }
-  })
-  Wait(math.random(5000,7500))
-
-  if math.random(1,10) > 3 and IsPedInAnyVehicle(PlayerPedId()) and not isInVehicle then
-    plyPos = GetEntityCoords(PlayerPedId())
-    vehicleData = GetVehicleDescription() or {}
-    TriggerServerEvent('dispatch:svNotify', {
-      dispatchCode = 'CarFleeing',
-      relatedCode = dispatchCode,
-      firstStreet = street1,
-      gender = gender,
-      model = vehicleData.model,
-      plate = vehicleData.plate,
-      firstColor = vehicleData.firstColor,
-      secondColor = vehicleData.secondColor,
-      heading = vehicleData.heading,
-      eventId = eventId,
-      isImportant = false,
-      priority = 1,
-      recipientList = {
-        police = "police"
-      },
-      blipSprite = 500,
-      dispatchMessage = "House robbery in progress",
-      playSound = true,
-      blipColor = 1,
-      origin = {
-        x = plyPos.x,
-        y = plyPos.y,
-        z = plyPos.z
-      }
-    })
-  end
-end

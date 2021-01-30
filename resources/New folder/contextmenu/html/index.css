@@ -1,0 +1,194 @@
+body {
+  margin:0px;
+  font-family:"Open Sans",sans-serif;
+}
+#context-menu {
+  position:fixed;
+  z-index:10000;
+  width:150px;
+  background:#222831;
+  transform:scale(0);
+  transform-origin:top left;
+  list-style-type: none;
+}
+#context-menu.active {
+  transform:scale(1);
+  transition:transform 300ms ease-in-out;
+}
+
+.container {
+  margin: 15;
+  padding: 0;
+  font: 1em "PT Sans", Arial, sans-serif;
+  position: absolute;
+  left: 60%;
+  bottom: 570px;
+  width: 450px;
+  height: 150px;
+}
+
+#context-menu .menu-item {
+  padding:8px 10px;
+  font-size:15px;
+  color:#eee;
+}
+#context-menu .menu-item:hover {
+  background:#30475e;
+}
+#context-menu .menu-item i {
+  display:inline-block;
+  margin-right:5px;
+}
+#context-menu hr {
+  margin:2px 0px;
+  border-color:#30475e;
+}
+/* 
+-Door menu-
+-----------
+*/
+#door-menu::after {
+  /* This is the Submenu Arrow */
+  content: "";
+  position: absolute;
+  right: 5px;
+  border: 5px solid transparent;
+  border-left-color: #30475e;
+}
+
+#context-menu #door-menu:hover::after { border-left-color: #222831; }
+
+#door-sub-menu{
+  position:absolute;
+  z-index:10000;
+  width:150px;
+  left: 100%;
+  background:#222831;
+  transform:scale(0);
+  list-style-type: none;
+}
+#door-sub-menu .menu-item {
+  padding:8px 10px;
+  font-size:15px;
+  color:#eee;
+}
+#door-sub-menu .menu-item:hover {
+  background:#30475e;
+}
+#door-sub-menu .menu-item i {
+  display:inline-block;
+  margin-right:5px;
+}
+
+.menu-item:hover > #door-sub-menu {
+  opacity: 1;
+  -webkit-transform: translate(0, 0) scale(1);
+  transform: translate(0 ,-23px) scale(1);
+  pointer-events: auto;
+}
+
+/* 
+-Tow Menu-
+----------
+*/
+#tow-menu::after {
+  /* This is the Submenu Arrow */
+  content: "";
+  position: absolute;
+  right: 5px;
+  border: 5px solid transparent;
+  border-left-color: #808080;
+}
+
+#context-menu #tow-menu:hover::after { border-left-color: #fff; }
+
+#tow-sub-menu{
+  position:absolute;
+  z-index:10000;
+  width:150px;
+  left: 100%;
+  background:#1b1a1a;
+  transform:scale(0);
+  list-style-type: none;
+}
+#tow-sub-menu .menu-item {
+  padding:8px 10px;
+  font-size:15px;
+  color:#eee;
+}
+#tow-sub-menu .menu-item:hover {
+  background:#555;
+}
+#tow-sub-menu .menu-item i {
+  display:inline-block;
+  margin-right:5px;
+}
+
+.menu-item:hover > #tow-sub-menu {
+  opacity: 1;
+  -webkit-transform: translate(0, 0) scale(1);
+  transform: translate(0, -23px) scale(1);
+  pointer-events: auto;
+}
+
+/*
+-Police Menu-
+-------------
+*/
+#police-menu::after {
+  /* This is the Submenu Arrow */
+  content: "";
+  position: absolute;
+  right: 5px;
+  border: 5px solid transparent;
+  border-left-color: #808080;
+}
+
+#context-menu #police-menu:hover::after { border-left-color: #fff; }
+
+#police-sub-menu{
+  position:absolute;
+  z-index:10000;
+  width:150px;
+  left: 100%;
+  background:#4da4f7;
+  transform:scale(0);
+  list-style-type: none;
+}
+#police-sub-menu .menu-item {
+  padding:8px 10px;
+  font-size:15px;
+  color:#eee;
+}
+#police-sub-menu .menu-item:hover {
+  background:rgb(37, 135, 201);
+}
+#police-sub-menu .menu-item i {
+  display:inline-block;
+  margin-right:5px;
+}
+
+.menu-item:hover > #police-sub-menu {
+  opacity: 1;
+  -webkit-transform: translate(0, 0) scale(1);
+  transform: translate(0, -23px) scale(1);
+  pointer-events: auto;
+}
+/*
+-Illegal actions-
+-----------------
+*/
+#context-menu #steal:hover {
+  background:rgb(255, 0, 0);
+}
+#context-menu #lockpick:hover {
+  background:rgb(255, 0, 0);
+}
+
+#context-menu #context-menu {
+  top: 4px;
+  left: 99%;
+}
+
+
+

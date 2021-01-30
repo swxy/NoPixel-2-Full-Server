@@ -3572,6 +3572,7 @@ AddEventHandler('phone:loadSMSOther', function(messages,mynumber)
       end
     end
   end
+  print(json.encode(messages))
   SendNUIMessage({openSection = "messagesOther", list = lstMsgs, clientNumber = mynumber})
 end)
 
@@ -3620,6 +3621,7 @@ AddEventHandler('phone:loadSMS', function(messages,mynumber)
       end
     end
   end
+  print(json.encode(messages))
   SendNUIMessage({openSection = "messages", list = lstMsgs, clientNumber = mynumber})
 end)
 

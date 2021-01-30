@@ -167,7 +167,7 @@ end)
 
 --[[ Phone calling stuff ]]
 
-function getNumberPhone(identifier)
+function getNumberPhone(getNumberPhoneidentifier)
     local prick
     exports.ghmattimysql:execute("SELECT phone_number FROM characters WHERE id = @identifier", {
         ['identifier'] = identifier
@@ -288,6 +288,10 @@ AddEventHandler('phone:getSMS', function()
     local characterId = user:getVar("character").id
     local mynumber = getNumberPhone(characterId)
 
+        print(characterId)
+
+        print('my number ', mynumber)
+
     local result = exports.ghmattimysql:execute("SELECT * FROM user_messages WHERE receiver = @mynumber OR sender = @mynumber ORDER BY id DESC", {['mynumber'] = mynumber})
 
     local numbers ={}
@@ -303,6 +307,7 @@ AddEventHandler('phone:getSMS', function()
                 end
             end
             if valid then
+                print('valid 1')
                 table.insert(numbers, v.receiver)
             end
         elseif v.receiver == mynumber then
@@ -312,6 +317,7 @@ AddEventHandler('phone:getSMS', function()
                 end
             end
             if valid then
+                print('valid')
                 table.insert(numbers, v.sender)
             end
         end
@@ -320,6 +326,7 @@ AddEventHandler('phone:getSMS', function()
     for i, j in pairs(numbers) do
         for g, f in pairs(result) do
             if j == f.sender or j == f.receiver then
+                print('inserting into table')
                 table.insert(convos, {
                     id = f.id,
                     sender = f.sender,
@@ -337,6 +344,7 @@ AddEventHandler('phone:getSMS', function()
     else
 
         TriggerClientEvent('phone:loadSMS', src, {}, mynumber)
+        print('empty')
     end
  
 end)
@@ -346,6 +354,8 @@ AddEventHandler('phone:getSMSOther', function(player)
 	local user = exports["np-base"]:getModule("Player"):GetUser(player)
     local char = user:getVar("character")
     local mynumber = getNumberPhone(char.id)
+
+    print('my number ', mynumber)
 
     local result = exports.ghmattimysql:execute("SELECT * FROM user_messages WHERE receiver = @mynumber OR sender = @mynumber ORDER BY id DESC", {['mynumber'] = mynumber})
 

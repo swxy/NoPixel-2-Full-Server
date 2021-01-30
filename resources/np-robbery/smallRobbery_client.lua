@@ -108,6 +108,7 @@ local RobberyTimers = {}
 
 RegisterNetEvent("robbery:timers")
 AddEventHandler("robbery:timers", function(timers)
+  print('also getting here')
   RobberyTimers = timers
   local CardIds = ""
   for i = 1, 5 do
@@ -128,7 +129,10 @@ AddEventHandler("timeheader", function(hrs,mins)
   ----print("current hours : " .. curhrs)
 end)
 
-
+RegisterNetEvent('send:email')
+AddEventHandler('send:email', function()
+TriggerServerEvent('request:BankUpdate')
+end)
 
 -- cards are 124 - 128
 function PassCard(cardType)

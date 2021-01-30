@@ -135,12 +135,16 @@ local isDrunk = false
 local nextStumble = 0
 local nextRandomControl = 0
 local nextBlackout = 0
+local nextPuke = 0
 
 local currentLevel = 0
 local newDrunkLevel = true
 
 local enableDrunkCamera = true
+
+local isHigh = false
 local isBadLSD = false
+local isAbsinthe = false
 
 local animals = {
   `a_c_rabbit_01`,
@@ -169,6 +173,7 @@ FXAcid = function(time)
     --   createAnimal(animals[math.random(1, #animals)])
     -- end
     InitCubes()
+    isHigh = true
     local step = 0
     local timer = GetCloudTimeAsInt() + time
     local ped = PlayerPedId()
@@ -194,7 +199,8 @@ FXAcid = function(time)
     AnimpostfxPlay("DrugsDrivingOut", 3000, 0)
     Wait(3000)
     AnimpostfxStop("DrugsDrivingOut")
-
+    RemoveRelationshipGroup(`SPECIAL`)
+    isHigh = false
 
     Cubes = {}
 
@@ -243,10 +249,90 @@ FXAlcohol = function(time, pAlcoholStrength)
   end)
 end
 
+FXWeed = function(time)
+  Citizen.CreateThread(function()
+    --AnimpostfxPlay("DrugsMichaelAliensFight", time * 1000, 1)
+    SetTimecycleModifier("glasses_green")
+    SetTimecycleModifierStrength(1.4)
+    SetExtraTimecycleModifier("drug_wobbly")
+    SetExtraTimecycleModifierStrength(1.2)
+    SetPedMotionBlur(PlayerPedId(), true)
+    isHigh = true
+    local timer = GetCloudTimeAsInt() + time
+    while GetCloudTimeAsInt() < timer do
+      Wait(0)
+    end
+    ClearTimecycleModifier()
+    ClearExtraTimecycleModifier()
+    if drunkFactor <= 0.0 then
+      ShakeGameplayCam('DRUNK_SHAKE', 0.0)
+      SetPedMotionBlur(PlayerPedId(), false)
+    end
+    SetPedMotionBlur(PlayerPedId(), false)
+    -- AnimpostfxStop("DrugsMichaelAliensFight")
+    AnimpostfxPlay("DrugsDrivingOut", 3000, 0)
+    Wait(3000)
+    AnimpostfxStop("DrugsDrivingOut")
+    isHigh = false
+  end)
+end
+
+FXCocaine = function(time)
+  Citizen.CreateThread(function()
+    StartScreenEffect("DrugsMichaelAliensFight", 3.0, 0)
+    local timer = GetCloudTimeAsInt() + time
+    while GetCloudTimeAsInt() < timer do
+      Wait(0)
+    end
+    StopScreenEffect("DrugsMichaelAliensFight")
+  end)
+end
+
+FXCrack = function(time)
+  Citizen.CreateThread(function()
+    StartScreenEffect("DrugsTrevorClownsFight", 3.0, 0)
+    local timer = GetCloudTimeAsInt() + time
+    while GetCloudTimeAsInt() < timer do
+      Wait(0)
+    end
+    StopScreenEffect("DrugsTrevorClownsFight")
+  end)
+end
+
+FXAbsinthe = function(time, pAlcoholStrength)
+  Citizen.CreateThread(function()
+    drunkFactor = drunkFactor + pAlcoholStrength
+    if not HasAnimSetLoaded("move_m@drunk@slightlydrunk") then
+      RequestAnimSet("move_m@drunk@slightlydrunk")
+      while not HasAnimSetLoaded("move_m@drunk@slightlydrunk") do
+        Citizen.Wait(0)
+      end
+    end
+    if not HasAnimSetLoaded("move_m@drunk@moderatedrunk") then
+      RequestAnimSet("move_m@drunk@moderatedrunk")
+      while not HasAnimSetLoaded("move_m@drunk@moderatedrunk") do
+        Citizen.Wait(0)
+      end
+    end
+    if not HasAnimSetLoaded("move_m@drunk@verydrunk") then
+      RequestAnimSet("move_m@drunk@verydrunk")
+      while not HasAnimSetLoaded("move_m@drunk@verydrunk") do
+        Citizen.Wait(0)
+      end
+    end
+    isDrunk = true
+    TriggerEvent("client:blockShake",true)
+    SetPedMotionBlur(PlayerPedId(), true)
+    SetPedIsDrunk(PlayerPedId(), true)
+    SetPedConfigFlag(PlayerPedId(), 100, true)
+  end)
+end
+
 InitPed = function()
   local plyPed = PlayerPedId()
   local pos = GetEntityCoords(plyPed)
-
+  SetPedRelationshipGroupDefaultHash(plyPed,`SPECIAL`)
+  SetPedRelationshipGroupHash(plyPed,`SPECIAL`)
   local randomAlt     = math.random(0,359)
   local randomDist    = math.random(50,80)
   local spawnPos      = pos + PointOnSphere(0.0,randomAlt,randomDist)
@@ -265,6 +351,10 @@ InitPed = function()
   end
 
   EvilPed = CreatePed(pedType, hashKey, spawnPos, GetEntityHeading(plyPed), false, false) --ClonePed(plyPed, GetEntityHeading(plyPed), false, false)
+  SetPedRelationshipGroupDefaultHash(EvilPed,`SPECIAL`)
+  SetPedRelationshipGroupHash(EvilPed,`SPECIAL`)
+  SetEntityCanBeDamagedByRelationshipGroup(PlayerPedId(), false, `SPECIAL`)
+  SetPedDropsWeaponsWhenDead(EvilPed, false)
   DecorSetBool(EvilPed, 'ScriptedPed', true)
   Wait(500)
   if isBadLSD then
@@ -272,9 +362,9 @@ InitPed = function()
     GiveWeaponToPed(EvilPed, weapon, 80, false, true)
     SetCurrentPedWeapon(EvilPed, weapon, 1)
     SendNUIMessage({
-      transactionType     = 'playSound',
-      transactionFile     = "clown",
-      transactionVolume   = 0.45
+      transactionType = 'playSound',
+      transactionFile = "clown",
+      transactionVolume = 0.45
     })
   end
   SetEntityCoordsNoOffset(EvilPed, spawnPos.x,spawnPos.y,spawnPos.z + 1.0)
@@ -302,6 +392,9 @@ TrackEnt = function()
         SetPedCurrentWeaponVisible(EvilPed, 1, 1, 1, 1)
         SetPedConfigFlag(EvilPed, 36, 1)
       end
+
+      
+      TaskCombatPed(EvilPed, PlayerPedId(), 0, 16)
 
       if not LastPedTurn or (GetCloudTimeAsInt() - LastPedTurn) > 1000 then
         LastPedTurn = GetCloudTimeAsInt()
@@ -522,15 +615,31 @@ local FXLIST = {
     FadeInFx = nil,
     FadeOutFx = nil,
     Execute = FXAlcohol
-  }
+  },
+  ["weed"] = {
+    FadeInFx = "DrugsDrivingIn",
+    FadeOutFx = "DrugsDrivingOut",
+    Execute = FXWeed
+  },
+  ["cocaine"] = {
+    FadeInFx = "DrugsMichaelAliensFightIn",
+    FadeOutFx = "DrugsMichaelAliensFightOut",
+    Execute = FXCocaine
+  },
+  ["crack"] = {
+    FadeInFx = "DrugsTrevorClownsFightIn",
+    FadeOutFx = "DrugsTrevorClownsFightOut",
+    Execute = FXCrack
+  },
 }
 
 RegisterNetEvent("fx:run")
-AddEventHandler("fx:run", function(pFXName, pFXTime, pAlcoholStrength, pIsBadLSD)
+AddEventHandler("fx:run", function(pFXName, pFXTime, pAlcoholStrength, pIsBadLSD, pIsAbsinthe)
   local fxName = pFXName == nil and "alcohol" or pFXName
   local fxTime = pFXTime == nil and 180 or pFXTime
   local alcoholStrength = pAlcoholStrength == nil and 0.5 or pAlcoholStrength
-  isBadLSD = pIsBadLSD == nil and false or pIsBadLSD
+  isBadLSD = (isBadLSD == true and true or (pIsBadLSD == -1 and false or pIsBadLSD))
+  isAbsinthe = (isAbsinthe == true and true or (pIsAbsinthe == -1 and false or pIsAbsinthe))
   --Wait(math.random(2000,5000))
   local currentFX = FXLIST[fxName]
   if currentFX then
@@ -571,6 +680,10 @@ Citizen.CreateThread(function()
       SetPedMotionBlur(PlayerPedId(), false)
       SetPedConfigFlag(PlayerPedId(), 100, false)
       ResetPedMovementClipset(PlayerPedId(), 0.0)
+      if isAbsinthe and not isHigh then
+        ClearTimecycleModifier()
+      end
+      isAbsinthe = false
     end
 
     if math.floor(drunkFactor) ~= currentLevel then
@@ -578,6 +691,10 @@ Citizen.CreateThread(function()
       currentLevel = calculateDrunkLevel()
       if enableDrunkCamera then
         ShakeGameplayCam("DRUNK_SHAKE", math.min(currentLevel + 0.0, 3.0))
+      end
+      if isAbsinthe and not isHigh then
+        SetTimecycleModifier("drug_wobbly")
+        SetTimecycleModifierStrength(1.3)
       end
     end
 
@@ -596,6 +713,8 @@ Citizen.CreateThread(function()
       newDrunkLevel = false
     elseif currentLevel >= 4 and newDrunkLevel then
       nextBlackout = curTime + math.random(10,30)
+      nextPuke = curTime + math.random(30, 60)
+      SetPedMovementClipset(PlayerPedId(), "move_m@drunk@verydrunk", 1.0)
       newDrunkLevel = false
     end
 
@@ -607,6 +726,11 @@ Citizen.CreateThread(function()
     if currentLevel > 4.0 and curTime > nextBlackout then
       FxFadeOut()
       nextBlackout = curTime + math.random(55, 105)
+    end
+
+    if currentLevel > 4.0 and curTime > nextPuke then
+      TriggerServerEvent("fx:puke")
+      nextPuke = curTime + math.random(55, 105)
     end
 
     local curVeh = GetVehiclePedIsIn(PlayerPedId(), false)
@@ -630,23 +754,10 @@ Citizen.CreateThread(function()
   end
 end)
 
-RegisterNetEvent("fx:stomachpump")
-AddEventHandler("fx:stomachpump", function()
-  local particleDict = "scr_familyscenem"
-  local particleName = "scr_trev_amb_puke"
-  RequestNamedPtfxAsset(particleDict)
-  while not HasNamedPtfxAssetLoaded(particleDict) do Citizen.Wait(0) end
-  local endTime = GetCloudTimeAsInt() + 5
-  local particleFxHandle = 0
-  SetPtfxAssetNextCall(particleDict)
-  particleFxHandle = StartNetworkedParticleFxLoopedOnEntityBone(particleName, PlayerPedId(), 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, GetPedBoneIndex(PlayerPedId(), 31086), 1.3, 0.0, 0.0, 0.0)
-  SetParticleFxLoopedAlpha(particleFxHandle, 10.0)
-  TriggerEvent("fx:clear")
-end)
-
 RegisterNetEvent("fx:clear")
 AddEventHandler("fx:clear", function()
   ClearTimecycleModifier()
+  ClearExtraTimecycleModifier()
   ShakeGameplayCam('DRUNK_SHAKE', 0.0)
   SetPedMotionBlur(PlayerPedId(), false)
   AnimpostfxStop("DMT_flight")
@@ -699,6 +810,6 @@ end
 AddEventHandler("onResourceStart", function(resource)
   if resource == GetCurrentResourceName() then
     TriggerEvent("fx:clear")
+    --TriggerEvent("fx:run", "alcohol", 15, 3.3, -1, true)
   end
 end)
-

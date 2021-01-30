@@ -344,6 +344,7 @@ function attemptToRob(itemID,activePolice)
                 if math.random(1,100) > 85 then
                     exports["np-thermite"]:startFireAtLocation(marker.pos[1],marker.pos[2],marker.pos[3]-0.3,10000)                   
                 end
+
                 TriggerEvent('inventory:removeItem',"thermite", 1)
             end
 
@@ -353,7 +354,7 @@ function attemptToRob(itemID,activePolice)
                 TriggerServerEvent("robbery:robberyFinished",locationID,marker.toolType,itemID)
             else
                 if marker["group"] == "prisonPower" then
-                    TriggerServerEvent("robbery:spawnaids")
+                    -- TriggerServerEvent("robbery:spawnaids")
                 end
                 TriggerServerEvent("robbery:alarmTrigger",locationID)
                 TriggerServerEvent("robbery:robberyFailed",locationID,itemID)

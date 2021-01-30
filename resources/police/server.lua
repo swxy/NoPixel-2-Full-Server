@@ -3,6 +3,24 @@ local playerInjury = {}
 local bones = {}
 local multipledenominators = {}
 
+local firstname = {
+	'Bob',
+	'Jim',
+	'Jill',
+	'Gog',
+	'Nog'
+}
+
+local lastname = {
+	'Bob',
+	'Jim',
+	'Jill',
+	'Gog',
+	'Nog'
+}
+
+local logged = {}
+
 RegisterServerEvent('server:takephone')
 AddEventHandler('server:takephone', function(target)
     TriggerClientEvent('inventory:removeItem', target, "mobilephone", 1)
@@ -42,37 +60,48 @@ user:addMoney(100)
 end)
 
 RegisterServerEvent('checkLicensePlate')
-AddEventHandler('checkLicensePlate', function(plate)
-	print(args2)
+AddEventHandler('checkLicensePlate', function(oof)
 	local source = source
-	local kekw = args2
-    if args == "plate" then
-        exports.ghmattimysql:execute('SELECT * FROM character_cars WHERE `plate` = @plate', { ['@plate'] = kekw }, function(result)
+	local user = exports["np-base"]:getModule("Player"):GetUser(source)
+	local char = user:getCurrentCharacter()
+	local job = "Unemployed"
+	local message = ""
+	local phonenumber = char.phone_number
+	local kekw = oof
+        exports.ghmattimysql:execute('SELECT * FROM characters_cars WHERE `license_plate` = @plate', { ['@plate'] = kekw }, function(result)
         	if result[1] ~= nil then
-	            exports.ghmattimysql:execute('SELECT * FROM characters WHERE `identifier` = @identifier', { ['@identifier'] = result[1].owner }, function(data)
-	                TriggerClientEvent('notification', source, 'Loading....')
-	                Citizen.Wait(3000)
-	                TriggerClientEvent('notification', source, 'Dispatch: Vehicle comes back to one ' .. data[1].firstname .. ' ' .. data[1].lastname .. ' Over.')
-	                TriggerClientEvent('InteractSound_CL:PlayOnOne', source, 'radioclick', 1.0)
-	            end)
-	        else
-	        	TriggerClientEvent('notification', source, 'Dispatch: Vehicle was not found in the DMV database', 2)
+				exports.ghmattimysql:execute('SELECT * FROM characters WHERE `id` = @cid', { ['@cid'] = result[1].cid }, function(data)
+					exports.ghmattimysql:execute('SELECT * FROM jobs_whitelist WHERE `owner` = @cid', { ['@cid'] = data[1].id }, function(penis)
+					-- TriggerClientEvent('notification', source, 'Dispatch: Vehicle comes back to one ' .. data[1].firstname .. ' ' .. data[1].lastname .. ' Over.')
+						if penis[1] ~= nil then
+							job = penis[1].job
+							local phoneNumber = string.sub(data[1].phone_number, 0, 3) .. '-' .. string.sub(data[1].phone_number, 4, 6) .. '-' .. string.sub(data[1].phone_number, 7, 10)
+							TriggerClientEvent("chatMessage", source, "DISPATCH", 3, "10-74 (Negative) Name: " .. data[1].first_name .. " " .. data[1].last_name .. " Phone #: " .. phoneNumber, ' Job: ', job)
+							TriggerClientEvent('InteractSound_CL:PlayOnOne', source, 'radioclick', 1.0)
+						else
+							TriggerClientEvent("chatMessage", source, "DISPATCH", 3, "10-74 (Negative) Name: " .. data[1].first_name .. " " .. data[1].last_name .. " Phone #: " .. phoneNumber, ' Job: ', job)
+							TriggerClientEvent('InteractSound_CL:PlayOnOne', source, 'radioclick', 1.0)
+						end
+					end)
+				end)
+			elseif logged[#logged] ~= nil then
+				for k,v in ipairs(logged) do
+					if v.plate == kekw then
+						TriggerClientEvent("chatMessage", source, "DISPATCH", 3, "10-74 (Negative) Name: " .. v.firstname .. " " .. v.lastname .. " Phone #: " .. math.random(000, 999) .. '-' .. math.random(000, 999) .. '-' .. math.random(0000, 9999) .. ' Job: Unemployed')
+					end
+				end
+			else
+				local insert = {
+					plate = kekw,
+					firstname = firstname[math.random(1,5)],
+					lastname = lastname[math.random(1,5)]
+				}
+				TriggerClientEvent("chatMessage", source, "DISPATCH", 3, "10-74 (Negative) Name: " .. insert.firstname .. " " .. insert.lastname .. " Phone #: " .. math.random(000, 999) .. '-' .. math.random(000, 999) .. '-' .. math.random(0000, 9999) .. ' Job: Unemployed')
+				logged[#logged+1] = insert
+				print(json.encode(logged))
+				TriggerClientEvent('InteractSound_CL:PlayOnOne', source, 'radioclick', 1.0)
 	        end
-        end)
-    elseif args == "gun" then
-        exports.ghmattimysql:execute('SELECT * FROM guns WHERE `serial` = @serial', { ['@serial'] = kekw }, function(result)
-        	if result[1] ~= nil then
-        		exports.ghmattimysql:execute('SELECT * FROM characters WHERE `id` = @id', { ['@id'] = result[1].owner }, function(data)
-		                TriggerClientEvent('notification', source, 'Loading....')
-	                	Citizen.Wait(3000)
-		                TriggerClientEvent('notification', source, 'Dispatch: Gun comes back to one ' .. data[1].firstname .. ' ' .. data[1].lastname .. ' Over.', 1)
-	                	TriggerClientEvent('InteractSound_CL:PlayOnOne', source, 'radioclick', 1.0)
-	            end)
-        	else
-        		TriggerClientEvent('notification', source, 'Dispatch: Gun was not found in the Firearms database', 2)
-        	end
-    	end)
-    end
+		end)
 end)
 
 RegisterServerEvent('dragPlayer:disable')
@@ -179,7 +208,7 @@ RegisterServerEvent('police:showPH') -- that is np's code ((sway))
 AddEventHandler('police:showPH', function()
 	local src = source
 	local player = exports["np-base"]:getModule("Player"):GetUser(src)
-	local char = user:getCurrentCharacter()
+	local char = player:getCurrentCharacter()
 	local result = {phone_number = char.phone_number}
 	TriggerClientEvent('outlawNotifyPhone', -1, src, result)
 end)
@@ -843,8 +872,8 @@ function jailUser(player,reason,cid,time,src)
 end
 
 RegisterServerEvent("911")
-AddEventHandler("911", function(src, args)
-	table.remove(args, 1)
+AddEventHandler("911", function(args)
+	local src = source
 
 	local user = exports["np-base"]:getModule("Player"):GetUser(src)
 	local char = user:getCurrentCharacter()
@@ -861,47 +890,7 @@ AddEventHandler("911", function(src, args)
 
 	TriggerClientEvent("GPSTrack:Create", src)
 	TriggerClientEvent("animation:phonecall", src)
-	TriggerClientEvent("chatMessage", src, "911 | " .. char.first_name .. " " .. char.last_name .. " # " .. phonenumber, 3, tostring(message))
-
-	local users = exports["np-base"]:getModule("Player"):GetUsers()
-
-	local emergencyPlayers = {}
-
-	for k,v in pairs(users) do
-		local user = exports["np-base"]:getModule("Player"):GetUser(v)
-		local job = user:getVar("job")
-
-		if job == "ems" or job == "police" then
-			emergencyPlayers[#emergencyPlayers+1]= v
-		end
-	end
-
-	for k,v in ipairs(emergencyPlayers) do
-		TriggerClientEvent("callsound", v)
-		TriggerClientEvent("chatMessage", v, "911 | (" .. tonumber(src) .. ") " .. "Anonymous: ", 3, tostring(message))
-	end
-end)
-
-RegisterServerEvent("911a")
-AddEventHandler("911a", function(src, args)
-	table.remove(args, 1)
-
-	local user = exports["np-base"]:getModule("Player"):GetUser(src)
-	local char = user:getCurrentCharacter()
-	local job = user:getVar("job")
-	local message = ""
-
-	local phonenumber = char.phone_number
-
-	for k,v in ipairs(args) do
-		message = message .. " " .. v
-	end
-	local caller = tostring(char.first_name) .. " " .. tostring(char.last_name)
-	exports["np-log"]:AddLog("911 Chat", user, caller .. ": " .. message, {})
-
-	TriggerClientEvent("GPSTrack:Create", src)
-	TriggerClientEvent("animation:phonecall", src)
-	TriggerClientEvent("chatMessage", src, "911 | " .. char.first_name .. " " .. char.last_name .. " # " .. phonenumber, 3, tostring(message))
+	TriggerClientEvent("chatMessage", src, "911 | " .. char.first_name .. " | " .. char.last_name .. " # " .. phonenumber, 3, tostring(message))
 
 	local users = exports["np-base"]:getModule("Player"):GetUsers()
 
@@ -922,37 +911,67 @@ AddEventHandler("911a", function(src, args)
 	end
 end)
 
-RegisterServerEvent("fire:serverStopFire")
-AddEventHandler("fire:serverStopFire", function(x,y,z, radius)
-	TriggerClientEvent("fire:stopClientFires", -1, x,y,z, radius)
+RegisterServerEvent("311")
+AddEventHandler("311", function(args)
+	local src = source
+
+	local user = exports["np-base"]:getModule("Player"):GetUser(src)
+	local char = user:getCurrentCharacter()
+	local job = user:getVar("job")
+	local message = ""
+
+	local phonenumber = char.phone_number
+
+	for k,v in ipairs(args) do
+		message = message .. " " .. v
+	end
+	local caller = tostring(char.first_name) .. " " .. tostring(char.last_name)
+	exports["np-log"]:AddLog("911 Chat", user, caller .. ": " .. message, {})
+
+	-- TriggerClientEvent("GPSTrack:Create", src)
+	TriggerClientEvent("animation:phonecall", src)
+	TriggerClientEvent("chatMessage", src, "311 | " .. char.first_name .. " | " .. char.last_name .. " # " .. phonenumber, { 33, 118, 255 }, tostring(message))
+
+	local users = exports["np-base"]:getModule("Player"):GetUsers()
+
+	local emergencyPlayers = {}
+
+	for k,v in pairs(users) do
+		local user = exports["np-base"]:getModule("Player"):GetUser(v)
+		local job = user:getVar("job")
+
+		if job == "ems" or job == "police" then
+			emergencyPlayers[#emergencyPlayers+1]= v
+		end
+	end
+
+	for k,v in ipairs(emergencyPlayers) do
+		TriggerClientEvent("callsound", v)
+		TriggerClientEvent("chatMessage", v, "311 | (" .. tonumber(src) .. ") " .. char.first_name .. " | " .. char.last_name .. " # " .. phonenumber, { 33, 118, 255 }, tostring(message))
+	end
 end)
 
--- RegisterServerEvent("911r")
--- AddEventHandler("911r", function(src, args)
+-- RegisterServerEvent("911a")
+-- AddEventHandler("911a", function(args)
+-- 	local src = source
 -- 	table.remove(args, 1)
-
--- 	if not args[1] or not tonumber(args[1]) then return end
--- 	local target = args[1]
 
 -- 	local user = exports["np-base"]:getModule("Player"):GetUser(src)
 -- 	local char = user:getCurrentCharacter()
-
 -- 	local job = user:getVar("job")
-
--- 	local canRun = (job == "police" or job = "ems") and true or false
--- 	if not canRun then return end
-
 -- 	local message = ""
 
--- 	local caller = tostring(char.first_name) .. " " .. tostring(char.last_name)
--- 	exports["np-log"]:AddLog("911r Chat", user, caller .. ": " .. message)
+-- 	local phonenumber = char.phone_number
 
 -- 	for k,v in ipairs(args) do
--- 		if k > 1 then
--- 			message = message .. " " .. v
--- 		end
+-- 		message = message .. " " .. v
 -- 	end
+-- 	local caller = tostring(char.first_name) .. " " .. tostring(char.last_name)
+-- 	exports["np-log"]:AddLog("911 Chat", user, caller .. ": " .. message, {})
+
+-- 	TriggerClientEvent("GPSTrack:Create", src)
 -- 	TriggerClientEvent("animation:phonecall", src)
+-- 	TriggerClientEvent("chatMessage", src, "911r | " .. char.first_name .. " " .. char.last_name .. " # " .. phonenumber, 3, tostring(message))
 
 -- 	local users = exports["np-base"]:getModule("Player"):GetUsers()
 
@@ -968,10 +987,112 @@ end)
 -- 	end
 
 -- 	for k,v in ipairs(emergencyPlayers) do
--- 		TriggerClientEvent("chatMessage", v, "911r -> " .. target .. " | " .. char.first_name, 3, tostring(message))
+-- 		TriggerClientEvent("callsound", v)
+-- 		TriggerClientEvent("chatMessage", v, "911r | (" .. tonumber(src) .. ") " .. char.first_name .. " | " .. char.last_name .. " # " .. phonenumber, 3, tostring(message))
 -- 	end
-
--- 	TriggerClientEvent("chatMessage", target, "911 | (" .. tonumber(src) ..")", 3, tostring(message))
--- 	exports["np-log"]:AddLog("911r Chat", user, char.first_name .. " " .. char.last_name .. ": ".. message, {target = target})
 -- end)
+
+RegisterServerEvent("fire:serverStopFire")
+AddEventHandler("fire:serverStopFire", function(x,y,z, radius)
+	TriggerClientEvent("fire:stopClientFires", -1, x,y,z, radius)
+end)
+
+RegisterServerEvent("911r")
+AddEventHandler("911r", function(args)
+	local src = source
+	-- table.remove(args, 1)
+
+	if not args[1] or not tonumber(args[1]) then return end
+	local target = args[1]
+
+	local user = exports["np-base"]:getModule("Player"):GetUser(src)
+	local char = user:getCurrentCharacter()
+
+	local job = user:getVar("job")
+
+	local canRun = (job == "police" or job == "ems") and true or false
+	if not canRun then return end
+
+	local message = ""
+
+	local caller = tostring(char.first_name) .. " " .. tostring(char.last_name)
+	exports["np-log"]:AddLog("911r Chat", user, caller .. ": " .. message)
+
+	for k,v in ipairs(args) do
+		if k > 1 then
+			message = message .. " " .. v
+		end
+	end
+	TriggerClientEvent("animation:phonecall", src)
+
+	local users = exports["np-base"]:getModule("Player"):GetUsers()
+
+	local emergencyPlayers = {}
+
+	for k,v in pairs(users) do
+		local user = exports["np-base"]:getModule("Player"):GetUser(v)
+		local job = user:getVar("job")
+
+		if job == "ems" or job == "police" then
+			emergencyPlayers[#emergencyPlayers+1]= v
+		end
+	end
+
+	for k,v in ipairs(emergencyPlayers) do
+		TriggerClientEvent("chatMessage", v, "911r -> " .. target .. " | " .. char.first_name .. ' ' .. char.last_name, 3, tostring(message))
+	end
+
+	TriggerClientEvent("chatMessage", target, "911r | (" .. tonumber(src) ..")", 3, tostring(message))
+	exports["np-log"]:AddLog("911r Chat", user, char.first_name .. " " .. char.last_name .. ": ".. message, {target = target})
+end)
+
+
+RegisterServerEvent("311r")
+AddEventHandler("311r", function(args)
+	local src = source
+	-- table.remove(args, 1)
+
+	if not args[1] or not tonumber(args[1]) then return end
+	local target = args[1]
+
+	local user = exports["np-base"]:getModule("Player"):GetUser(src)
+	local char = user:getCurrentCharacter()
+
+	local job = user:getVar("job")
+
+	local canRun = (job == "police" or job == "ems") and true or false
+	if not canRun then return end
+
+	local message = ""
+
+	local caller = tostring(char.first_name) .. " " .. tostring(char.last_name)
+	exports["np-log"]:AddLog("911r Chat", user, caller .. ": " .. message)
+
+	for k,v in ipairs(args) do
+		if k > 1 then
+			message = message .. " " .. v
+		end
+	end
+	TriggerClientEvent("animation:phonecall", src)
+
+	local users = exports["np-base"]:getModule("Player"):GetUsers()
+
+	local emergencyPlayers = {}
+
+	for k,v in pairs(users) do
+		local user = exports["np-base"]:getModule("Player"):GetUser(v)
+		local job = user:getVar("job")
+
+		if job == "ems" or job == "police" then
+			emergencyPlayers[#emergencyPlayers+1]= v
+		end
+	end
+
+	for k,v in ipairs(emergencyPlayers) do
+		TriggerClientEvent("chatMessage", v, "311r -> " .. target .. " | " .. char.first_name .. ' ' .. char.last_name, { 33, 118, 255 }, tostring(message))
+	end
+
+	TriggerClientEvent("chatMessage", target, "311r | (" .. tonumber(src) ..")", { 33, 118, 255 }, tostring(message))
+	exports["np-log"]:AddLog("911r Chat", user, char.first_name .. " " .. char.last_name .. ": ".. message, {target = target})
+end)
 --user:getVar("steamid")

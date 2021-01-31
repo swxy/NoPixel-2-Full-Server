@@ -22,12 +22,12 @@
                             role="tab" aria-controls="nav-fxserver" aria-selected="true">FXServer</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-item nav-link {{it.activeTab=='playerManager'|isActive}}" id="nav-playerManager-tab" data-toggle="tab" href="#nav-playerManager"
-                            role="tab" aria-controls="nav-playerManager" aria-selected="true">Player Manager</a>
+                        <a class="nav-item nav-link {{it.activeTab=='monitor'|isActive}}" id="nav-monitor-tab" data-toggle="tab" href="#nav-monitor"
+                            role="tab" aria-controls="nav-monitor" aria-selected="true">Restarter</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-item nav-link {{it.activeTab=='monitor'|isActive}}" id="nav-monitor-tab" data-toggle="tab" href="#nav-monitor"
-                            role="tab" aria-controls="nav-monitor" aria-selected="true">Monitor/Restarter</a>
+                        <a class="nav-item nav-link {{it.activeTab=='playerManager'|isActive}}" id="nav-playerManager-tab" data-toggle="tab" href="#nav-playerManager"
+                            role="tab" aria-controls="nav-playerManager" aria-selected="true">Player Manager</a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-item nav-link {{it.activeTab=='discord'|isActive}}" id="nav-discord-tab" data-toggle="tab" href="#nav-discord"
@@ -199,6 +199,60 @@
                         </div>
                     </div>
                     <!-- /FXServer Tab -->
+
+                    <!-- Restarter Tab -->
+                    <div class="tab-pane fade {{it.activeTab=='monitor'|isActive|tShow}}" id="nav-monitor" role="tabpanel" aria-labelledby="nav-monitor-tab">
+                        <div class="form-group row">
+                            <label for="frmMonitor-restarterSchedule" class="col-sm-3 col-form-label">Scheduled Restarts</label>
+                            <div class="col-sm-9">
+                                <input type="text" class="form-control" id="frmMonitor-restarterSchedule" value="{{it.monitor.restarterSchedule|undef}}"
+                                    placeholder="05:00, 13:00" {{it.readOnly|isDisabled}}>
+                                <span class="form-text text-danger" id="frmMonitor-timezoneAlert"></span>
+                                <span class="form-text text-muted">
+                                    At which times of day to restart the server. Leave it blank to disable this feature. <br>
+                                    The time MUST be in the 24-hour format with two digits for hours as well as
+                                    minutes (<code>HH:MM</code>) and the times should be separated by commas. <br>
+                                    <strong>Note:</strong> Make sure your schedule matches your server time and not your local time.
+                                </span>
+                            </div>
+                        </div>
+
+                        <div class="form-group row">
+                            <label class="col-sm-3 col-form-label">
+                                Disable Chat Warnings
+                            </label>
+                            <div class="col-sm-9">
+                                <label class="c-switch c-switch-label c-switch-pill c-switch-success fix-pill-form">
+                                    <input class="c-switch-input" type="checkbox" id="frmMonitor-chatMessages"
+                                        {{it.monitor.disableChatWarnings|undef}} {{it.readOnly|isDisabled}}>
+                                    <span class="c-switch-slider" data-checked="On" data-unchecked="Off"></span>
+                                </label>
+                                <span class="form-text text-muted">
+                                    Check this if you want to disable broadcast chat warning messages in game before each scheduled restart.
+                                </span>
+                            </div>
+                        </div>
+
+                        <div class="form-group row">
+                            <label for="frmMonitor-restarterScheduleWarnings" class="col-sm-3 col-form-label">Restart Warnings</label>
+                            <div class="col-sm-9">
+                                <input type="text" class="form-control" id="frmMonitor-restarterScheduleWarnings" value="{{it.monitor.restarterScheduleWarnings|undef}}"
+                                    placeholder="30, 15, 10, 5, 4, 3, 2, 1" {{it.readOnly|isDisabled}}>
+                                <span class="form-text text-muted">
+                                    Minutes before restarts to trigger chat warnings <br>
+                                    All the minutes must be between 1 and 360 minutes and be separated by commas. <br>
+                                    <strong>Note:</strong> This will also trigger the server event <code>txAdmin:events:scheduledRestart</code> <a href="https://github.com/tabarra/txAdmin/blob/master/docs/events.md" target="_blank" rel="noopener noreferrer">(docs)</a>
+                                </span>
+                            </div>
+                        </div>
+
+                        <div class="text-center mt-4">
+                            <button class="btn btn-sm btn-primary" type="submit" id="frmMonitor-save" {{it.readOnly|isDisabled}}>
+                                <i class="icon-check"></i> Save Monitor/Restarter Settings
+                            </button>
+                        </div>
+                    </div>
+                    <!-- /Restarter Tab -->
                     
                     <!-- Player Manager Tab -->
                     <div class="tab-pane fade {{it.activeTab=='playerManager'|isActive|tShow}}" id="nav-playerManager" role="tabpanel" aria-labelledby="nav-playerManager-tab">
@@ -283,7 +337,7 @@
                                 </label>
                                 <span class="form-text text-muted">
                                     When enabled, the pending whitelist will be wiped every time txAdmin starts <br>
-                                    This is done to prevent the database to get too big.
+                                    This is done to prevent the database from getting too big.
                                 </span>
                             </div>
                         </div>
@@ -295,47 +349,6 @@
                         </div>
                     </div>
                     <!-- /Player Manager Tab -->
-
-                    <!-- Monitor Tab -->
-                    <div class="tab-pane fade {{it.activeTab=='monitor'|isActive|tShow}}" id="nav-monitor" role="tabpanel" aria-labelledby="nav-monitor-tab">
-                        <div class="form-group row">
-                            <label for="frmMonitor-schedule" class="col-sm-3 col-form-label">Scheduled Restarts</label>
-                            <div class="col-sm-9">
-                                <input type="text" class="form-control" id="frmMonitor-schedule" value="{{it.monitor.restarterSchedule|undef}}"
-                                    placeholder="05:00, 13:00" {{it.readOnly|isDisabled}}>
-                                <span class="form-text text-danger" id="frmMonitor-timezoneAlert"></span>
-                                <span class="form-text text-muted">
-                                    At which times of day to restart the server. Leave it blank to disable this feature. <br>
-                                    The time MUST be in the 24-hour format with two digits for hours as well as
-                                    minutes (<code>HH:MM</code>) and the times should be separated by commas. <br>
-                                    <strong>Note:</strong> Make sure your schedule matches your server time and not your local time.
-                                </span>
-                            </div>
-                        </div>
-
-                        <div class="form-group row">
-                            <label class="col-sm-3 col-form-label">
-                                Disable Chat Warnings
-                            </label>
-                            <div class="col-sm-9">
-                                <label class="c-switch c-switch-label c-switch-pill c-switch-success fix-pill-form">
-                                    <input class="c-switch-input" type="checkbox" id="frmMonitor-chatMessages"
-                                        {{it.monitor.disableChatWarnings|undef}} {{it.readOnly|isDisabled}}>
-                                    <span class="c-switch-slider" data-checked="On" data-unchecked="Off"></span>
-                                </label>
-                                <span class="form-text text-muted">
-                                    Check this if you want to disable broadcast chat warning messages in game before each scheduled restart.
-                                </span>
-                            </div>
-                        </div>
-
-                        <div class="text-center mt-4">
-                            <button class="btn btn-sm btn-primary" type="submit" id="frmMonitor-save" {{it.readOnly|isDisabled}}>
-                                <i class="icon-check"></i> Save Monitor/Restarter Settings
-                            </button>
-                        </div>
-                    </div>
-                    <!-- /Monitor Tab -->
 
                     <!-- Discord Tab -->
                     <div class="tab-pane fade {{it.activeTab=='discord'|isActive|tShow}}" id="nav-discord" role="tabpanel" aria-labelledby="nav-discord-tab">
@@ -357,10 +370,10 @@
                             <label for="frmDiscord-token" class="col-sm-3 col-form-label">Token <span
                                     class="text-danger">*</span></label>
                             <div class="col-sm-9">
-                                <input type="text" class="form-control" id="frmDiscord-token" 
+                                <input type="text" class="form-control blur-input" id="frmDiscord-token" 
                                     value="{{@if(!it.readOnly)}}{{it.discord.token|undef}}{{#else}}[redacted]{{/if}}"
                                     placeholder="CXPcWbxKOHpwlUBaYKznIfkz.ExpTAB.NX-3YxfmVIGUJLGbPamViXGAEiY"
-                                    maxlength="96" {{it.readOnly|isDisabled}}>
+                                    maxlength="96" autocomplete="off" {{it.readOnly|isDisabled}}>
                                 <span class="form-text text-muted">
                                     To get a token and the bot to join your server, follow these two guides:
                                     <a href="https://discordjs.guide/preparations/setting-up-a-bot-application.html"
@@ -434,30 +447,55 @@
     </div>
 </div>
 
-
 {{@if(it.adminIsMaster)}}
     <div class="row justify-content-md-center">
         <div class="col-md-7 mw-col8">
             <div class="card border-danger">
                 <div class="card-header text-center">
-                    <h5 class="d-inline">Danger Zone</h5>
+                    <h5 class="d-inline">Master Actions</h5>
                 </div>
                 <div class="card-body">
-                    <!-- reset fxserver -->
+                    <!-- Backup Database -->
+                    <div class="row text-center pt-2">
+                        <div class="col-lg-9 text-lg-left mb-2">
+                            <h5>Backup Database <span class="badge badge-info">NEW</span></h5>
+                            Download a copy of the <code>playersDB.json</code> file containing all players and actions (bans, warns and whitelists).  
+                            You should do this every once in a while.
+                        </div>
+                        <div class="col-lg-3 text-lg-right">
+                            <a class="btn btn-sm btn-outline-danger" target="_blank" href="/masterActions/backupDatabase">Backup Database</a>
+                        </div>
+                    </div>
+                    <hr class="m-1">
+
+                    <!-- Import bans -->
+                    <div class="row text-center pt-2">
+                        <div class="col-lg-9 text-lg-left mb-2">
+                            <h5>Import Bans <span class="badge badge-info">NEW</span></h5>
+                            If you wish to migrate from another ban system, use this tool to import existing bans. <br>
+                            Supported systems: EasyAdmin, BanSQL, vMenu, vRP, el_bwh.
+                        </div>
+                        <div class="col-lg-3 text-lg-right">
+                            <a class="btn btn-sm btn-outline-danger" href="/masterActions/importBans">Import Bans</a>
+                        </div>
+                    </div>
+                    <hr class="m-1">
+
+                    <!-- Reset FXServer -->
                     <div class="row text-center">
                         <div class="col-lg-9 text-lg-left mb-2">
-                            <strong>Reset FXServer settings and return to Setup</strong> <br>
+                            <h5>Reset FXServer</h5>
                             In the FXServer tab you can change the server data path, but if you want to use
                             the Deployer again, you will need to use this option. <br>
                             None of your files or databases will be deleted by doing that.
                         </div>
                         <div class="col-lg-3 text-lg-right">
                             <button class="btn btn-sm btn-outline-danger" type="button" 
-                                onclick="dangerZoneActions('reset');">Reset Settings</button>
+                                onclick="masterActionsActions('reset_fxserver');">Reset FXServer</button>
                         </div>
                     </div>
                     <!-- <hr class="m-1"> -->
-                    
+
                 </div>
             </div>
         </div>
@@ -478,21 +516,21 @@
         $('#frmMonitor-timezoneAlert').html(msg);
     }
 
-    //============================================== Danger Zone
-    function dangerZoneActions(action){
-        var notify = $.notify({ message: '<p class="text-center">Executing...</p>' }, {});
+    //============================================== Master Actions
+    function masterActionsActions(action){
         if(!window.confirm(`Are you sure you want to Reset FXServer Settings?`)){
             return;
         }
+        var notify = $.notify({ message: '<p class="text-center">Executing...</p>' }, {});
 
         $.ajax({
             type: "POST",
-            url: `/settings/masterActions/${action}`,
+            url: `/masterActions/${action}`,
             timeout: timeoutMedium,
             data: {},
             dataType: 'json',
             success: function (data) {
-                if(action == 'reset' && data.success == true){
+                if(action == 'reset_fxserver' && data.success == true){
                     window.location = '/setup';
                     return;
                 }else{
@@ -617,8 +655,9 @@
     //============================================== Monitor Settings
     $('#frmMonitor-save').click(function () {
         let data = {
-            schedule: $('#frmMonitor-schedule').val().trim(),
-            disableChatWarnings: ($('#frmMonitor-chatMessages').is(':checked') === true)
+            restarterSchedule: $('#frmMonitor-restarterSchedule').val().trim(),
+            restarterScheduleWarnings: $('#frmMonitor-restarterScheduleWarnings').val().trim(),
+            disableChatWarnings: ($('#frmMonitor-chatMessages').is(':checked') === true),
         }
         var notify = $.notify({ message: '<p class="text-center">Saving...</p>' }, {});
 

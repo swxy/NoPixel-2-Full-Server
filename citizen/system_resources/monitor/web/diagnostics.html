@@ -40,10 +40,11 @@
                 <strong>HTTP Counter:</strong> <code>{{it.txadmin.httpCounterLog}}</code> &lt; <code>{{it.txadmin.httpCounterMax}}</code> <br>
                 <strong>HB Fails:</strong> <code>HTTP {{it.txadmin.hbHTTPFails}}</code> / <code>FD3 {{it.txadmin.hbFD3Fails}}</code> <br>
                 <strong>Boot Seconds:</strong> <code>{{it.txadmin.hbBootSeconds}}</code> <br>
+                <strong>FXServer Log Size:</strong> <code>{{it.txadmin.logFileSize}}</code> <br>
                 <hr>
                 <h5>Settings:</h5>
                 <strong>Schedule:</strong> <code>{{it.txadmin.schedule}}</code> <br>
-                <strong>Cooldown/Timeout:</strong> <code>{{it.txadmin.cooldown}}</code>, <code>{{it.txadmin.timeout}}</code> <br>
+                <strong>Cooldown:</strong> <code>{{it.txadmin.cooldown}}</code> <br>
                 <strong>FXServer Path:</strong> <code>{{it.txadmin.fxServerPath}}</code> <br>
                 <strong>Server Data Path:</strong> <code>{{it.txadmin.serverDataPath}}</code><br>
                 <strong>CFG Path:</strong> <code>{{it.txadmin.cfgPath}}</code>
@@ -60,12 +61,19 @@
         <div class="card card-accent-info" style="min-height: 160px;">
             <div class="card-header font-weight-bold">FXServer /info.json:</div>
             <div class="card-body">
+                {{@if(it.fxserver.versionMismatch)}}
+                    <div class="alert alert-danger text-center" role="alert">
+                        <strong>This version doesn't match txAdmin's version!</strong><br>
+                        If you just updated FXServer, restart txAdmin. <br>
+                        Otherwise, it means FXServer was already running before txAdmin started, and nothing is going to work properly.
+                    </div>
+                {{/if}}
                 {{@if(it.fxserver.error !== false)}}
                     {{it.fxserver.error|safe}}
                 {{#else}}
-                    <strong>Status: <span class="badge badge-{{it.fxserver.statusColor}}">{{it.fxserver.status}}</span></strong><br>
-                    <strong>Version:</strong> {{it.fxserver.versionWarning|safe}} {{it.fxserver.version}} <br>
-                    <strong>Resources:</strong> {{it.fxserver.resources}} {{it.fxserver.resourcesWarning|safe}}<br>
+                    <strong>Status: <span class="badge badge-{{it.fxserver.statusColor}}">{{it.fxserver.status}}</span></strong> <br>
+                    <strong>Version:</strong> {{it.fxserver.version}} <br>
+                    <strong>Resources:</strong> {{it.fxserver.resources}} {{it.fxserver.resourcesWarning|safe}} <br>
                     <strong>OneSync:</strong> {{it.fxserver.onesync}} <br>
                     <strong>Max Clients:</strong> {{it.fxserver.maxClients}} <br>
                     <strong>txAdmin Version:</strong> {{it.fxserver.txAdminVersion}} <br>

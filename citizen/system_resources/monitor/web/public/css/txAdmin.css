@@ -1,13 +1,35 @@
-/* Menu */
-/* .c-sidebar-nav-title {
-    background-color: #3A4860;
-} */
-
-
 /* Footer */
 .credit-links {
     font-weight: 600;
     color: #23282c;
+}
+
+
+/* Missing tooltip stuff */
+.tooltip[data-popper-placement^=top] .tooltip-arrow, .tooltip[data-popper-placement^=bottom] .tooltip-arrow {
+    width: .8rem;
+    height: .4rem;
+}
+.tooltip[data-popper-placement^=bottom] .tooltip-arrow {
+    top: 0;
+}
+.tooltip .tooltip-arrow {
+    position: absolute;
+    display: block;
+}
+.tooltip[data-popper-placement^=top], .tooltip[data-popper-placement^=bottom] {
+    padding: .4rem 0;
+}
+.tooltip[data-popper-placement^=bottom] .tooltip-arrow::before {
+    bottom: 0;
+    border-width: 0 .4rem .4rem;
+    border-bottom-color: #000015;
+}
+.tooltip .tooltip-arrow::before {
+    position: absolute;
+    content: "";
+    border-color: transparent;
+    border-style: solid;
 }
 
 
@@ -66,6 +88,10 @@ option:disabled {
 }
 [data-notify="message"] pre{
 	white-space: normal;
+}
+.blur-input:not(:focus):not(:placeholder-shown) {
+    color: transparent !important;
+    text-shadow: 0 0 5px rgba(0,0,0,0.5) !important;
 }
 
 
@@ -301,5 +327,8 @@ mark {background-color: #ffeaa7;}
 
 .thin-scroll {
     overflow-x: hidden;
-    overflow-y: scroll;
+    overflow-y: auto;
+}
+pre.thin-scroll{
+    white-space: pre-wrap;
 }

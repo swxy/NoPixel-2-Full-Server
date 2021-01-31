@@ -6764,6 +6764,11 @@
             If the player is evading, the timer will pause.
             </summary>
         </member>
+        <member name="F:CitizenFX.Core.Native.Hash.GET_PLAYER_TOKEN">
+            <summary>
+            Gets a player's token. Tokens can be used to enhance banning logic, however are specific to a server.
+            </summary>
+        </member>
         <member name="F:CitizenFX.Core.Native.Hash.GET_PLAYER_WANTED_LEVEL">
             <summary>
             Returns given players wanted level server-side.
@@ -6799,6 +6804,21 @@
             }
             ]
             ```
+            </summary>
+        </member>
+        <member name="F:CitizenFX.Core.Native.Hash.GET_RESOURCE_KVP_FLOAT">
+            <summary>
+            A getter for [SET_RESOURCE_KVP_FLOAT](#\_0x9ADD2938).
+            </summary>
+        </member>
+        <member name="F:CitizenFX.Core.Native.Hash.GET_RESOURCE_KVP_INT">
+            <summary>
+            A getter for [SET_RESOURCE_KVP_INT](#\_0x6A2B1E8).
+            </summary>
+        </member>
+        <member name="F:CitizenFX.Core.Native.Hash.GET_RESOURCE_KVP_STRING">
+            <summary>
+            A getter for [SET_RESOURCE_KVP](#\_0x21C7A35B).
             </summary>
         </member>
         <member name="F:CitizenFX.Core.Native.Hash.GET_RESOURCE_METADATA">
@@ -7351,6 +7371,39 @@
             Call SET_PLAYER_WANTED_LEVEL_NOW for immediate effect  
             wantedLevel is an integer value representing 0 to 5 stars even though the game supports the 6th wanted level but no police will appear since no definitions are present for it in the game files  
             disableNoMission-  Disables When Off Mission- appears to always be false
+            </summary>
+        </member>
+        <member name="F:CitizenFX.Core.Native.Hash.SET_RESOURCE_KVP">
+            <summary>
+            A setter for [GET_RESOURCE_KVP_STRING](#\_0x5240DA5A).
+            </summary>
+        </member>
+        <member name="F:CitizenFX.Core.Native.Hash.SET_RESOURCE_KVP_FLOAT">
+            <summary>
+            A setter for [GET_RESOURCE_KVP_FLOAT](#\_0x35BDCEEA).
+            </summary>
+        </member>
+        <member name="F:CitizenFX.Core.Native.Hash.SET_RESOURCE_KVP_INT">
+            <summary>
+            A setter for [GET_RESOURCE_KVP_INT](#\_0x557B586A).
+            </summary>
+        </member>
+        <member name="F:CitizenFX.Core.Native.Hash.SET_ROUTING_BUCKET_ENTITY_LOCKDOWN_MODE">
+            <summary>
+            Sets the entity lockdown mode for a specific routing bucket.
+            
+            Lockdown modes are:
+            
+            | Mode       | Meaning                                                    |
+            | ---------- | ---------------------------------------------------------- |
+            | `strict`   | No entities can be created by clients at all.              |
+            | `relaxed`  | Only script-owned entities created by clients are blocked. |
+            | `inactive` | Clients can create any entity they want.                   |
+            </summary>
+        </member>
+        <member name="F:CitizenFX.Core.Native.Hash.SET_ROUTING_BUCKET_POPULATION_ENABLED">
+            <summary>
+            Sets whether or not the specified routing bucket has automatically-created population enabled.
             </summary>
         </member>
         <member name="F:CitizenFX.Core.Native.Hash.SET_STATE_BAG_VALUE">
@@ -8176,6 +8229,20 @@
             Otherwise, will return the milliseconds of the pursuit.
             </returns>
         </member>
+        <member name="M:CitizenFX.Core.Native.API.GetPlayerToken(System.String,System.Int32)">
+            <summary>
+            Gets a player's token. Tokens can be used to enhance banning logic, however are specific to a server.
+            </summary>
+            <param name="playerSrc">
+            A player.
+            </param>
+            <param name="index">
+            Index between 0 and GET_NUM_PLAYER_TOKENS.
+            </param>
+            <returns>
+            A token value.
+            </returns>
+        </member>
         <member name="M:CitizenFX.Core.Native.API.GetPlayerWantedLevel(System.String)">
             <summary>
             Returns given players wanted level server-side.
@@ -8237,6 +8304,39 @@
             </summary>
             <returns>
             An object containing registered commands.
+            </returns>
+        </member>
+        <member name="M:CitizenFX.Core.Native.API.GetResourceKvpFloat(System.String)">
+            <summary>
+            A getter for [SET_RESOURCE_KVP_FLOAT](#\_0x9ADD2938).
+            </summary>
+            <param name="key">
+            The key to fetch
+            </param>
+            <returns>
+            A float that contains the value stored in the Kvp or nil/null if none.
+            </returns>
+        </member>
+        <member name="M:CitizenFX.Core.Native.API.GetResourceKvpInt(System.String)">
+            <summary>
+            A getter for [SET_RESOURCE_KVP_INT](#\_0x6A2B1E8).
+            </summary>
+            <param name="key">
+            The key to fetch
+            </param>
+            <returns>
+            A int that contains the value stored in the Kvp or nil/null if none.
+            </returns>
+        </member>
+        <member name="M:CitizenFX.Core.Native.API.GetResourceKvpString(System.String)">
+            <summary>
+            A getter for [SET_RESOURCE_KVP](#\_0x21C7A35B).
+            </summary>
+            <param name="key">
+            The key to fetch
+            </param>
+            <returns>
+            A string that contains the value stored in the Kvp or nil/null if none.
             </returns>
         </member>
         <member name="M:CitizenFX.Core.Native.API.GetResourceMetadata(System.String,System.String,System.Int32)">
@@ -8715,7 +8815,7 @@
             The entity to set the routing bucket for.
             </param>
             <param name="bucket">
-            The bucket ID, from 0-63.
+            The bucket ID.
             </param>
         </member>
         <member name="M:CitizenFX.Core.Native.API.SetEntityVelocity(System.Int32,System.Single,System.Single,System.Single)">
@@ -9060,7 +9160,7 @@
             The player to set the routing bucket for.
             </param>
             <param name="bucket">
-            The bucket ID, from 0-63.
+            The bucket ID.
             </param>
         </member>
         <member name="M:CitizenFX.Core.Native.API.SetPlayerWantedLevel(System.Int32,System.Int32,System.Boolean)">
@@ -9069,6 +9169,67 @@
             wantedLevel is an integer value representing 0 to 5 stars even though the game supports the 6th wanted level but no police will appear since no definitions are present for it in the game files
             disableNoMission-  Disables When Off Mission- appears to always be false
             </summary>
+        </member>
+        <member name="M:CitizenFX.Core.Native.API.SetResourceKvp(System.String,System.String)">
+            <summary>
+            A setter for [GET_RESOURCE_KVP_STRING](#\_0x5240DA5A).
+            </summary>
+            <param name="key">
+            The key to set
+            </param>
+            <param name="_value">
+            The value to write
+            </param>
+        </member>
+        <member name="M:CitizenFX.Core.Native.API.SetResourceKvpFloat(System.String,System.Single)">
+            <summary>
+            A setter for [GET_RESOURCE_KVP_FLOAT](#\_0x35BDCEEA).
+            </summary>
+            <param name="key">
+            The key to set
+            </param>
+            <param name="_value">
+            The value to write
+            </param>
+        </member>
+        <member name="M:CitizenFX.Core.Native.API.SetResourceKvpInt(System.String,System.Int32)">
+            <summary>
+            A setter for [GET_RESOURCE_KVP_INT](#\_0x557B586A).
+            </summary>
+            <param name="key">
+            The key to set
+            </param>
+            <param name="_value">
+            The value to write
+            </param>
+        </member>
+        <member name="M:CitizenFX.Core.Native.API.SetRoutingBucketEntityLockdownMode(System.Int32,System.String)">
+            <summary>
+            Sets the entity lockdown mode for a specific routing bucket.
+            Lockdown modes are:
+            | Mode       | Meaning                                                    |
+            | ---------- | ---------------------------------------------------------- |
+            | `strict`   | No entities can be created by clients at all.              |
+            | `relaxed`  | Only script-owned entities created by clients are blocked. |
+            | `inactive` | Clients can create any entity they want.                   |
+            </summary>
+            <param name="bucketId">
+            The routing bucket ID to adjust.
+            </param>
+            <param name="mode">
+            One of aforementioned modes.
+            </param>
+        </member>
+        <member name="M:CitizenFX.Core.Native.API.SetRoutingBucketPopulationEnabled(System.Int32,System.Boolean)">
+            <summary>
+            Sets whether or not the specified routing bucket has automatically-created population enabled.
+            </summary>
+            <param name="bucketId">
+            The routing bucket ID to adjust.
+            </param>
+            <param name="mode">
+            `true` to enable population, `false` to disable population.
+            </param>
         </member>
         <member name="M:CitizenFX.Core.Native.API.SetStateBagValue(System.String,System.String,System.String,System.Int32,System.Boolean)">
             <summary>
@@ -9442,7 +9603,8 @@
             <summary>
             Gets the network owner of the this <see cref="T:CitizenFX.Core.Entity"/>.
             </summary>
-            <returns>Returns the <see cref="T:CitizenFX.Core.Player"/> of the network owner.</returns>
+            <returns>Returns the <see cref="T:CitizenFX.Core.Player"/> of the network owner.
+            Returns <c>null</c> if this <see cref="T:CitizenFX.Core.Entity"/> is in an unowned state.</returns>
         </member>
         <member name="P:CitizenFX.Core.Entity.NetworkId">
             <summary>

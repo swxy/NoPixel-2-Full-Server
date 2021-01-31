@@ -1,133 +1,208 @@
-## TODO v3
-- [x] Server Deployer with recipe engine!
-- [x] replace `localhost` with `127.0.0.1` in functions to force usage of ipv4
-- [x] rename `ctx.utils.appendLog` to `logCommand` then replace it and all `globals.logger.append` for consistency
-- [x] added permission descriptions (`all_permissions` > `All Permissions`)
-- [x] fix heartbeat FD3 vs HTTP stats
-- [x] fix hardcoded 180s cooldown for slow server starts and add boot time statistics
-- [x] add a bunch of stats
-- [x] downgrade `open` library and autofill the pin
-- [x] completed recipe engine with the following actions: `waste_time`, `fail_test`, `download_file`, `remove_path`, `ensure_dir`, `unzip`, `move_path`, `copy_path`, `write_file`, `replace_string`, `connect_database`, `query_database`
-- [x] upgrade packages
-- [x] add custom recipe option to setup/deployer
-- [x] make cfx default recipe and populate `@tabarra/txAdmin-recipes`
-- [x] update setup page to read `@tabarra/txAdmin-recipes`
-- [x] add option to reset fxserver settings & return to setup
-- [x] merge dark mode
-- [x] added tmpLooksLikeRecipe to stats
-- [x] test everything on latest fxserver + webpack and linux (check deployer and systeminformation memory)
-- [x] reset timestamp + write changelog + version bump
-> v3.0.0
-- [x] fix linux build pipeline
-> v3.0.1
-- [x] fixed resources page breaking due to weird inline json escaping
-- [x] added ban reason to server join rejection message
-- [x] assorted css fixes (mainly toggle switches)
-- [x] versiom bump
+## TODO v3.2
+- [x] update README
+- [x] added option to configure the scheduled restart warning times (merge PR#226)
+- [x] move the Monitor/Restarter tab in the settings page
+- [x] clean github Issues
+- [x] replace `clone` with `lodash/cloneDeep`
+- [x] refactor dashboard in preparation to the chart
+- [x] remove many monitor settings since they were being misused and were never useful
+- [x] replace ping with player ID on sidebar
+- [x] updated packages
+- [x] start collecting `/perf/` metrics
+- [x] add performance chart to dashboard
+- [x] set darkmode as default
+- [x] compile test on latest, reset timer, version bump
+> v3.2.0
+- [x] fixed perf chart time labels
+> v3.2.1
+- [x] fixed perf chart URL
+> v3.2.2
+- [x] made the chart resposive
+- [x] made the chart player count more consistent
+- [x] reverted dark mode as default
 
-
-> Do as soon as v3.0.0 is out:
-- [ ] make playerController.writePending prioritized (low 5s, medium 30s, high 60s)
-- [ ] clean this file
-- [ ] create `admin.useroptions` for dark mode, welcome modals and such
-- [ ] IF deploy fails, add a DO_NOT_EDIT_DEPLOY_FAILED file to deploy path
-- [ ] add disabled input with the username on the pagina que salva a senha
-- [ ] remove the ForceFXServerPort config and do either via `server.cfg` comment, or execute `endpoint_add_tcp "127.0.0.1:random"`
-- [ ] improve terminal onboarding? Nem que seja só um pouquinho...
-- [ ] merge some PRs
+> ASAP!:
+- [ ] deal with the last 2 PRs
+- [ ] consolidate the log pages
 - [ ] add discord group whitelist (whitelist switch becomes a select box that will enable guildID and roleID)
-- [ ] persistent discord status message that is set up by `!setmessage`:
+        - Manual Approval (default)
+        - Discord: be in guild
+        - Discord: have a role in guild
+- [ ] persistent discord status message that is set up by `/statusfixed`:
         - this will trigger a big status message to be sent in that channel
         - this message id can be stored in the config file
-- [ ] Upgrade packages:
-        - check if `got` patch was published - https://github.com/sindresorhus/got/pull/1491
-        - try to upgrade `webpack`
-        - see if the `open` library was fixed
-        - try to upgrade `dateformat`
-        - attempt to use `discord.js` v12
+        - if discord id is present, use that instead of name (careful with the pings!)
+- [ ] send log via FD3
+- [ ] add RedM compatibility
+- [ ] add `.editorconfig`
+- [ ] create auto backup of the database
+- [ ] ignore key bindings commands  https://discord.com/channels/577993482761928734/766868363041046589/795420910713831446
+- [ ] add custom event for broadcast
+
+
+> Hopefully now:
+- [ ] check the places where I'm doing `Object.assign()` for shallow clones
+- [ ] break `playerController` database stuff to another file
+- [ ] remove the ForceFXServerPort config and do either via `server.cfg` comment, or execute `endpoint_add_tcp "127.0.0.1:random"`
+- [ ] make `playerController.writePending` prioritized (low 5s, medium 30s, high 60s)
+- [ ] create `admin.useroptions` for dark mode, welcome modals and such
+
+> Soon™ (hopefully the next update)
+- [ ] remove hitch detector entirely
+- [ ] get all functions from `web\public\js\txadmin\players.js` and wrap in some object.
+- [ ] Add basic code linting
+- [ ] maybe hardcode if(recipeName == plume) to open the readme in a new tab
+- [ ] add new hardware bans
 - [ ] add stats enc?
+- [ ] apply the new action log html to the modal
+- [ ] add `<fivem://connect/xxxxx>` to `/status` by getting `web_baseUrl` maybe from the heartbeat
+- [ ] add ban server-side ban cache (last 500 bans?), updated on every ban change 
+- [ ] add a commend system?
+- [ ] add stopwatch (or something) to the db functions and print on `/diagnostics`
+- [ ] change webserver token every time the server starts
 
-### Setup Stepper:
-1. Welcome
-2. Server Name
-3. Deployment import type: (select box or a "multiline radio box" with description)
+> Soon™® (hopefully in two months or so)
+- [ ] tweak dashboard update checker behavior
+- [ ] add an fxserver changelog page
+- [ ] Social auth provider setup retry every 15 seconds
+- [ ] show error when saving discord settings with wrong token
+- [ ] break down `playerController` into separate files even more
+- [ ] rename `playerController` to `playerManager`?
 
-- Common Template
-    4. Select Template (cards)
-    5. Suggest data location
+=======================================
 
-- URL Template
-    4. Import Remote Template (URL input)
-    5. Suggest data location
+## NUI commands
+While the menu is open, show `ID | PlayerName` above nearby player heads.
+The first thing selected is the tab selector, which can be operated using the arrows.
+The Main menu will be fully arrow operated, but the player and txAdmin tab need to be mouse-operated
 
-- Local Server Data
-    4. Local Server Data
-    5. Server CFG File
+- Main Menu:
+    - Teleport (submenu):
+        - TP to coords (use regex)
+        - TP to Marker
+        - Send back (<name>) (me to my last, or player to his last)
+    - Player mode (selector):
+        - Nornal
+        - NoClip/Invisible
+        - God Mode
+    - Heal Myself 
+    - Spawn Car
+    - Fix+Wash Car
+    - Revive/Heal all players (temp)
+    - Send Announcement (temp)
+- Player Tab:
+    - search box
+    - sort options
+    - player cards:
+        - basic modal (DM, Warn, Kick, Ban)
+        - Heal
+        - TP Player to me
+        - TP to Player
+        - Spectate
+- txAdmin Tab:
+    - iframe containing txAdmin's web with some customizations:
+        - menu starts collapsed
+        - no logo/header
+        - no footer
 
-6. Finish
-    - save configs
-    - if local:
-        - start server
-        - redirect to live console
-    - if template
-        - redirect to deployer
+High-level roadmap:
+- Write the lua+js code to pipe the traffic + authenticate the user
+- Make HTML changes to accept iframe
+- Have the react stuff done
+- Do all the Lua admin stuff (spawn cars, heal people & etc)
+- Do all the txAdmin backend code to support those functions
+- Finish the interface (Look & Feel)
 
-### Deployer stepper:
-- Review Recipe:
-    Show a code editor with the recipe, and some variables extracted from it.
-    Extracted fields:
-    - Author
-    - Description
-    - Version
-    - URL
-    Add a RED warning regarding running recipes from untrusted sources
+=======================================
 
-- Run Recipe
-    Something akin to live console, but no need to overengineer it!
-    At most an ajax that calls an API that will return the contents to a `<pre>`, and maybe a % to a progressbar.
+## Database Management page
+- erase all whitelists
+- erase all bans
+- erase all warnings
+- Prune Database:
+    All options will be select boxes containing 3 options: none, conservative, aggressive
+    - Players (without notes) innactive for xxx days: 60, 30
+    - Warns older than xx days: 30, 7
+    - Bans: revoked, revoked or expired
+Add a note that to erase the entire database, the user should delete the `playersDB.json` (full path) file and restart txAdmin.
+Pre calculate all counts
 
-- Configure `server.cfg`
-    Code editor with the contents of the `server.cfg` file specified inside the recipe.
-    This will be the file containing the configuration of the base for the user to type, like hostname, mysql, RP-stuff...
-    Then a `Save & Start Server` button.
+=======================================
 
-### Deployer Notes:
-- Setup page does not execute anything, only sets the variables and start the server or redirects to the deployer.
-- Will force deployer bases to be `txData/xxx.base`. (check `.endsWith()` on profile selection)
-- If people want to try their own template file, they can select the "default" template and edit the recipe before running it
-- In the deployer page there will be an "cancel and go back to setup page" button.
-- The setup page will have a way to autofill inputs if its not the first time running it
-- If the admin master wants to run an new recipe, there should be a button in the settigs page for him to be able to do so (github's "danger zone" ?).
+## Structured traces
 
+### Rate limiter
+We could be more sensible when restarting the server and pushing an event to alert other resources thatm ight want to auto block it.
+```bat
+netsh advfirewall firewall add rule name="txAdmin_block_XXXX" dir=in interface=any action=block remoteip=198.51.100.108/32
+netsh advfirewall firewall show rule name="txAdmin_block_XXXX"
+netsh advfirewall firewall delete rule name="txAdmin_block_XXXX"
+```
 
-### Deployer logic
-- Setup page:
-    - Condition: globals.deployer == null && (serverDataPath === null || cfgPath === null)
-    - Local deploy actions: sets serverDataPath/cfgPath, starts the server, redirect to live console
-    - Template deploy actions: download recipe, globals.deployer = new Deployer(recipe)
+### Oversized resources streams
+We could wait for the server to finish loading, as well as print in the interface somewhere an descending ordered list of large resource assets
+https://github.com/citizenfx/fivem/blob/649dac8e9c9702cc3e293f8b6a48105a9378b3f5/code/components/citizen-server-impl/src/ResourceStreamComponent.cpp#L435
 
-- Deployer page:
-    - Condition: globals.deployer !== null
-    - Post-deploy actions: 
-        - set serverDataPath/cfgPath
-        - reset globals.deployer
-        - start the server
-        - redirect to live console
+### Crash dumps
 
-- Normal txAdmin:
-    - IF globals.deployer THEN redirect to deployer
-    - ELSE IF (serverDataPath === null || cfgPath === null) THEN redirect to setup
+=======================================
 
-- To Reset:
-    - Stop server
-    - serverDataPath = null; cfgPath = null;
-    - Redirect to setup
+## Video tutorials
+Requirements:
+    - 2 non-rp recipes
+    - Separate master actions page
+### [OFFICIAL] How to make a FiveM Server tutorial 2021 for beginners!
+Target: absolute beginners, barely have a vps
+- Requirements:
+    - Needs to be a VPS
+    - OS: windows server 2016 or 2019 recommended
+    - Hardware specs recommendation
+    - Download Visual C++
+    - You need a forum account (show page, don't go trough)
+    - Create server key
+    - Download xamp (explain most servers require, show heidisql page)
+- Open firewall ports (show windows + OVH)
+- Download artifact (show difference between latest and latest recommended)
+- Set folder structure
+- Run txAdmin
+- Open page outside VPS to show the ip:port thing
+- Create master account
+- Setup:
+    - Present options
+    - Run PlumeESX recipe
+    - Master Actions -> Reset FXServer Settings
+    - Setup local folder (show endpoint + server.cfg.txt errors)
+- Show how to create admins
+- Callout for advanced tutorial
+### [OFFICIAL] How to update your FiveM Server tutorial 2021
+Target: server owners that followed the stupid Jeva tutorial
+- Why windows only
+- Show current stupid folder structure
+- Download artifact (show difference between latest and latest recommended)
+- Set new folder structure
+- Run txAdmin
+- Create master account
+- Setup (show endpoint + server.cfg.txt errors)
+- Show how to create admins
+- Open firewall port 40120 (show windows + OVH)
+- Callout for advanced tutorial
+### [OFFICIAL] txAdmin v3 advanced guide 2021
+Target: average txAdmin users
+- creating admins
+- multiple servers
+- discord bot
+- discord login
+- database pruning 
+- scheduled restarter
 
+=======================================
 
-TODO: Bot commands (in dev order):
+## Bot Commands:
+DONE:
 /addwl <wl req id>
 /addwl <license>
 
+TODO: Bot commands (in dev order):
 /kick <mention>
 /log <mention> - shows the last 5 log entries for an discord identifier (make it clear its only looking for the ID)
 /ban <mention> <time> <reason>
@@ -138,43 +213,15 @@ TODO: Bot commands (in dev order):
 /addwl <mention>
 /removewl <mention>
 
-> Soon™ (hopefully the next update)
-- [ ] send log via FD3
-- [ ] replace `clone` with `lodash/clonedeep` and check the places where I'm doing `Object.assign()` for shallow clones
-- [ ] apply the new action log html to the modal
-- [ ] add `<fivem://connect/xxxxx>` to `/status` by getting `web_baseUrl` maybe from the heartbeat
-- [ ] add ban server-side ban cache (last 500 bans?), updated on every ban change 
-- [ ] add a commend system?
-- [ ] add stopwatch (or something) to the db functions and print on `/diagnostics`
-- [ ] change webserver token every time the server starts
-
-
-> Soon™® (hopefully in two months or so)
-- [ ] get all functions from `web\public\js\txadmin\players.js` and wrap in some object.
-- [ ] add some chart to the players page?
-- [ ] tweak dashboard update checker behavior
-- [ ] add an fxserver changelog page
-- [ ] Social auth provider setup retry every 15 seconds
-- [ ] show error when saving discord settings with wrong token
-- [ ] break down playerController into separate files!
-- [ ] rename playerController to playerManager?
-- [ ] make heartbeats go through FD3?
-
-## "in the roadmap"
-- [ ] Check config management libraries (specially 'convict' by Mozilla and nconf)
-- [ ] revisit the issue with server restarting too fast (before close) and the the bind failing, causing restart loop. Almost all cases were windows server 2012.
-- [ ] xxxxxx
-
 =======================================
 
 ## CLTR+C+V
 ```bash
 # run
-cd /e/FiveM/builds
-nodemon --watch "3120/citizen/system_resources/monitor/src/*" --exec "3120/FXServer.exe +set txAdmin1337 IKnowWhatImDoing +set txAdminVerbose true +set txAdminFakePlayerlist yesplz"
+cd /e/FiveM/builds/3247/citizen/system_resources/monitor
+nodemon +set txAdminFakePlayerlist yesplzx +set txAdminVerbose truex
 
 # build
-cd /e/FiveM/builds/3120/citizen/system_resources/monitor
 rm -rf dist
 npm run build
 
@@ -213,15 +260,26 @@ https://www.npmjs.com/package/infinite-scroll
 ### "Look into it"
 https://www.reddit.com/r/javascript/comments/91a3tp/why_is_there_no_small_sane_nodejs_tool_for/
 
-Interesting shit, could be used to give like vMenu admin powers to txAdmin admins:
-https://github.com/citizenfx/fivem/commit/fd3fae946163e8af472b7f739aed6f29eae8105f
-
-Grafana query for the `/perf/` endpoint data: 
-`histogram_quantile(0.95, sum(rate(tickTime_bucket[5m])) by (le))`
-
 "State bag" support for C#
 https://github.com/citizenfx/fivem/pull/516
 https://github.com/citizenfx/fivem/pull/539
+
+
+### server deployer original idea
+https://discordapp.com/channels/192358910387159041/450373719974477835/701336723589955654
+
+### the ace permissions editor thing
+https://discordapp.com/channels/192358910387159041/450373719974477835/724266730024861717
+maybe playerConnecting and then set permission by ID?
+https://github.com/citizenfx/fivem/commit/fd3fae946163e8af472b7f739aed6f29eae8105f
+
+### the fun command thing
+https://github.com/VenomXNL/XNLRideAnimals/blob/master/XNLRideAnimals/client.lua
+https://docs.fivem.net/docs/game-references/ped-models/#animals
+https://github.com/SFL-Master/Peds/blob/master/client/main.lua
+https://forum.cfx.re/t/peds-attack-players/3467/4
+https://forum.cfx.re/t/request-how-to-create-aggressive-npcs/583370
+https://forum.cfx.re/t/i-want-to-make-a-spawned-npc-attack-players/462463
 
 
 =======================================
@@ -254,53 +312,3 @@ https://github.com/citizenfx/fivem/pull/539
     - log
     - cfg editor
 ...and maybe more, but now I'm going to sleep
-
-
-
-Questões:
-- É possível tirar o webserver pra fora do txAdmin?
-    - Teria que tirar o verbose pra fora
-    - Criar um metodo pra setar rotas full + atachar socket.io
-    - Puxar o Authenticator pra fora
-- É possível mudar as rotas depois?
-    - Sim
-- É possível Puxar o autenticator pra fora?
-    - Sim
-- É possível só iniciar o txAdmin depois?
-    - Sim
-- Isso vai deixar o código muito zuado?
-- Vai valer a pena?
-
-
-
-### base clonning idea
-Context: https://discordapp.com/channels/192358910387159041/450373719974477835/701336723589955654
-Recipie example:
-```yaml
-tasks:
-  - clone_repo:
-      url: https://github.com/citizenfx/cfx-server-data.git
-      path: .
-  - clone_resource:
-      url: https://github.com/meow64bit/uberadmin.git
-      resourceDir: uberadmin
-  - download_archive:
-      url: https://github.com/wtf/wtfwtf/releases/v1.2.3/resource.zip
-      resourceDir: wtfwtf
-      stripPath: wtfwtf/
-  - download_file:
-      url: https://docs.fivem.net/blah/server.cfg
-      path: server.cfg
-  - replace_file:
-      path: server.cfg
-      pattern: 's/wtf/ftw/g'
-  - append_file:
-      path: server.cfg
-      data: |
-         start wtfwtf
-         start uberadmin
-```
-
-
-### the ace permissions editor thing
-https://discordapp.com/channels/192358910387159041/450373719974477835/724266730024861717

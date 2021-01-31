@@ -2,6 +2,11 @@ $txadmin-dark-900: #29292A;
 $txadmin-dark-800: lighten($txadmin-dark-900, 8%);
 $txadmin-dark-700: lighten($txadmin-dark-800, 8%);
 $txadmin-dark-600: lighten($txadmin-dark-700, 8%);
+$txadmin-dark-secondary: #ebedef;
+// Default:
+// #636f83 dark
+// #ced2d8 secondary
+// #ebedef light
 
 $txadmin-text-color: #FFFFFF;
 $txadmin-text-color-inverse: #111111;
@@ -111,7 +116,7 @@ body.theme--dark {
   .c-sidebar .c-sidebar-nav-dropdown-toggle:hover,
   .c-sidebar .c-sidebar-nav-link:hover {
     color: #fff;
-    background: $txadmin-primary;
+    background: $txadmin-primary !important;
   }
 
   .text-body {
@@ -144,6 +149,15 @@ body.theme--dark {
     &.btn-outline-primary {
       color: $txadmin-primary;
       border-color: $txadmin-primary;
+    }
+
+    &.btn-outline-dark {
+      color: $txadmin-dark-secondary;
+      border-color: $txadmin-dark-secondary;
+      &:hover {
+        background-color: $txadmin-dark-secondary;
+        color: $txadmin-dark-700;
+      }
     }
 
     &.btn-primary, &.btn-outline-primary {
@@ -295,6 +309,13 @@ body.theme--dark {
     box-shadow: 0 0 0 0.2rem rgba($txadmin-primary, .15);
   }
 
+  .form-control.is-valid, .was-validated .form-control:valid {
+    border-color: #2eb85c;
+    background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' width='8' height='8' viewBox='0 0 8 8'%3e%3cpath fill='%232eb85c' d='M2.3 6.73L.6 4.53c-.4-1.04.46-1.4 1.1-.8l1.1 1.4 3.4-3.8c.6-.63 1.6-.27 1.2.7l-4 4.6c-.43.5-.8.4-1.1.1z'/%3e%3c/svg%3e");
+    background-repeat: no-repeat;
+    background-size: calc(.75em + .375rem) calc(.75em + .375rem);
+}
+
   // ----- Tables
   .table {
     &, td {
@@ -339,7 +360,6 @@ body.theme--dark {
 
     .card-header {
       & > h5, .card-title {
-        text-transform: uppercase;
         font-size: 1.05rem;
         border-radius: 0;
         border: 0 solid transparent;
@@ -365,7 +385,7 @@ body.theme--dark {
   }
 
   /**
-   * Deployment buttons
+   * Deployment things
    */
   .bigbutton {
     background: $txadmin-dark-800;
@@ -374,6 +394,10 @@ body.theme--dark {
       background-color: $txadmin-primary;
     }
   }
+  .blur-input:not(:focus):not(:placeholder-shown) {
+    color: transparent !important;
+    text-shadow: 0 0 5px rgba(235, 235, 235, 0.5) !important;
+}
 
   /**
    * txAdmin player list

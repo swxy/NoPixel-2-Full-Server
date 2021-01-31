@@ -144,8 +144,11 @@ More:
 - [ ] Make toggle button
 
 
-## TODO v2
-> didn't keep track of what came before, but basically: new auth system, from express to koa
+## Timeline v2+
+> Read this as a timeline, if it comes first, happened first.
+> The Notes mark the milestones.
+> I didn't keep track of what came before, but basically: new auth system, from express to koa
+
 > v2.0.0-conv
 - [x] why auto login when creating master doesn't work??
 - [x] acessar /auth?logout da state mismatch
@@ -318,7 +321,61 @@ More:
 - [x] add FD3 heartbeat as redundancy + stats
 - [x] live console: added command history to local storage
 > v2.7.2
-
+- [x] Server Deployer with recipe engine!
+- [x] replace `localhost` with `127.0.0.1` in functions to force usage of ipv4
+- [x] rename `ctx.utils.appendLog` to `logCommand` then replace it and all `globals.logger.append` for consistency
+- [x] added permission descriptions (`all_permissions` > `All Permissions`)
+- [x] fix heartbeat FD3 vs HTTP stats
+- [x] fix hardcoded 180s cooldown for slow server starts and add boot time statistics
+- [x] add a bunch of stats
+- [x] downgrade `open` library and autofill the pin
+- [x] completed recipe engine with the following actions: `waste_time`, `fail_test`, `download_file`, `remove_path`, `ensure_dir`, `unzip`, `move_path`, `copy_path`, `write_file`, `replace_string`, `connect_database`, `query_database`
+- [x] upgrade packages
+- [x] add custom recipe option to setup/deployer
+- [x] make cfx default recipe and populate `@tabarra/txAdmin-recipes`
+- [x] update setup page to read `@tabarra/txAdmin-recipes`
+- [x] add option to reset fxserver settings & return to setup
+- [x] merge dark mode
+- [x] added tmpLooksLikeRecipe to stats
+- [x] test everything on latest fxserver + webpack and linux (check deployer and systeminformation memory)
+- [x] reset timestamp + write changelog + version bump
+> v3.0.0
+- [x] fix linux build pipeline
+> v3.0.1
+- [x] fixed resources page breaking due to weird inline json escaping
+- [x] added ban reason to server join rejection message
+- [x] assorted css fixes (mainly toggle switches)
+- [x] versiom bump
+> v3.0.2
+- [x] deployer: add download_github action
+- [x] clean this file
+- [x] deployer: add `github_download` action
+- [x] deployer: add `load_vars`/`dump_vars` actions
+- [x] deployer: add context variables to the `replace_string` action
+- [x] deployer: add variable input stage
+- [x] blur some inputs 
+- [x] persist user oauth data and refresh it on social login
+- [x] deployer: add a context var for the master admin identifiers
+- [x] deployer: on download_github, first query to see which is the default branch
+- [x] add tool to import ban from other databases
+- [x] fix darkmode cookie path
+- [x] upgrade packages
+- [x] add option to backup (download) the database
+- [x] add `joinCheckHistory` advanced action to dump `playerController.checkPlayerJoin()` attempts
+- [x] add translation to the ban messages (kick/join)
+- [x] handle non-ascii characters in the paths to prevent crash
+- [x] add temporary workaround for yarn stdin issue
+- [x] if deploy fails, add a `_DEPLOY_FAILED_DO_NOT_USE` file to deploy path
+- [x] add $onesync directive to the deployer
+- [x] update cfx default recipe
+- [x] adapt setup page to handle different recipe engine versions + handle outdated state
+- [x] fix console hidden x overflow
+- [x] if profile !== default, say it on the navbar
+- [x] improved (slightly) the behavior of the live console auto scroll
+- [x] improve terminal onboarding? Nem que seja só um pouquinho...
+- [x] test on linux
+- [x] version bump
+> v3.1.0
 
 ------------------------------
 > NOTE: this was an attempt to get the help from the community around september 2019

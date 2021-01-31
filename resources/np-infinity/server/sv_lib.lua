@@ -9,8 +9,6 @@ end)
 RegisterServerEvent('np:infinity:entity:coords')
 AddEventHandler('np:infinity:entity:coords', function(netId)
     local coords = GetEntityCoords(GetPlayerPed(netId))
-
-    print(netId)
     
     TriggerClientEvent('np:infinity:player:coords', source, coords)
 end)

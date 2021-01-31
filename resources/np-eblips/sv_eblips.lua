@@ -1,10 +1,10 @@
 RegisterServerEvent('e-blips:updateBlips')
-AddEventHandler('e-blips:updateBlips', function(job, name)
+AddEventHandler('e-blips:updateBlips', function(id, job, name)
     local src = source
     local data = {
-        netId = src,
+        netId = id,
         job = job,
         callsign = name
     }
-    TriggerClientEvent('e-blips:addHandler', src, data)
+    TriggerClientEvent('e-blips:addHandler', source, data)
 end)

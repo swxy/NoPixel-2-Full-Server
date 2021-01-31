@@ -17,6 +17,7 @@ data_file 'DLC_ITYP_REQUEST' 'ls_blackwhite/portels_3a.ytyp'
 data_file 'DLC_ITYP_REQUEST' 'ls_blackwhite/portels_4a.ytyp'
 
 data_file 'TIMECYCLEMOD_FILE' 'gabz_bennys_timecycle.xml'
+data_file 'GTXD_PARENTING_DATA' 'client/mph4_gtxd.meta'
 
 
 files {'v_kitch.ytyp'}

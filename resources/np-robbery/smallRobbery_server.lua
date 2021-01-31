@@ -16,7 +16,7 @@ AddEventHandler("rob:doorOpen", function(bankId,robbing)
         bankRob["started"] = false
         bankRob["robbing"] = true
         bankRob["robbingvault"] = true
-    elseif 
+
     TriggerClientEvent('robbery:openDoor',-1,"square")
     TriggerClientEvent('robbery:scanbank',src, bankId, banks)
     

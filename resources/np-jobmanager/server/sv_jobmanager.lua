@@ -62,10 +62,13 @@ function NPX.Jobs.CanBecomeJob(self, user, job, callback)
 
         if WasEventCanceled() then callback(false) return end
 
-        if NPX.Jobs:CountJob(job) < 2 and NPX.Jobs.ValidJobs[job].name == "EMS" then
-            callback(true)
-            return
-        end
+        -- if NPX.Jobs:CountJob(job) < 1 and NPX.Jobs.ValidJobs[job].name == "EMS" then
+        --     callback(true)
+        --     return
+        -- else
+        --     callback(false)
+        --     return
+        -- end
 
         if NPX.Jobs.ValidJobs[job].whitelisted then
             NPX.Jobs:IsWhiteListed(hexId, characterId, job, function(whiteListed, rank)
@@ -126,13 +129,6 @@ function NPX.Jobs.SetJob(self, user, job, notify, callback)
 
         local name = NPX.Jobs.ValidJobs[job].name
 
-        if name == "EMS" then
-            NPX.Jobs.IsWhiteListed(hexId, characterId, job, function(whiteListed, rank)
-                if whitelisted then
-                    NPX.Jobs.CurPlayerJobs[job][src].isWhiteListed = true;
-                end
-            end)
-        end
 
         TriggerClientEvent("np-jobmanager:playerBecameJob", src, job, name, false)
         TriggerClientEvent("np-jobmanager:playerBecomeEvent", src, job, name, notify)

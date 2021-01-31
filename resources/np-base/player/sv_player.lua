@@ -139,13 +139,14 @@ local function AddMethod(player)
 
         GetUser(self).character.cash = GetUser(self).character.cash - amt
 
-        NPX.DB:UpdateCharacterMoney(GetUser(self), characterId, cash, function(updatedMoney, err) 
-            if updatedMoney then
-                TriggerClientEvent("banking:removeCash", GetUser(self).source, amt * -1)
-                TriggerClientEvent("banking:updateCash", GetUser(self).source, GetUser(self):getCash(), amt * -1)
-                exports["np-log"]:AddLog("Cash Removed", GetUser(self), "Money removed from user, amount: " .. tostring(amt))
-            end
-        end)
+
+            NPX.DB:UpdateCharacterMoney(GetUser(self), characterId, cash, function(updatedMoney, err) 
+                if updatedMoney then
+                    TriggerClientEvent("banking:removeCash", GetUser(self).source, amt * -1)
+                    TriggerClientEvent("banking:updateCash", GetUser(self).source, GetUser(self):getCash(), amt * -1)
+                    exports["np-log"]:AddLog("Cash Removed", GetUser(self), "Money removed from user, amount: " .. tostring(amt))
+                end
+            end)
     end
 
     

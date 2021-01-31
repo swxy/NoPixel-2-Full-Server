@@ -4,19 +4,39 @@ local bones = {}
 local multipledenominators = {}
 
 local firstname = {
-	'Bob',
-	'Jim',
-	'Jill',
-	'Gog',
-	'Nog'
+    'Mona',
+    'Ray',
+    'Sonny',
+    'Don',
+    'Jo',
+    'Joe',
+    'Dixon',
+    'Ben',
+    'Hugh G.',
+    'Duncan',
+    'Mike',
+    'Mike',
+    'Mike',
+    'Ima',
+    'Richard'
 }
 
 local lastname = {
-	'Bob',
-	'Jim',
-	'Jill',
-	'Gog',
-	'Nog'
+    'Alott',
+    'Gunn',
+    'Day',
+    'Key',
+    'King',
+    'Kane',
+    'Uranus',
+    'Dover',
+    'Rection',
+    'McOkiner',
+    'Hawk',
+    'Hunt',
+    'Oxlong',
+    'Pigg',
+    'Head'
 }
 
 local logged = {}
@@ -75,11 +95,16 @@ AddEventHandler('checkLicensePlate', function(oof)
 					-- TriggerClientEvent('notification', source, 'Dispatch: Vehicle comes back to one ' .. data[1].firstname .. ' ' .. data[1].lastname .. ' Over.')
 						if penis[1] ~= nil then
 							job = penis[1].job
+							if job == "police" then
+								job = "Police"
+							elseif job == "ems" then
+								job = "EMS"
+							end
 							local phoneNumber = string.sub(data[1].phone_number, 0, 3) .. '-' .. string.sub(data[1].phone_number, 4, 6) .. '-' .. string.sub(data[1].phone_number, 7, 10)
-							TriggerClientEvent("chatMessage", source, "DISPATCH", 3, "10-74 (Negative) Name: " .. data[1].first_name .. " " .. data[1].last_name .. " Phone #: " .. phoneNumber, ' Job: ', job)
+							TriggerClientEvent("chatMessage", source, "DISPATCH", 3, "10-74 (Negative) Name: " .. data[1].first_name .. " " .. data[1].last_name .. " Phone #: " .. phoneNumber .. ' Job: ' .. job)
 							TriggerClientEvent('InteractSound_CL:PlayOnOne', source, 'radioclick', 1.0)
 						else
-							TriggerClientEvent("chatMessage", source, "DISPATCH", 3, "10-74 (Negative) Name: " .. data[1].first_name .. " " .. data[1].last_name .. " Phone #: " .. phoneNumber, ' Job: ', job)
+							TriggerClientEvent("chatMessage", source, "DISPATCH", 3, "10-74 (Negative) Name: " .. data[1].first_name .. " " .. data[1].last_name .. " Phone #: " .. phoneNumber .. ' Job: Unemployed')
 							TriggerClientEvent('InteractSound_CL:PlayOnOne', source, 'radioclick', 1.0)
 						end
 					end)

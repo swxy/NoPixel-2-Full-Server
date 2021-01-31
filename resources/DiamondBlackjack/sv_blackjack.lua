@@ -12,6 +12,10 @@ local blackjackGameData = {}
 function tryTakeChips(source,amount)
     local src = source
     local user = exports["np-base"]:getModule("Player"):GetUser(src)
+    if amount >= user:getCash() then
+        TriggerClientEvent('DoShortHudText', src, 'Get the fuck out',2)
+        return false
+    end
     if amount < 5001 then
     user:removeMoney(amount)
     return true

@@ -38,10 +38,17 @@ AddEventHandler('bank:givecash', function(receiver, amount)
     local user = exports["np-base"]:getModule("Player"):GetUser(source)
     local player = exports["np-base"]:getModule("Player"):GetUser(tonumber(receiver))
 
-    user:removeMoney(amount)
-    player:addMoney(amount)
+    print(user:getCash())
 
-    exports["np-log"]:AddLog("Transfer", user, "User gave cash to "..tonumber(receiver).." $"..tonumber(amount), {target = receiver , src = source})
+    if tonumber(amount) <= user:getCash() then
+        print('fuck')
+        user:removeMoney(amount)
+        player:addMoney(amount)      
+        exports["np-log"]:AddLog("Transfer", user, "User gave cash to "..tonumber(receiver).." $"..tonumber(amount), {target = receiver , src = source})
+    else
+        TriggerClientEvent('DoShortHudText', source, 'Not enough money', 2)
+    end
+
 end)
 
 RegisterServerEvent('bank:transfer')
@@ -49,10 +56,14 @@ AddEventHandler('bank:transfer', function(receiver, amount)
     local user = exports["np-base"]:getModule("Player"):GetUser(source)
     local player = exports["np-base"]:getModule("Player"):GetUser(tonumber(receiver))
 
-    user:removeBank(amount)
-    player:addBank(amount)
 
-    exports["np-log"]:AddLog("Bank Transfer", user, "User transfered to "..tonumber(receiver).." $"..amount, {target = receiver , src = source})
+    if tonumber(amount) <= user:getBalance() then
+        user:removeBank(amount)
+        player:addBank(amount)
+        exports["np-log"]:AddLog("Bank Transfer", user, "User transfered to "..tonumber(receiver).." $"..amount, {target = receiver , src = source})
+    else
+        TriggerClientEvent('DoShortHudText', source, 'Not enough money', 2)
+    end
 end)
 
 RegisterCommand('cash', function(source, args)

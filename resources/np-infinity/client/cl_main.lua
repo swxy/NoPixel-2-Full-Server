@@ -55,10 +55,6 @@ exports('GetNetworkedCoords', function (pType, pNetId)
     local coords
 
 
-    print(pType)
-
-    print(pNetId)
-
     if pType == 'player' then
         local playerIndex = GetPlayerFromServerId(pNetId)
         print(playerIndex)

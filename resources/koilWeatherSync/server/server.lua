@@ -36,15 +36,6 @@ AddEventHandler('weather:setWeather', function(src, weather)
     TriggerClientEvent('kWeatherSync', -1, weather)
 end)
 
-RegisterServerEvent('weather:setCycle')
-AddEventHandler('weather:setCycle', function(src, weather)
-    local source = source
-    local xPlayer = ESX.GetPlayerFromId(source)
-    if xPlayer.getGroup() == 'superadmin' then
-    TriggerClientEvent('weather:setCycle', -1, weather)
-    end
-end)
-
 
 RegisterCommand('syncallweather', function()
     TriggerClientEvent('kWeatherSync', -1, currentweather)

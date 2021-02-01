@@ -36,25 +36,7 @@ AddEventHandler('ReturnHouseKeys', function()
     end)
 end)
 
--- RegisterServerEvent('ManageHouseKeys')
--- AddEventHandler('ManageHouseKeys', function()
---     local src = source
---     local xPlayer = ESX.GetPlayerFromId(src)
---     local cid = xPlayer.id
---     print('kewkea')
---     print(hid)
---     exports.ghmattimysql:execute('SELECT * FROM houses WHERE `cid` = @cid', { ['@cid'] = cid }, function(result)
---         if result[1] ~= nil then
---             for i = 1, #result do
---                 local lol = json.decode(result[i].data)
---                 -- TriggerClientEvent('returnPlayerKeys', src, result[1].cid, result[1].mykeys, lol["info"], result[1].model, result[1].id)
---                 TriggerClientEvent('house:returnKeys', src, result[i].mykeys, lol["info"])
---             end
---         else
---             TriggerClientEvent('houses:retrieveHouseKeys', src)
---         end
---     end)
--- end)
+
 
 RegisterServerEvent('housing:attemptsale')
 AddEventHandler('housing:attemptsale', function(args,price,hid,model)

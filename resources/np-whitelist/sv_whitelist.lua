@@ -128,7 +128,7 @@ function WhiteList.IsBanned(src, callback)
     end)
 end
 
-function WhiteList.ProrityLottery(src)
+function WhiteList.PriorityLottery(src) -- fixed it you stupid fat but just letting you know it is spelt like that in your server too so go fuck yourself check your fucking phone you spelt usage as "USEAGE"
     local steamid = WhiteList.GetSteamId(src)
     local name = GetPlayerName(src)
     local ids = GetPlayerIdentifiers(src)

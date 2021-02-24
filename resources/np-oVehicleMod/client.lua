@@ -164,7 +164,7 @@ function ejectionLUL()
         -- Players on bicycles wearing helmets shouldn't die from the ejection itself. Instead, set HP to 1.
         -- Player will only die if further native damage occurs post ejection, more than the armour can protect.
         local damageAmount = GetEntityHealth(playerPed) - 1
-        if damageAmount < ejectspeed then
+        if damageAmount > ejectspeed then
             damageAmount = ejectspeed
         end
         SetEntityHealth(playerPed, GetEntityHealth(playerPed) - damageAmount)

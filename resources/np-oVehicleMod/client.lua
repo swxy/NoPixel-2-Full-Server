@@ -160,6 +160,16 @@ function ejectionLUL()
     SetPedToRagdoll(playerPed, 5511, 5511, 0, 0, 0, 0)
     SetEntityVelocity(playerPed, veloc.x*4,veloc.y*4,veloc.z*4)
     local ejectspeed = math.ceil(GetEntitySpeed(playerPed) * 8)
+    if IsPedWearingHelmet(playerPed) and IsThisModelABicycle(GetEntityModel(veh)) then
+        -- Players on bicycles wearing helmets shouldn't die from the ejection itself. Instead, set HP to 1.
+        -- Player will only die if further native damage occurs post ejection, more than the armour can protect.
+        local damageAmount = GetEntityHealth(playerPed) - 1
+        if damageAmount > ejectspeed then
+            damageAmount = ejectspeed
+        end
+        SetEntityHealth(playerPed, GetEntityHealth(playerPed) - damageAmount)
+        return
+    end
     SetEntityHealth(playerPed, (GetEntityHealth(playerPed) - ejectspeed) )
    -- TriggerEvent("randomBoneDamage")
 end

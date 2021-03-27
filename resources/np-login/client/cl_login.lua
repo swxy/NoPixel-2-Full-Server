@@ -1,12 +1,15 @@
 local menuOpen = false
 local setDate = 0
-
+local spawnAlreadyInit = false
 
 local function sendMessage(data)
     SendNUIMessage(data)
 end
 
 local function openMenu()
+    if spawnAlreadyInit then
+        return
+    end
     menuOpen = true
     sendMessage({open = true})
     SetNuiFocus(true, true)
@@ -21,6 +24,7 @@ local function openMenu()
             
         end
     end)
+    spawnAlreadyInit = true
 end
 
 local function closeMenu()
@@ -40,7 +44,7 @@ local function nuiCallBack(data)
 
     if data.close then closeMenu() end
     if data.disconnect then disconnect() end
-    if data.showcursor or data.showcursor == false then SetNuiFocus(true, data.showcursor) end
+    --if data.showcursor or data.showcursor == false then SetNuiFocus(true, data.showcursor) end
     if data.setcursorloc then SetCursorLocation(data.setcursorloc.x, data.setcursorloc.y) end
     
     if data.fetchdata then
@@ -52,6 +56,7 @@ local function nuiCallBack(data)
 
             sendMessage({playerdata = data})
         end)
+        if data.showcursor or data.showcursor == false then SetNuiFocus(true, data.showcursor) end
     end
 
     if data.newchar then

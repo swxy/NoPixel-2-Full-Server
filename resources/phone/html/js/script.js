@@ -196,8 +196,8 @@ $(document).ready(function () {
             addContact(item.contact);
         }
 
-        if (item.removeContact === true) {
-            removeContact(item.contact);
+        if (item.deleteContact === true) {
+            deleteContact(item.contact);
         }
 
         if (item.emptyContacts === true) {
@@ -475,7 +475,7 @@ $(document).ready(function () {
                         checkFastestLap(item.hudData.curLap);
                         curLap = item.hudData.curLap;
                         curCheckpoint = item.hudData.curCheckpoint;
-                        break;
+                        break;        
                     case "finished":
                         checkFastestLap(item.hudData.curLap);
                         endTime = moment.utc();
@@ -505,11 +505,15 @@ $(document).ready(function () {
                 }
                 break;
             case "racing:event:update":
+                console.log('\\ script.js racing:event:update');
+                console.log(JSON.stringify(item));
+                console.log("");
+                console.log(JSON.stringify(races.length));
                 if (item.eventId !== undefined) {
                     $(`.racing-entries li[data-event-id="${item.eventId}"]`).remove();
                     if (races !== undefined)
                         races[item.eventId] = item.raceData
-                    addRace(item.raceData, item.eventId);
+                    addRace(item.raceData, item.eventId, item.playerRacing); //added property pRacing (is player racing that race)
                 } else
                     races = item.raceData
                 break;
@@ -650,21 +654,26 @@ function racingStartsTimer() {
     });
 }
 
-function addRace(race, raceId) {
+function addRace(race, raceId, pRacing) {
+    console.log("-----------------------------");
+    console.log(JSON.stringify(race));
+    console.log(JSON.stringify(race[raceId]));
+    console.log("-----------------------------");
+    console.log(race[raceId].raceName);
     let raceElement = `
     <li data-event-id="${raceId}">
         <div class="collapsible-header row" style="margin-bottom: 0px;">
             <div class="col s12">
                 <div class="row no-padding">
                     <div class="col s12">
-                        <i class="fas fa-flag-checkered ${race.open ? "green-text" : "red-text"}"></i>${race.raceName} <span class="new badge" data-badge-caption="${race.laps > 0 ? 'laps' : 'Sprint'}">${race.laps > 0 ? race.laps : ''}</span>
+                        <i class="fas fa-flag-checkered ${race[raceId].open ? "green-text" : "red-text"}"></i>${race[raceId].raceName} <span class="new badge" data-badge-caption="${race[raceId].laps > 0 ? 'laps' : 'Sprint'}">${race[raceId].laps > 0 ? race[raceId].laps : ''}</span>
                         
                     </div>
                 </div>
                 <div class="row no-padding">
                     <div class="col s12">
-                        <i class="fas fa-stopwatch"></i><span data-balloon-pos="down" class="racing-start-timer" data-start-time="${race.startTime}"></span>
-                        <span class="new badge" data-badge-caption="m">${race.mapDistance}</span>
+                        <i class="fas fa-stopwatch"></i><span data-balloon-pos="down" class="racing-start-timer" data-start-time="${race[raceId].startTime}"></span>
+                        <span class="new badge" data-badge-caption="m">${race[raceId].mapDistance}</span>
                     </div>
                 </div>
             </div>
@@ -674,19 +683,21 @@ function addRace(race, raceId) {
                 <div class="row no-padding">
                     <div class="col s12">
                         <div class="chip">
-                            Map Creator: ${race.mapCreator}
+                            Map Creator: ${race[raceId].mapCreator}
                         </div>
                     </div>
                 </div>
                 <div class="row no-padding">
                     <div class="col s12">
             `
-        raceElement += `<button class="waves-effect waves-light btn racing-entries-entrants" data-id="${race.identifier}" aria-label="Race information" data-balloon-pos="up"><i class="fas fa-info icon"></i></button> `
+        raceElement += `<button class="waves-effect waves-light btn racing-entries-entrants" data-id="${race[raceId].identifier}" aria-label="Race information" data-balloon-pos="up"><i class="fas fa-info icon"></i></button> `
 
-        if (race.open)
-            raceElement += `<button class="waves-effect waves-light btn green racing-entries-join" data-id="${race.identifier}" aria-label="Join race" data-balloon-pos="up"><i class="fas fa-flag-checkered icon"></i></button> `
-
-        raceElement += `<button class="waves-effect red waves-light btn phone-button" data-action="racing:event:leave" aria-label="Leave race" data-balloon-pos="up"><i class="fas fa-sign-out-alt icon"></i></button> `
+        //if (race.open)
+        console.log(open)
+        if (!pRacing && race[raceId].open)
+            raceElement += `<button class="waves-effect waves-light btn green racing-entries-join" data-id="${race[raceId].identifier}" aria-label="Join race" data-balloon-pos="up"><i class="fas fa-flag-checkered icon"></i></button> `
+        else
+            raceElement += `<button class="waves-effect red waves-light btn phone-button" data-action="racing:event:leave" aria-label="Leave race" data-balloon-pos="up"><i class="fas fa-sign-out-alt icon"></i></button> `
         raceElement +=
         `           </div>
                 </div>
@@ -694,8 +705,15 @@ function addRace(race, raceId) {
         </div>
     </li>
     `
+    //console.log('[data-id="'+race[raceId].identifier+'"]"')
+    //console.log($('.racing-entries').querySelector('[data-id="'+race[raceId].identifier+'"]"'));
     $('.racing-entries').prepend(raceElement);
 }
+
+function updateRace(race, raceId, pRacing) {
+     console.log('[data-id="'+race[raceId].identifier+'"]"')
+    $('.racing-entries').querySelector('[data-id="'+race[raceId].identifier+'"]"').empty();
+} 
 
 function addRaces(races) {
     for (let race in races) {
@@ -737,6 +755,7 @@ function addOutstandingPayments(payments) {
 }
 
 function addGroupManage(group) {
+    console.log(group.rank < 5)
     $('.group-manage-company-name').text(group.groupName).data('group-id', group.groupId);
     $('.group-manage-company-bank').text('$' + group.bank);
     for (let i = 0; i < group.employees.length; i++) {
@@ -1289,7 +1308,7 @@ function addContact(item) {
     $(".contacts-entries").append(element);
 }
 
-function removeContact(item) {
+function deleteContact(item) {
     $('#' + item.name + '-' + item.number).remove();
     contactList = contactList.filter(function (e) {
         return e.name != item.name && e.number != item.number;
@@ -2165,6 +2184,12 @@ $('.racing-entries').on('click', '.racing-entries-entrants', function () {
     $('.racing-entrants').empty();
     $('#racing-info-description').text();
     let currentRace = races[$(this).data('id')]
+    console.log("races : ")
+    console.log(JSON.stringify(races))
+    console.log("currentRace : ")
+    
+    console.log(JSON.stringify(currentRace))
+
     $('#racing-info-description').text(currentRace.mapDescription);
     if(currentRace.racers !== undefined)
         currentRace.racers = Object.values(currentRace.racers).sort((a,b) => a.total - b.total); 
@@ -2313,7 +2338,7 @@ $('.contacts-entries-wrapper').on('click', '.btn-contacts-remove', function () {
 });
 
 $('#confirm-modal-accept').click(function (event) {
-    $.post('http://phone/removeContact', JSON.stringify({ name: $(this).data('name'), number: $(this).data('number') }));
+    $.post('http://phone/deleteContact', JSON.stringify({ name: $(this).data('name'), number: $(this).data('number') }));
     $('#confirm-modal').modal('close');
 });
 

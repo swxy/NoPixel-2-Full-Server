@@ -66,8 +66,8 @@ AddEventHandler('phone:addContact', function(name, number)
     end)
 end)
 
-RegisterNetEvent('deleteContact')
-AddEventHandler('deleteContact', function(name, number)
+RegisterNetEvent('phone:deleteContact')
+AddEventHandler('phone:deleteContact', function(name, number)
     local src = source
 	local user = exports["np-base"]:getModule("Player"):GetUser(src)
     local char = user:getCurrentCharacter()
@@ -152,27 +152,38 @@ end)
 
 
 RegisterNetEvent('phone:deleteYP')
-AddEventHandler('phone:deleteYP', function(number)
+AddEventHandler('phone:deleteYP', function()
+    print('heeeeelooooooo')
     local src = source
 	local user = exports["np-base"]:getModule("Player"):GetUser(src)
     local characterId = user:getVar("character").id
     local myNumber = getNumberPhone(characterId)
+    --local myNumber =  user:getVar("character").phonenumber
+    print('---------------> ', json.encode(user))
+    print('---------------> ', json.encode(characterId))
+    print('---------------> ', myNumber)
+    print('---------------> ',user:getVar("character").phonenumber)
     exports.ghmattimysql:execute('DELETE FROM phone_yp WHERE phoneNumber = @phoneNumber', {
         ['phoneNumber'] = myNumber
     }, function (result)
+        
+        removePhoneJobSourceSend(myNumber)
         TriggerClientEvent('refreshYP', src)
-  
     end)
 end)
 
 --[[ Phone calling stuff ]]
 
-function getNumberPhone(getNumberPhoneidentifier)
+function getNumberPhone(identifier)
+    --print("getting phone number")
     local prick
     exports.ghmattimysql:execute("SELECT phone_number FROM characters WHERE id = @identifier", {
         ['identifier'] = identifier
     }, function(result)
+        --print("inside getting phone number")
+        --print(json.encode(result))
         if result[1] ~= nil then
+            --print(phone_number)
             prick = result[1].phone_number
         else
             prick = nil
@@ -292,15 +303,21 @@ AddEventHandler('phone:getSMS', function()
 
         print('my number ', mynumber)
 
-    local result = exports.ghmattimysql:execute("SELECT * FROM user_messages WHERE receiver = @mynumber OR sender = @mynumber ORDER BY id DESC", {['mynumber'] = mynumber})
+    local result = exports.ghmattimysql:execute("SELECT * FROM user_messages WHERE receiver = @mynumber ORDER BY id DESC", 
+	{['mynumber'] = mynumber}, function(result)
+	
+	print('result ', result)
 
     local numbers ={}
     local convos = {}
     local valid
+
     if result ~= nil then
     for k, v in pairs(result) do
         valid = true
-        if v.sender == mynumber then
+        print('valid is ', valid)
+        if v.sender ~= mynumber then
+            print('vsender ', v.sender)
             for i=1, #numbers, 1 do
                 if v.receiver == numbers[i] then
                     valid = false
@@ -346,7 +363,7 @@ AddEventHandler('phone:getSMS', function()
         TriggerClientEvent('phone:loadSMS', src, {}, mynumber)
         print('empty')
     end
- 
+	end)
 end)
 
 RegisterNetEvent('phone:getSMSOther')
@@ -724,16 +741,34 @@ end)
 
 --[[ Yellow Pages ]]
 
+local YellowPageArray = {}
+
 RegisterNetEvent('getYP')
 AddEventHandler('getYP', function()
     local source = source
     exports.ghmattimysql:execute('SELECT * FROM phone_yp LIMIT 30', {}, function(yp)
         local deorencoded = json.encode(yp)
-       -- print(json.encode(yp))
+        YellowPageArray = {}
+        YellowPageArray = yp
+        print(json.encode(YellowPageArray))
+        YellowPageArray = {}
+        for i,v in pairs(yp) do
+            print(json.encode(v))
+            YellowPageArray[#YellowPageArray + 1] = {
+                ["name"] = v.name,
+                ["job"] =  v.job,
+                ["phonenumber"] =  v.phonenumber,
+                ["emergencyofficer"] =  v.emergencryoffer,
+                ["src"] =  v.src
+            }
+            
+        end
+        --TriggerClientEvent('YellowPageArray', -1, YellowPageArray)
         --TriggerClientEvent('YellowPageArray', source, yp)
         TriggerClientEvent('YellowPageArray', -1, yp)
         TriggerClientEvent('YPUpdatePhone', source)
     end)
+
     --[[
     if userjob == "police" or userjob == "ems" then
         emergencyofficer = true
@@ -813,13 +848,17 @@ AddEventHandler('racing-global-race', function(map,laps,counter,reverseTrack,uni
     Races[uniqueid] = { ["identifier"] = uniqueid, ["map"] = map, ["laps"] = laps, ["counter"] = counter, 
         ["reverseTrack"] = reverseTrack, ["cid"] = cid, ["racer"] = {}, ["open"] = true, ["startTime"] = startTime, 
         ["mapCreator"] = mapCreator, ["mapDistance"] = mapDistance, ["mapDescription"] = mapDescription, ["street1"] = street1, 
-        ["street2"] = street2 
+        ["street2"] = street2,
+        ["raceName"] = raceName
     }
     TriggerEvent('racing:server:sendData', uniqueid, -1, 'event', 'open')
     local waitperiod = (counter * 1000)
-    Wait(waitperiod)
+    print('wait period : ', waitperiod)
+    Citizen.Wait(waitperiod)
+    print('after wait period')
     Races[uniqueid]["open"] = false
     if(math.random(1,10) >= 5) then
+        
         TriggerEvent("dispatch:svNotify", {
             dispatchCode = "10-94",
             firstStreet = street1,
@@ -832,7 +871,7 @@ AddEventHandler('racing-global-race', function(map,laps,counter,reverseTrack,uni
 
         })
     end
-    TriggerClientEvent('racing:server:sendData', uniqueid, -1, 'event', 'close')
+    TriggerEvent('racing:server:sendData', uniqueid, -1, 'event', 'close')
 end)
 
 RegisterServerEvent('racing-join-race')
@@ -840,10 +879,12 @@ AddEventHandler('racing-join-race', function(identifier)
     local src = source
     local player = exports["np-base"]:getModule("Player"):GetUser(src)
     local char = player:getCurrentCharacter()
+    print(json.encode(char))
     local cid = char.id
-    local playername = ""..char.firstname.." "..char.last_name""
-    Races[identifier]["racers"][cid] = { ["name"] = playername, ["cid"] = cid, ["total"] = 0, ["fastest"] = 0}
-    TriggerEvent('racing:server:sendData', identifier, src, 'event')
+    local playername = ""..char.first_name.." "--..char.last_name""
+    print(json.encode(Races))
+    Races[identifier]["racer"][cid] = { ["name"] = playername, ["cid"] = cid, ["total"] = 0, ["fastest"] = 0}
+    --TriggerEvent('racing:server:sendData', identifier, src, 'event', 'close')
 end)
 
 RegisterServerEvent('race:completed2')
@@ -923,6 +964,8 @@ local dataObject = {
     subEvent = pSubEvent,
     data = {}
 }
+    print(json.encode(dataObject))
+    print(json.encode(Races))
     if (changeType == "event") then
         dataObject.data = (pEventId == -1 and Races[pEventId] or Races)
         print('kekw ', json.encode(dataObject.data))
@@ -930,6 +973,8 @@ local dataObject = {
         dataObject.data = (pEventId == -1 and BuiltMaps[pEventId] or BuiltMaps)
         print('kekw ', json.encode(dataObject.data))
     end
+    print(json.encode(dataObject))
+    print(clientId)
     TriggerClientEvent("racing:data:set", clientId, dataObject)
 end)
 
@@ -1026,6 +1071,11 @@ end, false)
 
 RegisterServerEvent('phone:RemovePhoneJobSourceSend')
 AddEventHandler('phone:RemovePhoneJobSourceSend', function(srcsent)
+    removePhoneJobSourceSend(srcsent)
+    TriggerClientEvent("YellowPageArray", -1 , YellowPageArray)
+end)
+
+function removePhoneJobSourceSend(srcsent)
     local src = srcsent
     for i = 1, #YellowPageArray do
         if YellowPageArray[i]
@@ -1038,25 +1088,27 @@ AddEventHandler('phone:RemovePhoneJobSourceSend', function(srcsent)
           end
         end
     end
-    TriggerClientEvent("YellowPageArray", -1 , YellowPageArray)
-end)
+end
 
 RegisterServerEvent('phone:RemovePhoneJob')
 AddEventHandler('phone:RemovePhoneJob', function()
     local src = srcsent
-    for i = 1, #YellowPageArray do
-        if YellowPageArray[i]
-        then 
-          local a = tonumber(YellowPageArray[i]["src"])
-          local b = tonumber(src)
+    if src ~= nil then
+        for i = 1, #YellowPageArray do
+            if YellowPageArray[i]
+            then 
+            local a = tonumber(YellowPageArray[i]["src"])
+            local b = tonumber(src)
 
-          if a == b then
-            table.remove(YellowPageArray,i)
-          end
+            if a == b then
+                table.remove(YellowPageArray,i)
+            end
+            end
         end
+        local source = source
+        TriggerClientEvent("YellowPageArray", -1 , YellowPageArray)
+        TriggerClientEvent("YPUpdatePhone", -1)
     end
-    TriggerClientEvent("YellowPageArray", -1 , YellowPageArray)
-    TriggerClientEvent("YPUpdatePhone",src)
 end)
 
 RegisterServerEvent("stocks:clientvalueupdate")

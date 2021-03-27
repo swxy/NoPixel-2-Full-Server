@@ -459,7 +459,6 @@ end)
 RegisterNUICallback('manageGroup', function(data)
     local groupid = data.GroupID
     
-    local rank = GroupRank(groupid)
     if rank < 2 then
       SendNUIMessage({
         openSection = "error",
@@ -488,7 +487,7 @@ end)
 
 
 RegisterNetEvent("group:fullList")
-AddEventHandler("group:fullList", function(result,bank,groupid)
+AddEventHandler("group:fullList", function(result,bank,groupid,rank)
 
     -- group-manage
     local groupname = GroupName(groupid)
@@ -498,7 +497,8 @@ AddEventHandler("group:fullList", function(result,bank,groupid)
         groupName = groupname,
         bank = bank,
         groupId = groupid,
-        employees = result
+        employees = result,
+        rank = rank
       }
     })
     --[[
@@ -1795,7 +1795,8 @@ RegisterNUICallback('newPostSubmit', function(data, cb)
 end)
 
 RegisterNUICallback('deleteYP', function()
-  TriggerServerEvent('phone:RemovePhoneJob')
+  print('here')
+  TriggerServerEvent('phone:deleteYP')
 end)
 
 RegisterNetEvent("yellowPages:retrieveLawyersOnline")
@@ -1965,7 +1966,7 @@ Citizen.CreateThread(function()
       end
 
       if IsControlJustReleased(0,38) then
-        if (IsControlPressed(0,21)) then
+        if (IsControlPressed(0,21)) then --stop checkpoint adding when running.
           PopLastCheckpoint()
         else
           AddCheckPoint()
@@ -2062,11 +2063,18 @@ function addCheckpointMarker(leftMarker, rightMarker)
 end
 
 function LoadMapBlips(id, reverseTrack, laps)
+  print('loading map blips')
   local id = tostring(id)
   ClearBlips()
   loadCheckpointModels()
-  if(customMaps[id].checkpoints ~= nil) then
-    local checkpoints = customMaps[id].checkpoints
+  print('id : ',id)
+  print(json.encode(customMaps))
+  print(json.encode(customMaps[id]))
+  print(json.encode(customMaps[id].checkPoints))
+
+  if(customMaps[id].checkPoints ~= nil) then
+    print('checkpoints are not null')
+    local checkpoints = customMaps[id].checkPoints
     if reverseTrack then
       local newCheckpoints = {}
       local count = 1
@@ -2136,6 +2144,8 @@ function StartEvent(map,laps,counter,reverseTrack,raceName, startTime, mapCreato
     checkPointIndex = #mapCheckpoints
   end
 
+  
+
   local ped = GetPlayerPed(-1)
   local plyCoords = GetEntityCoords(ped)
   local dist = Vdist(mapCheckpoints[checkPointIndex]["x"],mapCheckpoints[checkPointIndex]["y"],mapCheckpoints[checkPointIndex]["z"], plyCoords.x,plyCoords.y,plyCoords.z)
@@ -2145,6 +2155,7 @@ function StartEvent(map,laps,counter,reverseTrack,raceName, startTime, mapCreato
     return
   end
 
+  print(json.encode(customMaps[map]))
   ShowText("Race Starting on " .. customMaps[map]["track_name"] .. " with " .. laps .. " laps in " .. counter .. " seconds!")
   racesStarted = racesStarted + 1
   local cid = exports["isPed"]:isPed("cid")
@@ -2174,9 +2185,11 @@ end
 
 function RunRace(identifier)
 
-  local map = currentRaces[identifier].map
-  local laps = currentRaces[identifier].laps
-  local counter = currentRaces[identifier].counter
+  print(json.encode(currentRaces))
+  local map = currentRaces[identifier][identifier].map
+  print(json.encode(map))
+  local laps = currentRaces[identifier][identifier].laps
+  local counter = currentRaces[identifier][identifier].counter
   local sprint = false
 
   if laps == 0 then
@@ -2185,6 +2198,8 @@ function RunRace(identifier)
   end
   local myLap = 0
   
+  print(json.encode(customMaps))
+  print(json.encode(customMaps[map]))
   local checkpoints = #customMaps[map]["checkPoints"]
   local mycheckpoint = 1
 
@@ -2210,7 +2225,7 @@ function RunRace(identifier)
     maxCheckpoints = checkpoints
   })
 
-  local tempCheckpoints = customMaps[map].checkpoints
+  local tempCheckpoints = customMaps[map].checkPoints
   if currentRaces[identifier].reverseTrack then
     local newCheckpoints = {}
     local count = 1
@@ -2223,6 +2238,30 @@ function RunRace(identifier)
       newCheckpoints[#newCheckpoints] = nil
     end
     tempCheckpoints = newCheckpoints
+  end
+
+  if tempCheckpoints ~= nil then
+
+    --for index, checkpoint in pairs(tempCheckpoints) do
+      --loadCheckpointModels()
+      --for index, map in pairs(racers) do
+      --    addCheckpointMarker(vector3(map["flare1x"], map["flare1y"], map["flare1z"]), vector3(map["flare2x"], map["flare2y"], map["flare2z"]))
+      --end
+
+      --/
+      --local waypointCoords = GetBlipInfoIdCoord(GetFirstBlipInfoId(8))
+      --print(json.encode(waypointCoords))
+      --local retval, coords = GetClosestVehicleNode(waypointCoords.x, waypointCoords.y, waypointCoords.z, 1)
+      --local key = #SetBlips+1
+      --checkpoint.blip = AddBlipForCoord(checkpoint.coords.x, checkpoint.coords.y, checkpoint.coords.z)
+      --SetBlipAsFriendly(checkpoint.blip, true)
+      --SetBlipSprite(checkpoint.blip, 1)
+      --ShowNumberOnBlip(checkpoint.blip, index)
+      --BeginTextCommandSetBlipName("STRING");
+      --AddTextComponentString(tostring("Checkpoint " ..index))
+      --EndTextCommandSetBlipName(checkpoint.blip)
+      --/
+    --end
   end
 
   while myLap < laps+1 and racing do
@@ -2389,15 +2428,38 @@ RegisterNUICallback('racing:event:join', function(data)
   local ped = GetPlayerPed(-1)
   local plyCoords = GetEntityCoords(ped)
 
-  local mapCheckpoints = customMaps[currentRaces[id]["map"]]["checkPoints"]
+  print(json.encode(data))
+  print('id : ', id)
+  print('custom maps : ')
+  print(json.encode(customMaps))
+  print('my map : ')
+  print(json.encode(currentRaces[id][id]["map"]))
+  print(json.encode(currentRaces[id]["map"]))
+
+  local mapCheckpoints = customMaps[currentRaces[id][id]["map"]]["checkPoints"]
+
+  print("mapCheckpoints")
+  print(json.encode(mapCheckpoints))
+  print(json.encode(mapCheckpoints[checkPointIndex]))
+
   local checkPointIndex = 1
-  if currentRaces[id]["reverseTrack"] and currentRaces[id]["laps"] == 0 then
+
+  print(currentRaces[id][id]["reverseTrack"])
+  print(currentRaces[id][id]["laps"])
+
+  if currentRaces[id][id]["reverseTrack"] and currentRaces[id][id]["laps"] == 0 then
     checkPointIndex = #mapCheckpoints
   end
 
+  print("checkPointIndex : ", checkPointIndex)
+  print('JoinedRaces : ', json.encode(JoinedRaces))
+  print("racing  : ", racing)
+  print('race open : ', currentRaces[id][id]["open"])
   if Vdist(mapCheckpoints[checkPointIndex]["x"], mapCheckpoints[checkPointIndex]["y"], mapCheckpoints[checkPointIndex]["z"],plyCoords.x,plyCoords.y,plyCoords.z) < 40 then
     -- IF the race is OPEN and you are not in the race and youre not racing
-    if currentRaces[id]["open"] and not JoinedRaces[id] and not racing then
+    --console.log(not JoinedRaces[id])
+    if currentRaces[id][id]["open"] and (JoinedRaces[id] == nil or not JoinedRaces[id]) and not racing then
+      print(' the race is OPEN and you are not in the race and youre not racing')
       racing = true
 
       local myJob = exports["isPed"]:isPed("myJob")
@@ -2410,9 +2472,11 @@ RegisterNUICallback('racing:event:join', function(data)
       TriggerServerEvent("racing-join-race",id)
       hudUpdate('starting')
       ShowText("Joining Race!")
-      LoadMapBlips(currentRaces[id]["map"], currentRaces[id]["reverseTrack"], currentRaces[id]["laps"])
+      LoadMapBlips(currentRaces[id][id]["map"], currentRaces[id][id]["reverseTrack"], currentRaces[id][id]["laps"])
     else
       -- IF youre in this race and youre not racing
+      print("racing  : ", racing)
+      print('has joined race ', id, ' ', JoinedRaces[id])
       if (JoinedRaces[id] and not racing) then
         racing = true
         hudUpdate('starting')
@@ -2480,6 +2544,7 @@ end)
 RegisterNetEvent('racing:data:set')
 AddEventHandler('racing:data:set', function(data)
   print('racing:data:set', json.encode(data))
+  print("////////////////////////////////////////////////////////")
   if(data.event == "map") then
     if (data.eventId ~= -1) then
       customMaps[data.eventId] = data.data
@@ -2495,13 +2560,19 @@ AddEventHandler('racing:data:set', function(data)
   elseif (data.event == "event") then
     if (data.eventId ~= -1) then
       currentRaces[data.eventId] = data.data
+      print('racing ------------>', racing)
+      print(data.subEvent)
+      print( json.encode(JoinedRaces[data.eventId]))
       if JoinedRaces[data.eventId] and racing and data.subEvent == "close" then
+        print('in if joinedrces')
+        print( json.encode(JoinedRaces[data.eventId]))
         RunRace(data.eventId)
       end
       SendNUIMessage({
         openSection = "racing:event:update",
         eventId = data.eventId,
-        raceData = currentRaces[data.eventId]
+        raceData = currentRaces[data.eventId],
+        playerRacing = racing
       })
     else
       currentRaces = data.data
@@ -2780,8 +2851,8 @@ RegisterNUICallback('newContactSubmit', function(data, cb)
   cb('ok')
 end)
 
-RegisterNUICallback('removeContact', function(data, cb)
-  TriggerServerEvent('phone:removeContact', data.name, data.number)
+RegisterNUICallback('deleteContact', function(data, cb)
+  TriggerServerEvent('phone:deleteContact', data.name, data.number)
   cb('ok')
 end)
 
@@ -3547,7 +3618,7 @@ RegisterNUICallback('notifications', function()
 
 end)
 
-RegisterNetEvent('phone:loadSMSOther')
+--[[RegisterNetEvent('phone:loadSMSOther')
 AddEventHandler('phone:loadSMSOther', function(messages,mynumber)
   openGui()
   lstMsgs = {}
@@ -3574,7 +3645,7 @@ AddEventHandler('phone:loadSMSOther', function(messages,mynumber)
   end
   print(json.encode(messages))
   SendNUIMessage({openSection = "messagesOther", list = lstMsgs, clientNumber = mynumber})
-end)
+end)]]
 
 
 
@@ -3599,12 +3670,13 @@ end)
 RegisterNetEvent('phone:loadSMS')
 AddEventHandler('phone:loadSMS', function(messages,mynumber)
 
+  
   lstMsgs = {}
   if (#messages ~= 0) then
     for k,v in pairs(messages) do
       if v ~= nil then
         local msgDisplayName = ""
-        if v.receiver == mynumber then
+        if v.receiver ~= mynumber then
           msgDisplayName = getContactName(v.sender)
         else
           msgDisplayName = getContactName(v.receiver)
@@ -3617,7 +3689,7 @@ AddEventHandler('phone:loadSMS', function(messages,mynumber)
           date = v.date,
           message = v.message
         }
-        lstMsgs[#lstMsgs+1]= message
+        lstMsgs[#lstMsgs+1] = message
       end
     end
   end
@@ -3862,7 +3934,7 @@ AddEventHandler('phone:deleteContact', function(name, number)
   table.remove( lstContacts, tablefind(lstContacts, contact))
   
   SendNUIMessage({
-    removeContact = true,
+    deleteContact = true,
     contact = contact,
   })
   

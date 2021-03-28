@@ -196,8 +196,8 @@ $(document).ready(function () {
             addContact(item.contact);
         }
 
-        if (item.deleteContact === true) {
-            deleteContact(item.contact);
+        if (item.removeContact === true) {
+            removeContact(item.contact);
         }
 
         if (item.emptyContacts === true) {
@@ -446,7 +446,6 @@ $(document).ready(function () {
             case "racing-start":
                 $('#racing-start-tracks').empty();
                 maps = item.maps;
-                console.log('maps ' + item.maps.track_n)
                 addRacingTracks(maps);
                 openContainer('racing-start');
                 break;
@@ -475,7 +474,7 @@ $(document).ready(function () {
                         checkFastestLap(item.hudData.curLap);
                         curLap = item.hudData.curLap;
                         curCheckpoint = item.hudData.curCheckpoint;
-                        break;        
+                        break;
                     case "finished":
                         checkFastestLap(item.hudData.curLap);
                         endTime = moment.utc();
@@ -505,15 +504,11 @@ $(document).ready(function () {
                 }
                 break;
             case "racing:event:update":
-                console.log('\\ script.js racing:event:update');
-                console.log(JSON.stringify(item));
-                console.log("");
-                console.log(JSON.stringify(races.length));
                 if (item.eventId !== undefined) {
                     $(`.racing-entries li[data-event-id="${item.eventId}"]`).remove();
                     if (races !== undefined)
                         races[item.eventId] = item.raceData
-                    addRace(item.raceData, item.eventId, item.playerRacing); //added property pRacing (is player racing that race)
+                    addRace(item.raceData, item.eventId);
                 } else
                     races = item.raceData
                 break;
@@ -639,11 +634,8 @@ function addRacingTracks(tracks) {
 }
 
 function racingStartsTimer() {
-//    console.log("small peen");
     $('.racing-entries .racing-start-timer').each(function () {
-//        console.log("Fat peen");
         let startTime = moment.utc($(this).data('start-time'));
-        // console.log(startTime.diff(moment.utc()));
         if (startTime.diff(moment.utc()) > 0) {
             let formatedTime = makeTimer(startTime);
             $(this).text(`Starts in ${formatedTime.minutes} min ${formatedTime.seconds} sec`);
@@ -654,26 +646,21 @@ function racingStartsTimer() {
     });
 }
 
-function addRace(race, raceId, pRacing) {
-    console.log("-----------------------------");
-    console.log(JSON.stringify(race));
-    console.log(JSON.stringify(race[raceId]));
-    console.log("-----------------------------");
-    console.log(race[raceId].raceName);
+function addRace(race, raceId) {
     let raceElement = `
     <li data-event-id="${raceId}">
         <div class="collapsible-header row" style="margin-bottom: 0px;">
             <div class="col s12">
                 <div class="row no-padding">
                     <div class="col s12">
-                        <i class="fas fa-flag-checkered ${race[raceId].open ? "green-text" : "red-text"}"></i>${race[raceId].raceName} <span class="new badge" data-badge-caption="${race[raceId].laps > 0 ? 'laps' : 'Sprint'}">${race[raceId].laps > 0 ? race[raceId].laps : ''}</span>
+                        <i class="fas fa-flag-checkered ${race.open ? "green-text" : "red-text"}"></i>${race.raceName} <span class="new badge" data-badge-caption="${race.laps > 0 ? 'laps' : 'Sprint'}">${race.laps > 0 ? race.laps : ''}</span>
                         
                     </div>
                 </div>
                 <div class="row no-padding">
                     <div class="col s12">
-                        <i class="fas fa-stopwatch"></i><span data-balloon-pos="down" class="racing-start-timer" data-start-time="${race[raceId].startTime}"></span>
-                        <span class="new badge" data-badge-caption="m">${race[raceId].mapDistance}</span>
+                        <i class="fas fa-stopwatch"></i><span data-balloon-pos="down" class="racing-start-timer" data-start-time="${race.startTime}"></span>
+                        <span class="new badge" data-badge-caption="m">${race.mapDistance}</span>
                     </div>
                 </div>
             </div>
@@ -683,21 +670,19 @@ function addRace(race, raceId, pRacing) {
                 <div class="row no-padding">
                     <div class="col s12">
                         <div class="chip">
-                            Map Creator: ${race[raceId].mapCreator}
+                            Map Creator: ${race.mapCreator}
                         </div>
                     </div>
                 </div>
                 <div class="row no-padding">
                     <div class="col s12">
             `
-        raceElement += `<button class="waves-effect waves-light btn racing-entries-entrants" data-id="${race[raceId].identifier}" aria-label="Race information" data-balloon-pos="up"><i class="fas fa-info icon"></i></button> `
+        raceElement += `<button class="waves-effect waves-light btn racing-entries-entrants" data-id="${race.identifier}" aria-label="Race information" data-balloon-pos="up"><i class="fas fa-info icon"></i></button> `
 
-        //if (race.open)
-        console.log(open)
-        if (!pRacing && race[raceId].open)
-            raceElement += `<button class="waves-effect waves-light btn green racing-entries-join" data-id="${race[raceId].identifier}" aria-label="Join race" data-balloon-pos="up"><i class="fas fa-flag-checkered icon"></i></button> `
-        else
-            raceElement += `<button class="waves-effect red waves-light btn phone-button" data-action="racing:event:leave" aria-label="Leave race" data-balloon-pos="up"><i class="fas fa-sign-out-alt icon"></i></button> `
+        if (race.open)
+            raceElement += `<button class="waves-effect waves-light btn green racing-entries-join" data-id="${race.identifier}" aria-label="Join race" data-balloon-pos="up"><i class="fas fa-flag-checkered icon"></i></button> `
+
+        raceElement += `<button class="waves-effect red waves-light btn phone-button" data-action="racing:event:leave" aria-label="Leave race" data-balloon-pos="up"><i class="fas fa-sign-out-alt icon"></i></button> `
         raceElement +=
         `           </div>
                 </div>
@@ -705,20 +690,12 @@ function addRace(race, raceId, pRacing) {
         </div>
     </li>
     `
-    //console.log('[data-id="'+race[raceId].identifier+'"]"')
-    //console.log($('.racing-entries').querySelector('[data-id="'+race[raceId].identifier+'"]"'));
     $('.racing-entries').prepend(raceElement);
 }
-
-function updateRace(race, raceId, pRacing) {
-     console.log('[data-id="'+race[raceId].identifier+'"]"')
-    $('.racing-entries').querySelector('[data-id="'+race[raceId].identifier+'"]"').empty();
-} 
 
 function addRaces(races) {
     for (let race in races) {
         let curRace = races[race]
-        console.log(curRace)
         addRace(curRace, race);
     }
 }
@@ -755,7 +732,6 @@ function addOutstandingPayments(payments) {
 }
 
 function addGroupManage(group) {
-    console.log(group.rank < 5)
     $('.group-manage-company-name').text(group.groupName).data('group-id', group.groupId);
     $('.group-manage-company-bank').text('$' + group.bank);
     for (let i = 0; i < group.employees.length; i++) {
@@ -1027,6 +1003,7 @@ function addStocks(stocksData) {
 function addVehicles(vehicleData, showCarPayments) {
     if (showCarPayments)
         $('.btn-car-payments').css("visibility", "visible").hide().fadeIn(150);
+
     for (let vehicle of Object.keys(vehicleData)) {
         let carIconColor = "green";
         if (vehicleData[vehicle].amountDue > 0)
@@ -1034,7 +1011,6 @@ function addVehicles(vehicleData, showCarPayments) {
         else if (vehicleData[vehicle].amountDue == 0 && vehicleData[vehicle].payments > 0)
             carIconColor = "orange";
         else
-        console.log(JSON.stringify(vehicleData))
             carIconColor = "green";
         var vehicleElement = `
             <li>
@@ -1050,7 +1026,7 @@ function addVehicles(vehicleData, showCarPayments) {
                                 <li class="collection-item"><i class="fas fa-closed-captioning"></i> ${vehicleData[vehicle].plate}</li>
                                 <li class="collection-item"><i class="fas fa-oil-can"></i> ${vehicleData[vehicle].enginePercent}% Engine</li>
                                 <li class="collection-item"><i class="fas fa-car-crash"></i> ${vehicleData[vehicle].bodyPercent}% Body</li>
-                                <li class="collection-item"><i class="fas fa-hourglass-half"></i> ${vehicleData[vehicle].payments == 0 ? 'No remaining payments.' : Math.ceil(vehicleData[vehicle].lastPayment) + ' days until payment is due.'}</li>
+                                <li class="collection-item"><i class="fas fa-hourglass-half"></i> ${vehicleData[vehicle].payments == 0 ? 'No remaining payments.' : Math.ceil(7 - parseFloat(vehicleData[vehicle].lastPayment)) + ' days until payment is due.'}</li>
                                 `
         if (vehicleData[vehicle].payments != 0) {
             vehicleElement += `
@@ -1308,7 +1284,7 @@ function addContact(item) {
     $(".contacts-entries").append(element);
 }
 
-function deleteContact(item) {
+function removeContact(item) {
     $('#' + item.name + '-' + item.number).remove();
     contactList = contactList.filter(function (e) {
         return e.name != item.name && e.number != item.number;
@@ -1427,7 +1403,7 @@ var currentSettings = [];
 var currentSettingWindow = "tokovoip";
 
 var checkedFunctions = ["stereoAudio","localClickOn","localClickOff","remoteClickOn","remoteClickOff"];
-var sliderFunctions = ["clickVolume","radioVolume", "phoneVolume"];
+var sliderFunctions = ["mainVolume","clickVolume","radioVolume"];
 
 
 controlNames[0] = ["label","Toko Voip Controls"];
@@ -1501,7 +1477,7 @@ function updateSettings()
             updateTokoSettings();
             break;
         case "control":
-            $.post('http://phone/settingsUpdateToko', JSON.stringify({tag: "controlUpdate", controls: currentBinds}));
+            $.post('http://phone/settingsUpdateToko', JSON.stringify({tag: "controlUpdate",controls: currentBinds}));
             break;
         case "browser":
             break;
@@ -1632,7 +1608,7 @@ function createControlList()
                 `);
             }
             $('#controlSettings').append(element);
-            $("#"+bindID).val(getCurrentBindFromID(bindID))
+            $("#"+bindID).val(getCurrentBindFromID(bindID).toUpperCase())
         }
          
     }
@@ -1647,11 +1623,19 @@ function setSettings()
            
             if(findTypeOf(name) == 1)
             {   
-                $('#'+name).prop('checked', outcome);
+                $('#'+name).prop('checked',outcome);
             }
             else if(findTypeOf(name) == 2)
             {
-                $('#' + name).val(outcome * 10);
+                var varDataLocal
+                if (name.toString() == "mainVolume") {
+                    varDataLocal = MinMaxOpposite(10,60,outcome)
+                } else if (name.toString() == "clickVolume") {
+                    varDataLocal = MinMaxOpposite(5,20,outcome)
+                } else if (name.toString() == "radioVolume") {
+                    varDataLocal = MinMaxOpposite(0,10,outcome)
+                }
+                $('#'+name).val(varDataLocal);
             }
         }
     }
@@ -1679,6 +1663,14 @@ async function delayedLog(item) {
 // I have autism
 // this gets the minimum number in a slider, the maximum, then returns the exact opposite.
 
+function MinMaxOpposite(min,max,num) {
+    s = parseInt(num)
+    x = parseInt(max)
+    n = parseInt(min)
+    let response = ((x-n)-((s-n)*2))+s
+    return response
+}
+
 async function updateTokoSettings()
 {
 
@@ -1693,8 +1685,17 @@ async function updateTokoSettings()
         var name = sliderFunctions[j]
         var varData = $('#'+name).val();
 
-        updateOnID(name, varData / 10);
+        if (name == "mainVolume") {
+            varData = MinMaxOpposite(10,60,varData)
+        } else if (name == "clickVolume") {
+            varData = MinMaxOpposite(5,20,varData)
+        } else if (name == "radioVolume") {
+            varData = MinMaxOpposite(0,10,varData)
+        }
+        updateOnID(name,varData);
         await delayedLog(name);
+
+
     }
 
     await delayedLog();
@@ -1962,7 +1963,7 @@ $("#group-manage-rank-form").submit(function (e) {
     $.post('http://phone/promoteGroup', JSON.stringify({
         gangid: escapeHtml($(".group-manage-company-name").data('group-id')),
         cid: escapeHtml($("#group-manage-rank-form #group-manage-rank-id").val()),
-        newrank: escapeHtml($("#group-manage-rank-form #group-manage-rank").val())
+        newrank: escapeHtml($("#group-manage-rank-form #group-manage-rank").val()),
     }));
     $('#group-manage-rank-form').trigger('reset');
     $('#group-manage-rank-modal').modal('close');
@@ -2184,12 +2185,6 @@ $('.racing-entries').on('click', '.racing-entries-entrants', function () {
     $('.racing-entrants').empty();
     $('#racing-info-description').text();
     let currentRace = races[$(this).data('id')]
-    console.log("races : ")
-    console.log(JSON.stringify(races))
-    console.log("currentRace : ")
-    
-    console.log(JSON.stringify(currentRace))
-
     $('#racing-info-description').text(currentRace.mapDescription);
     if(currentRace.racers !== undefined)
         currentRace.racers = Object.values(currentRace.racers).sort((a,b) => a.total - b.total); 
@@ -2197,7 +2192,7 @@ $('.racing-entries').on('click', '.racing-entries-entrants', function () {
         let racer = currentRace.racers[id];
         let racerElement = `
             <li>
-                <div class="collapsible-header">Titanium#${racer.server_id}</div>
+                <div class="collapsible-header">${racer.name}</div>
                 <div class="collapsible-body">
                     <div class="row">
                         <div class="col s3 right-align">
@@ -2338,7 +2333,7 @@ $('.contacts-entries-wrapper').on('click', '.btn-contacts-remove', function () {
 });
 
 $('#confirm-modal-accept').click(function (event) {
-    $.post('http://phone/deleteContact', JSON.stringify({ name: $(this).data('name'), number: $(this).data('number') }));
+    $.post('http://phone/removeContact', JSON.stringify({ name: $(this).data('name'), number: $(this).data('number') }));
     $('#confirm-modal').modal('close');
 });
 

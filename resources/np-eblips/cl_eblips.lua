@@ -116,7 +116,7 @@ AddEventHandler("np-jobmanager:playerBecameJob", function(job, name, notify)
 		DecorSetInt(PlayerPedId(), "EmergencyType", 0)
 	end
 
-	TriggerServerEvent('e-blips:updateBlips', job, name)
+	TriggerServerEvent('e-blips:updateBlips', source, job, name)
 end)
 
 
@@ -130,7 +130,7 @@ AddEventHandler("e-blips:updateAfterPedChange", function(job)
 		DecorSetInt(PlayerPedId(), "EmergencyType", 0)
 	end
 
-	TriggerServerEvent('e-blips:updateBlips', job)
+	TriggerServerEvent('e-blips:updateBlips', source, job)
 end)
 
 RegisterNetEvent('np:infinity:player:coords')

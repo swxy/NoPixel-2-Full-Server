@@ -8,7 +8,7 @@ function EntityBlip:new(pType, pNetId, pSettings)
     this.type = pType
     this.active = false
     this.handle = nil
-    this.entity = GetLocalEntity(pType, pType)
+    this.entity = GetLocalEntity(pType, pNetId)
     this.settings = pSettings
 
     self.__index = self

@@ -15,5 +15,5 @@ original credit:
 4. Delete everything in that folder
 5. Clone this repository to that folder
 6. Run `nopixel.sql` in your database
-7. Run `set-passwords.bat`
+7. Run `set-passwords.bat` (requires wlr - I used [Ubuntu](https://ubuntu.com/wsl))
 8. Start the server

@@ -38,11 +38,11 @@ if %errorLevel%==0  (
 	
 	rem Now add the values to the actual files
 	wsl cp server.cfg server.cfg.clean
-	wsl sed -e 's/!steamAPIKey!/your_steam_web_api_key/' -e 's/!steamID!/your_steam_id/' -e 's/!licenseKey!/your_license_key/' server.cfg > server.cfg.smudge
+	wsl sed -e 's/your_steam_web_api_key/!steamAPIKey!/' -e 's/your_steam_id/!steamID!/' -e 's/your_license_key/!licenseKey!/' server.cfg > server.cfg.smudge
 	wsl mv server.cfg.smudge server.cfg
 
 	wsl cp resources/ghmattimysql/config.json resources/ghmattimysql/config.json.clean
-	wsl sed -e 's/!dbPassword!/your_db_password/' -e 's/!dbUser!/your_db_user/' resources/ghmattimysql/config.json > resources/ghmattimysql/config.json.smudge
+	wsl sed -e 's/your_db_password/!dbPassword!/' -e 's/your_db_user/!dbUser!/' resources/ghmattimysql/config.json > resources/ghmattimysql/config.json.smudge
 	wsl mv resources/ghmattimysql/config.json.smudge resources/ghmattimysql/config.json
 	
 	echo on

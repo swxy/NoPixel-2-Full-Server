@@ -53,12 +53,7 @@ function EntityBlip:enable()
     Citizen.CreateThread(function ()
         while self.active do
             
-            print(self.type)
-            print(self.id)
             local entity = GetLocalEntity(self.type, self.id)
-
-            print(self.type)
-            print(self.id)
 
             if not DoesEntityExist(entity) then
                 local coords = GetNetworkedCoords(self.type, self.id)

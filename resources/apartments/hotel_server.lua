@@ -20,8 +20,15 @@ RegisterServerEvent('hotel:load')
 AddEventHandler('hotel:load', function()
     local src = source
     local user = exports["np-base"]:getModule("Player"):GetUser(src)
+	
+	-- Sometimes runs before character is selected
+	if not user then 
+		return 
+	end
+	
     local char = user:getCurrentCharacter()
     local charachter = user:getCurrentCharacter()
+
     local name = charachter.first_name .. ' ' .. charachter.last_name
     exports.ghmattimysql:execute('SELECT * FROM user_appertement WHERE cid = @cid', {["cid"] = char.id}, function(result)
             if(result[1]) then

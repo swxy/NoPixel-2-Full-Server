@@ -528,8 +528,8 @@ CREATE TABLE IF NOT EXISTS `users_whitelist` (
 /*!40000 ALTER TABLE `users_whitelist` DISABLE KEYS */;
 /*!40000 ALTER TABLE `users_whitelist` ENABLE KEYS */;
 
--- Dumping structure for table gtav_rp2.user_appertement
-CREATE TABLE IF NOT EXISTS `user_appertement` (
+-- Dumping structure for table gtav_rp2.user_apartment
+CREATE TABLE IF NOT EXISTS `user_apartment` (
   `room` int(11) NOT NULL AUTO_INCREMENT,
   `roomType` int(1) DEFAULT NULL,
   `cid` mediumtext NOT NULL,
@@ -541,9 +541,9 @@ CREATE TABLE IF NOT EXISTS `user_appertement` (
   PRIMARY KEY (`room`) USING BTREE
 ) ENGINE=InnoDB AUTO_INCREMENT=41 DEFAULT CHARSET=utf8mb4;
 
--- Dumping data for table gtav_rp2.user_appertement: ~0 rows (approximately)
-/*!40000 ALTER TABLE `user_appertement` DISABLE KEYS */;
-/*!40000 ALTER TABLE `user_appertement` ENABLE KEYS */;
+-- Dumping data for table gtav_rp2.user_apartment: ~0 rows (approximately)
+/*!40000 ALTER TABLE `user_apartment` DISABLE KEYS */;
+/*!40000 ALTER TABLE `user_apartment` ENABLE KEYS */;
 
 -- Dumping structure for table gtav_rp2.user_bans
 CREATE TABLE IF NOT EXISTS `user_bans` (

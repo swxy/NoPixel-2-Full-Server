@@ -1908,7 +1908,7 @@ AddEventHandler("police:setClientMeta",function(meta)
 	print(json.encode(meta))
 	if meta.thirst == nil then currentValues["thirst"] = 100 else currentValues["thirst"] = meta.thirst end
 	if meta.hunger == nil then currentValues["hunger"] = 100 else currentValues["hunger"] = meta.hunger end
-	if meta.health < 10.0 then
+	if meta.health == nil or meta.health < 10.0 then
 		SetEntityHealth(PlayerPedId(),10.0)
 	else
 		SetEntityHealth(PlayerPedId(),meta.health)

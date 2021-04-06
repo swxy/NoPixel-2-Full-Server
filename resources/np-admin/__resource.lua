@@ -9,7 +9,6 @@ client_script "@warmenu/warmenu.lua"
 client_script "@np-infinity/client/cl_lib.lua"
 server_script "@np-infinity/server/sv_lib.lua"
 
-server_script "@np-fml/server/lib.lua"
 
 ui_page "html/index.html"
 

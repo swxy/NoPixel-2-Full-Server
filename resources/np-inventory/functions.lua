@@ -1,6 +1,6 @@
 local fixingvehicle = false
 local justUsed = false
-local retardCounter = 0
+local itemsUsedRecently = 0
 local lastCounter = 0 
 local HeadBone = 0x796e;
 
@@ -91,10 +91,10 @@ AddEventHandler('RunUseItem', function(itemid, slot, inventoryName, isWeapon)
     -- end
 
     if justUsed then
-        retardCounter = retardCounter + 1
-        if retardCounter > 10 and retardCounter > lastCounter+5 then
-            lastCounter = retardCounter
-            TriggerServerEvent("exploiter", "Tried using " .. retardCounter .. " items in < 500ms ")
+        itemsUsedRecently = itemsUsedRecently + 1
+        if itemsUsedRecently > 10 and itemsUsedRecently > lastCounter+5 then
+            lastCounter = itemsUsedRecently
+            TriggerServerEvent("exploiter", "Tried using " .. itemsUsedRecently .. " items in < 500ms ")
         end
         return
     end
@@ -104,7 +104,7 @@ AddEventHandler('RunUseItem', function(itemid, slot, inventoryName, isWeapon)
     if (not hasEnoughOfItem(itemid,1,false)) then
         TriggerEvent("DoLongHudText","You dont appear to have this item on you?",2) 
         justUsed = false
-        retardCounter = 0
+        itemsUsedRecently = 0
         lastCounter = 0
         return
     end
@@ -113,21 +113,21 @@ AddEventHandler('RunUseItem', function(itemid, slot, inventoryName, isWeapon)
         TriggerEvent("equipWeaponID",itemid,ItemInfo.information,ItemInfo.id)
         TriggerEvent("inventory:removeItem",itemid, 1)
         justUsed = false
-        retardCounter = 0
+        itemsUsedRecently = 0
         lastCounter = 0
         return
     end
 
     if not isValidUseCase(itemid,isWeapon) then
         justUsed = false
-        retardCounter = 0
+        itemsUsedRecently = 0
         lastCounter = 0
         return
     end
 
     if (itemid == nil) then
         justUsed = false
-        retardCounter = 0
+        itemsUsedRecently = 0
         lastCounter = 0
         return
     end
@@ -138,7 +138,7 @@ AddEventHandler('RunUseItem', function(itemid, slot, inventoryName, isWeapon)
             TriggerEvent("equipWeaponID",itemid,ItemInfo.information,ItemInfo.id)
      --   end
         justUsed = false
-        retardCounter = 0
+        itemsUsedRecently = 0
         lastCounter = 0
         return
     end
@@ -918,7 +918,7 @@ end
     end
 
     Wait(500)
-    retardCounter = 0
+    itemsUsedRecently = 0
     justUsed = false
 
 

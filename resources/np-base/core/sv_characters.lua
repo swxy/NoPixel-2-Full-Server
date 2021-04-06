@@ -208,7 +208,7 @@ function NPX.Core.SelectCharacter(self, id, src, callback)
 	if not user:ownsCharacter(id) then callback(false) return end
 
 	local selectedCharacter = user:getCharacter(id)
-	selectedCharacter.phone_number = math.ceil(selectedCharacter.phone_number)
+	--selectedCharacter.phone_number = math.ceil(selectedCharacter.phone_number)
 	--print('selecting char')
 
 	user:setCharacter(selectedCharacter)

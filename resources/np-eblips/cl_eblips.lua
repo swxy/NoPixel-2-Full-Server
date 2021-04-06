@@ -44,6 +44,8 @@ function GetBlipSettings(pJobId, pCallSign)
 		settings.color = 23
 		settings.heading =  true
 		settings.text = ('Paramedic | %s'):format(pCallSign)
+	else 
+		return false
 	end
 
 	return settings
@@ -59,6 +61,10 @@ function CreateBlipHandler(pServerId, pJob, pCallSign)
 	end
 
 	local settings = GetBlipSettings(job, callsign)
+
+	if not settings then 
+		return
+	end
 
 	local handler = EntityBlip:new('player', serverId, settings)
 
@@ -116,7 +122,7 @@ AddEventHandler("np-jobmanager:playerBecameJob", function(job, name, notify)
 		DecorSetInt(PlayerPedId(), "EmergencyType", 0)
 	end
 
-	TriggerServerEvent('e-blips:updateBlips', job, name)
+	TriggerServerEvent('e-blips:updateBlips', source, job, name)
 end)
 
 
@@ -130,7 +136,7 @@ AddEventHandler("e-blips:updateAfterPedChange", function(job)
 		DecorSetInt(PlayerPedId(), "EmergencyType", 0)
 	end
 
-	TriggerServerEvent('e-blips:updateBlips', job)
+	TriggerServerEvent('e-blips:updateBlips', source, job)
 end)
 
 RegisterNetEvent('np:infinity:player:coords')

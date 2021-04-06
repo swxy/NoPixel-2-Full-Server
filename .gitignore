@@ -17,3 +17,9 @@ citizen/system_resources/monitor/web/public/js/txadmin/dark.js
 citizen/system_resources/monitor/web/public/js/coreui.bundle.min.js
 citizen/system_resources/monitor/web/public/css/txAdmin.css
 citizen/system_resources/monitor/web/public/css/dark.scss
+*.bat
+!set-passwords.bat
+*.clean
+*.smudge
+*.backup
+*.lnk

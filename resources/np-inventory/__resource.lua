@@ -27,7 +27,6 @@ files {
 	"nui/icons/*"
   }
 
-server_script "@np-fml/server/lib.lua"
 shared_script 'shared_list.js'
 client_script 'client.js'
 client_script 'functions.lua'

@@ -315,8 +315,8 @@ AddEventHandler('server:givepass', function(pass_type, wrank, cid)
   local src = source
   local user = exports["np-base"]:getModule("Player"):GetUser(src)
   local char = user:getCurrentCharacter()
-  exports.ghmattimysql:execute("SELECT * FROM characters WHERE cid = @id", {['id'] = cid}, function(data)
-    exports.ghmattimysql:execute("SELECT * FROM character_passes WHERE cid = @id", {['id'] = cid}, function(result)
+  exports.ghmattimysql:execute("SELECT * FROM characters WHERE id = @id", {['id'] = cid}, function(data)
+    exports.ghmattimysql:execute("SELECT * FROM character_passes WHERE id = @id", {['id'] = cid}, function(result)
         if result[1] ~= nil then
           exports.ghmattimysql:execute("UPDATE character_passes SET `rank` = @rank, `giver` = @giver WHERE cid  = @id", { ['id'] = cid, ['rank'] = wrank, ['giver'] = char.first_name .. ' ' .. char.last_name})
         else
@@ -325,7 +325,7 @@ AddEventHandler('server:givepass', function(pass_type, wrank, cid)
           {
               ['id'] = cid,
               ['rank'] = wrank,
-              ['name'] = data.first_name .. ' ' .. data.last_name,
+              ['name'] = data[1].first_name .. ' ' .. data[1].last_name,
               ['giver'] = char.first_name .. ' ' .. char.last_name,
               ['gang_id'] = pass_type,
               ['business_name'] = pass_type

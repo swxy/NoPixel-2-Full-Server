@@ -54,11 +54,14 @@ end)
 exports('GetNetworkedCoords', function (pType, pNetId)
     local coords
 
-
     if pType == 'player' then
         local playerIndex = GetPlayerFromServerId(pNetId)
-        print(playerIndex)
-        coords = playerIndex == -1 and PlayerCoords[pNetId] or GetEntityCoords(GetPlayerPed(playerIndex))
+		if not playerIndex == -1 then
+			coords = PlayerCoords[pNetId]
+		else
+			coords = GetEntityCoords(GetPlayerPed(playerIndex))
+		end
+        --coords = playerIndex == -1 and PlayerCoords[pNetId] or GetEntityCoords(GetPlayerPed(playerIndex))
     else
         local entity = NetworkGetEntityFromNetworkId(pNetId)
 

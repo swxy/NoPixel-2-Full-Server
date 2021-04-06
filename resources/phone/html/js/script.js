@@ -446,7 +446,6 @@ $(document).ready(function () {
             case "racing-start":
                 $('#racing-start-tracks').empty();
                 maps = item.maps;
-                console.log('maps ' + item.maps.track_n)
                 addRacingTracks(maps);
                 openContainer('racing-start');
                 break;
@@ -635,11 +634,8 @@ function addRacingTracks(tracks) {
 }
 
 function racingStartsTimer() {
-//    console.log("small peen");
     $('.racing-entries .racing-start-timer').each(function () {
-//        console.log("Fat peen");
         let startTime = moment.utc($(this).data('start-time'));
-        // console.log(startTime.diff(moment.utc()));
         if (startTime.diff(moment.utc()) > 0) {
             let formatedTime = makeTimer(startTime);
             $(this).text(`Starts in ${formatedTime.minutes} min ${formatedTime.seconds} sec`);
@@ -700,7 +696,6 @@ function addRace(race, raceId) {
 function addRaces(races) {
     for (let race in races) {
         let curRace = races[race]
-        console.log(curRace)
         addRace(curRace, race);
     }
 }
@@ -1008,6 +1003,7 @@ function addStocks(stocksData) {
 function addVehicles(vehicleData, showCarPayments) {
     if (showCarPayments)
         $('.btn-car-payments').css("visibility", "visible").hide().fadeIn(150);
+
     for (let vehicle of Object.keys(vehicleData)) {
         let carIconColor = "green";
         if (vehicleData[vehicle].amountDue > 0)
@@ -1015,7 +1011,6 @@ function addVehicles(vehicleData, showCarPayments) {
         else if (vehicleData[vehicle].amountDue == 0 && vehicleData[vehicle].payments > 0)
             carIconColor = "orange";
         else
-        console.log(JSON.stringify(vehicleData))
             carIconColor = "green";
         var vehicleElement = `
             <li>
@@ -1031,7 +1026,7 @@ function addVehicles(vehicleData, showCarPayments) {
                                 <li class="collection-item"><i class="fas fa-closed-captioning"></i> ${vehicleData[vehicle].plate}</li>
                                 <li class="collection-item"><i class="fas fa-oil-can"></i> ${vehicleData[vehicle].enginePercent}% Engine</li>
                                 <li class="collection-item"><i class="fas fa-car-crash"></i> ${vehicleData[vehicle].bodyPercent}% Body</li>
-                                <li class="collection-item"><i class="fas fa-hourglass-half"></i> ${vehicleData[vehicle].payments == 0 ? 'No remaining payments.' : Math.ceil(vehicleData[vehicle].lastPayment) + ' days until payment is due.'}</li>
+                                <li class="collection-item"><i class="fas fa-hourglass-half"></i> ${vehicleData[vehicle].payments == 0 ? 'No remaining payments.' : Math.ceil(7 - parseFloat(vehicleData[vehicle].lastPayment)) + ' days until payment is due.'}</li>
                                 `
         if (vehicleData[vehicle].payments != 0) {
             vehicleElement += `
@@ -1408,7 +1403,7 @@ var currentSettings = [];
 var currentSettingWindow = "tokovoip";
 
 var checkedFunctions = ["stereoAudio","localClickOn","localClickOff","remoteClickOn","remoteClickOff"];
-var sliderFunctions = ["clickVolume","radioVolume", "phoneVolume"];
+var sliderFunctions = ["mainVolume","clickVolume","radioVolume"];
 
 
 controlNames[0] = ["label","Toko Voip Controls"];
@@ -1482,7 +1477,7 @@ function updateSettings()
             updateTokoSettings();
             break;
         case "control":
-            $.post('http://phone/settingsUpdateToko', JSON.stringify({tag: "controlUpdate", controls: currentBinds}));
+            $.post('http://phone/settingsUpdateToko', JSON.stringify({tag: "controlUpdate",controls: currentBinds}));
             break;
         case "browser":
             break;
@@ -1613,7 +1608,7 @@ function createControlList()
                 `);
             }
             $('#controlSettings').append(element);
-            $("#"+bindID).val(getCurrentBindFromID(bindID))
+            $("#"+bindID).val(getCurrentBindFromID(bindID).toUpperCase())
         }
          
     }
@@ -1628,11 +1623,19 @@ function setSettings()
            
             if(findTypeOf(name) == 1)
             {   
-                $('#'+name).prop('checked', outcome);
+                $('#'+name).prop('checked',outcome);
             }
             else if(findTypeOf(name) == 2)
             {
-                $('#' + name).val(outcome * 10);
+                var varDataLocal
+                if (name.toString() == "mainVolume") {
+                    varDataLocal = MinMaxOpposite(10,60,outcome)
+                } else if (name.toString() == "clickVolume") {
+                    varDataLocal = MinMaxOpposite(5,20,outcome)
+                } else if (name.toString() == "radioVolume") {
+                    varDataLocal = MinMaxOpposite(0,10,outcome)
+                }
+                $('#'+name).val(varDataLocal);
             }
         }
     }
@@ -1660,6 +1663,14 @@ async function delayedLog(item) {
 // I have autism
 // this gets the minimum number in a slider, the maximum, then returns the exact opposite.
 
+function MinMaxOpposite(min,max,num) {
+    s = parseInt(num)
+    x = parseInt(max)
+    n = parseInt(min)
+    let response = ((x-n)-((s-n)*2))+s
+    return response
+}
+
 async function updateTokoSettings()
 {
 
@@ -1674,8 +1685,17 @@ async function updateTokoSettings()
         var name = sliderFunctions[j]
         var varData = $('#'+name).val();
 
-        updateOnID(name, varData / 10);
+        if (name == "mainVolume") {
+            varData = MinMaxOpposite(10,60,varData)
+        } else if (name == "clickVolume") {
+            varData = MinMaxOpposite(5,20,varData)
+        } else if (name == "radioVolume") {
+            varData = MinMaxOpposite(0,10,varData)
+        }
+        updateOnID(name,varData);
         await delayedLog(name);
+
+
     }
 
     await delayedLog();
@@ -1943,7 +1963,7 @@ $("#group-manage-rank-form").submit(function (e) {
     $.post('http://phone/promoteGroup', JSON.stringify({
         gangid: escapeHtml($(".group-manage-company-name").data('group-id')),
         cid: escapeHtml($("#group-manage-rank-form #group-manage-rank-id").val()),
-        newrank: escapeHtml($("#group-manage-rank-form #group-manage-rank").val())
+        newrank: escapeHtml($("#group-manage-rank-form #group-manage-rank").val()),
     }));
     $('#group-manage-rank-form').trigger('reset');
     $('#group-manage-rank-modal').modal('close');
@@ -2172,7 +2192,7 @@ $('.racing-entries').on('click', '.racing-entries-entrants', function () {
         let racer = currentRace.racers[id];
         let racerElement = `
             <li>
-                <div class="collapsible-header">Titanium#${racer.server_id}</div>
+                <div class="collapsible-header">${racer.name}</div>
                 <div class="collapsible-body">
                     <div class="row">
                         <div class="col s3 right-align">

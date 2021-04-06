@@ -534,7 +534,13 @@ AddEventHandler('police:setServerMeta', function(health, armor, thrist, hungry)
 	print("saving hunger and thirst")
     local src = source
 	local user = exports["np-base"]:getModule("Player"):GetUser(src)
-	local char = user:getCurrentCharacter()
+	
+	if not user then 
+		print(debug.stacktrace)
+		return 
+	end
+	
+	local char = user:getVar("character")
 	local q = [[UPDATE characters SET metaData = @meta WHERE id = @cid;]]
 	local v = {
 		["meta"] = json.encode({["health"] = health, ["armour"] = armor, ["thrist"] = thrist, ["hunger"] = hungry}),

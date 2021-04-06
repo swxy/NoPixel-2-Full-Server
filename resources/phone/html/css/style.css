@@ -1276,34 +1276,14 @@ body {
 
 .delivery-job-entries {
     margin-bottom: 0px;
-    margin-top: 0px;
-    padding-top: 15px;
     padding-bottom: 0px;
-    padding-right: 5px;
-    color: white;
-    background-color: slategray;
-    border-width: thick;
-    border-color: #1d1f1e;
-    border-radius: 10px;
+    margin-top: 0px;
+    padding-top: 0px;
 }
 
 .delivery-job-entry-street {
     font-weight: 500;
     font-size: 16px;
-}
-
-i.fas.fa-clipboard-check.fa-2x {
-    color: greenyellow;
-}
-
-ul.row.collection.delivery-job-entries {
-    padding-left: 5px;
-}
-
-.row.delivery-job-wrapper li {
-    margin-bottom: 15px;
-    border-style: none none solid none;
-    border-width: medium;
 }
 
 /* Emails */

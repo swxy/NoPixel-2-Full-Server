@@ -1,6 +1,6 @@
 {
-    "user": "root",
-    "password": "",
+    "user": "your_db_user",
+    "password": "your_db_password",
     "host": "localhost",
     "port": 3306,
     "database": "gtav_rp2"

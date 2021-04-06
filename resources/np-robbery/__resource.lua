@@ -3,7 +3,6 @@ resource_manifest_version '05cfa83c-a124-4cfa-a768-c24a5811d8f9'
 
 client_script "@np-errorlog/client/cl_errorlog.lua"
 
-server_script "@np-fml/server/lib.lua"
 server_script 'nRobbery_list.lua'
 client_script 'smallRobbery_client.lua'
 server_script 'smallRobbery_server.lua'

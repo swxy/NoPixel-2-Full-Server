@@ -1,6 +1,9 @@
---[[Citizen.CreateThread(function()
-    TriggerEvent('deleteAllYP')
-end)--]]
+--Citizen.CreateThread(function()
+  --  TriggerEvent('deleteAllTweets')
+    --TriggerEvent('deleteAllYP')
+--end)
+
+-- Herrow Calling #PixelRez 2021 
 
 local callID = nil
 
@@ -8,7 +11,7 @@ local callID = nil
 RegisterNetEvent('GetTweets')
 AddEventHandler('GetTweets', function(onePlayer)
     local src = source
-    exports.ghmattimysql:execute('SELECT * FROM (SELECT * FROM tweets ORDER BY `time` DESC LIMIT 50) sub ORDER BY time ASC', {}, function(tweets) -- Get most recent 100 tweets
+    exports.ghmattimysql:execute('SELECT * FROM (SELECT * FROM tweets ORDER BY `time` DESC LIMIT 50) sub ORDER BY time ASC', {}, function(tweets) 
         if onePlayer then
             TriggerClientEvent('Client:UpdateTweets', src, tweets)
         else
@@ -31,7 +34,7 @@ end)
 
 RegisterServerEvent('AllowTweet')
 AddEventHandler('AllowTweet', function(tweetinfo, message)
-    TriggerClientEvent("chatMessagess", -1, tweetinfo, 2, message)
+    TriggerClientEvent("chatMessage", -1, tweetinfo, 2, message)
 end)
 
 RegisterNetEvent('Server:GetHandle')
@@ -111,7 +114,6 @@ function getMessagesBetweenUsers(sender, recipient, callback)
 end
 
 function saveSMS(receiver, sender, message, callback)
-    -- Receiver and Sender are phone numbers, not id's or identifier
     exports.ghmattimysql:execute("INSERT INTO user_messages (`receiver`, `sender`, `message`) VALUES (@receiver, @sender, @msg)",
     {['receiver'] = tonumber(receiver), ['sender'] = tonumber(sender), ['msg'] = message}, function(rowsChanged)
         exports.ghmattimysql:execute("SELECT id FROM user_messages WHERE receiver = @receiver AND sender = @sender AND message = @msg",
@@ -119,26 +121,11 @@ function saveSMS(receiver, sender, message, callback)
     end)
 end
 
-
--- Contact Queries
 function getContacts(identifier, callback)
     exports.ghmattimysql:execute("SELECT name,number FROM user_contacts WHERE identifier = @identifier ORDER BY name ASC", {
         ['identifier'] = identifier
     }, function(result) callback(result) end)
 end
-
--- function saveContact(identifier, name, number)
---     execute.ghmattimysql:execute("INSERT INTO user_contacts (`identifier`, `name`, `number) VALUES (@identifier, @name, @number)", 
---     {['identifier'] = identifier, ['name'] = name, ['number'] = tonumber(number)})
--- end
-
-
-
--- function removeContact(identifier, name, number)
---     -- Remove the contact to our users list
---     exports.ghmattimysql:execute("DELETE FROM user_contacts WHERE identifier = @identifier AND name = @name AND number = @number", {['identifier'] = identifier, ['name'] = name, ['number'] = tonumber(number)
---     })
--- end
 
 RegisterNetEvent('getNM')
 AddEventHandler('getNM', function(pNumber)
@@ -167,32 +154,31 @@ end)
 
 --[[ Phone calling stuff ]]
 
-function getNumberPhone(getNumberPhoneidentifier)
-    local prick
+function getNumberPhone(identifier)
+    local penis
     exports.ghmattimysql:execute("SELECT phone_number FROM characters WHERE id = @identifier", {
         ['identifier'] = identifier
     }, function(result)
         if result[1] ~= nil then
-            prick = result[1].phone_number
+            penis = result[1].phone_number
         else
-            prick = nil
+            penis = nil
         end
     end)
     Wait(200)
-    if prick ~= nil then
-        return prick
+    if penis ~= nil then
+        return penis
     else
         return nil
     end
 end
+
 function getIdentifierByPhoneNumber(phone_number)
     local prick
     exports.ghmattimysql:execute("SELECT id FROM characters WHERE phone_number = @phone_number", {
         ['phone_number'] = phone_number
     }, function(result)
-        --print('lol phone_number ', phone_number)
         if result[1] ~= nil then
-            print('db result '..result[1].id)
             prick = result[1].id
         else
             prick = nil
@@ -209,9 +195,6 @@ end
 RegisterServerEvent('requestPing')
 AddEventHandler('requestPing', function(target, x,y,z, pIsAnon)
     local src = source
-    --local player = exports["np-base"]:getModule("Player"):GetUser(src) --getting id xPlayer.GetPlayerID
-    --local char = player:getCurrentCharacter()  -- getting character name
-    -- local playername = ""..char.firstname.." "..char.last_name"
     TriggerClientEvent('AllowedPing', tonumber(target), x,y,z, src, name, pIsAnon)
 end)
 
@@ -227,50 +210,25 @@ AddEventHandler('pingDeclined', function(target)
     TriggerClientEvent('DoLongHudText', target, "You ping was declined!", 5)
 end)
 
-
---Calling Taxi /taxi
--- RegisterServerEvent('phone:callAiTaxi')
--- AddEventHandler('phone:callAiTaxi', function(src)
---     local src = tonumber(src)
---     local activeTaxi = exports["np-base"]:getModule("jobManager"):CountJob("taxi")
---     local user = exports["np-base"]:getModule("Player"):GetUser(src)
---     if activeTaxi ~= 0 then
---         if tonumber( user:getCash()) < 250 then
---             TriggerClientEvent("DoLongHudText", src, "You need $250 to do this as a players is logged in as taxi.",2)
---                 return
---             end
---             user:removeMoney(250)
---         end
---         TriggerClientEvent("startAITaxi",src)
--- end)
-
 RegisterNetEvent('phone:callContact')
-AddEventHandler('phone:callContact', function(targetnumber, toggle)
-    -- hard to do ((sway))
+AddEventHandler('phone:callContact', function(cid, targetnumber, toggle)
     local src = source
     local targetid = 0
     local user = exports["np-base"]:getModule("Player"):GetUser(src)
     local char = user:getVar("character")
     local targetIdentifier = getIdentifierByPhoneNumber(targetnumber)
-    local srcIdentifier = char.id
-    local srcPhone = getNumberPhone(char.id)
+    local srcPhone = getNumberPhone(cid)
 
     TriggerClientEvent('phone:initiateCall', src, src)
     
     for _, playerId in ipairs(GetPlayers()) do
-        print(playerId)
         local user = exports["np-base"]:getModule("Player"):GetUser(tonumber(playerId))
         local char = user:getVar("character")
-        print('charid: '..char.id)
-        print('targetid: '..targetIdentifier)
         if char.id == targetIdentifier then
             targetid = playerId
-            print('kekw')
             TriggerClientEvent('phone:receiveCall', targetid, targetnumber, src, srcPhone)
         end
     end
-    print('calling trigger here')
-    print('lol lol ', targetid)
 end)
 
 RegisterNetEvent('phone:messageSeen')
@@ -282,132 +240,59 @@ AddEventHandler('phone:messageSeen', function(id)
 end)
 
 RegisterNetEvent('phone:getSMS')
-AddEventHandler('phone:getSMS', function()
+AddEventHandler('phone:getSMS', function(cid)
     local src = source
-	local user = exports["np-base"]:getModule("Player"):GetUser(src)
-    local characterId = user:getVar("character").id
-    local mynumber = getNumberPhone(characterId)
+    exports.ghmattimysql:execute("SELECT phone_number FROM characters WHERE id = @identifier", {['identifier'] = cid}, function(result2)
+        local mynumber = result2[1].phone_number
+        
+        exports.ghmattimysql:execute("SELECT * FROM user_messages WHERE receiver = @mynumber OR sender = @mynumber ORDER BY id DESC", {['mynumber'] = mynumber}, function(result)
 
-        print(characterId)
-
-        print('my number ', mynumber)
-
-    local result = exports.ghmattimysql:execute("SELECT * FROM user_messages WHERE receiver = @mynumber OR sender = @mynumber ORDER BY id DESC", {['mynumber'] = mynumber})
-
-    local numbers ={}
-    local convos = {}
-    local valid
-    if result ~= nil then
-    for k, v in pairs(result) do
-        valid = true
-        if v.sender == mynumber then
-            for i=1, #numbers, 1 do
-                if v.receiver == numbers[i] then
-                    valid = false
+            local numbers ={}
+            local convos = {}
+            local valid
+            
+            for k, v in pairs(result) do
+                valid = true
+                if v.sender == mynumber then
+                    for i=1, #numbers, 1 do
+                        if v.receiver == numbers[i] then
+                            valid = false
+                        end
+                    end
+                    if valid then
+                        table.insert(numbers, v.receiver)
+                    end
+                elseif v.receiver == mynumber then
+                    for i=1, #numbers, 1 do
+                        if v.sender == numbers[i] then
+                            valid = false
+                        end
+                    end
+                    if valid then
+                        table.insert(numbers, v.sender)
+                    end
                 end
             end
-            if valid then
-                print('valid 1')
-                table.insert(numbers, v.receiver)
-            end
-        elseif v.receiver == mynumber then
-            for i=1, #numbers, 1 do
-                if v.sender == numbers[i] then
-                    valid = false
+            
+            for i, j in pairs(numbers) do
+                for g, f in pairs(result) do
+                    if j == f.sender or j == f.receiver then
+                        table.insert(convos, {
+                            id = f.id,
+                            sender = f.sender,
+                            receiver = f.receiver,
+                            message = f.message,
+                            date = f.date
+                        })
+                        break
+                    end
                 end
             end
-            if valid then
-                print('valid')
-                table.insert(numbers, v.sender)
-            end
-        end
-    end
-    
-    for i, j in pairs(numbers) do
-        for g, f in pairs(result) do
-            if j == f.sender or j == f.receiver then
-                print('inserting into table')
-                table.insert(convos, {
-                    id = f.id,
-                    sender = f.sender,
-                    receiver = f.receiver,
-                    message = f.message,
-                    date = f.date
-                })
-                break
-            end
-        end
-    end
-
-        local data = ReverseTable(convos)
-        TriggerClientEvent('phone:loadSMS', src, data, mynumber)
-    else
-
-        TriggerClientEvent('phone:loadSMS', src, {}, mynumber)
-        print('empty')
-    end
- 
-end)
-
-RegisterNetEvent('phone:getSMSOther')
-AddEventHandler('phone:getSMSOther', function(player)
-	local user = exports["np-base"]:getModule("Player"):GetUser(player)
-    local char = user:getVar("character")
-    local mynumber = getNumberPhone(char.id)
-
-    print('my number ', mynumber)
-
-    local result = exports.ghmattimysql:execute("SELECT * FROM user_messages WHERE receiver = @mynumber OR sender = @mynumber ORDER BY id DESC", {['mynumber'] = mynumber})
-
-    local numbers ={}
-    local convos = {}
-    local valid
-    if result ~= nil then
-    for k, v in pairs(result) do
-        valid = true
-        if v.sender == mynumber then
-            for i=1, #numbers, 1 do
-                if v.receiver == numbers[i] then
-                    valid = false
-                end
-            end
-            if valid then
-                table.insert(numbers, v.receiver)
-            end
-        elseif v.receiver == mynumber then
-            for i=1, #numbers, 1 do
-                if v.sender == numbers[i] then
-                    valid = false
-                end
-            end
-            if valid then
-                table.insert(numbers, v.sender)
-            end
-        end
-    end
-    
-    for i, j in pairs(numbers) do
-        for g, f in pairs(result) do
-            if j == f.sender or j == f.receiver then
-                table.insert(convos, {
-                    id = f.id,
-                    sender = f.sender,
-                    receiver = f.receiver,
-                    message = f.message,
-                    date = f.date
-                })
-                break
-            end
-        end
-    end
-
-        local data = ReverseTable(convos)
-        TriggerClientEvent('phone:loadSMSOther', src, data, mynumber)
-    else
-
-        TriggerClientEvent('phone:loadSMSOther', src, {}, mynumber)
-    end
- 
+        
+            local data = ReverseTable(convos)
+            TriggerClientEvent('phone:loadSMS', src, data, mynumber)
+        end)
+    end)
 end)
 
 function ReverseTable(t)
@@ -419,37 +304,6 @@ function ReverseTable(t)
     return reversedTable
 end
 
--- function getIdentifierFromPhone(number, callback)
---     --Get a users identifier from a phone number
---     exports.ghmattimysql.execute("SELECT identifier FROM users WHERE phone_number = @number", {['number'] = tonumber(number)}, function(result)
---         if #result == 0 then
---             callback(nil)
---         else
---             if(result[1].identifier ~= '') then
---                 callback(result[1].identifier)
---             else
---                 callback(nil)
---             end
---         end
---     end)
--- end
-
--- function reverse(tbl)
---     for i=1, math.floor(#tbl / 2) do
---         tbl[1], tbl[#tbl - i + 1] - tbl[#tbl - i + 1], tbl[i]
---     end
---     return tbl
--- end
-
--- SetTimeout(5000, requestStockChangeTable)
-
--- SetTimeout(600000, stockvalueincrease)
-
--- local activePhoneNumbers = {
-
--- }
--- local activeUsers = {}
-
 RegisterServerEvent('phone:getServerTime')
 AddEventHandler('phone:getServerTime', function()
     local src= source
@@ -457,14 +311,10 @@ AddEventHandler('phone:getServerTime', function()
 end)
 
 RegisterNetEvent('phone:sendSMS')
-AddEventHandler('phone:sendSMS', function(receiver, message)
+AddEventHandler('phone:sendSMS', function(cid, receiver, message)
     local src = source
-	local user = exports["np-base"]:getModule("Player"):GetUser(src)
-    local characterId = user:getVar("character").id
-    local mynumber = getNumberPhone(characterId)
-    local targetid = 0
+    local mynumber = getNumberPhone(cid)
     local target = getIdentifierByPhoneNumber(receiver)
-    
     local Players = GetPlayers()
     --if receiver ~= mynumber then
     exports.ghmattimysql:execute('INSERT INTO user_messages (sender, receiver, message) VALUES (@sender, @receiver, @message)', {
@@ -475,19 +325,14 @@ AddEventHandler('phone:sendSMS', function(receiver, message)
     end)
     
     for _, playerId in ipairs(GetPlayers()) do
-        print(playerId)
         local user = exports["np-base"]:getModule("Player"):GetUser(tonumber(playerId))
         local char = user:getVar("character")
-        print('charid: '..char.id)
-        print('targetid: '..target)
         if char.id == target then
             targetid = playerId
-            print('kekw')
-            TriggerClientEvent('phone:newSMS', targetid, 1, mynumber)
-            TriggerClientEvent('DoLongHudText', src, "Messege send.", 16)
+            TriggerClientEvent('phone:newSMS', targetid, 1, mynumber,  message, os.time())
+            TriggerClientEvent('DoLongHudText', src, "Messege Sent!", 16)
         end
     end
-
 end)
 
 RegisterNetEvent('phone:serverGetMessagesBetweenParties')
@@ -504,8 +349,6 @@ AddEventHandler('phone:serverGetMessagesBetweenParties', function(sender, receiv
             TriggerClientEvent('phone:clientGetMessagesBetweenParties', src, result, displayName, mynumber)
         end
     end)
-
-    --TriggerClientEvent('phone:clientGetMessagesBetweenParties', src, result, displayName, mynumber)
 end)
 
 RegisterNetEvent('phone:StartCallConfirmed')
@@ -516,47 +359,21 @@ AddEventHandler('phone:StartCallConfirmed', function(mySourceID)
     TriggerClientEvent('phone:callFullyInitiated', mySourceID, mySourceID, src)
     TriggerClientEvent('phone:callFullyInitiated', src, src, mySourceID)
 
-    -- After add them to the same channel or do it from server.
-    TriggerClientEvent('np:voice:phone:call:start', source, channel)
-    TriggerClientEvent('np:voice:phone:call:start', mySourceID, channel)
+    TriggerClientEvent('phone:addToCall', source, channel)
+    TriggerClientEvent('phone:addToCall', mySourceID, channel)
 
     TriggerClientEvent('phone:id', src, channel)
     TriggerClientEvent('phone:id', mySourceID, channel)
 end)
 
--- local activeCalls = {}
-
--- local function StartCall(caaler, callee)
---     local callId = caller + 101 --avoid idx 1 - 100
---     TriggerClientEvent('Tokovoip:addPlayerToRadio', caller, callId)
---     TriggerClientEvent('Tokovoip:addPlayerToRadio', callee, callId)
---     TriggerClientEvent('phone:id', caller, callId)
---     TriggerClientEvent('phone:id', callee, callId)
--- end
-
--- RegisterNetEvent('phone:EndCall')
--- AddEventHandler('phone:EndCall', function(mySourceID, callId)
---     TriggerClientEvent("phone:otherClientEndCall", tonumber(mySourceID))
---     TriggerClientEvent("phone:ResetRadioChannel", source)
--- end)
-
--- TriggerEvent("ResetRadioChannel")
--- RegisterNetEvent('phone:ResetRadioChannel')
--- AddEventHandler('phone:ResetRadioChannel', function(mySourceID)
---     local pn = tonumber(mySourceID)
---     local src = tonumber(source)
-
---     StartCall(src, pn)
---     TriggerClientEvent('phone:callFullyInitiated',pn,pn,src)
--- end)
 
 RegisterNetEvent('phone:EndCall')
 AddEventHandler('phone:EndCall', function(mySourceID, stupidcallnumberidk, somethingextra)
     local src = source
-    TriggerClientEvent('np:voice:phone:call:end', source, stupidcallnumberidk)
+    TriggerClientEvent('phone:removefromToko', source, stupidcallnumberidk)
 
     if mySourceID ~= 0 or mySourceID ~= nil then
-        TriggerClientEvent('np:voice:phone:call:end', mySourceID, stupidcallnumberidk)
+        TriggerClientEvent('phone:removefromToko', mySourceID, stupidcallnumberidk)
         TriggerClientEvent('phone:otherClientEndCall', mySourceID)
     end
 
@@ -609,6 +426,39 @@ AddEventHandler('playerSpawned',function(source)
     end)
 end)
 
+RegisterServerEvent('ReturnHouseKeys')
+AddEventHandler('ReturnHouseKeys', function(cid)
+    local src = source
+    local user = exports["np-base"]:getModule("Player"):GetUser(src)
+    local char = user:getCurrentCharacter()
+    local houses = {}
+    local shared = {}
+    exports.ghmattimysql:execute("SELECT * FROM houses WHERE cid= cid", {['cid'] = char.id}, function(chicken)
+        for k, v in pairs(chicken) do
+            if v ~= nil then
+                if v.housename ~= nil then
+                    local random = math.random(1111,9999)
+                    houses[random] = {}
+                    table.insert(houses[random], {["house_name"] = v.housename, ["model"] = v.model, ["id"] = v.id})
+                    TriggerClientEvent('returnPlayerKeys', src, houses)
+                end
+            end
+        end
+    end)
+    exports.ghmattimysql:execute('SELECT * FROM houses WHERE cid= cid', {['cid'] = char.id}, function(returnData)
+        for k, v in pairs(returnData) do
+            if v ~= nil then
+                if v.housename ~= nil then
+                    local random = math.random(1111,9999)
+                    shared[random] = {}
+                    table.insert(shared[random], {["house_name"] = v.housename, ["model"] = v.house_model, ["id"] = v.house_id})
+                    TriggerClientEvent('returnPlayerKeys', src, {}, shared)
+                end
+            end
+        end
+    end)
+end)
+
 function getOrGeneratePhoneNumber (sourcePlayer, identifier, cb)
     local sourcePlayer = sourcePlayer
     local identifier = identifier
@@ -631,124 +481,22 @@ function getOrGeneratePhoneNumber (sourcePlayer, identifier, cb)
     end
 end
 
-function getPhoneRandomNumber()
-    local numBase0 = 4
-    local numBase1 = math.random(10,99)
-    local numBase2 = math.random(100,999)
-    local numBase3 = math.random(1000,9999)
-    local num = string.format(numBase0 .. "" .. numBase1 .. "" .. numBase2 .. "" .. numBase3)
-    return num
-end
-
-RegisterNetEvent('message:inDistanceZone')
-AddEventHandler('message:inDistanceZone', function(somethingsomething, messagehueifh)
-    local src = source		
-    local first = messagehueifh:sub(1, 3)
-    local second = messagehueifh:sub(4, 6)
-    local third = messagehueifh:sub(7, 11)
-
-    local msg = first .. "-" .. second .. "-" .. third
-	TriggerClientEvent('chat:addMessage', somethingsomething, {
-		template = '<div style = "display: inline-block !important;padding: 0.6vw;padding-top: 0.6vw;padding-bottom: 0.7vw;margin: 0.1vw;margin-left: 0.4vw;border-radius: 10px;background-color: #be6112d9;width: fit-content;max-width: 100%;overflow: hidden;word-break: break-word;"><b>Phone</b>: #{1}</div>',
-		args = { fal, msg }
-	})
-end)
-
-RegisterNetEvent('message:tome')
-AddEventHandler('message:tome', function(messagehueifh)
-    local src = source		
-    local first = messagehueifh:sub(1, 3)
-    local second = messagehueifh:sub(4, 6)
-    local third = messagehueifh:sub(7, 11)
-
-    local msg = first .. "-" .. second .. "-" .. third
-	TriggerClientEvent('chat:addMessage', src, {
-		template = '<div style = "display: inline-block !important;padding: 0.6vw;padding-top: 0.6vw;padding-bottom: 0.7vw;margin: 0.1vw;margin-left: 0.4vw;border-radius: 10px;background-color: #be6112d9;width: fit-content;max-width: 100%;overflow: hidden;word-break: break-word;"><b>Phone</b>: #{1}</div>',
-		args = { fal, msg }
-	})
-end)
-
-
 RegisterNetEvent('phone:getServerTime')
 AddEventHandler('phone:getServerTime', function()
     local hours, minutes, seconds = Citizen.InvokeNative(0x50C7A99057A69748, Citizen.PointerValueInt(), Citizen.PointerValueInt(), Citizen.PointerValueInt())
     TriggerClientEvent('timeheader', -1, tonumber(hours), tonumber(minutes))
 end)
 
--- function getIdentity(target)
--- 	local identifier = GetPlayerIdentifiers(target)[1]
--- 	local result = MySQL.Sync.fetchAll("SELECT * FROM users WHERE identifier = @identifier", {['@identifier'] = identifier})
--- 	if result[1] ~= nil then
--- 		local identity = result[1]
-
--- 		return {
--- 			firstname = identity['firstname'],
--- 			lastname = identity['lastname'],
--- 		}
--- 	else
--- 		return nil
--- 	end
--- end
-
---[[ Others ]]
-
-RegisterNetEvent('getAccountInfo')
-AddEventHandler('getAccountInfo', function()
-    local src = source
-    local user = exports["np-base"]:getModule("Player"):GetUser(src)
-    local characterId = user:getVar("character").id
-    local money = user:getCash()
-    local newmoney = 0
-    local inbank = exports.ghmattimysql:execute("SELECT bank FROM characters WHERE id = @identifier", {['@identifier'] = characterId}, function(result) if result[1].bank == nil then return else newmoney = result[1].bank end end)
-    local cash = exports.ghmattimysql:execute("SELECT cash FROM characters WHERE id = @identifier", {['@identifier'] = characterId}, function(result) if result[1].bank == nil then return else newcash = result[1].bank end end)
-    local newcash = 0
-    local licenceTable = {}
-
-    exports.ghmattimysql:execute("SELECT type, status FROM user_licenses WHERE owner = @owner",{['owner'] = characterId}, function(result)
-        print(result[1].type, result[1].status)
-        for i=1, #result do
-            table.insert(licenceTable,{
-                type = result[i].type,
-                status = result[i].status
-            })
-        end
-    end)
-
-    Citizen.Wait(100)
-
-    print(json.encode(licenceTable))
-    
-    TriggerClientEvent('getAccountInfo', src, newcash, newmoney, licenceTable)
-end)
-
-
 --[[ Yellow Pages ]]
 
 RegisterNetEvent('getYP')
 AddEventHandler('getYP', function()
     local source = source
-    exports.ghmattimysql:execute('SELECT * FROM phone_yp LIMIT 30', {}, function(yp)
+    exports.ghmattimysql:execute('SELECT * FROM phone_yp LIMIT 20', {}, function(yp)
         local deorencoded = json.encode(yp)
-       -- print(json.encode(yp))
-        --TriggerClientEvent('YellowPageArray', source, yp)
         TriggerClientEvent('YellowPageArray', -1, yp)
         TriggerClientEvent('YPUpdatePhone', source)
     end)
-    --[[
-    if userjob == "police" or userjob == "ems" then
-        emergencyofficer = true
-    end
-
-    YellowPageArray[#YellowPageArray + 1] = {
-        ["name"] = name,
-        ["job"] = job,
-        ["phonenumber"] = phonenumber,
-        ["emergencyofficer"] = emergencryoffer,
-        ["src"] = src
-    }
-    TriggerClientEvent('YellowPageArray', -1, YellowPageArray)
-    TriggerClientEvent('YPUpdatePhone,src')
-    ]]
 end)
 
 RegisterNetEvent('getCP')
@@ -798,8 +546,14 @@ end)
 
 RegisterNetEvent('deleteAllYP')
 AddEventHandler('deleteAllYP', function()
-    exports.ghmattimysql:execute("DELETE * FROM phone_yp", function() end)
-    exports.ghmattimysql:execute("DELETE * FROM tweets", function() end)
+    local src = source
+    exports.ghmattimysql:execute('DELETE FROM phone_yp', {}, function (result) end)
+end)
+
+RegisterNetEvent('deleteAllTweets')
+AddEventHandler('deleteAllTweets', function()
+    local src = source
+    exports.ghmattimysql:execute('DELETE FROM tweets', {}, function (result) end)
 end)
 
 --Racing
@@ -807,32 +561,41 @@ local BuiltMaps = {}
 local Races = {}
 
 RegisterServerEvent('racing-global-race')
-AddEventHandler('racing-global-race', function(map,laps,counter,reverseTrack,uniqueid,cid,raceName, startTime, mapCreator, mapDistance, mapDescription, street1, street2)
-
-    print("Starting a race? ", map, laps, counter, uniqueid, cid, raceName)
-    Races[uniqueid] = { ["identifier"] = uniqueid, ["map"] = map, ["laps"] = laps, ["counter"] = counter, 
-        ["reverseTrack"] = reverseTrack, ["cid"] = cid, ["racer"] = {}, ["open"] = true, ["startTime"] = startTime, 
-        ["mapCreator"] = mapCreator, ["mapDistance"] = mapDistance, ["mapDescription"] = mapDescription, ["street1"] = street1, 
-        ["street2"] = street2 
+AddEventHandler('racing-global-race', function(map, laps, counter, reverseTrack, uniqueid, cid, raceName, startTime, mapCreator, mapDistance, mapDescription, street1, street2)
+    Races[uniqueid] = { 
+        ["identifier"] = uniqueid, 
+        ["map"] = map, 
+        ["laps"] = laps,
+        ["counter"] = counter,
+        ["reverseTrack"] = reverseTrack, 
+        ["cid"] = cid, 
+        ["racers"] = {}, 
+        ["open"] = true, 
+        ["raceName"] = raceName, 
+        ["startTime"] = startTime, 
+        ["mapCreator"] = mapCreator, 
+        ["mapDistance"] = mapDistance, 
+        ["mapDescription"] = mapDescription,
+        ["raceComplete"] = false
     }
+
     TriggerEvent('racing:server:sendData', uniqueid, -1, 'event', 'open')
     local waitperiod = (counter * 1000)
     Wait(waitperiod)
     Races[uniqueid]["open"] = false
-    if(math.random(1,10) >= 5) then
-        TriggerEvent("dispatch:svNotify", {
-            dispatchCode = "10-94",
-            firstStreet = street1,
-            secondStreet = street2,
-            origin = {
-                x = BuiltMaps[map]["checkPoints"][1].x,
-                y = BuiltMaps[map]["checkPoints"][1].y,
-                z = BuiltMaps[map]["checkPoints"][1].z
-            }
-
-        })
-    end
-    TriggerClientEvent('racing:server:sendData', uniqueid, -1, 'event', 'close')
+    -- if(math.random(1, 10) >= 5) then
+    --     TriggerEvent("dispatch:svNotify", {
+    --         dispatchCode = "10-94",
+    --         firstStreet = street1,
+    --         secondStreet = street2,
+    --         origin = {
+    --             x = BuiltMaps[map]["checkpoints"][1].x,
+    --             y = BuiltMaps[map]["checkpoints"][1].y,
+    --             z = BuiltMaps[map]["checkpoints"][1].z
+    --         }
+    -- })
+    -- end
+    TriggerEvent('racing:server:sendData', uniqueid, -1, 'event', 'close')
 end)
 
 RegisterServerEvent('racing-join-race')
@@ -841,125 +604,83 @@ AddEventHandler('racing-join-race', function(identifier)
     local player = exports["np-base"]:getModule("Player"):GetUser(src)
     local char = player:getCurrentCharacter()
     local cid = char.id
-    local playername = ""..char.firstname.." "..char.last_name""
-    Races[identifier]["racers"][cid] = { ["name"] = playername, ["cid"] = cid, ["total"] = 0, ["fastest"] = 0}
+    local playername = ""..char.first_name.." "..char.last_name..""
+    Races[identifier]["racers"][cid] = {["name"] = PlayerName, ["cid"] = cid, ["total"] = 0, ["fastest"] = 0 }
     TriggerEvent('racing:server:sendData', identifier, src, 'event')
 end)
 
 RegisterServerEvent('race:completed2')
-AddEventHandler('race:completed2', function(fasterlap, overall, sprint, identifier)
+AddEventHandler('race:completed2', function(fastestLap, overall, sprint, identifier)
     local src = source
     local player = exports["np-base"]:getModule("Player"):GetUser(src)
     local char = player:getCurrentCharacter()
     local cid = char.id
-    local playername = ""..char.firstname.." "..char.last_name""
-    Races[identifier]["racers"][cid] = { ["name"] = playername, ["cid"] = cid, ["total"] = overall, ["fastest"] = fastestlap}
-    Races[identifier].raceEnding = os.time()+5
+    local playername = ""..char.first_name.." "..char.last_name..""
+    Races[identifier]["racers"][cid] = { ["name"] = PlayerName, ["cid"] = cid, ["total"] = overall, ["fastest"] = fastestLap}
     Races[identifier].sprint = sprint
     TriggerEvent('racing:server:sendData', identifier, -1, 'event')
-end)
 
-Citizen.CreateThread(function()
-    while true do
-        for index, race in pairs(Races) do
-            if(race.finished == false) then
-                local countRacers = #race["racers"]
-                local finishedRacers = -1;
-                local currFast = -1
-                local fastestObject = {}
-                for k,v in pairs(race["racers"]) do
-                    if(v.total ~= 0 and finishedRacers ~= countRacers) then
-                        finishedRacers = finishedRacers + 1
-                        local potentialFast = race.sprint and v.total or v.fastest
-                        if currFast == -1 or potentialFast < currFast then
-                            fastestObject = v
-                        end
-                    end
-                end
-                if (countRacers == finishedRacers) then
-                    race.finished = true
-                    race.fastest = fastestObject
-                end
-                if(race.finished == false) then
-                    if(race.raceEnding ~= nil) then
-                        if os.time() >= race.raceEnding then
-                            race.finished = true
-                            if(race.fastest ~= falase or race.fastest ~= -1) then
-                                race.fastest = fastestObject
-                            end
-                        end
-                    end
-                end
-            elseif(race.finished == true and race.saved == false) then
-                if((race.sprint and race.fastest.total ~= 0) or (not race.sprint and race.fastest.fastest ~= 0)) then
-                    exports.ghmattimysql:exports("UPDATE racing_tracks SET races = races+1 WHERE id = @id", {
-                        ['id'] = race.map
-                    })
-                    Wait(300)
-                    local updateString = "";
-                    if(race.sprint) then
-                        updateString = "UPDATE racing_tracks SET fastest_sprint = @fastest_lap, fastest_sprint_name = @fastestLapName WHERE id = @id and (fastest_lap = -1 or fatest_lap > @fastestLap)"
-                    else
-                        updateString = "UPDATE racing_tracks SET fastest_lap = @fastestLap, fastest_name = @fastestLapName WHERE id = @id and (fastest_lap = -1 or fatest_lap > @fastestLap)"
-                    end 
-                    exports.ghmattimysql:execute(updateString, {
-                        ['fastestLap'] = (race.sprint and race.fastest.total or race.fastest.fastest),
-                        ['fastestLapName'] = race.fastest.name,
-                        ['id'] = race.map
-                    })
-                end
-                race.saved = true 
-                end
+    if not Races[identifier]["raceComplete"] then
+        exports.ghmattimysql:execute("UPDATE racing_tracks SET races = races+1 WHERE id = '"..tonumber(Races[identifier].map).."'", function(results)
+            if results.changedRows > 0 then
+                Races[identifier]["raceComplete"] = true
             end
-        Citizen.Wait(10000)
+        end)
+    end
+
+    if(Races[identifier].sprint and Races[identifier]["racers"][cid]["total"]) then
+        exports.ghmattimysql:execute("UPDATE racing_tracks SET fastest_sprint = "..tonumber(Races[identifier]["racers"][cid]["total"])..", fastest_sprint_name = '"..tostring(PlayerName).."' WHERE id = "..tonumber(Races[identifier].map).." and (fastest_sprint IS NULL or fastest_sprint > "..tonumber(Races[identifier]["racers"][cid]["total"])..")", function(results)
+            if results.changedRows > 0 then
+            end
+        end)
+    else
+        exports.ghmattimysql:execute("UPDATE racing_tracks SET fastest_lap = "..tonumber(Races[identifier]["racers"][cid]["fastest"])..", fastest_name = '"..tostring(PlayerName).."' WHERE id = "..tonumber(Races[identifier].map).." and (fastest_lap IS NULL or fastest_lap > "..tonumber(Races[identifier]["racers"][cid]["fastest"])..")", function(results)
+            if results.changedRows > 0 then
+            end
+        end)
     end
 end)
 
-RegisterServerEvent('racing:server:sendData')
-AddEventHandler('racing:server:sendData', function(pEventId, clientId, changeType,pSubEvent)
-local dataObject = {
-    eventId = pEventId,
-    event = changeType,
-    subEvent = pSubEvent,
-    data = {}
-}
-    if (changeType == "event") then
-        dataObject.data = (pEventId == -1 and Races[pEventId] or Races)
-        print('kekw ', json.encode(dataObject.data))
+
+RegisterServerEvent("racing:server:sendData")
+AddEventHandler('racing:server:sendData', function(pEventId, clientId, changeType, pSubEvent)
+    local dataObject = {
+        eventId = pEventId, 
+        event = changeType,
+        subEvent = pSubEvent,
+        data = {}
+    }
+    if (changeType =="event") then
+        dataObject.data = (pEventId ~= -1 and Races[pEventId] or Races)
     elseif (changeType == "map") then
-        dataObject.data = (pEventId == -1 and BuiltMaps[pEventId] or BuiltMaps)
-        print('kekw ', json.encode(dataObject.data))
+        dataObject.data = (pEventId ~= -1 and BuiltMaps[pEventId] or BuiltMaps)
     end
-    TriggerClientEvent("racing:data:set", clientId, dataObject)
+    TriggerClientEvent("racing:data:set", -1, dataObject)
 end)
 
-function buildMaps(subEvent,src)
+function buildMaps(subEvent)
     local src = source
-    print(subEvent)
     subEvent = subEvent or nil
     BuiltMaps = {}
     exports.ghmattimysql:execute("SELECT * FROM racing_tracks", {}, function(result)
-      
-        for i = 1, #result do
+        for i=1, #result do
             local correctId = tostring(result[i].id)
-            print(correctId)
             BuiltMaps[correctId] = {
-                checkPoints = json.decode(result[i].checkPoints),
-                track_name = result[i].track_names,
+                checkpoints = json.decode(result[i].checkpoints),
+                track_name = result[i].track_name,
                 creator = result[i].creator,
                 distance = result[i].distance,
                 races = result[i].races,
                 fastest_car = result[i].fastest_car,
                 fastest_name = result[i].fastest_name,
                 fastest_lap = result[i].fastest_lap,
-                fastest_sprint = result[i].fastest_sprint,
+                fastest_sprint = result[i].fastest_sprint, 
                 fastest_sprint_name = result[i].fastest_sprint_name,
-                description = result[i].description,
+                description = result[i].description
             }
-            print(json.encode(BuiltMaps[correctId]))
         end
         local target = -1
-        if(subEvent == 'mapupdate' or subEvent == 'noNUI') then
+        if(subEvent == 'mapUpdate') then
             target = src
         end
         TriggerEvent('racing:server:sendData', -1, target, 'map', subEvent)
@@ -968,18 +689,15 @@ end
 
 RegisterServerEvent('racing-build-maps')
 AddEventHandler('racing-build-maps', function()
-    print('print in server')
-    local src = source 
-    buildMaps('mapUpdate', src)
+    buildMaps('mapUpdate')
 end)
 
 RegisterServerEvent('racing-map-delete')
-AddEventHandler('racing-map-delete', function()
-    exports.ghmattimysql:execute("DELETE FROM racing_tracks WHERE id = @id", {
-        ['id'] = deleteID
-    })
+AddEventHandler('racing-map-delete', function(deleteID)
+    exports.ghmattimysql.execute("DELETE FROM racing_tracks WHERE id = @id", {
+        ['id'] = deleteID })
     Wait(1000)
-    buildMaps('kevin', src)
+    buildMaps()
 end)
 
 RegisterServerEvent('racing-retreive-maps')
@@ -989,21 +707,19 @@ AddEventHandler('racing-retreive-maps', function()
 end)
 
 RegisterServerEvent('racing-save-map')
-AddEventHandler('racing-save-map', function(currentMap, name, description, distanceMap)
+AddEventHandler('racing-save-map', function(currentMap,name,description,distanceMap)
     local src = source
     local player = exports['np-base']:getModule("Player"):GetUser(src)
     local char = player:getCurrentCharacter()
     local playername = ""..char.first_name.." "..char.last_name..""
 
-    exports.ghmattimysql:execute("INSERT INTO racing_tracks (`checkPoints`, `creator`, `track_names`, `distance`, `description`) VALUES (@currentMap, @creator, @trackname, @distance, @description)",
-        {['currentMap'] = json.encode(currentMap),
-        ['creator'] = playername,
-        ['trackname'] = name,
-        ['distance'] = distanceMap,
-        ['description'] = description})
+    -- exports.ghmattimysql:execute("INSERT INTO racing_tracks_new ('checkpoints', 'creator', 'track_name', 'distance', 'description') VALUES (@currentMap, @creator, @trackname, @distance, @description)",
+    -- {['currentMap'] = json.encode(currentMap), ['creator'] = playername, ['trackname'] = name, ['distance'] = distanceMap, ['description'] = description})
 
-    Wait(1000)
-    buildMaps()
+    exports.ghmattimysql:execute("INSERT INTO `racing_tracks` (`checkpoints`, `creator`, `track_name`, `distance`, `description`) VALUES ('"..json.encode(currentMap).."', '"..tostring(playername).."', '"..tostring(name).."', '"..distanceMap.."',  '"..description.."')", function(results)
+        Wait(1000)
+        buildMaps()
+    end)
 end)
 
 
@@ -1041,22 +757,18 @@ AddEventHandler('phone:RemovePhoneJobSourceSend', function(srcsent)
     TriggerClientEvent("YellowPageArray", -1 , YellowPageArray)
 end)
 
-RegisterServerEvent('phone:RemovePhoneJob')
-AddEventHandler('phone:RemovePhoneJob', function()
-    local src = srcsent
-    for i = 1, #YellowPageArray do
-        if YellowPageArray[i]
-        then 
-          local a = tonumber(YellowPageArray[i]["src"])
-          local b = tonumber(src)
-
-          if a == b then
-            table.remove(YellowPageArray,i)
-          end
-        end
-    end
-    TriggerClientEvent("YellowPageArray", -1 , YellowPageArray)
-    TriggerClientEvent("YPUpdatePhone",src)
+RegisterNetEvent('phone:deleteYP')
+AddEventHandler('phone:deleteYP', function(number)
+    local src = source
+    local user = exports["np-base"]:getModule("Player"):GetUser(src)
+    local char = user:getCurrentCharacter()
+    local cid = char.id
+    local mynumber = getNumberPhone(cid)
+    exports.ghmattimysql:execute('DELETE FROM phone_yp WHERE phoneNumber = @phoneNumber', {
+        ['@phoneNumber'] = mynumber
+    }, function (result)
+        TriggerClientEvent('refreshYP', src)
+    end)
 end)
 
 RegisterServerEvent("stocks:clientvalueupdate")
@@ -1070,8 +782,6 @@ AddEventHandler("stocks:clientvalueupdate", function(table)
         ['@stock'] = tableinsert,
         ['@cid'] = char.id
       }, function(data)
-        -- user:removeMoney(clientcash)
-        -- TriggerClientEvent("DoLongHudText", src, "You deposited "..clientcash.."$ to your apartment.", 1)
     end)
 end)
 
@@ -1099,56 +809,37 @@ AddEventHandler("phone:stockTradeAttempt", function(index, id, sending)
     end
 end)
 
--- RegisterNetEvent('LoadHouses')
--- AddEventHandler('LoadHouses', function()
---     local src = source
---     MySQL.Async.fetchAll('SELECT * FROM houses_ WHERE failBuy = "false"', {}, function(houses)
---         local deorencoded = json.encode(yp)
---         for i=1, #houses do
---             print(houses[i].price)
---         end
---         TriggerClientEvent('openHouse', -1, houses)
---     end)
--- end)
+RegisterServerEvent('phone:triggerPager')
+AddEventHandler('phone:triggerPager', function()
+    TriggerClientEvent('phone:triggerPager', -1)
+end)
 
+RegisterNetEvent('message:tome')
+AddEventHandler('message:tome', function(messagehueifh)
+    local src = source		
+    local first = messagehueifh:sub(1, 3)
+    local second = messagehueifh:sub(4, 6)
+    local third = messagehueifh:sub(7, 11)
 
--- RegisterServerEvent('phone:updatePhoneJob')
--- AddEventHandler('phone:updatePhoneJob', function(job)
---     local job = job
---     if source == nil then
---         return
---     end
---     local src = source
---     local jobout = ""
+    local msg = first .. "-" .. second .. "-" .. third
+    TriggerClientEvent('chatMessage', src, 'Phone Number ', 4, msg)
+end)
 
---     for i = 1, #YellowPageArray do
---         if YellowPageArray[i] ~= nil
---         then
---             if tonumber(YellowPageArray[i]["src"]) == tonumber(src) then
---                 table.remove(YellowPageArray,i)
---             end
---         end
+RegisterNetEvent('message:inDistanceZone')
+AddEventHandler('message:inDistanceZone', function(somethingsomething, messagehueifh)
+    local src = source		
+    local first = messagehueifh:sub(1, 3)
+    local second = messagehueifh:sub(4, 6)
+    local third = messagehueifh:sub(7, 11)
 
- --   local player = --getting id here
- --  local phonenumbner = get number here
- -- local userjob = false
- -- local name = --name here and last name
- --userjob = -- get job here
- --[[
-     if userjob == "police" or userjob == "ems" then
-        emergencyofficer = true
-    end
+    local msg = first .. "-" .. second .. "-" .. third
+    TriggerClientEvent('chatMessage', somethingsomething, 'Phone Number ', 4, msg)
+end)
 
-    YellowPageArray[#YellowPageArray + 1 ] = {
-        ["name"] = name,
-        ["name"] = job,
-        ["name"] = phonenumber,
-        ["name"] = emergencyofficer,
-        ["name"] = src
-    }
-
-    TriggerClientEvent('YellowPageArray', -1, YellowPageArray)
-    TriggerClientEvent('YPUpdatePhone', src)
-
- ]]
--- end)
+RegisterCommand("pnum", function(source, args, rawCommand)
+    local src = source
+    local user = exports["np-base"]:getModule("Player"):GetUser(src)
+    local char = user:getVar("character")
+    local srcPhone = getNumberPhone(char.id)
+    TriggerClientEvent('sendMessagePhoneN', src, srcPhone)
+end, false)

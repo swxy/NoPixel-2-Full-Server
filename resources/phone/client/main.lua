@@ -8,8 +8,9 @@ local usedFingers = false
 local dead = false
 local onhold = false
 local YellowPageArray = {}
+local YellowPages = {}
 local PhoneBooth = GetEntityCoords(PlayerPedId())
-local AnonCall = false
+local AnonCall = true
 local phoneNotifications = true
 local insideDelivers = false
 local curhrs = 9
@@ -27,18 +28,6 @@ AddEventHandler("np-jobmanager:playerBecameJob", function(job)
     end
 end)
 
-function getCardinalDirectionFromHeading()
-  local heading = GetEntityHeading(PlayerPedId())
-  if heading >= 315 or heading < 45 then
-      return "North Bound"
-  elseif heading >= 45 and heading < 135 then
-      return "West Bound"
-  elseif heading >=135 and heading < 225 then
-      return "South Bound"
-  elseif heading >= 225 and heading < 315 then
-      return "East Bound"
-  end
-end
 
 function SetCustomNuiFocus(hasKeyboard, hasMouse)
   HasNuiFocus = hasKeyboard or hasMouse
@@ -52,16 +41,11 @@ end
 RegisterNUICallback('btnNotifyToggle', function(data, cb)
     allowpopups = not allowpopups
     if allowpopups then
-      TriggerEvent("DoLongHudText","Popups Enabled")
+      TriggerEvent("DoLongHudText","Popups Enabled", 1)
     else
-      TriggerEvent("DoLongHudText","Popups Disabled")
+      TriggerEvent("DoLongHudText","Popups Disabled", 2)
     end
 end)
-
-
-activeTasks = {
-  --[1] = { ["Gang"] = 2, ["TaskType"] = 1, ["TaskState"] = 2, ["TaskOwner"] = 12(cid), ["TaskInfo"] = , ["location"] = { ['x'] = -1248.52,['y'] = -1141.12,['z'] = 7.74,['h'] = 284.71, ['info'] = 'Down at Smokies on the Beach' }, }
-}
 
 activeNumbersClient = {}
 
@@ -83,9 +67,8 @@ end)
 
 RegisterNetEvent('Yougotpaid')
 AddEventHandler('Yougotpaid', function(cidsent)
-    local cid = exports["isPed"]:isPed("cid")
     if tonumber(cid) == tonumber(cidsent) then
-        TriggerEvent("DoLongHudText","Life Invader Payslip Generated.")
+      TriggerEvent("DoLongHudText","Life Invader Payslip Generated.", 1)
     end
 end)
            
@@ -115,42 +98,12 @@ AddEventHandler('warrants:AddInfo', function(name, charges)
     
 end)
 
-Citizen.CreateThread(function()
-  while true do
-    Citizen.Wait(0)
-    if IsControlJustPressed(0, 199) then
-      SetPauseMenuActive(false)
-    end
-  end
-end)
-
-
-
-RegisterNetEvent("phone:listREproperties")
-AddEventHandler("phone:listREproperties", function(outstandingArray)
-    openGuiNow()
-    SendNUIMessage({
-      openSection = "showOutstandingPayments",
-      outstandingPayments = outstandingArray
-    })
-    -- finish outstanding payments here.
-end)
-
-RegisterNetEvent("phone:listunpaid")
-AddEventHandler("phone:listunpaid", function(outstandingArray)
-
-  SendNUIMessage({
-    openSection = "showOutstandingPayments",
-    outstandingPayments = outstandingArray
-  })
-    -- finish outstanding payments here.
-end)
-
 RegisterNetEvent("phone:activeNumbers")
 AddEventHandler("phone:activeNumbers", function(activePhoneNumbers)
   activeNumbersClient = activePhoneNumbers
   hasOpened = false
 end)
+
 
 
 RegisterNetEvent("gangTasks:updateClients")
@@ -191,8 +144,6 @@ function loading()
         textmessage = "Loading, please wait.",
     })  
 end
-local ownedkeys = {}
-local sharedkeys = {}
 
 RegisterNetEvent("phone:setServerTime")
 AddEventHandler("phone:setServerTime", function(time)
@@ -201,8 +152,6 @@ AddEventHandler("phone:setServerTime", function(time)
     serverTime = time
   })
 end)
-
-TriggerServerEvent("phone:getServerTime")
 
 RegisterNetEvent("timeheader")
 AddEventHandler("timeheader", function(hrs,mins)
@@ -225,6 +174,7 @@ AddEventHandler("timeheader", function(hrs,mins)
     })   
   end
 end)
+
 function doTimeUpdate()
   local timesent = curhrs .. ":" .. curmins
   if guiEnabled then
@@ -234,10 +184,13 @@ function doTimeUpdate()
     })   
   end
 end
+
+RegisterNUICallback('btnGiveKey', function(data, cb)
+  TriggerEvent("houses:GiveKey")
+end)
 RegisterNetEvent("returnPlayerKeys")
 AddEventHandler("returnPlayerKeys", function(ownedkeys,sharedkeys)
-  print("keys triggered")
-
+  
       if not guiEnabled then
         return
       end
@@ -273,146 +226,12 @@ RegisterNUICallback('phone:selfie', function()
   end
 end)
 
-RegisterNUICallback('btnPropertyOutstanding', function(data, cb)
-    loading()
-    TriggerServerEvent("houses:PropertyOutstanding")
-end)
-
-RegisterNUICallback('removeSharedKey', function(data)
-  TriggerServerEvent('houses:removeSharedKey', data.house_id, data.house_model)
-end)
-
-RegisterNUICallback('btnMortgage', function(data, cb)
-    TriggerEvent("houses:Mortgage")
-    loading()
-    Citizen.Wait(400)
-    TriggerServerEvent("ReturnHouseKeys")
-    
-end)
-
-RegisterNUICallback('btnFurniture', function(data, cb)
-    closeGui()
-    TriggerEvent("openFurniture")
-end)
-
-RegisterNUICallback('btnGiveKey', function(data, cb)
-    TriggerEvent("houses:GiveKey")
-end)
-
-RegisterNUICallback('btnWipeKeys', function(data, cb)
-    TriggerEvent("houses:WipeKeys")
-end)
-
-
-RegisterNUICallback('btnProperty2', function(data, cb)
-    loading()
-    TriggerServerEvent("ReturnHouseKeys")
-end)
-
-RegisterNUICallback('btnProperty', function(data, cb)
-    loading()
-    local realEstateRank = GroupRank("real_estate")
-    if realEstateRank > 0 then
-      SendNUIMessage({
-          openSection = "RealEstate",
-          RERank = realEstateRank
-      })        
-    end
-end)
-
-RegisterNUICallback('btnPropertyModify', function(data, cb)
-  TriggerEvent("housing:info:realtor","modify")
-end)
-
-RegisterNUICallback('btnPropertyReset', function(data, cb)
-  TriggerEvent("housing:info:realtor","reset")
-end)
-
-RegisterNUICallback('btnPropertyClothing', function(data, cb)
-  TriggerEvent("housing:info:realtor","setclothing")
-end)
-
-RegisterNUICallback('btnPropertyStorage', function(data, cb)
-  TriggerEvent("housing:info:realtor","setstorage")
-end)
-
-RegisterNUICallback('btnPropertySetGarage', function(data, cb)
-  TriggerEvent("housing:info:realtor","setgarage")
-end)
-
-RegisterNUICallback('btnPropertyWipeGarages', function(data, cb)
-  TriggerEvent("housing:info:realtor","wipegarages")
-end)
-
-RegisterNUICallback('btnPropertySetBackdoorInside', function(data, cb)
-  TriggerEvent("housing:info:realtor","backdoorinside")
-end)
-
-RegisterNUICallback('btnPropertySetBackdoorOutside', function(data, cb)
-  TriggerEvent("housing:info:realtor","backdooroutside")
-end)
-
-RegisterNUICallback('btnPropertyUpdateHouse', function(data, cb)
-  TriggerEvent("housing:info:realtor","update")
-end)
-
-RegisterNUICallback('btnRemoveSharedKey', function(data, cb)
-  TriggerEvent("housing:info:realtor","update")
-end)
-
-RegisterNUICallback('btnPropertyUnlock', function(data, cb)
-  TriggerEvent("housing:info:realtor","unlock")
-end)
-
-RegisterNUICallback('btnPropertyHouseCreationPoint', function(data, cb)
-  TriggerEvent("housing:info:realtor","creationpoint")
-end)
-RegisterNUICallback('btnPropertyStopHouse', function(data, cb)
-  TriggerEvent("housing:info:realtor","stop")
-end)
-RegisterNUICallback('btnAttemptHouseSale', function(data, cb)
-  TriggerEvent("housing:sendPurchaseAttempt",data.cid,data.price)
-end)
-RegisterNUICallback('btnTransferHouse', function(data, cb)
-  TriggerEvent("housing:transferHouseAttempt", data.cid)
-end)
-RegisterNUICallback('btnEvictHouse', function(data, cb)
-  TriggerEvent("housing:evictHouseAttempt")
-end)
-
--- real estate nui app responses end
-
-
-
-
-
-
-
-
-
-
-
-RegisterNUICallback('btnGiveTaskToPlayer', function(data, cb)
-    TriggerServerEvent("Tasks:AttemptGive",data.taskid,data.targetid)
-end)
-
 RegisterNUICallback('trackTaskLocation', function(data, cb)
     local taskID = findTaskIdFromBlockChain(data.TaskIdentifier)
-    TriggerEvent("DoLongHudText","Location Set",15)
+    TriggerEvent("DoLongHudText","Location Set", 1)
 
     SetNewWaypoint(activeTasks[taskID]["Location"]["x"],activeTasks[taskID]["Location"]["y"])
 end)
-
-function GroupName(groupid)
-  local name = "Error Retrieving Name"
-  local mypasses = exports["isPed"]:isPed("passes")
-  for i=1, #mypasses do
-    if mypasses[i]["pass_type"] == groupid then
-      name = mypasses[i]["business_name"]
-    end 
-  end
-  return name
-end
 
 function GroupRank(groupid)
   local rank = 0
@@ -428,7 +247,6 @@ end
 RegisterNUICallback('bankGroup', function(data)
     local gangid = data.gangid
     local cashamount = data.cashamount
-    print(json.encode(data))
     TriggerServerEvent("server:gankGroup", gangid,cashamount)
 end)
 
@@ -450,12 +268,6 @@ RegisterNUICallback('promoteGroup', function(data)
     TriggerServerEvent("server:givepass", gangid,newrank,cid)
 end)
 
-
-RegisterNUICallback('callNumber', function(data)
-    closeGui()
-    local number = data.callnum
-    TriggerServerEvent("phone:callContact",number,true)
-end)
 RegisterNUICallback('manageGroup', function(data)
     local groupid = data.GroupID
     
@@ -481,10 +293,163 @@ RegisterNetEvent("phone:error")
 AddEventHandler("phone:error", function()
       SendNUIMessage({
         openSection = "error",
-        textmessage = "<b>Network Error</b> <br><br> Please contact support if this error persists, thank you for using Evolved Phone Services.",
+        textmessage = "<b>Network Error</b> <br><br> Please contact support if this error persists, thank you for using Dreams Phone Services.",
       })   
 end)
 
+RegisterNUICallback('manageGroup', function(data)
+  local groupid = data.GroupID
+  
+  local rank = GroupRank(groupid)
+  if rank < 2 then
+    SendNUIMessage({
+      openSection = "error",
+      textmessage = "Permission Error",
+    })   
+    return
+  end
+
+  SendNUIMessage({
+      openSection = "error",
+      textmessage = "Loading, please wait.",
+  })   
+
+  TriggerServerEvent("group:pullinformation",groupid,rank)
+
+end)
+
+RegisterNUICallback('btnProperty', function(data, cb)
+  loading()
+  local realEstateRank = GroupRank("real_estate")
+  if realEstateRank > 0 then
+    SendNUIMessage({
+        openSection = "RealEstate",
+        RERank = realEstateRank
+    })        
+  end
+end)
+
+RegisterNUICallback('btnProperty2', function(data, cb)
+  loading()
+  TriggerServerEvent("ReturnHouseKeys", exports['isPed']:isPed('cid'))
+end)
+
+RegisterNUICallback('btnPayMortgage', function(data, cb)
+  loading()
+  TriggerEvent("housing:attemptpay")
+end)
+
+RegisterNUICallback('retrieveHouseKeys', function(data, cb)
+  TriggerEvent("houses:retrieveHouseKeys")
+  cb('ok')
+end)
+
+RegisterNUICallback('btnFurniture', function(data, cb)
+  closeGui()
+  TriggerEvent("DoLongHudText", "Coming soon.", 2)
+  --TriggerEvent("openFurniture")
+end)
+
+RegisterNUICallback('btnPropertyModify', function(data, cb)
+TriggerEvent("housing:info:realtor","modify")
+end)
+
+RegisterNUICallback('removeHouseKey', function(data, cb)
+  TriggerEvent("houses:removeHouseKey", data.targetId)
+  cb('ok')
+end)
+
+
+RegisterNUICallback('removeSharedKey', function(data, cb)
+  local cid = exports["isPed"]:isPed("cid")
+  TriggerServerEvent("houses:removeSharedKey", data.house_id, cid)
+  cb('ok')
+end)
+
+RegisterNUICallback('btnPropertyReset', function(data, cb)
+TriggerEvent("housing:info:realtor","reset")
+end)
+
+RegisterNUICallback('btnPropertyClothing', function(data, cb)
+TriggerEvent("housing:info:realtor","setclothing")
+end)
+
+RegisterNUICallback('btnPropertyStorage', function(data, cb)
+TriggerEvent("housing:info:realtor","setstorage")
+end)
+
+RegisterNUICallback('btnPropertySetGarage', function(data, cb)
+TriggerEvent("housing:info:realtor","setgarage")
+end)
+
+RegisterNUICallback('btnPropertyWipeGarages', function(data, cb)
+TriggerEvent("housing:info:realtor","wipegarages")
+end)
+
+RegisterNUICallback('btnPropertySetBackdoorInside', function(data, cb)
+TriggerEvent("housing:info:realtor","backdoorinside")
+end)
+
+RegisterNUICallback('btnPropertySetBackdoorOutside', function(data, cb)
+TriggerEvent("housing:info:realtor","backdooroutside")
+end)
+
+RegisterNUICallback('btnPropertyUpdateHouse', function(data, cb)
+TriggerEvent("housing:info:realtor","update")
+end)
+
+RegisterNUICallback('btnRemoveSharedKey', function(data, cb)
+TriggerEvent("housing:info:realtor","update")
+end)
+
+RegisterNUICallback('btnPropertyOutstanding', function(data, cb)
+  TriggerEvent("housing:info:realtor","PropertyOutstanding")
+  end)
+
+RegisterNUICallback('btnPropertyUnlock', function(data, cb)
+  TriggerEvent("housing:info:realtor","unlock")
+end)
+
+RegisterNUICallback('btnPropertyUnlock2', function(data, cb)
+  TriggerEvent("housing:info:realtor","unlock2")
+end)
+
+RegisterNUICallback('btnPropertyHouseCreationPoint', function(data, cb)
+TriggerEvent("housing:info:realtor","creationpoint")
+end)
+RegisterNUICallback('btnPropertyStopHouse', function(data, cb)
+TriggerEvent("housing:info:realtor","stop")
+end)
+RegisterNUICallback('btnAttemptHouseSale', function(data, cb)
+TriggerEvent("housing:sendPurchaseAttempt",data.cid,data.price)
+end)
+RegisterNUICallback('btnTransferHouse', function(data, cb)
+TriggerEvent("housing:transferHouseAttempt", data.cid)
+end)
+RegisterNUICallback('btnEvictHouse', function(data, cb)
+TriggerEvent("housing:evictHouseAttempt")
+end)
+RegisterNUICallback('btnGiveKey', function(data, cb)
+  TriggerEvent("houses:GiveKey")
+end)
+RegisterNUICallback('btnFurniture', function(data, cb)
+  closeGui()
+  TriggerEvent("openFurniture")
+end)
+
+
+-- real estate nui app responses end
+
+function GroupName(groupid)
+  local name = "Error Retrieving Name"
+  local mypasses = exports["isPed"]:isPed("passes")
+  for i=1, #mypasses do
+    if mypasses[i]["pass_type"] == groupid then
+      name = mypasses[i]["business_name"]
+    end 
+  end
+  return name
+end
 
 
 RegisterNetEvent("group:fullList")
@@ -501,28 +466,8 @@ AddEventHandler("group:fullList", function(result,bank,groupid)
         employees = result
       }
     })
-    --[[
-    SendNUIMessage({
-      openSection = "GroupManager",
-      sentbank = "<b>" .. groupname .. "</b> <br> Banked Money: $" .. bank,
-      sentgroupid = groupid,
-    }) 
-
-    for i,v in pairs(result) do
-        SendNUIMessage({
-          openSection = "GroupManagerUpdate",
-          info = v
-        }) 
-    end]]--
 
 end)
-
--- associate is a legal worker
--- manager is a legal management worker, can pay / hire / remove below.
--- Partner is associated with "other" business activities and can not alter legal workers.
--- Part-Time Manager is associated with "other" business activites but can also manage legal workers, can pay / hire / remove below.
--- CEO runs that shit dawg, can pay / hire / remove below.
-
 
 local recentcalls = {}
 
@@ -534,40 +479,38 @@ RegisterNUICallback('getCallHistory', function()
 end)
 
 
-
-
 RegisterNUICallback('btnTaskGroups', function()
 
-    local mypasses = exports["isPed"]:isPed("passes")
+  local mypasses = exports["isPed"]:isPed("passes")
 
-    local groupObject = {}
-    for i = 1, #mypasses do
-        local rankConverted = "No Association"
-        rank = mypasses[i]["rank"]
-        if rank == 1 then
-          rankConverted = "Associate"
-        elseif rank == 2 then
-          rankConverted = "Management"
-        elseif rank == 3 then
-          rankConverted = "Partner"
-        elseif rank == 4 then
-          rankConverted = "Part-Time Manager"
-        elseif rank == 5 then
-          rankConverted = "CEO"
-        end
-        if rank > 0 then
-          table.insert(groupObject, {
-            namesent = mypasses[i]["business_name"],
-            ranksent = rankConverted,
-            idsent = mypasses[i]["pass_type"]
-          })
-        end
-    end
+  local groupObject = {}
+  for i = 1, #mypasses do
+      local rankConverted = "No Association"
+      rank = mypasses[i]["rank"]
+      if rank == 1 then
+        rankConverted = "Associate"
+      elseif rank == 2 then
+        rankConverted = "Management"
+      elseif rank == 3 then
+        rankConverted = "Partner"
+      elseif rank == 4 then
+        rankConverted = "Part-Time Manager"
+      elseif rank == 5 then
+        rankConverted = "CEO"
+      end
+      if rank > 0 then
+        table.insert(groupObject, {
+          namesent = mypasses[i]["business_name"],
+          ranksent = rankConverted,
+          idsent = mypasses[i]["pass_type"]
+        })
+      end
+  end
 
-    SendNUIMessage({
-      openSection = "groups",
-      groups = groupObject
-    })
+  SendNUIMessage({
+    openSection = "groups",
+    groups = groupObject
+  })
 end)
 
 
@@ -610,11 +553,10 @@ function IsNearPC()
   return false
 end
 
-
 RegisterNetEvent("open:deepweb")
 AddEventHandler("open:deepweb", function()
-    SetCustomNuiFocus(false,false)
-    SetCustomNuiFocus(true,true)
+  SetNuiFocus(false,false)
+  SetNuiFocus(true,true)
   guiEnabled = true
   SendNUIMessage({
     openSection = "deepweb" 
@@ -623,9 +565,6 @@ end)
 
 RegisterNetEvent("gangTasks:updated")
 AddEventHandler("gangTasks:updated", function()
-  local gang = exports["isPed"]:isPed("gang")
-  local cid = tonumber(exports["isPed"]:isPed("cid"))
-
   local taskObject = {}
   for i = 1, #activeTasks do
 
@@ -642,7 +581,6 @@ AddEventHandler("gangTasks:updated", function()
       end
     elseif activeTasks[i]["Gang"] == 0 and tonumber(activeTasks[i]["taskOwnerCid"]) ~= cid then
 
-      local passes = exports["isPed"]:isPed("passes")
       for z = 1, #passes do
 
         local passType = activeTasks[i]["Group"]
@@ -693,9 +631,9 @@ end)
 
 RegisterNUICallback('btnMute', function()
   if phoneNotifications then
-    TriggerEvent("DoShortHudText", "Notifications Disabled.",10)
+    TriggerEvent("DoLongHudText","Notifications Disabled.", 2)
   else
-    TriggerEvent("DoShortHudText", "Notifications Enabled.",10)
+    TriggerEvent("DoLongHudText","Notifications Enabled.", 1)
   end
   phoneNotifications = not phoneNotifications
 end)
@@ -714,7 +652,9 @@ end)
 
 
 RegisterNUICallback('btnGarage', function()
-  TriggerServerEvent("garages:CheckGarageForVeh")
+  local LocalPlayer = exports["np-base"]:getModule("LocalPlayer")
+  local Player = LocalPlayer:getCurrentCharacter()
+  TriggerServerEvent("garages:CheckGarageForVeh", Player.id)
 end)
 
 RegisterNUICallback('btnHelp', function()
@@ -728,7 +668,6 @@ end)
 
 RegisterNUICallback('vehspawn', function(data)
   findVehFromPlateAndSpawn(data.vehplate)
-
 end)
 
 RegisterNUICallback('vehtrack', function(data)
@@ -737,45 +676,37 @@ end)
 
 RegisterNUICallback('vehiclePay', function(data)
   TriggerServerEvent('car:dopayment', data.vehiclePlate)
-  print(data.vehiclePlate)
 end)
 
 function findVehFromPlateAndLocate(plate)
-
   for ind, value in pairs(vehicles) do
-
-      vehPlate = value.license_plate
+    vehPlate = value.license_plate
     if vehPlate == plate then
-
-      
       state = value.vehicle_state
       coordlocation = value.coords
-      SetNewWaypoint(coordlocation[1], coordlocation[2])
-
+      TriggerEvent("DoLongHudText","Your vehicle is marked on your GPS.",1)
+      SetNewWaypoint(coordlocation.x, coordlocation.y, coordlocation.z)
+    else
+      --SetNewWaypoint(coordlocation.x, coordlocation.y, coordlocation.z)
     end
-
   end
-  
 end
 
-local fakePlates = {}
-RegisterNetEvent('fakeplate:accepted')
-AddEventHandler('fakeplate:accepted', function(newplate,isStolen,oldplate)
-  if isStolen == false then
-    fakePlates[newplate] = nil
-  else
-    fakePlates[oldplate] = newplate
-  end
-end)
+
+function Trim(value)
+	if value then
+		return (string.gsub(value, "^%s*(.-)%s*$", "%1"))
+	else
+		return nil
+	end
+end
+
 
 local recentspawnrequest = false
 function findVehFromPlateAndSpawn(plate)
+
   if IsPedInAnyVehicle(PlayerPedId(), false) then
     return
-  end
-  local fakeplate = nil
-  if fakePlates[plate] ~= nil then
-    fakeplate = fakePlates[plate]
   end
 
   for ind, value in pairs(vehicles) do
@@ -785,24 +716,25 @@ function findVehFromPlateAndSpawn(plate)
       state = value.vehicle_state
       coordlocation = value.coords
 
-      if #(vector3(coordlocation[1],coordlocation[2],coordlocation[3]) - GetEntityCoords(PlayerPedId())) < 10.0 and state == "Out" then
-        local DoesVehExistInProximity = nil
-        if fakeplate ~= nil then
-          DoesVehExistInProximity = CheckExistenceOfVehWithPlate(fakeplate)
-          fakePlates[plate] = nil
-        else
-          DoesVehExistInProximity = CheckExistenceOfVehWithPlate(vehPlate)
-        end
+      if #(vector3(coordlocation.x, coordlocation.y, coordlocation.z) - GetEntityCoords(PlayerPedId())) < 10.0 and state == "Out" then
+
+        local DoesVehExistInProximity = CheckExistenceOfVehWithPlate(vehPlate)
 
         if not DoesVehExistInProximity and not recentspawnrequest then
           recentspawnrequest = true
           TriggerServerEvent("garages:phonespawn",vehPlate)
           Wait(10000)
           recentspawnrequest = false
+        else
+          print("Found vehicle already existing!")
         end
+
       end
+
     end
+
   end
+
 end
 
 RegisterNetEvent("phone:SpawnVehicle")
@@ -813,33 +745,33 @@ end)
 
 
 Citizen.CreateThread(function()
-    local invehicle = false
-    local plateupdate = "None"
-    local vehobj = 0
-    while true do
-        Wait(1000)
-        if not invehicle and IsPedInAnyVehicle(PlayerPedId(), false) then
+  local invehicle = false
+  local plateupdate = "None"
+  local vehobj = 0
+  while true do
+      Wait(1000)
+      if not invehicle and IsPedInAnyVehicle(PlayerPedId(), false) then
           local playerPed = PlayerPedId()
           local veh = GetVehiclePedIsIn(playerPed, false)
-            if GetPedInVehicleSeat(veh, -1) == PlayerPedId() then
+          if GetPedInVehicleSeat(veh, -1) == PlayerPedId() then
               vehobj = veh
               local checkplate = GetVehicleNumberPlateText(veh)
               invehicle = true
               plateupdate = checkplate
               local coords = GetEntityCoords(vehobj)
-              coords = { coords["x"], coords["y"], coords["z"] }
-              TriggerServerEvent("vehicle:coords",plateupdate,coords)
-            end
-        end
-        if invehicle and not IsPedInAnyVehicle(PlayerPedId(), false) then
+              coords = {coords["x"], coords["y"], coords["z"]}
+              TriggerServerEvent("vehicle:coords", plateupdate, coords)
+          end
+      end
+      if invehicle and not IsPedInAnyVehicle(PlayerPedId(), false) then
           local coords = GetEntityCoords(vehobj)
-          coords = { coords["x"], coords["y"], coords["z"] }
-          TriggerServerEvent("vehicle:coords",plateupdate,coords)
+          coords = {coords["x"], coords["y"], coords["z"]}
+          TriggerServerEvent("vehicle:coords", plateupdate, coords)
           invehicle = false
           plateupdate = "None"
           vehobj = 0
-        end  
-    end
+      end
+  end
 end)
 
 
@@ -865,8 +797,7 @@ function CheckExistenceOfVehWithPlate(platesent)
     return false
 end
 
-
-
+local currentVehicles = {}
 
 RegisterNetEvent("phone:Garage")
 AddEventHandler("phone:Garage", function(vehs)
@@ -889,9 +820,8 @@ AddEventHandler("phone:Garage", function(vehs)
     vehPlate = value.license_plate
     currentGarage = value.current_garage
     state = value.vehicle_state
-    --coordlocation = value.coords
+    coordlocation = value.coords
     allowspawnattempt = 0
-    print('dsad', value.last_payment)
     --if #(vector3(coordlocation[1], coordlocation[2], coordlocation[3]) - GetEntityCoords(PlayerPedId())) < 20.0 and state == "Out" then
       --allowspawnattempt = 1
     --end
@@ -906,7 +836,7 @@ AddEventHandler("phone:Garage", function(vehs)
       payments = value.payments_left, -- total payments left
       lastPayment = value.last_payment, -- Days left
       amountDue = value.financed, -- amount due
-      canSpawn = 0
+      canSpawn = 1
     })
   end
   
@@ -914,62 +844,6 @@ AddEventHandler("phone:Garage", function(vehs)
 end)
 
 
-function round(num, numDecimalPlaces)
-  local mult = 10^(numDecimalPlaces or 0)
-  return math.floor(num * mult + 0.5) / mult
-end
---[[ 
-RegisterNetEvent("phone:Garage")
-AddEventHandler("phone:Garage", function(vehs)
-  SendNUIMessage({openSection = "closeQuick"})
-    vehicles = vehs
-    SendNUIMessage({
-      openSection = "garages"
-    })
-
-    local rankCarshop = exports["isPed"]:GroupRank("car_shop")
-    local rankImport = exports["isPed"]:GroupRank("illegal_carshop")
-
-    local job = exports["isPed"]:isPed("myjob")
-
-    if rankCarshop > 0 or rankImport > 0 or job == "judge" or job == "police" then
-      SendNUIMessage({
-        openSection = "carpaymentsowed"
-      })
-    end
-
-
-    for ind, value in pairs(vehs) do
-      enginePercent = value.engine_damage / 10
-      bodyPercent = value.body_damage / 10
-      vehName = value.name
-      vehPlate = value.license_plate
-      currentGarage = value.current_garage
-      damages = " Engine %:" .. enginePercent .. " Body %:" .. bodyPercent .. ""
-      state = value.vehicle_state
-      currentGarage = currentGarage .. "(" .. state .. ")"
-      coordlocation = value.coords
-      allowspawnattempt = 0
-      print(#(vector3(coordlocation[1],coordlocation[2],coordlocation[3]) - GetEntityCoords(PlayerPedId())))
-      if #(vector3(coordlocation[1],coordlocation[2],coordlocation[3]) - GetEntityCoords(PlayerPedId())) < 20.0 and state == "Out" then
-        allowspawnattempt = 1
-      end
-      SendNUIMessage
-      ({
-        openSection = "addcar",
-        name = vehName,
-        plate = vehPlate,
-        garage = currentGarage,
-        damages = damages,
-        payments = value.payments,
-        last_payment = value.last_payment,
-        amount_due = value.amount_due,
-        canspawn = allowspawnattempt
-      })
-    end
-    
-end)
---]]
 local pickuppoints = {
   [1] =  { ['x'] = 923.94,['y'] = -3037.88,['z'] = 5.91,['h'] = 270.81, ['info'] = ' Shipping Container BMZU 822693' },
   [2] =  { ['x'] = 938.02,['y'] = -3026.28,['z'] = 5.91,['h'] = 265.85, ['info'] = ' Shipping Container BMZU 822693' },
@@ -1031,15 +905,8 @@ function refreshmail()
     SendNUIMessage({openSection = "notifications", list = lstnotifications})
 end
 
+
 function rundropoff(boxcount,costs)
-  -- delete this line to enable weed boxes 1 ~= 2 should be curhrs ~= curmins
-  if 1 ~= 2 then
-    for i = 1, math.random(20) do
-      TriggerEvent("chatMessage", "SPAM EMAIL ", 8, "This message was blocked for your safety. Thank you for using Evolved mail services.")
-    end
-    refreshmail()
-    return
-  end
   local success = true
   local timer = 600000
   TriggerEvent("chatMessage", "EMAIL ", 8, "Yo, here are the coords for the drop off, you have 10 minutes - leave $" .. costs .. " in cash there!")
@@ -1146,7 +1013,7 @@ RegisterNetEvent("stocks:timedEvent")
 AddEventHandler("stocks:timedEvent", function(typeSent)
   local success = true
   local timer = 600000
-  TriggerEvent("chatMessage", "EMAIL ", 8, "Yo, here are the coords for the drop off, you have 10 minutes - I already zoinked your Pixerium Credits")
+  TriggerEvent("chatMessage", "EMAIL ", 8, "Yo, here are the coords for the drop off, you have 10 minutes - I already zoinked your RedCoin")
   refreshmail()
   local location = pickuppoints[math.random(#pickuppoints)]
   CreateBlip(location)
@@ -1196,7 +1063,7 @@ end)
 function buyItem(typeSent)
   local success = true
   local timer = 600000
-  TriggerEvent("chatMessage", "EMAIL ", 8, "Yo, here are the coords for the drop off, you have 10 minutes - it will cost " .. costs .. " Pixerium")
+  TriggerEvent("chatMessage", "EMAIL ", 8, "Yo, here are the coords for the drop off, you have 10 minutes - it will cost " .. costs .. " RedCoin")
   refreshmail()
   local location = pickuppoints[math.random(#pickuppoints)]
   CreateBlip(location)
@@ -1239,24 +1106,6 @@ end)
 RegisterNUICallback('resetPackages', function()
   insideDelivers = false
 end)
-
---[[
-
-for index,value in ipairs(players) do
-        local target = GetPlayerPed(value)
-        if(target ~= ply) then
-            local targetCoords = GetEntityCoords(GetPlayerPed(value), 0)
-            local distance = #(vector3(targetCoords["x"], targetCoords["y"], targetCoords["z"]) - vector3(plyCoords["x"], plyCoords["y"], plyCoords["z"]))
-            if(closestDistance == -1 or closestDistance > distance) then
-                closestPlayer = value
-                closestDistance = distance
-            end
-        end
-    end
-    
-
-
-]]
 
 
 RegisterNetEvent("phone:trucker")
@@ -1358,7 +1207,6 @@ end)
 gurgleList = {}
 RegisterNetEvent('websites:updateClient')
 AddEventHandler('websites:updateClient', function(passedList)
-  print(json.encode(passedList))
   gurgleList = passedList
 
   local gurgleObjects = {}
@@ -1378,73 +1226,10 @@ AddEventHandler('websites:updateClient', function(passedList)
   SendNUIMessage({ openSection = "gurgleEntries", gurgleData = gurgleObjects})
 end)
 
-function isRealEstateAgent()
-  if GroupRank("real_estate") > 0 then
-    return true
-  else
-    return false
-  end
-end
-
-function hasDecrypt2()
-    if exports["np-inventory"]:hasEnoughOfItem("vpnxj",1,false) and not exports["isPed"]:isPed("disabled") then
-      return true
-    else
-      return false
-    end
-end
-
-function hasTrucker()
-    if exports["np-base"]:getModule("LocalPlayer"):getVar("job") == "trucker"  then
-      print("sex in the truck")
-      return true
-    else
-      print("nop")
-      return false
-    end
-end
-
-function hasDecrypt()
-    if exports["np-inventory"]:hasEnoughOfItem("decrypterenzo",1,false) or exports["np-inventory"]:hasEnoughOfItem("decryptersess",1,false) or exports["np-inventory"]:hasEnoughOfItem("decrypterfv2",1,false) and not exports["isPed"]:isPed("disabled") or exports["np-inventory"]:hasEnoughOfItem(80,1,false) and not exports["isPed"]:isPed("disabled") then
-      return true
-    else
-      return false
-    end
-end
-
-function hasDevice()
-    if exports["np-inventory"]:hasEnoughOfItem("mk2usbdevice",1,false) and not exports["isPed"]:isPed("disabled") then
-      return true
-    else
-      return false
-    end
-end
-
 function hasPhone()
-    if
-      (
-      (exports["np-inventory"]:hasEnoughOfItem("mobilephone",1,false) or 
-      exports["np-inventory"]:hasEnoughOfItem("stoleniphone",1,false) or 
-      exports["np-inventory"]:hasEnoughOfItem("stolens8",1,false) or
-      exports["np-inventory"]:hasEnoughOfItem("stolennokia",1,false) or
-      exports["np-inventory"]:hasEnoughOfItem("stolenpixel3",1,false) or
-      exports["np-inventory"]:hasEnoughOfItem("boomerphone",1,false))
-      and not exports["isPed"]:isPed("disabled") and not exports["isPed"]:isPed("handcuffed")
-      ) 
-    then
-      return true
-    else
-      return false
-    end
+  return true
 end
 
-function hasRadio()
-    if exports["np-inventory"]:hasEnoughOfItem("radio",1,false) and not exports["isPed"]:isPed("disabled") then
-      return true
-    else
-      return false
-    end
-end
 
 function DrawRadioChatter(x,y,z, text,opacity)
     local onScreen,_x,_y=World3dToScreen2d(x,y,z)
@@ -1547,7 +1332,6 @@ AddEventHandler('radiotalk', function(args,senderid,channel)
 end)
 RegisterNetEvent('radiochatter:client')
 AddEventHandler('radiochatter:client', function(radioMessage,senderid)
-    if not DoesPlayerExist(senderid) then return end
 
     local senderid = tonumber(senderid) 
     local location = GetEntityCoords(GetPlayerPed(GetPlayerFromServerId(senderid)))
@@ -1578,8 +1362,7 @@ AddEventHandler('radiochannel', function(chan)
   if hasRadio() and chan < 1000 and chan > -1 then
     radioChannel = chan
     TriggerEvent("InteractSound_CL:PlayOnOne","radioclick",0.4)
-    TriggerEvent('chatMessage', "RADIO CHANNEL " .. radioChannel, 3, "Active", 5000)
-    -- play radio click sound.
+    -- TriggerEvent('chatMessage', "RADIO CHANNEL " .. radioChannel, 3, "Active", 5000)
   end
 end)
 
@@ -1607,7 +1390,7 @@ AddEventHandler('allowedPing', function(x,y,z,src,name)
     pingcount = 5
     currentping = { ["x"] = x,["y"] = y,["z"] = z, ["src"] = src }
     while pingcount > 0 do
-      TriggerEvent("DoLongHudText",name .. " has given you a ping location, type /pingaccept to accept",2)
+      TriggerEvent("DoLongHudText",name .. " has given you a ping location, type /pingaccept to accept",1)
       Citizen.Wait(5000)
       pingcount = pingcount - 1
     end
@@ -1632,7 +1415,7 @@ AddEventHandler('acceptPing', function()
     SetBlipScale(currentblip, 1.2)
     AddTextComponentString("Accepted GPS Marker")
     EndTextCommandSetBlipName(currentblip)
-    TriggerEvent("DoLongHudText","Their GPS ping has been marked on the map")
+    TriggerEvent("DoLongHudText","Their GPS ping has been marked on the map", 1)
     TriggerServerEvent("pingAccepted",currentping["src"])
     pingcount = 0
     Citizen.Wait(60000)
@@ -1642,16 +1425,71 @@ AddEventHandler('acceptPing', function()
   end
 end)
 
+function isRealEstateAgent()
+  if GroupRank("real_estate") > 0 then
+    return true
+  else
+    return false
+  end
+end
 
---radiotalk
---radiochannel
+function hasDecrypt2()
+    if exports["np-inventory"]:hasEnoughOfItem("vpnxj",1,false) and not exports["isPed"]:isPed("disabled") then
+      return true
+    else
+      return false
+    end
+end
 
--- Open Gui and Focus NUI
+function hasTrucker()
+    if exports["np-base"]:getModule("LocalPlayer"):getVar("job") == "trucker"  then
+      return true
+    else
+      return false
+    end
+end
 
--- read -- cellphone_text_read_base
--- texting -- cellphone_swipe_screen
--- phone away -- cellphone_text_out
+function hasDecrypt()
+    if exports["np-inventory"]:hasEnoughOfItem("decrypterenzo",1,false) or exports["np-inventory"]:hasEnoughOfItem("decryptersess",1,false) or exports["np-inventory"]:hasEnoughOfItem("decrypterfv2",1,false) and not exports["isPed"]:isPed("disabled") or exports["np-inventory"]:hasEnoughOfItem(80,1,false) and not exports["isPed"]:isPed("disabled") then
+      return true
+    else
+      return false
+    end
+end
 
+function hasDevice()
+    if exports["np-inventory"]:hasEnoughOfItem("mk2usbdevice",1,false) and not exports["isPed"]:isPed("disabled") then
+      return true
+    else
+      return false
+    end
+end
+
+function hasPhone()
+    if
+      (
+      (exports["np-inventory"]:hasEnoughOfItem("mobilephone",1,false) or 
+      exports["np-inventory"]:hasEnoughOfItem("stoleniphone",1,false) or 
+      exports["np-inventory"]:hasEnoughOfItem("stolens8",1,false) or
+      exports["np-inventory"]:hasEnoughOfItem("stolennokia",1,false) or
+      exports["np-inventory"]:hasEnoughOfItem("stolenpixel3",1,false) or
+      exports["np-inventory"]:hasEnoughOfItem("boomerphone",1,false))
+      and not exports["isPed"]:isPed("disabled") and not exports["isPed"]:isPed("handcuffed")
+      ) 
+    then
+      return true
+    else
+      return false
+    end
+end
+
+function hasRadio()
+    if exports["np-inventory"]:hasEnoughOfItem("radio",1,false) and not exports["isPed"]:isPed("disabled") then
+      return true
+    else
+      return false
+    end
+end
 
 local recentopen = false
 function openGuiNow()
@@ -1660,9 +1498,8 @@ function openGuiNow()
     
     GiveWeaponToPed(PlayerPedId(), 0xA2719263, 0, 0, 1)
     guiEnabled = true
-      SetCustomNuiFocus(false,false)
-      SetCustomNuiFocus(true,true)
-    TriggerServerEvent("websitesList")
+      SetNuiFocus(false,false)
+      SetNuiFocus(true,true)
 
     local isREAgent = false
     if isRealEstateAgent() then
@@ -1685,9 +1522,9 @@ function openGuiNow()
     end
 
     local trucker = true
-    -- if hasTrucker() then
-    --   trucker = true
-    -- end
+    if hasTrucker() then
+      trucker = true
+    end
 
     SendNUIMessage({openPhone = true, hasDevice = device, hasDecrypt = decrypt, hasDecrypt2 = decrypt2,hasTrucker = trucker, isRealEstateAgent = isREAgent, playerId = GetPlayerServerId(PlayerId())})
 
@@ -1712,6 +1549,7 @@ function openGuiNow()
   recentopen = false
 end
 
+
 function openGui()
 
   if recentopen then
@@ -1720,9 +1558,8 @@ function openGui()
   if hasPhone() then
     GiveWeaponToPed(PlayerPedId(), 0xA2719263, 0, 0, 1)
     guiEnabled = true
-      SetCustomNuiFocus(false,false)
-      SetCustomNuiFocus(true,true)
-    TriggerServerEvent("websitesList")
+      SetNuiFocus(false,false)
+      SetNuiFocus(true,true)
 
     local isREAgent = false
     if isRealEstateAgent() then
@@ -1783,36 +1620,45 @@ local jobnames = {
 }
 
 RegisterNUICallback('newPostSubmit', function(data, cb)
-
-  local myjob = exports["isPed"]:isPed("myjob")
-  if myjob ~= "taxi" and myjob ~= "towtruck" and myjob ~= "trucker" then
     TriggerServerEvent('phone:updatePhoneJob', data.advert)
-  else
-    TriggerServerEvent('phone:updatePhoneJob', jobnames[myjob] .. " | " .. data.advert)
-    TriggerEvent("DoLongHudText","You are already listed as a " .. myjob)
-  end
-  
 end)
 
+RegisterNUICallback('btnDecrypt', function()
+  TriggerEvent("secondaryjob:accepttask")
+end)
+
+
+function miTrabajo()
+    return exports['isPed']:isPed('job')
+end
+
 RegisterNUICallback('deleteYP', function()
-  TriggerServerEvent('phone:RemovePhoneJob')
+  TriggerServerEvent('phone:deleteYP')
 end)
 
 RegisterNetEvent("yellowPages:retrieveLawyersOnline")
 AddEventHandler("yellowPages:retrieveLawyersOnline", function()
   local isFound = false
-  TriggerEvent('chatMessage', "", {0, 0, 255}, "Searching for a lawyer...")
+  TriggerEvent('chatMessage', "", 2, "Searching for a lawyer...")
   for i = 1, #YellowPageArray do
     local job = string.lower(YellowPageArray[tonumber(i)].job)
     if string.find(job, 'attorney') or string.find(job, 'lawyer') or string.find(job, 'public defender') then
       isFound = true
-      TriggerEvent('chatMessage', "", {0, 0, 255}, "⚖️ " .. YellowPageArray[i].name .. " ☎️ " .. YellowPageArray[i].phonenumber)
+      TriggerEvent('chatMessage', "", 2, "⚖️ " .. YellowPageArray[i].name .. " ☎️ " .. YellowPageArray[i].phonenumber)
     end
   end
   if not isFound then
-    TriggerEvent('chatMessage', "", {255, 255, 255}, "There are no lawyers available right now. 😢")
+    TriggerEvent('chatMessage', "", 2, "There are no lawyers available right now. 😢")
   end
 end)
+
+
+RegisterNUICallback('notificationsYP', function()
+  TriggerServerEvent('getYP')
+  Citizen.Wait(200)
+  TriggerEvent("YPUpdatePhone")
+end)
+
 
 RegisterNetEvent('YPUpdatePhone')
 AddEventHandler('YPUpdatePhone', function()
@@ -1830,19 +1676,10 @@ AddEventHandler('YPUpdatePhone', function()
   SendNUIMessage({openSection = "notificationsYP", list = lstnotifications})
 end)
 
-local closeOtherNUI = function()
-  TriggerEvent("closeInventoryGui")
-  TriggerEvent("menu:menuexit")
-  TriggerEvent("chat:close")
-  TriggerEvent("clothing:close")
-  TriggerEvent("mdt:close")
-  TriggerEvent("Notepad:close")
-end
-
 -- Close Gui and disable NUI
 function closeGui()
-  closeOtherNUI()
-    SetCustomNuiFocus(false,false)
+  TriggerEvent("closeInventoryGui")
+  SetNuiFocus(false,false)
   SendNUIMessage({openPhone = false})
   guiEnabled = false
   TriggerEvent('animation:sms',false)
@@ -1853,9 +1690,22 @@ function closeGui()
   insideDelivers = false
 end
 
+function getCardinalDirectionFromHeading()
+  local heading = GetEntityHeading(PlayerPedId())
+  if heading >= 315 or heading < 45 then
+      return "North Bound"
+  elseif heading >= 45 and heading < 135 then
+      return "West Bound"
+  elseif heading >= 135 and heading < 225 then
+      return "South Bound"
+  elseif heading >= 225 and heading < 315 then
+      return "East Bound"
+  end
+end
+
 function closeGui2()
-  closeOtherNUI()
-    SetCustomNuiFocus(false,false)
+  TriggerEvent("closeInventoryGui")
+  SetNuiFocus(false,false)
   SendNUIMessage({openPhone = false})
   guiEnabled = false
   recentopen = true
@@ -2115,51 +1965,59 @@ function ShowText(text)
   TriggerEvent("DoLongHudText",text)
 end
 
-function StartEvent(map,laps,counter,reverseTrack,raceName, startTime, mapCreator, mapDistance, mapDescription)
+function StartEvent(map, laps, counter, reverseTrack, raceName, startTime,
+  mapCreator, mapDistance, mapDescription)
 
-  local map = tostring(map)
-  local laps = tonumber(laps)
-  local counter = tonumber(counter)
-  local mapCreator = tostring(mapCreator)
-  local mapDistance = tonumber(mapDistance)
-  local mapDescription = tostring(mapDescription)
-  local reverseTrack = reverseTrack
+local map = tostring(map)
+local laps = tonumber(laps)
+local counter = tonumber(counter)
+local mapCreator = tostring(mapCreator)
+local mapDistance = tonumber(mapDistance)
+local mapDescription = tostring(mapDescription)
+local reverseTrack = reverseTrack
 
-  if map == 0 then
-    ShowText("Pick a map or use the old racing system.")
-    return
-  end
+if map == 0 then
+ShowText("Pick a map or use the old racing system.")
+return
+end
 
-  local mapCheckpoints = customMaps[map]["checkPoints"]
-  local checkPointIndex = 1
-  if reverseTrack and laps == 0 then
-    checkPointIndex = #mapCheckpoints
-  end
+local mapCheckpoints = customMaps[map]["checkpoints"]
+local checkPointIndex = 1
+if reverseTrack and laps == 0 then checkPointIndex = #mapCheckpoints end
 
-  local ped = GetPlayerPed(-1)
-  local plyCoords = GetEntityCoords(ped)
-  local dist = Vdist(mapCheckpoints[checkPointIndex]["x"],mapCheckpoints[checkPointIndex]["y"],mapCheckpoints[checkPointIndex]["z"], plyCoords.x,plyCoords.y,plyCoords.z)
+local ped = GetPlayerPed(-1)
+local plyCoords = GetEntityCoords(ped)
+local dist = Vdist(mapCheckpoints[checkPointIndex]["x"],
+     mapCheckpoints[checkPointIndex]["y"],
+     mapCheckpoints[checkPointIndex]["z"], plyCoords.x,
+     plyCoords.y, plyCoords.z)
 
-  if dist > 40.0 then
-    ShowText("You are too far away!")
-    return
-  end
+if dist > 40.0 then
+ShowText("You are too far away!")
+EndRace()
+return
+end
 
-  ShowText("Race Starting on " .. customMaps[map]["track_name"] .. " with " .. laps .. " laps in " .. counter .. " seconds!")
-  racesStarted = racesStarted + 1
-  local cid = exports["isPed"]:isPed("cid")
-  local uniqueid = cid .. "-" .. racesStarted
+ShowText("Race Starting on " .. customMaps[map]["track_name"] .. " with " ..
+laps .. " laps in " .. counter .. " seconds!")
+racesStarted = racesStarted + 1
+local cid = exports["isPed"]:isPed("cid")
+local uniqueid = cid .. "-" .. racesStarted
 
-  
-
-  local s1, s2 = GetStreetNameAtCoord(mapCheckpoints[checkPointIndex].x, mapCheckpoints[checkPointIndex].y, mapCheckpoints[checkPointIndex].z)
-  local street1 = GetStreetNameFromHashKey(s1)
-  zone = tostring(GetNameOfZone(mapCheckpoints[checkPointIndex].x, mapCheckpoints[checkPointIndex].y, mapCheckpoints[checkPointIndex].z))
-  local playerStreetsLocation = GetLabelText(zone)
-  local dir = getCardinalDirectionFromHeading()
-  local street1 = street1 .. ", " .. playerStreetsLocation
-  local street2 = GetStreetNameFromHashKey(s2) .. " " .. dir
-  TriggerServerEvent("racing-global-race",map, laps, counter, reverseTrack, uniqueid, cid, raceName, startTime, mapCreator, mapDistance, mapDescription, street1, street2)
+local s1, s2 = GetStreetNameAtCoord(mapCheckpoints[checkPointIndex].x,
+                      mapCheckpoints[checkPointIndex].y,
+                      mapCheckpoints[checkPointIndex].z)
+local street1 = GetStreetNameFromHashKey(s1)
+zone = tostring(GetNameOfZone(mapCheckpoints[checkPointIndex].x,
+                mapCheckpoints[checkPointIndex].y,
+                mapCheckpoints[checkPointIndex].z))
+local playerStreetsLocation = GetLabelText(zone)
+local dir = getCardinalDirectionFromHeading()
+local street1 = street1 .. ", " .. playerStreetsLocation
+local street2 = GetStreetNameFromHashKey(s2) .. " " .. dir
+TriggerServerEvent("racing-global-race", map, laps, counter, reverseTrack,
+     uniqueid, cid, raceName, startTime, mapCreator,
+     mapDistance, mapDescription, street1, street2)
 end
 
 function hudUpdate(pHudState, pHudData)
@@ -2173,21 +2031,19 @@ function hudUpdate(pHudState, pHudData)
 end
 
 function RunRace(identifier)
-
   local map = currentRaces[identifier].map
   local laps = currentRaces[identifier].laps
   local counter = currentRaces[identifier].counter
   local sprint = false
 
   if laps == 0 then
-    laps = 1
-    sprint = true
+      laps = 1
+      sprint = true
   end
   local myLap = 0
-  
-  local checkpoints = #customMaps[map]["checkPoints"]
-  local mycheckpoint = 1
 
+  local checkpoints = #customMaps[map]["checkpoints"]
+  local mycheckpoint = 1
   local ped = GetPlayerPed(-1)
 
   SetBlipColour(SetBlips[1], 3)
@@ -2204,91 +2060,65 @@ function RunRace(identifier)
   Citizen.Wait(1000)
   PlaySound(-1, "3_2_1", "HUD_MINI_GAME_SOUNDSET", 0, 0, 1)
   TriggerEvent("DoLongHudText","GO!",14)
-  hudUpdate('start', {
-    isSprint = sprint,
-    maxLaps = laps,
-    maxCheckpoints = checkpoints
-  })
+  hudUpdate("start",
+            {isSprint = sprint, maxLaps = laps, maxCheckpoints = checkpoints})
+  while myLap < laps + 1 and racing do
+      Wait(1)
+      local plyCoords = GetEntityCoords(ped)
 
-  local tempCheckpoints = customMaps[map].checkpoints
-  if currentRaces[identifier].reverseTrack then
-    local newCheckpoints = {}
-    local count = 1
-    for i=#tempCheckpoints, 1, -1 do
-      newCheckpoints[count] = tempCheckpoints[i]
-      count = count + 1
-    end
-    if not sprint then
-      table.insert(newCheckpoints, 1, tempCheckpoints[1])
-      newCheckpoints[#newCheckpoints] = nil
-    end
-    tempCheckpoints = newCheckpoints
+      if (Vdist(customMaps[map]["checkpoints"][mycheckpoint]["x"],
+                customMaps[map]["checkpoints"][mycheckpoint]["y"],
+                customMaps[map]["checkpoints"][mycheckpoint]["z"],
+                plyCoords.x, plyCoords.y, plyCoords.z)) <
+          customMaps[map]["checkpoints"][mycheckpoint]["dist"] then
+          SetBlipColour(SetBlips[mycheckpoint], 3)
+          SetBlipScale(SetBlips[mycheckpoint], 1.0)
+
+          -- PlaySound(-1, "CHECKPOINT_NORMAL", "HUD_MINI_GAME_SOUNDSET", 0, 0, 1)
+          mycheckpoint = mycheckpoint + 1
+
+          SetBlipColour(SetBlips[mycheckpoint], 2)
+          SetBlipScale(SetBlips[mycheckpoint], 1.6)
+          SetBlipAsShortRange(SetBlips[mycheckpoint - 1], true)
+          SetBlipAsShortRange(SetBlips[mycheckpoint], false)
+
+          if mycheckpoint > checkpoints then mycheckpoint = 1 end
+
+          SetNewWaypoint(customMaps[map]["checkpoints"][mycheckpoint]["x"],
+                         customMaps[map]["checkpoints"][mycheckpoint]["y"])
+
+          if not sprint and mycheckpoint == 1 then
+              SetBlipColour(SetBlips[1], 2)
+              SetBlipScale(SetBlips[1], 1.6)
+          end
+
+          if not sprint and mycheckpoint == 2 then
+              myLap = myLap + 1
+
+              -- Uncomment these lines to make the checkpoints re-draw on each lap
+              -- ClearBlips()
+              -- RemoveCheckpoints()
+              -- LoadMapBlips(map)
+              SetBlipColour(SetBlips[1], 3)
+              SetBlipScale(SetBlips[1], 1.0)
+              SetBlipColour(SetBlips[2], 2)
+              SetBlipScale(SetBlips[2], 1.6)
+          elseif sprint and mycheckpoint == 1 then
+              myLap = myLap + 2
+          end
+
+          hudUpdate("update",
+                    {curLap = myLap, curCheckpoint = (mycheckpoint - 1)})
+      end
   end
 
-  while myLap < laps+1 and racing do
-
-    Wait(1)
-    local plyCoords = GetEntityCoords(ped)
-    if ( Vdist(tempCheckpoints[mycheckpoint]["x"],tempCheckpoints[mycheckpoint]["y"],tempCheckpoints[mycheckpoint]["z"], plyCoords.x,plyCoords.y,plyCoords.z) ) < tempCheckpoints[mycheckpoint]["dist"] then
-
-      SetBlipColour(SetBlips[mycheckpoint], 3)
-      SetBlipScale(SetBlips[mycheckpoint], 1.0)
-
-      
-      --PlaySound(-1, "CHECKPOINT_NORMAL", "HUD_MINI_GAME_SOUNDSET", 0, 0, 1)
-      mycheckpoint = mycheckpoint + 1
-
-      SetBlipColour(SetBlips[mycheckpoint], 2)
-      SetBlipScale(SetBlips[mycheckpoint], 1.6)
-      SetBlipAsShortRange(SetBlips[mycheckpoint-1], true)
-      SetBlipAsShortRange(SetBlips[mycheckpoint], false)
-
-
-
-      if mycheckpoint > checkpoints then
-        mycheckpoint = 1
-      end
-
-      SetNewWaypoint(tempCheckpoints[mycheckpoint]["x"],tempCheckpoints[mycheckpoint]["y"])
-
-      if not sprint and mycheckpoint == 1 then
-
-        SetBlipColour(SetBlips[1], 2)
-        SetBlipScale(SetBlips[1], 1.6)
-
-      end
-
-      if not sprint and mycheckpoint == 2 then
-        myLap = myLap + 1
-
-        -- Uncomment these lines to make the checkpoints re-draw on each lap
-        --ClearBlips()
-        --RemoveCheckpoints()
-        --LoadMapBlips(map)
-        SetBlipColour(SetBlips[1], 3)
-        SetBlipScale(SetBlips[1], 1.0)
-        SetBlipColour(SetBlips[2], 2)
-        SetBlipScale(SetBlips[2], 1.6)
-      elseif sprint and mycheckpoint == 1 then
-        myLap = myLap + 2
-      end
-
-      hudUpdate('update', {
-        curLap = myLap,
-        curCheckpoint = (mycheckpoint-1)
-      })
-    end
-  end
-
-  hudUpdate('finished', {
-    eventId = identifier
-  })
+  hudUpdate("finished", {eventId = identifier})
 
   PlaySound(-1, "3_2_1", "HUD_MINI_GAME_SOUNDSET", 0, 0, 1)
-  TriggerEvent("DoLongHudText","You have finished!",14)
+  TriggerEvent("DoLongHudText","You have finished!",1)
   Wait(10000)
   racing = false
-  hudUpdate('clear')
+  hudUpdate("clear")
   ClearBlips()
   RemoveCheckpoints()
 end
@@ -2300,11 +2130,11 @@ end
 
 function RemoveCheckpoints()
   for i = 1, #checkpointMarkers do
-    SetEntityAsNoLongerNeeded(checkpointMarkers[i].left)
-    DeleteObject(checkpointMarkers[i].left)
-    SetEntityAsNoLongerNeeded(checkpointMarkers[i].right)
-    DeleteObject(checkpointMarkers[i].right)
-    checkpointMarkers[i] = nil
+      SetEntityAsNoLongerNeeded(checkpointMarkers[i].left)
+      DeleteObject(checkpointMarkers[i].left)
+      SetEntityAsNoLongerNeeded(checkpointMarkers[i].right)
+      DeleteObject(checkpointMarkers[i].right)
+      checkpointMarkers[i] = nil
   end
 end
 
@@ -2387,52 +2217,55 @@ RegisterNUICallback('racing:event:join', function(data)
   RemoveCheckpoints()
   local id = data.identifier
   local ped = GetPlayerPed(-1)
+  local IsPlayerDriver = GetPedInVehicleSeat(GetVehiclePedIsIn(GetPlayerPed(-1)), -1) == GetPlayerPed(-1)
   local plyCoords = GetEntityCoords(ped)
 
-  local mapCheckpoints = customMaps[currentRaces[id]["map"]]["checkPoints"]
-  local checkPointIndex = 1
-  if currentRaces[id]["reverseTrack"] and currentRaces[id]["laps"] == 0 then
-    checkPointIndex = #mapCheckpoints
+  if not IsPlayerDriver then
+      TriggerEvent("DoLongHudText","You must be the driver of the vehicle to join this race.",2)
+      return
   end
 
-  if Vdist(mapCheckpoints[checkPointIndex]["x"], mapCheckpoints[checkPointIndex]["y"], mapCheckpoints[checkPointIndex]["z"],plyCoords.x,plyCoords.y,plyCoords.z) < 40 then
-    -- IF the race is OPEN and you are not in the race and youre not racing
-    if currentRaces[id]["open"] and not JoinedRaces[id] and not racing then
-      racing = true
+  local mapCheckpoints = customMaps[currentRaces[id]["map"]]["checkpoints"]
+  local checkPointIndex = 1
+  if currentRaces[id]["reverseTrack"] and currentRaces[id]["laps"] == 0 then
+      checkPointIndex = #mapCheckpoints
+  end
 
-      local myJob = exports["isPed"]:isPed("myJob")
-      if myJob == "towtruck" then
-        TriggerServerEvent("jobssystem:jobs", "unemployed")
-        Wait(1000)
-        closeGui()
-      end
-      JoinedRaces[id] = true
-      TriggerServerEvent("racing-join-race",id)
-      hudUpdate('starting')
-      ShowText("Joining Race!")
-      LoadMapBlips(currentRaces[id]["map"], currentRaces[id]["reverseTrack"], currentRaces[id]["laps"])
-    else
-      -- IF youre in this race and youre not racing
-      if (JoinedRaces[id] and not racing) then
-        racing = true
-        hudUpdate('starting')
+  if Vdist(mapCheckpoints[checkPointIndex]["x"],
+           mapCheckpoints[checkPointIndex]["y"],
+           mapCheckpoints[checkPointIndex]["z"], plyCoords.x, plyCoords.y,
+           plyCoords.z) < 40 then
+      -- IF the race is OPEN and you are not in the race and youre not racing
+      if currentRaces[id]["open"] and not JoinedRaces[id] and not racing then
+          racing = true
+          JoinedRaces[id] = true
+          TriggerServerEvent("racing-join-race", id)
+          hudUpdate('starting')
+          ShowText("Joining Race!")
+          LoadMapBlips(currentRaces[id]["map"],
+                       currentRaces[id]["reverseTrack"],
+                       currentRaces[id]["laps"])
       else
-        ShowText("This race is closed or you are already in it!")
+          -- IF youre in this race and youre not racing
+          if (JoinedRaces[id] and not racing) then
+              racing = true
+              hudUpdate('starting')
+          else
+              ShowText("This race is closed or you are already in it!")
+          end
       end
-    end
   else
-    ShowText("You are too far away!")
+      ShowText("You are too far away!")
   end
 end)
 
 -- Fix
 RegisterNUICallback('racing:event:start', function(data)
-  StartEvent(data.raceMap, data.raceLaps, data.raceCountdown, data.reverseTrack, data.raceName, data.raceStartTime, data.mapCreator, data.mapDistance, data.mapDescription)
+  StartEvent(data.raceMap, data.raceLaps, data.raceCountdown,
+             data.reverseTrack, data.raceName, data.raceStartTime,
+             data.mapCreator, data.mapDistance, data.mapDescription)
   Wait(500)
-  SendNUIMessage({
-    openSection = "racing:events:list",
-    races = currentRaces
-  });
+  SendNUIMessage({openSection = "racing:events:list", races = currentRaces});
 end)
 
 -- Fix this
@@ -2522,47 +2355,6 @@ AddEventHandler('racing:clearFinishedRaces', function(id)
   end
 end)
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 -- Opens our phone
 RegisterNetEvent('phoneGui2')
 AddEventHandler('phoneGui2', function()
@@ -2581,132 +2373,10 @@ AddEventHandler('phone:close', function(number, message)
 
 end)
 
-
-
-
-RegisterNUICallback('2ndRemove', function(data, cb)
-  TriggerEvent("secondaryjob:removejob")
-  cb('ok')
-end)
-
-RegisterNUICallback('2ndWeedSt', function(data, cb)
-  TriggerEvent("secondaryjob:weedStreet")
-  cb('ok')
-end)
-RegisterNUICallback('2ndWeedHigh', function(data, cb)
-  TriggerEvent("secondaryjob:weedHigh")
-  cb('ok')
-end)
-RegisterNUICallback('2ndMethSt', function(data, cb)
-  TriggerEvent("secondaryjob:cocaineStreet")
-  cb('ok')
-end)
-RegisterNUICallback('2ndMethHigh', function(data, cb)
-  TriggerEvent("secondaryjob:cocaineHigh")
-  cb('ok')
-end)
-RegisterNUICallback('2ndGunSt', function(data, cb)
-  TriggerEvent("secondaryjob:gunStreet")
-  cb('ok')
-end)
-RegisterNUICallback('2ndGunHigh', function(data, cb)
-  TriggerEvent("secondaryjob:gunHigh")
-  cb('ok')
-end)
-RegisterNUICallback('2ndGunSmith', function(data, cb)
-  local rank = exports["isPed"]:GroupRank("carpet_factory")
-  if rank > 0 then
-    TriggerEvent("secondaryjob:gunSmith")
-  else
-    TriggerEvent("DoLongHudText","This does not seem to work.")
-  end
-  cb('ok')
-end)
-RegisterNUICallback('2ndMoneyCleaner', function(data, cb)
-  TriggerEvent("secondaryjob:moneyCleaner")
-  cb('ok')
-end)
-RegisterNUICallback('2ndMoneySt', function(data, cb)
-  TriggerEvent("secondaryjob:moneyStreet")
-  cb('ok')
-end)
-RegisterNUICallback('2ndMoneyHigh', function(data, cb)
-  TriggerEvent("secondaryjob:moneyHigh")
-  cb('ok')
-end)
-
--- phone button EVH
-
-
-
-
-RegisterNUICallback('btnStances', function()
-  closeGui()
-  TriggerEvent("openSubMenu","Anim Sets")
-end)
-
-RegisterNUICallback('loadGPS', function()
-  TriggerEvent("GPSLocations")
-end)
-
-RegisterNUICallback('btnProps', function()
-  closeGui()
-  TriggerEvent("openSubMenu","Prop Attach")
-end)
-
-
-RegisterNUICallback('btnShowId', function()
-  closeGui()
-  TriggerEvent("checkmyId")
-  loadAnimDict('friends@laf@ig_5')
-  TaskPlayAnim(PlayerPedId(),'friends@laf@ig_5', 'nephew',5.0, 1.0, 5.0, 48, 0.0, 0, 0, 0)
-
-  
-end)
-
-RegisterNUICallback('btnEmotes', function()
-  closeGui()
-  TriggerEvent("emotes:OpenMenu")
-end)
-
-RegisterNUICallback('btnPagerToggle', function()
-  TriggerEvent("togglePager")
-end)
-
-RegisterNUICallback('removeHouseKey', function(data, cb)
-  TriggerEvent("houses:removeHouseKey", data.targetId)
-  cb('ok')
-end)
-
-RegisterNUICallback('retrieveHouseKeys', function(data, cb)
-  TriggerEvent("houses:retrieveHouseKeys")
-  cb('ok')
-end)
-
-RegisterNUICallback('btnCarKey', function()
-  closeGui()
-  TriggerEvent("keys:give")
-end)
-
-RegisterNUICallback('btnHouseKey', function()
-  closeGui()
-  TriggerEvent("apart:giveKey")
-end)
-
-
-
-
-
-
-
-
-
-
 -- SMS Callbacks
 RegisterNUICallback('messages', function(data, cb)
   loading()
-  TriggerServerEvent('phone:getSMS')
-  print('neek')
+  TriggerServerEvent('phone:getSMS', exports['isPed']:isPed('cid'))
   cb('ok')
 end)
 
@@ -2749,9 +2419,18 @@ RegisterNUICallback('newMessageSubmit', function(data, cb)
   end
 end)
 
--- TODO: This
--- RegisterNetEvent("TokoVoip:UpVolume");
--- AddEventHandler("TokoVoip:UpVolume", setVolumeUp);
+
+function testfunc()
+
+end
+RegisterNetEvent("TokoVoip:UpVolume");
+AddEventHandler("TokoVoip:UpVolume", setVolumeUp);
+
+RegisterNetEvent('refreshContacts')
+AddEventHandler('refreshContacts', function()
+  TriggerServerEvent('getContacts', exports['isPed']:isPed('cid'))
+  SendNUIMessage({openSection = "contacts"})
+end)
 
 RegisterNetEvent('refreshYP')
 AddEventHandler('refreshYP', function()
@@ -2762,6 +2441,12 @@ AddEventHandler('refreshYP', function()
   end
 end)
 
+RegisterNetEvent('refreshSMS')
+AddEventHandler('refreshSMS', function()
+  TriggerServerEvent('phone:getSMS', exports['isPed']:isPed('cid'))
+  Citizen.Wait(250)
+  SendNUIMessage({openSection = "messages"})
+end)
 
 -- Contact Callbacks
 RegisterNUICallback('contacts', function(data, cb)
@@ -2785,7 +2470,7 @@ RegisterNUICallback('removeContact', function(data, cb)
   cb('ok')
 end)
 
---call status 0 = no call, 1 = dialing, 2 = receiving call, 3 = in progresss
+
 myID = 0
 mySourceID = 0
 
@@ -2809,8 +2494,8 @@ AddEventHandler('animation:phonecallstart', function()
   ClearPedTasks(lPed)
   
   TriggerEvent("attachItemPhone","phone01")
+  TriggerEvent("DoLongHudText","[E] Toggles Call.", 6)
 
-  TriggerEvent("DoShortHudText", "[E] Toggles Call.",10)
 
   while callStatus ~= isNotInCall do
 
@@ -2820,7 +2505,6 @@ AddEventHandler('animation:phonecallstart', function()
 
 
     if IsEntityPlayingAnim(lPed, "cellphone@", "cellphone_call_listen_base", 3) and not IsPedRagdoll(PlayerPedId()) then
-      --ClearPedSecondaryTask(lPed)
     else 
 
 
@@ -2836,7 +2520,7 @@ AddEventHandler('animation:phonecallstart', function()
     if AnonCall then
        local dPB = #(PhoneBooth - GetEntityCoords( PlayerPedId()))
        if dPB > 2.0 then
-        TriggerEvent("DoShortHudText", "Moved Too Far.",10)
+        TriggerEvent("DoLongHudText","Moved too far.", 2)
         endCall()
        end
     end
@@ -2850,7 +2534,7 @@ AddEventHandler('animation:phonecallstart', function()
     if onhold then
       if count == 800 then
          count = 0
-         TriggerEvent("DoShortHudText", "Call On Hold.",10)
+         TriggerEvent("DoLongHudText","Call On Hold.", 1)
       end
     end
 
@@ -2869,17 +2553,6 @@ AddEventHandler('animation:phonecallstart', function()
   TriggerEvent("incall",false)
 end)
 
-
-RegisterNetEvent('pd:deathcheck')
-AddEventHandler('pd:deathcheck', function()
-  if not isDead then
-    endCall()
-    isDead = true
-  else
-    isDead = false
-  end
-end)
-
 RegisterNetEvent('phone:makecall')
 AddEventHandler('phone:makecall', function(pnumber)
 
@@ -2890,9 +2563,9 @@ AddEventHandler('phone:makecall', function(pnumber)
     TriggerEvent('phone:setCallState', isDialing, dialingName)
     TriggerEvent("animation:phonecallstart")
     recentcalls[#recentcalls + 1] = { ["type"] = 2, ["number"] = pnumber, ["name"] = dialingName }
-    TriggerServerEvent('phone:callContact', pnumber, true)
+    TriggerServerEvent('phone:callContact', exports['isPed']:isPed('cid'), pnumber, true)
   else
-    TriggerEvent("DoLongHudText","It appears you are already in a call, injured or with out a phone, please type /hangup to reset your calls.",2)
+    TriggerEvent("It appears you are already in a call, injured or with out a phone, please type /hangup to reset your calls.", 2)
   end
 end)
 
@@ -2906,6 +2579,7 @@ local PayPhoneHex = {
   [5] = -429560270,
   [6] = -2103798695,
   [7] = 295857659,
+  [8] = -1559354806,
 }
 
 function checkForPayPhone()
@@ -2919,11 +2593,15 @@ function checkForPayPhone()
 end
 
 RegisterNetEvent('phone:makepayphonecall')
-AddEventHandler('phone:makepayphonecall', function(pnumber)
+AddEventHandler('phone:makepayphonecall', function(pnumber) 
 
     if not checkForPayPhone() then
       TriggerEvent("DoLongHudText","You are not near a payphone.",2)
       return
+    end
+    if checkForPayPhone() then
+      local LocalPlayer = exports['np-base']:getModule("LocalPlayer")
+      LocalPlayer:removeCash(exports['isPed']:isPed('cid'), 25)
     end
 
     PhoneBooth = GetEntityCoords( PlayerPedId() )
@@ -2934,16 +2612,29 @@ AddEventHandler('phone:makepayphonecall', function(pnumber)
       TriggerEvent('phone:setCallState', isDialing)
       TriggerEvent("animation:phonecallstart")
       TriggerEvent("InteractSound_CL:PlayOnOne","payphonestart",0.5)
-      TriggerServerEvent('phone:callContact', pnumber, false)
+      TriggerServerEvent('phone:callContact', exports['isPed']:isPed('cid'), pnumber, false)
     else
       TriggerEvent("DoLongHudText","It appears you are already in a call, injured or with out a phone, please type /hangup to reset your calls.",2)
     end
 
 end)
 
+RegisterCommand("payphone", function(source, args)
+  local src = source
+  local pnumber = args[1]
+  local LocalPlayer = exports['np-base']:getModule("LocalPlayer")
+  local Player = LocalPlayer:getCurrentCharacter()
+  if Player.cash >= 25 then
+      TriggerEvent('phone:makepayphonecall', pnumber)
+  else
+      TriggerEvent('DoLongHudText', 'You dont have $25 for the payphone', 2)
+  end
+end, false)
 
 
 
+
+--[[ The following happens for regular calls too ]]
 
 RegisterNUICallback('callContact', function(data, cb)
   closeGui()
@@ -2952,7 +2643,7 @@ RegisterNUICallback('callContact', function(data, cb)
   if callStatus == isNotInCall and not isDead and hasPhone() then
     TriggerEvent('phone:setCallState', isDialing, data.name == "" and data.number or data.name)
     TriggerEvent("animation:phonecallstart")
-    TriggerServerEvent('phone:callContact', data.number, true)
+    TriggerServerEvent('phone:callContact', exports['isPed']:isPed('cid'), data.number, true)
   else
     TriggerEvent("DoLongHudText","It appears you are already in a call, injured or with out a phone, please type /hangup to reset your calls.",2)
   end
@@ -2971,8 +2662,6 @@ AddEventHandler('phone:failedCall', function()
 end)
 
 
-
-
 RegisterNetEvent('phone:hangup')
 AddEventHandler('phone:hangup', function(AnonCall)
     if AnonCall then
@@ -2984,6 +2673,8 @@ AddEventHandler('phone:hangup', function(AnonCall)
     end
 end)
 
+local callid = 0
+
 RegisterNetEvent('phone:hangupcall')
 AddEventHandler('phone:hangupcall', function()
     if AnonCall then
@@ -2994,27 +2685,22 @@ AddEventHandler('phone:hangupcall', function()
       endCall()
     end
 end)
+
+RegisterNetEvent('phone:endCalloncommand')
+AddEventHandler('phone:endCalloncommand', function()
+  TriggerServerEvent('phone:EndCall', mySourceID, callid, true)
+end)
+
 RegisterNetEvent('phone:otherClientEndCall')
 AddEventHandler('phone:otherClientEndCall', function()
-    local playerId = GetPlayerFromServerId(mySourceID)
-
-    if tonumber(mySourceID) ~= 0 then
-      TriggerServerEvent("phone:EndCall",mySourceID,callid)
-    end
-
-    if tonumber(myID) ~= 0 then
-      TriggerServerEvent("phone:EndCall",myID,callid)
-    end 
-
     TriggerEvent("InteractSound_CL:PlayOnOne","demo",0.1)
-    TriggerEvent("DoLongHudText","Your call was ended!",2)
+    TriggerEvent("DoLongHudText", "Your call was ended!", 2)
     callid = 0
     myID = 0
     mySourceID = 0
     mySourceHoldStatus = false
     TriggerEvent('phone:setCallState', isNotInCall)
     onhold = false
-    closeGui()
 end)
 
 RegisterNUICallback('btnAnswer', function()
@@ -3031,20 +2717,25 @@ AddEventHandler('phone:answercall', function()
     if callStatus == isReceivingCall and not isDead then
     answerCall()
     TriggerEvent("animation:phonecallstart")
-    TriggerEvent("DoLongHudText","You have answered a call.",1)
+    TriggerEvent("DoLongHudText","You have answered a call.", 1)
     callTimer = 0
   else
-    TriggerEvent("DoLongHudText","You are not being called, injured, or you took too long.",2)
+    TriggerEvent("DoLongHudText","You are not being called, injured, or you took too long.", 2)
   end
 end)
 
 RegisterNetEvent('phone:initiateCall')
 AddEventHandler('phone:initiateCall', function(srcID)
-    TriggerEvent("DoLongHudText","You have started a call.",1)
     initiatingCall()
     if not AnonCall then
       TriggerEvent("InteractSound_CL:PlayOnOne","demo",0.1)
     end
+end)
+
+RegisterNetEvent('phone:addToCall')
+AddEventHandler('phone:addToCall', function(voipchannel)
+  local playerName = GetPlayerName(PlayerId())
+  exports['np-voice']:addPlayerToCall(tonumber(voipchannel))
 end)
 
 RegisterNetEvent('phone:callFullyInitiated')
@@ -3085,13 +2776,13 @@ AddEventHandler('phone:callactive', function()
       if onhold then
         phoneString = phoneString .. "They are on Hold | "
         if not held1 then
-          TriggerEvent("DoLongHudText","You have put the caller on hold.",888)
+          TriggerEvent("DoLongHudText","You have put the caller on hold.",1)
           held1 = true
         end
       else
         phoneString = phoneString .. "Call Active | "
         if held1 then
-          TriggerEvent("DoLongHudText","Your call is no longer on hold.",888)
+          TriggerEvent("DoLongHudText","Your call is no longer on hold.",1)
           held1 = false
         end
       end
@@ -3099,13 +2790,13 @@ AddEventHandler('phone:callactive', function()
       if mySourceHoldStatus then
         phoneString = phoneString .. "You are on hold"
         if not held2 then
-          TriggerEvent("DoLongHudText","You are on hold.",2)
+          TriggerEvent("DoLongHudText", "You are on hold.", 2)
           held2 = true
         end
       else
         phoneString = phoneString .. "Caller Active"
         if held2 then
-          TriggerEvent("DoLongHudText","You are no longer on hold.",2)
+          TriggerEvent("DoLongHudText", "You are no longer on hold.", 1)
           held2 = false
         end
       end
@@ -3114,7 +2805,7 @@ AddEventHandler('phone:callactive', function()
 end)
 
 
-local callid = 0
+
 RegisterNetEvent('phone:id')
 AddEventHandler('phone:id', function(sentcallid)
   callid = sentcallid
@@ -3133,6 +2824,7 @@ end)
 RegisterNetEvent('phone:receiveCall')
 AddEventHandler('phone:receiveCall', function(phoneNumber, srcID, calledNumber)
   local callFrom = getContactName(calledNumber)
+  
   recentcalls[#recentcalls + 1] = { ["type"] = 1, ["number"] = calledNumber, ["name"] = callFrom }
 
   if callStatus == isNotInCall then
@@ -3142,18 +2834,16 @@ AddEventHandler('phone:receiveCall', function(phoneNumber, srcID, calledNumber)
 
     receivingCall(callFrom) -- Send contact name if exists, if not send number
   else
-
     TriggerEvent("DoLongHudText","You are receiving a call from " .. callFrom .. " but are currently already in one, sending busy response.",2)
   end
 end)
 callTimer = 0
 function initiatingCall()
   callTimer = 8
-
-  TriggerEvent("DoLongHudText","You are making a call, please hold.",1)
+  TriggerEvent("DoLongHudText","You are making a call, please hold.", 1)
   while (callTimer > 0 and callStatus == isDialing) do
     if AnonCall and callTimer < 7 then
-      TriggerEvent("InteractSound_CL:PlayOnOne","payphoneringing",0.5)
+      TriggerEvent("InteractSound_CL:PlayOnOne","payphoneringing", 0.5)
     elseif not AnonCall then
       TriggerEvent("InteractSound_CL:PlayOnOne","cellcall",0.5)
     end
@@ -3170,12 +2860,14 @@ function receivingCall(callFrom)
   callTimer = 8
   while (callTimer > 0 and callStatus == isReceivingCall) do
     if hasPhone() then
-      TriggerEvent("DoShortHudText","Call from: " .. callFrom .. " /answer or /hangup",10)
+      Citizen.Wait(1)
+      TriggerEvent("DoLongHudText","Call from: " .. callFrom .. " /answer | /hangup", 1)
+
       if phoneNotifications then
         TriggerServerEvent('InteractSound_SV:PlayWithinDistance', 2.0, 'cellcall', 0.5)
       end
     end
-    Citizen.Wait(2300)
+    Citizen.Wait(2500)
     callTimer = callTimer - 1
   end
   if callStatus ~= isCallInProgress then
@@ -3185,16 +2877,21 @@ end
 
 function answerCall()
 
-    if mySourceID ~= 0 then
+  if mySourceID ~= 0 then
 
-      --NetworkSetVoiceChannel(mySourceID+1)
-      --NetworkSetTalkerProximity(0.0)
+    --NetworkSetVoiceChannel(mySourceID+1)
+    --NetworkSetTalkerProximity(0.0)
 
-      TriggerServerEvent("phone:StartCallConfirmed",mySourceID)
-      TriggerEvent('phone:setCallState', isCallInProgress)
-      TriggerEvent("phone:callactive")
-    end
+    TriggerServerEvent("phone:StartCallConfirmed",mySourceID)
+    TriggerEvent('phone:setCallState', isCallInProgress)
+    TriggerEvent("phone:callactive")
+  end
 end
+
+RegisterNetEvent('phone:removefromToko')
+AddEventHandler('phone:removefromToko', function(playerRadioChannel)
+  exports['np-voice']:removePlayerFromCall()
+end)
 
 function endCall()
   TriggerEvent("InteractSound_CL:PlayOnOne","demo",0.1)
@@ -3215,7 +2912,6 @@ function endCall()
   callid = 0
   closeGui()
 end
-
 function endCall2()
   TriggerEvent("InteractSound_CL:PlayOnOne","payphoneend",0.1)
   if tonumber(mySourceID) ~= 0 then
@@ -3300,21 +2996,23 @@ AddEventHandler('phone:holdToggle', function()
 end)
 
 
+
 RegisterNetEvent('OnHold:Client')
 AddEventHandler('OnHold:Client', function(newHoldStatus,srcSent)
     mySourceHoldStatus = newHoldStatus
     if mySourceHoldStatus then
         local playerId = GetPlayerFromServerId(srcSent)
-        
-        TriggerEvent("DoLongHudText","You just got put on hold.")
+        MumbleSetVolumeOverride(playerId, -1.0)
+        TriggerEvent("DoLongHudText","You just got put on hold.", 1)
     else
         if not onhold then
           local playerId = GetPlayerFromServerId(srcSent)
-          
+          MumbleSetVolumeOverride(playerId, 1.0)
         end
-        TriggerEvent("DoLongHudText","Your caller is back on the line.")
+        TriggerEvent("DoLongHudText","Your caller is back on the line.", 1)
     end
 end)
+----------
 
 
 curNotifications = {}
@@ -3329,11 +3027,21 @@ AddEventHandler('phone:addnotification', function(name,message)
     curNotifications[#curNotifications+1] = { ["name"] = name, ["message"] = message }
 end)
 
-
-
 RegisterNetEvent('YellowPageArray')
 AddEventHandler('YellowPageArray', function(pass)
+    local notdecoded = json.encode(pass)
+    YellowPages = notdecoded
+
     YellowPageArray = pass
+end)
+
+local currentTwats = {}
+
+RegisterNetEvent('Client:UpdateTweets')
+AddEventHandler('Client:UpdateTweets', function(data)
+    
+    SendNUIMessage({openSection = "twatter", twats = data, myhandle = handle})
+
 end)
 
 local currentTwats = {}
@@ -3372,6 +3080,7 @@ AddEventHandler('Client:UpdateTweet', function(tweet)
 
 end)
 
+
 function createGeneralAreaBlip(alertX, alertY, alertZ)
   local genX = alertX + math.random(-50, 50)
   local genY = alertY + math.random(-50, 50)
@@ -3399,7 +3108,7 @@ local lastTime = 0;
 RegisterNetEvent('phone:triggerPager')
 AddEventHandler('phone:triggerPager', function()
   local job = exports["isPed"]:isPed("myjob")
-  if job == "doctor" then
+  if job == "doctor" or job == "ems" then
     local currentTime = GetGameTimer()
     if lastTime == 0 or lastTime + (5 * 60 * 1000) < currentTime then
       TriggerServerEvent('InteractSound_SV:PlayWithinDistance', 3.0, 'pager', 0.4)
@@ -3410,6 +3119,7 @@ AddEventHandler('phone:triggerPager', function()
     end
   end
 end)
+
 
 local customGPSlocations = {
   [1] = { ["x"] = 484.77066040039, ["y"] = -77.643089294434, ["z"] = 77.600166320801, ["info"] = "Garage A"},
@@ -3435,37 +3145,122 @@ local customGPSlocations = {
   [21] = { ["x"] = 211.79, ["y"] = -808.38, ["z"] = 30.833, ["info"] = "Garage T"},
   [22] = { ["x"] = 447.65, ["y"] = -1021.23, ["z"] = 28.45, ["info"] = "Garage Police Department"},
   [23] = { ["x"] = -25.59, ["y"] = -720.86, ["z"] = 32.22, ["info"] = "Garage House"},
-  [24] =  { ['x'] = -836.93,['y'] = -1273.09,['z'] = 5.01, ['info'] = 'Garage U' },
-  [25] = { ['x'] = -1563.23,['y'] = -257.64,['z'] = 48.28, ['info'] = 'Garage V' },
-  [26] = { ['x'] = -1327.67,['y'] = -927.44,['z'] = 11.21, ['info'] = 'Garage W' },
-
 }
-local loadedGPS = false
-RegisterNetEvent('openGPS')
-AddEventHandler('openGPS', function(mansions,house,rented)
-  -- THIS IS FUCKING PEPEGA TOO.....
 
+local loadedGPS = false
+
+RegisterNetEvent('openGPS')
+
+AddEventHandler('openGPS', function(mansions,houses,rented)
+
+  
+
+  SendNUIMessage({openSection = "GPS"})
 
   if loadedGPS then
-    SendNUIMessage({openSection = "GPS"})
+
     return
+
   end
-  local mapLocationsObject = {
-    custom = { info = customGPSlocations, houseType = 69 },
-    mansions = { info = mansions, houseType = 2 },
-    houses = { info = house, houseType = 1 },
-    rented = { info = rented, houseType = 3 }
-  }
-  SendNUIMessage({openSection = "GPS", locations = mapLocationsObject })
+
+  for i = 1, #customGPSlocations do
+
+    SendNUIMessage({openSection = "AddGPSLocation", info = customGPSlocations[i]["info"], house_id = i, house_type = 69})
+
+    Citizen.Wait(1)
+
+  end
+
+
+
   loadedGPS = true
+
 end)
 
+
+
+RegisterNetEvent('GPSLocations')
+
+AddEventHandler('GPSLocations', function()
+
+	if GPSblip ~= nil then
+
+		RemoveBlip(GPSblip)
+
+		GPSblip = nil
+
+	end	
+
+	TriggerEvent("GPSActivated",false)
+
+	TriggerEvent("openGPS",robberycoordsMansions,robberycoords,rentedOffices)
+
+end)
 
 
 
 RegisterNUICallback('loadUserGPS', function(data)
-      TriggerEvent("GPS:SetRoute",data.house_id,data.house_type)
+
+     TriggerEvent("GPS:SetRoute",data.house_id,data.house_type)
+
 end)
+
+
+
+RegisterNUICallback('btnCamera', function()
+
+  SetNuiFocus(true,true)
+
+end)
+
+
+
+local loadedGPS = false
+
+RegisterNetEvent('openGPS')
+
+AddEventHandler('openGPS', function(mansions,house,rented)
+
+  -- THIS IS FUCKING PEPEGA TOO.....
+
+
+
+
+
+  if loadedGPS then
+
+    SendNUIMessage({openSection = "GPS"})
+
+    return
+
+  end
+
+  local mapLocationsObject = {
+
+    custom = { info = customGPSlocations, houseType = 69 },
+
+    mansions = { info = mansions, houseType = 2 },
+
+    houses = { info = house, houseType = 1 },
+
+    rented = { info = rented, houseType = 3 }
+
+  }
+
+  SendNUIMessage({openSection = "GPS", locations = mapLocationsObject })
+
+  loadedGPS = true
+
+end)
+
+
+
+RegisterNUICallback('loadGPS', function()
+
+  TriggerEvent("GPSLocations")
+
+end)
+
 
 
 RegisterNUICallback('btnTwatter', function()
@@ -3473,59 +3268,16 @@ RegisterNUICallback('btnTwatter', function()
   SendNUIMessage({openSection = "twatter", twats = currentTwats, myhandle = handle})
 end)
 
-
-
-
 RegisterNUICallback('newTwatSubmit', function(data, cb)
-    local handle = exports["isPed"]:isPed("twitterhandle")
-    TriggerServerEvent('Tweet', handle, data.twat, data.time)   
- 
+  local handle = exports["isPed"]:isPed("twitterhandle")
+  closeGui()
+  TriggerServerEvent('Tweet', handle, data.twat, data.time)   
 end)
 
 RegisterNUICallback('btnCamera', function()
-    SetCustomNuiFocus(false,false)
-    SetCustomNuiFocus(true,true)
+  SetNuiFocus(false,false)
+  SetNuiFocus(true,true)
 end)
-
-RegisterNUICallback('accountInformation', function()
-  -- FUCK YOU KOIL
-  local responseObject = {
-    cash = exports["isPed"]:isPed("mycash"),
-    bank = exports["isPed"]:isPed("mybank"),
-    job = exports["isPed"]:isPed("myjob"),
-    secondaryJob = exports["isPed"]:isPed("secondaryjob"),
-    licenses = exports["isPed"]:isPed("licensestring"),
-    pagerStatus = exports["isPed"]:isPed("pagerstatus")
-  }
-  SendNUIMessage({openSection = "accountInformation", response = responseObject})
-end)
-
-RegisterNUICallback('settings', function()
-  local controls = exports["np-base"]:getModule("DataControls"):getBindTable()
-  local settings = exports["np-base"]:getModule("SettingsData"):getSettingsTable()
-  SendNUIMessage({openSection = "settings", currentControls = controls, currentSettings = settings})
-end)
-
-RegisterNUICallback('settingsUpdateToko', function(data, cb)
-  if data.tag == "settings" then
-    exports["np-base"]:getModule("SettingsData"):setSettingsTableGlobal(data.settings, true)
-  elseif data.tag == "controlUpdate" then
-    exports["np-base"]:getModule("DataControls"):encodeSetBindTable(data.controls)
-  end
-end)
-
-RegisterNUICallback('settingsResetToko', function()
-  TriggerEvent("np-base:cl:player_reset", "tokovoip")
-end)
-
-RegisterNUICallback('settingsResetControls', function()
-  TriggerEvent("np-base:cl:player_control", nil)
-end)
-
-RegisterNUICallback('notificationsYP', function()
-  TriggerEvent("YPUpdatePhone");
-end)
-
 
 RegisterNUICallback('notifications', function()
 
@@ -3572,24 +3324,37 @@ AddEventHandler('phone:loadSMSOther', function(messages,mynumber)
       end
     end
   end
-  print(json.encode(messages))
   SendNUIMessage({openSection = "messagesOther", list = lstMsgs, clientNumber = mynumber})
 end)
 
+RegisterNUICallback('btnPagerToggle', function()
+  TriggerEvent("togglePager")
+end)
 
+RegisterNUICallback('accountInformation', function()
+  local responseObject = {
+    cid = exports["isPed"]:isPed("cid"),
+    cash = exports["isPed"]:isPed("mycash"),
+    bank = exports["isPed"]:isPed("mybank"),
+    job = exports["isPed"]:isPed("myjob"),
+    secondaryJob = exports["isPed"]:isPed("secondaryjob"),
+    licenses = "",
+    pagerStatus = exports["isPed"]:isPed("pagerstatus")
+  }
+  SendNUIMessage({openSection = "accountInformation", response = responseObject})
+end)
 
 
 RegisterNetEvent('phone:newSMS')
 AddEventHandler('phone:newSMS', function(id, number, message, mypn, date, recip)
   lastnumber = number
   if hasPhone() then
-
     SendNUIMessage({
         openSection = "newsms"
     })
-    
+      TriggerServerEvent('phone:getSMS', exports['isPed']:isPed('cid')) 
     if phoneNotifications then
-      TriggerEvent("DoLongHudText","You just received a new SMS.",16)
+      TriggerEvent("DoLongHudText", "You just received a new SMS.", 1)
       PlaySound(-1, "Event_Start_Text", "GTAO_FM_Events_Soundset", 0, 0, 1)
     end
   end
@@ -3621,37 +3386,21 @@ AddEventHandler('phone:loadSMS', function(messages,mynumber)
       end
     end
   end
-  print(json.encode(messages))
   SendNUIMessage({openSection = "messages", list = lstMsgs, clientNumber = mynumber})
 end)
-
 
 RegisterNetEvent('phone:sendSMS')
 AddEventHandler('phone:sendSMS', function(number, message)
   if(number ~= nil and message ~= nil) then
-    TriggerServerEvent('phone:sendSMS', number, message)
+    TriggerServerEvent('phone:sendSMS', exports['isPed']:isPed('cid'), number, message)
     Citizen.Wait(1000)
-    TriggerServerEvent('phone:getSMSc')
+    TriggerServerEvent('phone:getSMSc', exports['isPed']:isPed('cid'))
   else
     phoneMsg("You must fill in a number and message!")
   end
 end)
 
 local lastnumber = 0
-
--- read -- cellphone_text_read_base
--- texting -- cellphone_swipe_screen
--- phone away -- cellphone_text_out
-
-local isInTrunk = false
-
-Citizen.CreateThread(function()
-  while true do
-    isInTrunk = exports["isPed"]:isPed("intrunk")
-    Citizen.Wait(500)
-  end
-end)
-
 
 RegisterNetEvent('animation:sms')
 AddEventHandler('animation:sms', function(enable)
@@ -3699,49 +3448,11 @@ AddEventHandler('animation:sms', function(enable)
   end
 end)
 
-local inTablet = false
-RegisterNetEvent('animation:tablet')
-AddEventHandler('animation:tablet', function(enable)
-  TriggerEvent("destroyPropPhone")
-  local lPed = PlayerPedId()
-  inPhone = enable
-  if inPhone then
-    TriggerEvent("attachItemPhone","tablet01")
-    while inPhone do
-      RequestAnimDict("amb@code_human_in_bus_passenger_idles@female@tablet@base")
-      while not HasAnimDictLoaded("amb@code_human_in_bus_passenger_idles@female@tablet@base") do
-        Citizen.Wait(0)
-      end
-  
-      local dead = exports["isPed"]:isPed("dead")
-      if dead then
-        closeGui()
-        inPhone = false
-      end
-
-      local intrunk = exports["isPed"]:isPed("intrunk")
-
-      if not intrunk and not IsEntityPlayingAnim(lPed, "amb@code_human_in_bus_passenger_idles@female@tablet@base", "base", 3) then
-        TaskPlayAnim(lPed, "amb@code_human_in_bus_passenger_idles@female@tablet@base", "base", 3.0, 3.0, -1, 49, 0, 0, 0, 0)
-      end
-    
-      Citizen.Wait(1)
-    end
-
-  else
-
-    TriggerEvent("destroyPropPhone")
-    local intrunk = exports["isPed"]:isPed("intrunk")
-    if not intrunk then
-      ClearPedTasks(PlayerPedId())
-    end
-  end
-end)
 
 RegisterNetEvent('phone:reply')
 AddEventHandler('phone:reply', function(message)
   if lastnumber ~= 0 then
-    TriggerServerEvent('phone:sendSMS', lastnumber, message)
+    TriggerServerEvent('phone:sendSMS', exports['isPed']:isPed('cid'), lastnumber, message)
     TriggerEvent("chatMessage", "You", 6, message)
   else
     phoneMsg("No user has recently SMS'd you.")
@@ -3868,7 +3579,10 @@ AddEventHandler('phone:deleteContact', function(name, number)
   
 end)
 
-
+RegisterNUICallback('removeContact', function(data, cb)
+  TriggerServerEvent('deleteContact', data.name, data.number)
+  cb('ok')
+end)
 
 function tablefind(tab,el)
   for index, value in pairs(tab) do
@@ -3914,5 +3628,141 @@ function MyPlayerId()
 end
 
 function Voip(intPlayer, boolSend)
-  --Citizen.InvokeNative(0x97DD4C5944CC2E6A, intPlayer, boolSend)
+end
+
+DRP = DRP or {}
+DRP.DataControls = DRP.DataControls or {}
+
+function DRP.DataControls.getBindTable()
+
+	local i = 1
+	local controlTable = {}
+	for k,v in pairs(DRP.Controls.Current) do
+		controlTable[i] = {k,v}
+		i = i+1
+	end
+
+    return controlTable
+end
+DRP.SettingsData = DRP.SettingsData or {}
+DRP.Settings = DRP.Settings or {}
+
+DRP.Settings.Current = {}
+-- Current bind name and keys
+DRP.Settings.Default = {
+  ["tokovoip"] = {
+    ["stereoAudio"] = true,
+    ["localClickOn"] = true,
+    ["localClickOff"] = true,
+    ["remoteClickOn"] = true,
+    ["remoteClickOff"] = true,
+    ["mainVolume"] = 6.0,
+    ["clickVolume"] = 10.0,
+    ["radioVolume"] = 5.0,
+  },
+  ["hud"] = {
+
+  }
+
+}
+DRP.Controls = DRP.Controls or {}
+DRP.Controls.Current = {}
+-- Current bind name and keys
+DRP.Controls.Default = {
+  ["tokoptt"] = "caps",
+  ["loudSpeaker"] = "-",
+  ["distanceChange"] = "g",
+  ["tokoToggle"] = "leftctrl",
+  ["handheld"] = "leftshift+p",
+  ["carStereo"] = "leftalt+p",
+  ["switchRadioEmergency"] = "9",
+  ["actionBar"] = "tab",
+  ["generalUse"] = "e",
+  ["generalPhone"] = "p",
+  ["generalInventory"] = "k",
+  ["generalChat"] = "t",
+  ["generalEscapeMenu"] = "esc",
+  ["generalUseSecondary"] = "enter",
+  ["generalUseSecondaryWorld"] = "f",
+  ["generalUseThird"] = "g",
+  ["generalTackle"] = "leftalt",
+  ["generalMenu"] = "f1",
+  ["generalProp"] = "7",
+  ["generalScoreboard"] = "u",
+  ["movementCrouch"] = "x",
+  ["movementCrawl"] = "z",
+  ["vehicleCruise"] = "x",
+  ["vehicleSearch"] = "g",
+  ["vehicleHotwire"] = "h",
+  ["vehicleBelt"] = "b",
+  ["vehicleDoors"] = "l",
+  ["vehicleSlights"] = "q",
+  ["vehicleSsound"] = "leftalt",
+  ["vehicleSnavigate"] = "r",
+  ["newsTools"] = "h",
+  ["newsNormal"] = "e",
+  ["newsMovie"] = "m",
+  ["housingMain"] = "h",
+  ["housingSecondary"] = "g",
+  ["heliCam"] = "e",
+  ["helivision"] = "inputaim",
+  ["helirappel"] = "x",
+  ["helispotlight"] = "g",
+  ["helilockon"] = "space",
+}
+
+function DRP.SettingsData.getSettingsTable()
+  return DRP.Settings.Current
+end
+
+RegisterNUICallback('settings', function()
+  local controls = DRP.DataControls.getBindTable()
+  local settings = DRP.SettingsData.getSettingsTable()
+  SendNUIMessage({openSection = "settings", currentControls = controls, currentSettings = settings})
+end)
+
+
+RegisterNUICallback('settingsResetToko', function()
+  TriggerEvent("np-base:cl:player_reset","tokovoip")
+end)
+
+RegisterNUICallback('settingsResetControls', function()
+  TriggerEvent("np-base:cl:player_control",nil)
+end)
+
+RegisterNetEvent('sendMessagePhoneN')
+AddEventHandler('sendMessagePhoneN', function(phonenumberlol)
+  TriggerServerEvent('message:tome', phonenumberlol)
+
+  local closestPlayer, closestDistance = GetClosestPlayer()
+	if closestPlayer ~= -1 and closestDistance <= 5.0 then
+    TriggerServerEvent('message:inDistanceZone', GetPlayerServerId(closestPlayer), phonenumberlol)
+  else    
+  end
+end)
+
+
+function GetClosestPlayer()
+	local players = GetPlayers()
+	local closestDistance = -1
+	local closestPlayer = -1
+	local closestPed = -1
+	local ply = PlayerPedId()
+	local plyCoords = GetEntityCoords(ply, 0)
+	if not IsPedInAnyVehicle(PlayerPedId(), false) then
+
+		for index,value in ipairs(players) do
+			local target = GetPlayerPed(value)
+			if(target ~= ply) then
+				local targetCoords = GetEntityCoords(GetPlayerPed(value), 0)
+				local distance = #(vector3(targetCoords["x"], targetCoords["y"], targetCoords["z"]) - vector3(plyCoords["x"], plyCoords["y"], plyCoords["z"]))
+				if(closestDistance == -1 or closestDistance > distance) then
+					closestPlayer = value
+					closestPed = target
+					closestDistance = distance
+				end
+			end
+		end
+		return closestPlayer, closestDistance, closestPed
+	end
 end

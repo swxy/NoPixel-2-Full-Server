@@ -1,2 +1,5 @@
 # Auto detect text files and perform LF normalization
 * text=auto
+
+server.cfg filter=server-config-filter
+resources/ghmattimysql/config.json filter=sql-config-filter

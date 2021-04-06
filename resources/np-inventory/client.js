@@ -512,9 +512,12 @@ function Scan(row) {
 RegisterNetEvent('np-items:SetAmmo')
 on('np-items:SetAmmo', (sentammoTable) => {
 	if (sentammoTable) {
-		ammoTable = sentammoTable
+		ammoTable = sentammoTable;
 	}
-	CacheBinds(JSON.parse(MyInventory))
+	
+	if (MyInventory.length > 0) {
+		CacheBinds(JSON.parse(MyInventory));
+	}
 });
 
 function CacheBinds(sqlInventory) {

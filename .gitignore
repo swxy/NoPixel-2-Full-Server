@@ -22,3 +22,4 @@ citizen/system_resources/monitor/web/public/css/dark.scss
 *.clean
 *.smudge
 *.backup
+*.lnk

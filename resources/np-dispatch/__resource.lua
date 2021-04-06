@@ -13,7 +13,6 @@ files {
 -- I started work on a server component in NodeJS, it's going to require
 -- a lot more work tho...
 client_script 'client/*.lua'
--- server_script "@np-fml/server/lib.lua"
 server_script {
     'server/*.lua',
     -- 'server/*.js'

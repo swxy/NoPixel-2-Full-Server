@@ -4,7 +4,6 @@ dependencies {
     "PolyZone",
     "np-base"
 }
-server_script "@np-fml/server/lib.lua"
 server_script('server.lua')
 
 ui_page('client/html/index.html')

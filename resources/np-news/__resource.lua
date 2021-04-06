@@ -14,6 +14,5 @@ files {
 	'html/debounce.min.js'
 }
 
-server_script "@np-fml/server/lib.lua"
 client_script	'client.lua'
 server_script 'server.lua'

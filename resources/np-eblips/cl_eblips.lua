@@ -44,6 +44,8 @@ function GetBlipSettings(pJobId, pCallSign)
 		settings.color = 23
 		settings.heading =  true
 		settings.text = ('Paramedic | %s'):format(pCallSign)
+	else 
+		return false
 	end
 
 	return settings
@@ -59,6 +61,10 @@ function CreateBlipHandler(pServerId, pJob, pCallSign)
 	end
 
 	local settings = GetBlipSettings(job, callsign)
+
+	if not settings then 
+		return
+	end
 
 	local handler = EntityBlip:new('player', serverId, settings)
 

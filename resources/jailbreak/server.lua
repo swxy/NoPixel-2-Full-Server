@@ -26,7 +26,6 @@ end)
 Citizen.CreateThread(function()
     while true do 
         Citizen.Wait(60000)
-        print('removing time')
         exports.ghmattimysql:execute("SELECT * FROM `characters` ", {}, function(result)
             for k, v in ipairs(result) do 
                 if v.jail_time >= 1 then

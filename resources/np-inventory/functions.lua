@@ -738,7 +738,11 @@ end
             TriggerEvent("DoLongHudText","Nice news reporting, you shit lord idiot.")
         end
     end
-
+		
+    if (itemid == "radio") then
+        TriggerEvent('radioGui')
+    end
+		
     if (itemid == "umbrella") then
         TriggerEvent("animation:PlayAnimation","umbrella")
         

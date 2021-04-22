@@ -95,8 +95,12 @@ function NPX.Core.CreatePhoneNumber(self, src, callback)
 
 			local areaCode = math.random(50) > 25 and 415 or 628
 			local phonenumber = {}
-			
-				phoneNumber = math.random(0000000000, 9999999999)
+			local numBase0 = 4
+			local numBase1 = math.random(10,99)
+			local numBase2 = math.random(100,999)
+			local numBase3 = math.random(1000,9999)
+			local num = string.format(numBase0 .. "" .. numBase1 .. "" .. numBase2 .. "" .. numBase3)
+				phoneNumber = num
 			--phoneNumber = math.random(0, 9) .. math.random(0, 9) .. math.random(0, 9) .. math.random(0, 9) .. math.random(0, 9) .. math.random(0, 9)
 
 			--areaCode = tostring(areaCode)
@@ -208,7 +212,7 @@ function NPX.Core.SelectCharacter(self, id, src, callback)
 	if not user:ownsCharacter(id) then callback(false) return end
 
 	local selectedCharacter = user:getCharacter(id)
-	--selectedCharacter.phone_number = math.ceil(selectedCharacter.phone_number)
+	selectedCharacter.phone_number = math.ceil(selectedCharacter.phone_number)
 	--print('selecting char')
 
 	user:setCharacter(selectedCharacter)

@@ -145,6 +145,8 @@ local vehshopOwner = {
 				{name = "Panto", costs = 8000, description = {}, model = "panto"},
 				{name = "Prairie", costs = 8000, description = {}, model = "prairie"},
 				{name = "Rhapsody", costs = 6000, description = {}, model = "rhapsody"},
+				--{name = "Kanjo", costs = 25000, description = {}, model = "kanjo"},
+
 
 				--GTAWiseGuy
 				{name = "Issi Classic", costs = 60000, description = {}, model = "issi3"},
@@ -155,6 +157,7 @@ local vehshopOwner = {
 			title = "coupes",
 			name = "coupes",
 			buttons = {
+				--{name = "Penumbra", costs = 35000, description = {}, model = "penumbra2"},
 				{name = "Cognoscenti Cabrio", costs = 180000, description = {}, model = "cogcabrio"},
 				{name = "Exemplar", costs = 70000, description = {}, model = "exemplar"},
 				{name = "F620", costs = 80000, description = {}, model = "f620"},
@@ -175,11 +178,15 @@ local vehshopOwner = {
 			title = "sports",
 			name = "sports",
 			buttons = {
+				--{name = "Schwarzer", costs = 225000, description = {}, model = "schwarzer"},
+				--{name = "8F Drafter", costs = 235000, description = {}, model = "drafter"},
+				--{name = "Coquette D10", costs = 250000, description = {}, model = "coquette4"},
 				{name = "9F", costs = 200000, description = {}, model = "ninef"},
 				{name = "9F Cabrio", costs = 210000, description = {}, model = "ninef2"},
 				{name = "Alpha", costs = 11000, description = {}, model = "alpha"},
 				{name = "Banshee", costs = 140000, description = {}, model = "banshee"},
 				{name = "Bestia GTS", costs = 160000, description = {}, model = "bestiagts"},
+				--{name = "Sultan Classic", costs = 39855, description = {}, model = "sultan2"},
 
 				{name = "Buffalo", costs = 15000, description = {}, model = "buffalo"},
 				{name = "Buffalo S", costs = 19000, description = {}, model = "buffalo2"},
@@ -213,7 +220,7 @@ local vehshopOwner = {
 				{name = "Raiden", costs = 220000, description = {}, model = "raiden"}, -- doomsday Heist , handling done
 
 				-- GTAWiseGuy
-				{name = "Sentinel SG4", costs = 150000, description = {}, model = "sentinelsg4"},
+				--{name = "Sentinel SG4", costs = 150000, description = {}, model = "sentinelsg4"},
 				{name = "Elegy RH8", costs = 150000, description = {}, model = "elegy2"},
 				--imports 
 				{name = "Lamborghini Aventador LP700R", costs = 400000, description = {}, model = "lp700r"},
@@ -271,6 +278,7 @@ local vehshopOwner = {
 			title = "sports classics",
 			name = "sportsclassics",
 			buttons = {
+				--{name = "Infernus Classic", costs = 285000, description = {}, model = "infernus2"},
 				{name = "Casco", costs = 280000, description = {}, model = "casco"},
 				{name = "Coquette Classic", costs = 65000, description = {}, model = "coquette2"},
 				{name = "JB 700", costs = 290000, description = {}, model = "jb700"},
@@ -306,6 +314,7 @@ local vehshopOwner = {
 			title = "super",
 			name = "super",
 			buttons = {
+				--{name = "Tyrant", costs = 659000, description = {}, model = "tyrant"},
 				-- {name = "Adder", costs = 1000000, description = {}, model = "adder"},
 				-- {name = "Banshee 900R", costs = 365000, description = {}, model = "banshee2"},
 				-- {name = "Bullet", costs = 355000, description = {}, model = "bullet"},
@@ -361,6 +370,10 @@ local vehshopOwner = {
 				{name = "Hustler", costs = 7000, description = {}, model = "hustler"}, -- doomsday Heist , handling done
 				{name = "Hermes", costs = 127000, description = {}, model = "hermes"}, -- doomsday Heist , handling done
 				{name = "Yosemite", costs = 70000, description = {}, model = "yosemite"}, -- doomsday Heist , handling done
+				{name = "Deviant", costs = 115000, description = {}, model = "deviant"},
+
+
+
 
 				-- GTA Wise Guy
 				{name = "Phoenix", costs = 35000, description = {}, model = "Phoenix"},
@@ -563,6 +576,10 @@ end
 
 local myspawnedvehs = {}
 
+RegisterCommand('testdrive', function()
+	TriggerEvent('car:testdrive')
+end)
+
 RegisterNetEvent("car:testdrive")
 AddEventHandler("car:testdrive", function()
 	if rank == 0 or #(vector3(-51.51, -1077.96, 26.92) - GetEntityCoords(PlayerPedId())) > 50.0 then
@@ -630,6 +647,23 @@ AddEventHandler("finance:enableOnClient", function(addplate)
 	Citizen.Wait(60000)
 	financedPlates[addplate] = nil
 end)	
+
+RegisterCommand('commission', function(source, args, raw)
+	if rank == 0 then
+		return
+	end
+	if rank > 0 then
+		local amount = args[1]
+		if amount ~= nil then
+			TriggerEvent('commission', amount)
+		else
+			TriggerEvent('DoLongHudText', 'Invalid amount "/commision [amount]', 1)
+		end
+	else
+		TriggerEvent('DoLongHudText', 'You dont have permissions for this!', 2)
+	end
+end)
+
 
 RegisterNetEvent("commission")
 AddEventHandler("commission", function(newAmount)

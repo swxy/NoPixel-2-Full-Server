@@ -425,6 +425,17 @@ AddEventHandler('police:setCuffState', function(t,state)
 end)
 
 
+RegisterServerEvent('police:dnaAsk')
+AddEventHandler('police:dnaAsk', function(target)
+    local src = source
+    local user = exports["np-base"]:getModule("Player"):GetUser(src)
+    local player = exports["np-base"]:getModule("Player"):GetUser(target)
+    local character = player:getCurrentCharacter()
+    local playerName = character.first_name .. ' ' .. character.last_name
+
+    TriggerClientEvent('evidence:addDnaSwab', src, playerName)
+    TriggerClientEvent('evidence:swabNotify', target)
+end)
 
 
 RegisterServerEvent('police:forceEnterAsk')

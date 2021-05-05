@@ -9,6 +9,6 @@ AddEventHandler('carwash:checkmoney', function()
 		player:removeMoney(costs)
 	else
 		moneyleft = costs - player:getCash()
-		TrigerClientEvent('notenoughmoney', src, moneyleft)
+		TriggerClientEvent('notenoughmoney', src, moneyleft)
 	end
 end)

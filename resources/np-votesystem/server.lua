@@ -397,7 +397,7 @@ AddEventHandler('setPolicePay', function(newPay)
 end)
 
 RegisterServerEvent('setEmsPay')
-AddEventHandler('setPolicePay', function(newPay)
+AddEventHandler('setEmsPay', function(newPay)
   local src = source
 
   local user = exports["np-base"]:getModule("Player"):GetUser(src)
@@ -418,7 +418,7 @@ AddEventHandler('setPolicePay', function(newPay)
 end)
 
 RegisterServerEvent('setCivilianPay')
-AddEventHandler('setPolicePay', function(newPay)
+AddEventHandler('setCivilianPay', function(newPay)
   local src = source
 
   local user = exports["np-base"]:getModule("Player"):GetUser(src)

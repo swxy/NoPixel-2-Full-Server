@@ -8,8 +8,7 @@ Preview of the server : https://www.youtube.com/watch?v=TV4m8urqEus&t
 
 SQL : https://mega.nz/file/iZtiUZ4b#ru1JOCeFhitJsMAvfSMl1PCTHLZEsGG_l2qixP3PjzQ
 
-I would be careful using these files as FiveM have taken action against a few servers using any of my files in there server and have taken there server down for stolen content even though the files are not stolen and also banned me From FiveM for 250 days and banned from there forums.
-
+Enjoy
 Swxy#0001 :)
 
 

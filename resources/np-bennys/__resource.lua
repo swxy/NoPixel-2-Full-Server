@@ -21,7 +21,6 @@ client_scripts
 
 server_scripts
 {
-    "@np-fml/server/lib.lua",
     "core/_config/cfg_vehicleCustomisation.lua",
     "core/server/sv_bennys.lua"
 }

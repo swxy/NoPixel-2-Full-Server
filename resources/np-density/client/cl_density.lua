@@ -86,8 +86,13 @@ end)
 
 RegisterNetEvent('np:peds:rogue:delete')
 AddEventHandler('np:peds:rogue:delete', function(pNetId)
-  local entity = NetworkGetEntityFromNetworkId(pNetId)
+  local tNetId = 0 
+  
+  for k,v in ipairs(pNetId) do
+	tNetId = v["netId"]
+  end
 
+  local entity = NetworkGetEntityFromNetworkId(tNetId)
   if DoesEntityExist(entity) then
     DeleteEntity(entity)
   end

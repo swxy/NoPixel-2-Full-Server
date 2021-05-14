@@ -185,7 +185,7 @@ end)
 RegisterServerEvent('houserobberies:enter')
 AddEventHandler('houserobberies:enter', function(robnum, ismansion, flashbang)
     local src = source
-	TriggerClientEvent('houserobberies:createhouse', -1, robnum, false, flashbang)
+	TriggerClientEvent('houserobberies:createhouse', src, robnum, false, flashbang)
 	TriggerClientEvent('houserobberies:enterhouse', src, robnum, flashbang)
 end)
 

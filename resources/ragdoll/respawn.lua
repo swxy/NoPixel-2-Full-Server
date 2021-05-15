@@ -24,7 +24,7 @@ end)
 
 RegisterNetEvent('hasSignedOnEms')
 AddEventHandler('hasSignedOnEms', function()
-    TriggerServerEvent("TokoVoip:addPlayerToRadio", 2, GetPlayerServerId(PlayerId()))
+    TriggerServerEvent("np:voice:radio:addPlayerToRadio", 2, GetPlayerServerId(PlayerId()))
     TriggerEvent("ChannelSet",2)
     isEMS = true
 end)

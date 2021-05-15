@@ -56,7 +56,7 @@ end)
 
 RegisterNetEvent('nowCopGarage')
 AddEventHandler('nowCopGarage', function()
-	TriggerServerEvent("TokoVoip:addPlayerToRadio", 1, GetPlayerServerId(PlayerId()))
+	TriggerServerEvent("np:voice:radio:addPlayerToRadio", 1, GetPlayerServerId(PlayerId()))
     TriggerEvent("ChannelSet",1)
   	isCop = true
 	isInService = true

@@ -1,5 +1,4 @@
 NPX.Commands = NPX.Commands or {}
-
 RegisterNetEvent("np-commands:meCommand")
 AddEventHandler("np-commands:meCommand",
     function(user, msg)
@@ -22,3 +21,12 @@ AddEventHandler("np-commands:meCommand",
     end
     TriggerServerEvent("np-commands:buildCommands","")
   end)
+
+
+
+  RegisterCommand('job', function()
+    local LocalPlayer = exports["np-base"]:getModule("LocalPlayer")
+    local job = LocalPlayer:getCurrentCharacter().job
+    local rank = LocalPlayer:getRank()
+    TriggerEvent('DoLongHudText', "Your job is currently: " .. job .. " with the rank of: " .. rank)
+end)

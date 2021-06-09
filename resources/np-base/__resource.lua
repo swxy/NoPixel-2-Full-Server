@@ -4,7 +4,7 @@ dependency "ghmattimysql"
 
 
 
---client_script "@np-errorlog/client/cl_errorlog.lua"
+client_script "@np-errorlog/client/cl_errorlog.lua"
 
 -- INIT --
 server_script "sh_init.lua"
@@ -57,8 +57,8 @@ client_script "commands/cl_commands.lua"
 server_script "commands/sv_commands.lua"
 
 --[[=====INFINITY=====]]--
---client_script "@np-infinity/client/cl_lib.lua"
---server_script "@np-infinity/server/sv_lib.lua"
+client_script "@np-infinity/client/cl_lib.lua"
+server_script "@np-infinity/server/sv_lib.lua"
 
 export "getModule"
 export "addModule"

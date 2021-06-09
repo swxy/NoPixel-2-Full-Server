@@ -42,6 +42,7 @@ function NPX.DB.CreateNewPlayer(self, src, callback)
 end
 function NPX.DB.CreateNewCharacter(self, src, data2, hexid, ph, callback)
     local hexid = hexid
+
     callback = callback and callback or function() return end
 
     local data = data2
@@ -99,7 +100,7 @@ function NPX.DB.PhoneNumberExists(self, src, phone_number, callback)
 
     callback = callback and callback or function() return end
 
-    if not user then callback(false, true) print("error error EXORTS SOSIS addition: scan's best friend is jamerson") return end
+    if not user then callback(false, true) print("error error EXORTS SOSIS addition") return end
 
     local hexId = user:getVar("hexid")
 
@@ -152,7 +153,7 @@ function NPX.DB.FetchCharacterData(self, user, callback)
 
     if not hexId or hexid == "" then callback(false, true) return end
 
-    local q = [[SELECT id, owner, first_name, last_name, date_created,  cash, bank, phone_number, dob, story, gender, new, deleted, jail_time, dirty_money, gang_type, jail_time_mobster, stress_level, judge_type, iswjob FROM characters WHERE owner = @owner]]
+    local q = [[SELECT id, owner, first_name, last_name, date_created,  cash, bank, phone_number, dob, story, gender, new, deleted, jail_time, dirty_money, gang_type, jail_time_mobster, stress_level, judge_type, iswjob, stocks, paycheck FROM characters WHERE owner = @owner]]
     local v = {["owner"] = hexId}
 
     exports.ghmattimysql:execute(q,v, function(results)

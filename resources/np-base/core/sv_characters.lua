@@ -95,13 +95,11 @@ function NPX.Core.CreatePhoneNumber(self, src, callback)
 
 			local areaCode = math.random(50) > 25 and 415 or 628
 			local phonenumber = {}
-			local numBase0 = 4
-			local numBase1 = math.random(10,99)
 			local numBase2 = math.random(100,999)
 			local numBase3 = math.random(1000,9999)
-			local num = string.format(numBase0 .. "" .. numBase1 .. "" .. numBase2 .. "" .. numBase3)
-				phoneNumber = num
-			--phoneNumber = math.random(0, 9) .. math.random(0, 9) .. math.random(0, 9) .. math.random(0, 9) .. math.random(0, 9) .. math.random(0, 9)
+			
+			--phoneNumber = math.random(0000000000, 9999999999)
+			phoneNumber = string.format(areaCode .. "" .. numBase2 .. "" .. numBase3)
 
 			--areaCode = tostring(areaCode)
 
@@ -212,24 +210,26 @@ function NPX.Core.SelectCharacter(self, id, src, callback)
 	if not user:ownsCharacter(id) then callback(false) return end
 
 	local selectedCharacter = user:getCharacter(id)
-	selectedCharacter.phone_number = math.ceil(selectedCharacter.phone_number)
+	selectedCharacter.phone_number = selectedCharacter.phone_number
 	--print('selecting char')
 
 	user:setCharacter(selectedCharacter)
 	user:setVar("characterLoaded", true)
+
+	callback({loggedin = true, chardata = selectedCharacter})
+	
 	local cid = selectedCharacter.id
 	TriggerClientEvent('updatecid', src, cid)
 	TriggerClientEvent('updatecids', src, cid)
 	TriggerClientEvent('updateNameClient', src, tostring(selectedCharacter.first_name), tostring(selectedCharacter.last_name))
 	TriggerClientEvent('banking:updateBalance', src, selectedCharacter.bank, true)
 	TriggerClientEvent('banking:updateCash', src, selectedCharacter.cash, true)
+	print(selectedCharacter.paycheck)
+	TriggerClientEvent('client:updatepaychk', src, selectedCharacter.paycheck)
 	TriggerClientEvent('np-base:setcontrols', src)
 	TriggerClientEvent('updatepasses', src)
-	-- TriggerEvent('np-base:sv:player_controls')
 
 	TriggerEvent("np-base:characterLoaded", user, selectedCharacter)
 	TriggerClientEvent("np-base:characterLoaded", src, selectedCharacter)
-
-	callback({loggedin = true, chardata = selectedCharacter})
 end
 NPX.Events:AddEvent(NPX.Core, NPX.Core.SelectCharacter, "np-base:selectCharacter")

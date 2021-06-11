@@ -135,7 +135,7 @@ NPX.Controls.Distcheck.use = {
 	-- Bennys,import,tuner
 	[8] = {["pos"] = {938.37,-970.82,39.76},	["r"] = 2,["event"] = "bennys",["id"] = 3,["maxwait"] = 200},
 	[9] = {["pos"] = {-772.92,-234.92,37.08},	["r"] = 2,["event"] = "bennys",["id"] = 2,["maxwait"] = 200},
-	[10] = {["pos"] = {-211.55,-1324.55,30.90},	["r"] = 2,["event"] = "bennys",["id"] = 1,["maxwait"] = 200},
+	[10] = {["pos"] = {-34.24, -1053.31, 28.4},	["r"] = 2,["event"] = "bennys",["id"] = 1,["maxwait"] = 200},
 	-- boradcaster sign ON 
 	[11] ={["pos"] = {1989.08,-1753.94,-158.86},["r"] = 2,["event"] = "broadcast",["id"] = 1,["maxwait"] = 200},
 	-- gym 

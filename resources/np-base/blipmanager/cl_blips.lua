@@ -42,24 +42,24 @@ local blips = {
     {id = "ttruckjob3", name = "Impound Lot", color = 17, sprite = 68, x = -195.68403625488, y = 6219.8081054688, z = 31.491077423096},
     {id = "ttruckgarage", name = "Stroke Masters", color = 27, sprite = 147, x = 531.81506347656, y = -176.94529724121, z = 54.750310516357},
 
-    {id = "fire1", name = "Fire Station",scale = 0.9, color = 1, sprite = 153, x = 205.30201721191, y = -1651.4327392578, z = 29.803213119507},
-    {id = "fire2", name = "Fire Tower",scale = 0.9, color = 1, sprite = 153, x =  -1195.5244140625, y = -1788.2210693359, z = 19.490871429443},
+  --  {id = "fire1", name = "Fire Station",scale = 0.9, color = 1, sprite = 153, x = 205.30201721191, y = -1651.4327392578, z = 29.803213119507},
+ --   {id = "fire2", name = "Fire Tower",scale = 0.9, color = 1, sprite = 153, x =  -1195.5244140625, y = -1788.2210693359, z = 19.490871429443},
 
-    {id = "fire3", name = "Fire Main",scale = 0.9, color = 1, sprite = 153, x =  1206.3913574219, y = -1473.1184082031, z = 34.859497070313},
+   -- {id = "fire3", name = "Fire Main",scale = 0.9, color = 1, sprite = 153, x =  1206.3913574219, y = -1473.1184082031, z = 34.859497070313},
 
     --{id = "gopostal", name = "Go Postal", scale = 0.7, color = 17, sprite = 411, x = 63.463, y = 126.000, z = 79.1902},
-    {id = "fishingsales", name = "Fish Sales", scale = 0.7, color = 7, sprite = 304, x=-1038.4649658203, y=-1396.7390136719, z=5.5531921386719},
+ --   {id = "fishingsales", name = "Fish Sales", scale = 0.7, color = 7, sprite = 304, x=-1038.4649658203, y=-1396.7390136719, z=5.5531921386719},
     {id = "cc", name = "Comedy Club", scale = 0.7, color = 7, sprite = 102, x=-431.235299, y=259.939819, z=82.9778519},
 
     {id = "Imports", name = "Fast Lane Imports & Towing", scale = 0.7, color = 7, sprite = 326, x=-804.48, y=-224.54, z= 37.23},
-
-    {id = "courthouse", name = "Los Santos Courthouse", scale = 0.7, color = 5, sprite = 58, x=244.5550079345, y=-386.0076904298, z=45.402359008789315},
+    {id = "townhallfucktobi", name = "City Hall", scale = 0.7, color = 25, sprite = 438, x=-547.36, y=-200.0, z=38.22},
+    --{id = "courthouse", name = "Los Santos Courthouse", scale = 0.7, color = 5, sprite = 58, x=244.5550079345, y=-386.0076904298, z=45.402359008789315},
     {id = "lawyersoffice", name = "Lawyers Offices", scale = 0.7, color = 5, sprite = 58, x=245.91703796387, y=-347.61932373047, z=44.451446533203},
 
     {id = 'TaxiRank', name = 'Taxi Rank', scale = 0.7, color = 5, sprite = 56, x = -12.72, y = -143.3, z = 56.26},
     
     {id = 'TowTruckParking', name = 'Choppers Jobs', scale = 0.7, color = 5, sprite = 68, x = 536.48, y = -239.46, z = 49.16},
-
+    {id = "burgies", name = "Burger Shot", scale = 0.7, color = 8, sprite = 106, x = -1199.61, y = -899.79, z = 14.0},
     {id = 'winery', name = 'The Winery', scale = 0.7, color = 6, sprite = 478, x = -1889.86, y = 2036.54, z = 140.83},
 
     {id = 'cc', name = 'Carpet Company', scale = 0.7, color = 7, sprite = 478, x = 718.1,y = -976.41,z = 24.91},
@@ -67,6 +67,7 @@ local blips = {
     {id = 'qf', name = 'The Quick Fix', scale = 0.7, color = 8, sprite = 478, x = 968.03, y = -126.64, z = 74.37},
 
     {id = 'HarmonyRepairs', name = 'Harmony Repairs', scale = 0.7, color = 12, sprite = 478, x = 1183.18, y = 2651.66, z = 37.81},
+    {id = 'HayesAutos', name = 'Hayes Autos Repairs', scale = 0.7, color = 12, sprite = 478, x = -1416.86, y = -447.97, z = 35.91},
 
     {id = "repo", name = "Govt Vehicle Repo", scale = 0.7, color = 8, sprite = 147, x = 400.85, y = -1632.37, z = 29.3},
 

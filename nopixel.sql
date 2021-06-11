@@ -26,7 +26,7 @@ CREATE TABLE IF NOT EXISTS `characters` (
   `dob` varchar(50) DEFAULT 'NULL',
   `cash` int(9) DEFAULT 500,
   `bank` int(9) NOT NULL DEFAULT 5000,
-  `phone_number` varchar(15) DEFAULT NULL,
+  `phone_number` varchar(50) NOT NULL DEFAULT '0',
   `story` text NOT NULL,
   `new` int(1) NOT NULL DEFAULT 1,
   `deleted` int(11) NOT NULL DEFAULT 0,
@@ -42,12 +42,13 @@ CREATE TABLE IF NOT EXISTS `characters` (
   `bones` mediumtext DEFAULT '{}',
   `emotes` varchar(4160) DEFAULT '{}',
   `paycheck` int(11) DEFAULT 0,
-  `stocks` mediumtext DEFAULT NULL,
+  `stocks` text DEFAULT '[{"value":5.0},{"value":0.0},{"value":0.0},{"value":0.0},{"value":0.0},{"value":0.0}]',
   `rehab` int(12) DEFAULT 0,
   `meta` text DEFAULT 'move_m@casual@d',
   `dna` text DEFAULT '{}',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB AUTO_INCREMENT=379 DEFAULT CHARSET=utf8mb4;
+
 
 -- Dumping data for table gtav_rp2.characters: ~0 rows (approximately)
 /*!40000 ALTER TABLE `characters` DISABLE KEYS */;

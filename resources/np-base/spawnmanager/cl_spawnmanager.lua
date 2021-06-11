@@ -24,7 +24,6 @@ function NPX.SpawnManager.Initialize(self)
 
         TriggerEvent("np-base:spawnInitialized")
         TriggerServerEvent("np-base:spawnInitialized")
-
         DoScreenFadeIn(500)
 
         while IsScreenFadingIn() do
@@ -107,6 +106,8 @@ function NPX.SpawnManager.InitialSpawn(self)
         if new then TriggerEvent("np-base:newCharacterSpawned") DoScreenFadeIn(500) end
         TriggerEvent("np-base:playerSpawned")
         TriggerEvent("playerSpawned")
+       
+    
         DoScreenFadeIn(500)
     end)
 end
@@ -147,4 +148,5 @@ AddEventHandler('np-base:clearStates', function()
     TriggerServerEvent("doctor:commandsoff")
     TriggerServerEvent("TokoVoip:removePlayerFromAllRadio",GetPlayerServerId(PlayerId()))
     TriggerEvent("wk:disableRadar")
+    TriggerServerEvent('np-scoreboard:AddPlayer')
 end)

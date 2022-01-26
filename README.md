@@ -1,6 +1,6 @@
 nopickles
 
-Swxy#0001 Rubidium#7756(hawkeye) Full Nopixel Files from 2.0
+Swxy#0001 Sydres#9887 Rubidium#7756(hawkeye) Full Nopixel Files from 2.0
 
 NoPixel Launchers Source: https://github.com/swxy/nopixelaunchersource
 

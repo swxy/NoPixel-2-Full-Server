@@ -1,9 +1,23 @@
+nopickles
 
-<h2 align=center><a href='https://cutt.ly/uwWH83Xs'><img src='https://github.com/swxy/FORTNITE-H6CKZ/assets/56074112/5c903423-421b-4bd5-8ec3-cd1cd2bb9171' width=800 height=350> </a><br><a href='https://cutt.ly/uwWH83Xs'><img src='https://github.com/swxy/FORTNITE-H6CKZ/assets/56074112/9dba8475-3c80-4784-b810-d8e43a03a341' width=800 ></a> <br>
-<a href='https://cutt.ly/uwWH83Xs'><img src='https://github.com/swxy/FORTNITE-H6CKZ/assets/56074112/5c903423-421b-4bd5-8ec3-cd1cd2bb9171' width=800 height=350></a></h2>
+Swxy#0001 Sydres#9887 Rubidium#7756(hawkeye) Full Nopixel Files from 2.0
 
-<p align=center><img src='https://img.shields.io/badge/24674-downloads-pink'> | <img src='https://img.shields.io/badge/%E2%98%85%E2%98%85%E2%98%85%E2%98%85%E2%9C%B0-rating-yellow'> | <img src='https://img.shields.io/badge/LUA-language-orange'></p>
+NoPixel Launchers Source: https://github.com/swxy/nopixelaunchersource
+
+Preview of the server : https://www.youtube.com/watch?v=TV4m8urqEus&t
+
+SQL : https://mega.nz/file/iZtiUZ4b#ru1JOCeFhitJsMAvfSMl1PCTHLZEsGG_l2qixP3PjzQ
+
+Enjoy
+Swxy#0001 :)
 
 
-
-
+# Installation
+1. Create a FiveM server ([guide](https://i.imgur.com/PltX24m.png))
+2. Stop the server
+3. Open the new folder that was created under the `txData` folder
+4. Delete everything in that folder
+5. Clone this repository to that folder
+6. Run `nopixel.sql` in your database
+7. Run `set-passwords.bat` (requires wlr - I used [Ubuntu](https://ubuntu.com/wsl))
+8. Start the server

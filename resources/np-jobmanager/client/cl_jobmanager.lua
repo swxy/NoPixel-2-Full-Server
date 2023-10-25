@@ -18,12 +18,12 @@ AddEventHandler("np-jobmanager:playerBecameJob", function(job, name, notify)
 	end
     
     if job == "trucker" then
-        TriggerServerEvent("TokoVoip:addPlayerToRadio", 4, GetPlayerServerId(PlayerId()))
+        TriggerServerEvent("np:voice:radio:addPlayerToRadio", 4, GetPlayerServerId(PlayerId()))
     end
 
     if job == "towtruck" then
         TriggerEvent("DoLongHudText","Use /tow to tow cars to your truck.",1)
-        TriggerServerEvent("TokoVoip:addPlayerToRadio", 3, GetPlayerServerId(PlayerId()))
+        TriggerServerEvent("np:voice:radio:addPlayerToRadio", 3, GetPlayerServerId(PlayerId()))
     end
 
     if job == "news"  then

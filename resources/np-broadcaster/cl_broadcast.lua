@@ -61,7 +61,7 @@ end)
 
 
 function becomeJob()
-	TriggerServerEvent("TokoVoip:addPlayerToRadio",19829, GetPlayerServerId(PlayerId()))
+	TriggerServerEvent("np:voice:radio:addPlayerToRadio",19829, GetPlayerServerId(PlayerId()))
 	isBroadcasting = true
 end
 RegisterNetEvent("broadcast:becomejob");
